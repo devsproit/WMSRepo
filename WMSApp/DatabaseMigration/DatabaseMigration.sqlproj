@@ -70,5 +70,11 @@
     <Build Include="WMS\Views\vwTest.sql" />
     <Build Include="WMS\Stored Procedures\TestGetAll.sql" />
     <Build Include="Security\WMS.sql" />
+    <Build Include="WMS\Tables\Branch.sql" />
+    <Build Include="WMS\Tables\Company.sql" />
+    <Build Include="WMS\Tables\Roles.sql" />
+    <Build Include="WMS\Tables\User.sql" />
+    <Build Include="WMS\Tables\UserRoles.sql" />
+    <Build Include="WMS\Tables\Warehouse.sql" />
   </ItemGroup>
 </Project>
