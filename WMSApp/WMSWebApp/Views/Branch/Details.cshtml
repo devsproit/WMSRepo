@@ -1,4 +1,4 @@
-﻿@model WMSWebApp.ViewModels.Company
+﻿@model WMSWebApp.ViewModels.Branch
 
 @{
     ViewData["Title"] = "Details";
@@ -7,7 +7,7 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Company</h4>
+    <h4>Branch</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -17,10 +17,16 @@
             @Html.DisplayFor(model => model.ScreenCode)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CompanyCode)
+            @Html.DisplayNameFor(model => model.BranchCode)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CompanyCode)
+            @Html.DisplayFor(model => model.BranchCode)
+        </dd>
+         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BranchName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BranchName)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.CompanyName)
@@ -41,44 +47,38 @@
             @Html.DisplayFor(model => model.Location)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ContactPersonHO)
+            @Html.DisplayNameFor(model => model.ContactPersonBranch)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ContactPersonHO)
+            @Html.DisplayFor(model => model.ContactPersonBranch)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ContactNumberHO)
+            @Html.DisplayNameFor(model => model.ContactNumberBranch)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ContactNumberHO)
+            @Html.DisplayFor(model => model.ContactNumberBranch)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EmailIdHO)
+            @Html.DisplayNameFor(model => model.EmailIdBranch)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EmailIdHO)
+            @Html.DisplayFor(model => model.EmailIdBranch)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SpaceSizeFormat)
+            @Html.DisplayNameFor(model => model.AssociatedEmployee)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SpaceSizeFormat)
+            @Html.DisplayFor(model => model.AssociatedEmployee)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Items)
+            @Html.DisplayNameFor(model => model.WarehouseName )
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Items)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SubItem)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SubItem)
+            @Html.DisplayFor(model => model.WarehouseName )
         </dd>
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id =. Model.PrimaryKey */ }) |
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>
 </div>

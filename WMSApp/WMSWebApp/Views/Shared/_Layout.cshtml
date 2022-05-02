@@ -54,7 +54,7 @@
             <ul class="nav">
                 <li>@Html.ActionLink("INDEX 1", "index", "Home")</li>
                 <li>@Html.ActionLink("INDEX 2", "index", "Home")</li>
-                <li>@Html.ActionLink("INDEX 3", "index", "Home")</li>
+                <li>@Html.ActionLink("INDEX 3", "index"., "Home")</li>
                 <li>@Html.ActionLink("INDEX 4", "index", "Home")</li>
             </ul>
         </div>*@
@@ -123,12 +123,21 @@
 @*                  <a href="#">Dashboard
                     <span class="badge badge-pill badge-success">Pro</span>
                   </a>
-*@                  <a asp-area="" asp-controller="Companies" asp-action="Index">Dashboard</a>
+*@                  <a asp-area="" asp-controller="Companies" asp-action="Index">Associated Company List.</a>
                 </li>
                 <li>
                   @*<a href="#">Add New</a>*@
-                  <a asp-area="" asp-controller="Companies" asp-action="Create">Add New</a>
-                </li>                
+                  <a asp-area="" asp-controller="Companies" asp-action="Create">Add New Company</a>
+                </li>  
+                <li>
+                  @*<a href="#">Add New</a>*@
+                  <a asp-area="" asp-controller="Branch" asp-action="Create">Add New Branch</a>
+                </li>
+                 <li>
+@*                  
+*@                  <a asp-area="" asp-controller="Branch" asp-action="Index">Branch List</a>
+                </li>
+         
               </ul>
             </div>
           </li>
