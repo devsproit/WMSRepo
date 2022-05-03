@@ -76,5 +76,7 @@
     <Build Include="WMS\Tables\User.sql" />
     <Build Include="WMS\Tables\UserRoles.sql" />
     <Build Include="WMS\Tables\Warehouse.sql" />
+    <Build Include="WMS\Stored Procedures\CompanyGetAll.sql" />
+    <Build Include="WMS\Stored Procedures\CompanyInsert.sql" />
   </ItemGroup>
 </Project>

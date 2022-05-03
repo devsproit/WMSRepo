@@ -1,3 +1,7 @@
+using Application.Services;
+using AutoMapper;
+using DatabaseLibrary.SQL;
+using Domain.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WMSWebApp.Models;
+using WMSWebApp.ViewModels;
 
 namespace WMSWebApp
 {
@@ -38,8 +43,15 @@ namespace WMSWebApp
                 options.LoginPath = "/Account/Login";
 
             });
+            //Initialize the mapper
+            var config = new MapperConfiguration(config =>
+            {
+                config.AddProfile(new ViewToDomainModelMappingProfile());
+            });
 
-
+            services.AddSingleton<IMapper>(new Mapper(config));
+            services.AddSingleton<IAdoConnection>(new AdoConnection(connectionString));
+            services.AddTransient<ICompanyHelper, CompanyHelper>();
             services.AddControllersWithViews();
             //services.AddControllers();
             services.AddControllersWithViews();           
