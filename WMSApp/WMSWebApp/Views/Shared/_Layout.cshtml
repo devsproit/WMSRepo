@@ -12,7 +12,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" id="nav1">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3" id="nav1">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -20,7 +20,13 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                     @if (User.Identity.IsAuthenticated)
+                      <ul class="navbar-nav flex-grow-1">
+                          <li class="nav-item">
+                            <a class="nav-link text-dark invisible" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                        </li>
+                    </ul>
+
+                    @* @if (User.Identity.IsAuthenticated)
                     {
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
@@ -44,24 +50,13 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
                             </li>
                         </ul>
-                    }
+                    }*@
                 </div>
             </div>
         </nav>
     </header>
-     <!-- Sidebar -->
-        @*<div id="sidebar-wrapper">
-            <ul class="nav">
-                <li>@Html.ActionLink("INDEX 1", "index", "Home")</li>
-                <li>@Html.ActionLink("INDEX 2", "index", "Home")</li>
-                <li>@Html.ActionLink("INDEX 3", "index"., "Home")</li>
-                <li>@Html.ActionLink("INDEX 4", "index", "Home")</li>
-            </ul>
-        </div>*@
         <div class="page-wrapper chiller-theme toggled">
-  <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
-    <i class="fas fa-bars"></i>
-  </a>
+ 
 
         <nav id="sidebar" class="sidebar-wrapper">
     <div class="sidebar-content">
@@ -272,7 +267,7 @@
     </div>
   </nav>
   <div class="page-content">
-    <div class="container">
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

@@ -71,43 +71,12 @@ body {
 }
 
 #nav1 {
+    display: flex;
     position: fixed;
     width: -webkit-fill-available;
+    background: #31353D;
+    z-index: 999;
 }
-
-/*------------------------------------*/
-
-/*#sidebar-wrapper {
-    width: 170px;
-    background: #f6f9fb;
-    position: fixed;
-    height: 100%;
-    overflow-y: auto;
-    z-index: 1000;
-    transition: all 0.4s ease 0s;
-}*/
-
-/*#endregion*/
-/*used to highlight current page on nav panel*/
-/*.nav > li > a.active {
-    background: #00569E;
-    color: #f6f9fb !important;
-    font-weight: bold;
-}*/
-
-
-
-/*side panel responsiveness*/
-/*@media(max-width:767px) {
-    #sidebar-wrapper {
-        margin-left: -170px
-    }
-
-    #page-content-wrapper {
-        margin-left: 5px;
-        transition: all 0.4s ease 0s;
-    }
-}*/
 
 /*-------------------------------*/
 
@@ -185,33 +154,10 @@ body {
 
 /*----------------page-wrapper----------------*/
 
-.page-wrapper {
-    height: 100vh;
-}
-
-    .page-wrapper .theme {
-        width: 40px;
-        height: 40px;
-        display: inline-block;
-        border-radius: 4px;
-        margin: 2px;
-    }
-
         .page-wrapper .theme.chiller-theme {
             background: #1e2229;
         }
 
-    /*----------------toggeled sidebar----------------*/
-
-    .page-wrapper.toggled .sidebar-wrapper {
-        left: 0px;
-    }
-
-@media screen and (min-width: 768px) {
-    .page-wrapper.toggled .page-content {
-        padding-left: 300px;
-    }
-}
 /*----------------show sidebar button----------------*/
 #show-sidebar {
     position: fixed;
@@ -222,9 +168,6 @@ body {
     transition-delay: 0.3s;
 }
 
-.page-wrapper.toggled #show-sidebar {
-    left: -40px;
-}
 /*----------------sidebar-wrapper----------------*/
 
 .sidebar-wrapper {
@@ -233,7 +176,6 @@ body {
     max-height: 100%;
     position: fixed;
     top: 0;
-    /*left: -300px;*/
     z-index: 999;
 }
 
@@ -247,18 +189,6 @@ body {
         text-decoration: none;
     }
 
-/*----------------sidebar-content----------------*/
-
-.sidebar-content {
-    max-height: calc(100% - 30px);
-    height: calc(100% - 30px);
-    overflow-y: auto;
-    position: relative;
-}
-
-    .sidebar-content.desktop {
-        overflow-y: hidden;
-    }
 
 /*--------------------sidebar-brand----------------------*/
 
@@ -322,12 +252,6 @@ body {
                 margin-right: 4px;
                 color: #5cb85c;
             }
-
-/*-----------------------sidebar-search------------------------*/
-
-.sidebar-wrapper .sidebar-search > div {
-    padding: 10px 20px;
-}
 
 /*----------------------sidebar-menu-------------------------*/
 
@@ -478,62 +402,13 @@ body {
 .page-wrapper .page-content {
     display: inline-block;
     width: 100%;
-    padding-left: 0px;
-    padding-top: 20px;
+    margin-left: 260px;
+    margin-top: 50px;
 }
-
-    .page-wrapper .page-content > div {
-        padding: 20px 40px;
-    }
 
 .page-wrapper .page-content {
     overflow-x: hidden;
 }
-
-/*------scroll bar---------------------*/
-
-::-webkit-scrollbar {
-    width: 5px;
-    height: 7px;
-}
-
-::-webkit-scrollbar-button {
-    width: 0px;
-    height: 0px;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #525965;
-    border: 0px none #ffffff;
-    border-radius: 0px;
-}
-
-    ::-webkit-scrollbar-thumb:hover {
-        background: #525965;
-    }
-
-    ::-webkit-scrollbar-thumb:active {
-        background: #525965;
-    }
-
-::-webkit-scrollbar-track {
-    background: transparent;
-    border: 0px none #ffffff;
-    border-radius: 50px;
-}
-
-    ::-webkit-scrollbar-track:hover {
-        background: transparent;
-    }
-
-    ::-webkit-scrollbar-track:active {
-        background: transparent;
-    }
-
-::-webkit-scrollbar-corner {
-    background: transparent;
-}
-
 
 /*-----------------------------chiller-theme-------------------------------------------------*/
 
