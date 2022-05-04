@@ -83,30 +83,28 @@ namespace WMSWebApp.Controllers
         // GET: CompaniesController/Edit/5
         public ActionResult Edit(int id)
         {
-            var c = new Company()
+            var c = new Company();
+            try
             {
-                CompanyName = "Test",
-                CompanyCode = "Test",
-                Address = "Test",
-                Location = "Location",
-                ContactPersonHO = "ContactPersonHO",
-                ContactNumberHO = "ContactNumberHO"
-            ,
-                EmailIdHO = "EmailIdHO",
-                SpaceSizeFormat = "SpaceSizeFormat",
-                Items = "Items",
-                SubItem = "SubItem"
-            };
+                var data = _companyHelper.GetCompanyById(id);
+                c = _mapper.Map<Company>(data);
+            }
+            catch (Exception)
+            {
+                throw;
+            }            
             return View(c);
         }
 
         // POST: CompaniesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id,Company c, IFormCollection collection)
         {
             try
             {
+                var company = _mapper.Map<CompanyDb>(c);
+                var b = _companyHelper.UpdateCompanyById(company);
                 return RedirectToAction(nameof(Index));
             }
             catch

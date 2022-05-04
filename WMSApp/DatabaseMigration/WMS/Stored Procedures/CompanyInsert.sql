@@ -12,8 +12,6 @@
  @SubItem nvarchar(max) = null
  AS 
  BEGIN
-	DECLARE @updateOn DATETIME;
-	SET @updateOn = GETUTCDATE();
 	INSERT INTO [WMS].[Company]
            ([ScreenCode]
            ,[CompanyCode]

@@ -1,0 +1,7 @@
+﻿CREATE PROCEDURE [WMS].[CompanyGetById]
+ @Id INT
+AS
+BEGIN
+	SELECT * FROM WMS.Company
+    WHERE Id = @Id
+END
