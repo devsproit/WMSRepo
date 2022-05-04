@@ -6,12 +6,15 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{B8B3463F-4B6D-49C8-94A3-6F9A260C0BEE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{05D18E6D-BD74-4770-817E-EDB2B906762F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BB27EC02-4A26-4B4B-8C7A-ADB8729C6102} = {BB27EC02-4A26-4B4B-8C7A-ADB8729C6102}
+	EndProjectSection
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DatabaseMigration", "DatabaseMigration\DatabaseMigration.sqlproj", "{36D7BE27-2CF5-46DA-BC09-7EBAD65E5C0D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseLibrary", "DatabaseLibrary\DatabaseLibrary.csproj", "{BB27EC02-4A26-4B4B-8C7A-ADB8729C6102}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WMSWebApp", "WMSWebApp\WMSWebApp.csproj", "{6B9117A9-2E25-48A7-B33F-E1E333F4A5A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WMSWebApp", "WMSWebApp\WMSWebApp.csproj", "{6B9117A9-2E25-48A7-B33F-E1E333F4A5A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

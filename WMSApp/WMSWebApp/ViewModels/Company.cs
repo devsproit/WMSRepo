@@ -2,6 +2,7 @@
 {
     public class Company
     {
+        public int Id { get; set; }
         public string ScreenCode { get; set; }
         public string CompanyCode { get; set; }
         public string CompanyName { get; set; }
