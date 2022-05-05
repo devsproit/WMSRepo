@@ -1,4 +1,6 @@
-﻿namespace WMSWebApp.ViewModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WMSWebApp.ViewModels
 {
     public class Company
     {
@@ -9,7 +11,11 @@
         public string Address { get; set; }
         public string Location { get; set; }
         public string ContactPersonHO { get; set; }
+        [Required]
+        [Phone]
         public string ContactNumberHO { get; set; }
+        [Required]
+        [EmailAddress]
         public string EmailIdHO { get; set; }
         public string SpaceSizeFormat { get; set; }
         public string Items { get; set; }

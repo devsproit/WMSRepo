@@ -80,5 +80,9 @@
     <Build Include="WMS\Stored Procedures\CompanyInsert.sql" />
     <Build Include="WMS\Stored Procedures\CompanyUpdate.sql" />
     <Build Include="WMS\Stored Procedures\CompanyGetById.sql" />
+    <Build Include="WMS\Stored Procedures\BranchGetAll.sql" />
+    <Build Include="WMS\Stored Procedures\BranchGetById.sql" />
+    <Build Include="WMS\Stored Procedures\BranchInsert.sql" />
+    <Build Include="WMS\Stored Procedures\BranchUpdate.sql" />
   </ItemGroup>
 </Project>

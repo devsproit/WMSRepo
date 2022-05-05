@@ -12,5 +12,9 @@ public class ViewToDomainModelMappingProfile : Profile
         // Mapping Request to Command
         CreateMap<CompanyDb, Company>();
         CreateMap<Company, CompanyDb>();
+
+  
+        CreateMap<BranchDb, Branch>();
+        CreateMap<Branch, BranchDb>();
     }
 }
