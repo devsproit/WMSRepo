@@ -1,0 +1,5 @@
+﻿CREATE PROCEDURE [WMS].[BranchGetAll]
+AS
+BEGIN
+	SELECT * FROM WMS.Branch
+END

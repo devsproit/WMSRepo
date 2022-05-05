@@ -1,0 +1,7 @@
+﻿CREATE PROCEDURE [WMS].[BranchGetById]
+ @Id INT
+AS
+BEGIN
+	SELECT * FROM WMS.Branch
+    WHERE Id = @Id
+END

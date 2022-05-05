@@ -10,5 +10,6 @@
     [ContactPersonBranch] NVARCHAR(MAX) NULL, 
     [ContactNumberBranch] NVARCHAR(MAX) NULL, 
     [EmailIdBranch] NVARCHAR(MAX) NULL, 
+    [AssociatedEmployee] NVARCHAR(MAX) NULL, 
     [WarehouseId] INT NULL
 )

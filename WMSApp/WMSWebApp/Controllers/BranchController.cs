@@ -1,32 +1,42 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Application.Services;
+using AutoMapper;
+using DatabaseLibrary.SQL;
+using Domain.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WMSWebApp.ViewModels;
+
 
 namespace WMSWebApp.Controllers
 {
     public class BranchController : Controller
     {
+        private readonly IBranchHelper _BranchHelper;
+        private readonly IMapper _mapper;
+
+
+        public BranchController(IBranchHelper BranchHelper, IMapper mapper)
+        {
+            _BranchHelper = BranchHelper;
+            _mapper = mapper;
+        }
+
 
         // GET: BranchController
-        public IActionResult Index()
+        public ActionResult Index()
         {
             List<Branch> Branch = new List<Branch>();
-            Branch.Add(new Branch()
+            try
             {
-                BranchName = "Test",
-                BranchCode = "Test",
-                CompanyName = "Test",
-                Address = "Test",
-                Location = "Location",
-                ContactPersonBranch = "ContactPersonBranch",
-                ContactNumberBranch = "ContactNumberHO"
-            ,
-                EmailIdBranch = "EmailIdHO",
-                AssociatedEmployee = "AssociatedEmployee ",
-                WarehouseName = "WH01",
-               
-            });
+                var data = _BranchHelper.GetAllBranch();
+                Branch = _mapper.Map<List<Branch>>(data);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
             return View(Branch);
         }
         // GET: BranchController/Details/5
@@ -57,45 +67,44 @@ namespace WMSWebApp.Controllers
         // POST: BranchController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Branch c, IFormCollection collection)
         {
             try
             {
+                var Branch = _mapper.Map<BranchDb>(c);
+                var b = _BranchHelper.CreateNewBranch(Branch);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(c);
             }
-
         }
 
         // GET: CompaniesController/Edit/5
         public ActionResult Edit(int id)
         {
-            var B = new Branch()
+            var c = new Branch();
+            try
             {
-                BranchName = "Test",
-                BranchCode = "Test",
-                CompanyName = "Test",
-                Address = "Test",
-                Location = "Location",
-                ContactPersonBranch = "ContactPersonBranch",
-                ContactNumberBranch = "ContactNumberBranch"
-            ,
-                EmailIdBranch = "EmailIdBranch",
-                AssociatedEmployee = "AssociatedEmployee ",
-                WarehouseName = "WH01",
-            };
-            return View(B);
+                var data = _BranchHelper.GetBranchById(id);
+                c = _mapper.Map<Branch>(data);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return View(c);
         }
         // POST: CompaniesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Branch c, IFormCollection collection)
         {
             try
             {
+                var Branch = _mapper.Map<BranchDb>(c);
+                var b = _BranchHelper.UpdateBranchById(Branch);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -110,6 +119,7 @@ namespace WMSWebApp.Controllers
         }
 
         // POST: BranchController/Delete/5
+        // POST: CompaniesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
