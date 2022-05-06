@@ -16,5 +16,8 @@ public class ViewToDomainModelMappingProfile : Profile
   
         CreateMap<BranchDb, Branch>();
         CreateMap<Branch, BranchDb>();
+
+        CreateMap<LocationDb, Location>();
+        CreateMap<Location, LocationDb>();
     }
 }

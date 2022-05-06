@@ -1,0 +1,5 @@
+﻿CREATE PROCEDURE [WMS].[LocationGetAll]
+AS
+BEGIN
+	SELECT * FROM WMS.[Location]
+END
