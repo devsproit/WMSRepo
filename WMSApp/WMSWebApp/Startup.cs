@@ -53,6 +53,7 @@ namespace WMSWebApp
             services.AddSingleton<IAdoConnection>(new AdoConnection(connectionString));
             services.AddTransient<ICompanyHelper, CompanyHelper>();
             services.AddTransient<IBranchHelper, BranchHelper>();
+            services.AddTransient<ILocationHelper,LocationHelper>();
             services.AddControllersWithViews();
             //services.AddControllers();
             services.AddControllersWithViews();           

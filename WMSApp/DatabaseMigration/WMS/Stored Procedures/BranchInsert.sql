@@ -15,6 +15,7 @@
  BEGIN
 	INSERT INTO [WMS].[Branch]
            ([ScreenCode]
+           ,[BranchCode]
            ,[BranchName]
            ,[CompanyName]
            ,[Address]
