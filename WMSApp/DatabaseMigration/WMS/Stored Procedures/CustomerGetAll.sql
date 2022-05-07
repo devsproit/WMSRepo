@@ -1,0 +1,5 @@
+﻿CREATE PROCEDURE [WMS].[CustomerGetAll]
+AS
+BEGIN
+	SELECT * FROM WMS.[Customer]
+END

@@ -14,11 +14,11 @@ internal class Constants
     public const string CreateNewBranchSP = @"[WMS].[BranchInsert]";
     public const string DeleteBranchByIdSP = @"sp";
 
-    public const string GetAllLocationsSP = @"[WMS].[LocationGetAll]";
-    public const string GetLocationIdSP = @"[WMS].[LocationGetById]";
-    public const string UpdateLocationByIdSP = @"[WMS].[LocationUpdate]";
-    public const string CreateNewLocationSP = @"[WMS].[LocationInsert]";
-    public const string DeleteLocationByIdSP = @"sp";
+    public const string GetAllCustomerSP = @"[WMS].[CustomerGetAll]";
+    public const string GetCustomerIdSP = @"[WMS].[CustomerGetById]";
+    public const string UpdateCustomerByIdSP = @"[WMS].[CustomerUpdate]";
+    public const string CreateNewCustomerSP = @"[WMS].[CustomerInsert]";
+    public const string DeleteCustomerByIdSP = @"sp";
 
 
 }
