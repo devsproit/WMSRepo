@@ -4,7 +4,7 @@ namespace WMSWebApp.ViewModels
 {
     public class Branch
     {
-        
+        public int Id { get; set; }
         public string ScreenCode { get; set; }
         public string BranchCode { get; set; }
         public string BranchName { get; set; }
