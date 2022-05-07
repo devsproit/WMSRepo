@@ -81,11 +81,11 @@
     <Build Include="WMS\Stored Procedures\BranchGetById.sql" />
     <Build Include="WMS\Stored Procedures\BranchInsert.sql" />
     <Build Include="WMS\Stored Procedures\BranchUpdate.sql" />
-    <Build Include="WMS\Tables\Location.sql" />
-    <Build Include="WMS\Stored Procedures\LocationGetAll.sql" />
-    <Build Include="WMS\Stored Procedures\LocationGetById.sql" />
-    <Build Include="WMS\Stored Procedures\LocationInsert.sql" />
-    <Build Include="WMS\Stored Procedures\LocationUpdate.sql" />
+    <Build Include="WMS\Tables\Customer.sql" />
+    <Build Include="WMS\Stored Procedures\CustomerGetAll.sql" />
+    <Build Include="WMS\Stored Procedures\CustomerGetById.sql" />
+    <Build Include="WMS\Stored Procedures\CustomerInsert.sql" />
+    <Build Include="WMS\Stored Procedures\CustomerUpdate.sql" />
     <Build Include="WMS\Stored Procedures\Company\CompanyGetAll.sql" />
     <Build Include="WMS\Stored Procedures\Company\CompanyDeleteById.sql" />
     <Build Include="WMS\Stored Procedures\Company\CompanyGetById.sql" />

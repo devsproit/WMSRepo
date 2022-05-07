@@ -11,60 +11,62 @@ using WMSWebApp.ViewModels;
 
 namespace WMSWebApp.Controllers
 {
-    public class LocationController : Controller
+    public class CustomerController : Controller
     {
-        private readonly ILocationHelper _LocationHelper;
+        private readonly ICustomerHelper _CustomerHelper;
         private readonly IMapper _mapper;
 
 
-        public LocationController(ILocationHelper LocationHelper, IMapper mapper)
+        public CustomerController(ICustomerHelper CustomerHelper, IMapper mapper)
         {
-            _LocationHelper = LocationHelper;
+            _CustomerHelper = CustomerHelper;
             _mapper = mapper;
         }
 
 
-        // GET: LocationController
+        // GET: CustomerController
         public ActionResult Index()
         {
-            List<Location> Location = new List<Location>();
+            List<Customer> Customer = new List<Customer>();
             try
             {
-                var data = _LocationHelper.GetAllLocation();
-                Location = _mapper.Map<List<Location>>(data);
+                var data = _CustomerHelper.GetAllCustomer();
+                Customer = _mapper.Map<List<Customer>>(data);
             }
             catch (Exception)
             {
                 throw;
             }
-            return View(Location);
+            return View(Customer);
         }
-        // GET: LocationController/Details/5
+        // GET: CustomerController/Details/5
         public ActionResult Details(int id)
         {
-            var B = new Location()
+            var B = new Customer()
             {
-                LocationName = "Test",
-                LocationCode = "Test",
+                CustomerCategory = "Test",
+                CustomerName = "Test",
+                CustomerCode = "Test",
+                Location = "Test",
                 
             };
             return View(B);
         }
-        // GET: LocationController/Create
+        // GET: CustomerController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: LocationController/Create
+        // POST: CustomerController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Location c, IFormCollection collection)
+        public ActionResult Create(Customer c, IFormCollection collection)
         {
             try
             {
-                var Location = _mapper.Map<LocationDb>(c);
-                var b = _LocationHelper.CreateNewLocation(Location);
+                var Customer = _mapper.Map<CustomerDb>(c);
+                var b = _CustomerHelper.CreateNewCustomer(Customer);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -73,14 +75,14 @@ namespace WMSWebApp.Controllers
             }
         }
 
-        // GET: LocationController/Edit/5
+        // GET: CustomerController/Edit/5
         public ActionResult Edit(int id)
         {
-            var c = new Location();
+            var c = new Customer();
             try
             {
-                var data = _LocationHelper.GetLocationById(id);
-                c = _mapper.Map<Location>(data);
+                var data = _CustomerHelper.GetCustomerById(id);
+                c = _mapper.Map<Customer>(data);
             }
             catch (Exception)
             {
@@ -88,15 +90,15 @@ namespace WMSWebApp.Controllers
             }
             return View(c);
         }
-        // POST: LocationController/Edit/5
+        // POST: CustomerController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Location c, IFormCollection collection)
+        public ActionResult Edit(int id, Customer c, IFormCollection collection)
         {
             try
             {
-                var Location = _mapper.Map<LocationDb>(c);
-                var b = _LocationHelper.UpdateLocationById(Location);
+                var Customer = _mapper.Map<CustomerDb>(c);
+                var b = _CustomerHelper.UpdateCustomerById(Customer);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -104,14 +106,14 @@ namespace WMSWebApp.Controllers
                 return View();
             }
         }
-        // GET: LocationController/Delete/5
+        // GET: CustomerController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: LocationController/Delete/5
-        
+        // POST: CustomerController/Delete/5
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

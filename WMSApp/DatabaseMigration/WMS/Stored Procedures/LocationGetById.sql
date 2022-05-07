@@ -1,7 +1,0 @@
-﻿CREATE PROCEDURE [WMS].[LocationGetById]
- @Id INT
-AS
-BEGIN
-	SELECT * FROM WMS.[Location]
-    WHERE Id = @Id
-END
