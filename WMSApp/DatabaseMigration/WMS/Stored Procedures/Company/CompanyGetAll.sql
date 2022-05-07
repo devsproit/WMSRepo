@@ -2,4 +2,5 @@
 AS
 BEGIN
 	SELECT * FROM WMS.Company
+    WHERE IsDeleted = 0
 END

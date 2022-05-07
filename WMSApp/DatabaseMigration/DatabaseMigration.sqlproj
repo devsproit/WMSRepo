@@ -64,6 +64,7 @@
     <Folder Include="WMS\Views\" />
     <Folder Include="WMS\Stored Procedures\" />
     <Folder Include="Security\" />
+    <Folder Include="WMS\Stored Procedures\Company" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="WMS\Tables\Test.sql" />
@@ -76,10 +77,6 @@
     <Build Include="WMS\Tables\User.sql" />
     <Build Include="WMS\Tables\UserRoles.sql" />
     <Build Include="WMS\Tables\Warehouse.sql" />
-    <Build Include="WMS\Stored Procedures\CompanyGetAll.sql" />
-    <Build Include="WMS\Stored Procedures\CompanyInsert.sql" />
-    <Build Include="WMS\Stored Procedures\CompanyUpdate.sql" />
-    <Build Include="WMS\Stored Procedures\CompanyGetById.sql" />
     <Build Include="WMS\Stored Procedures\BranchGetAll.sql" />
     <Build Include="WMS\Stored Procedures\BranchGetById.sql" />
     <Build Include="WMS\Stored Procedures\BranchInsert.sql" />
@@ -89,5 +86,10 @@
     <Build Include="WMS\Stored Procedures\LocationGetById.sql" />
     <Build Include="WMS\Stored Procedures\LocationInsert.sql" />
     <Build Include="WMS\Stored Procedures\LocationUpdate.sql" />
+    <Build Include="WMS\Stored Procedures\Company\CompanyGetAll.sql" />
+    <Build Include="WMS\Stored Procedures\Company\CompanyDeleteById.sql" />
+    <Build Include="WMS\Stored Procedures\Company\CompanyGetById.sql" />
+    <Build Include="WMS\Stored Procedures\Company\CompanyInsert.sql" />
+    <Build Include="WMS\Stored Procedures\Company\CompanyUpdate.sql" />
   </ItemGroup>
 </Project>

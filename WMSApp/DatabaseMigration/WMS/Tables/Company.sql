@@ -11,5 +11,6 @@
     [EmailIdHO] NVARCHAR(MAX) NULL, 
     [SpaceSizeFormat] NVARCHAR(MAX) NULL, 
     [Items] NVARCHAR(MAX) NULL, 
-    [SubItem] NVARCHAR(MAX) NULL
+    [SubItem] NVARCHAR(MAX) NULL, 
+    [IsDeleted] BIT NOT NULL DEFAULT 0
 )
