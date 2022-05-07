@@ -18,7 +18,6 @@ namespace WMSWebApp.ViewModels
         [Display(Name = "HO Contact Person")]
         public string ContactPersonHO { get; set; }
         [Required]
-        [Phone]
         [Display(Name = "HO Contact Number")]
         public string ContactNumberHO { get; set; }
         [Required]

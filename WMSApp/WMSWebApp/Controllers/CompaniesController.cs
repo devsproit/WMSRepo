@@ -38,6 +38,7 @@ namespace WMSWebApp.Controllers
         }
 
         // GET: CompaniesController/Details/5
+        [NonAction]
         public ActionResult Details(int id)
         {
             var c= new Company()
@@ -116,7 +117,15 @@ namespace WMSWebApp.Controllers
         // GET: CompaniesController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            try
+            {
+                var b = _companyHelper.DeleteCompanyById(id);
+            }
+            catch
+            {
+                return View();
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: CompaniesController/Delete/5

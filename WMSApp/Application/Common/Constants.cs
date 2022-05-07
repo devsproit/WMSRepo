@@ -6,7 +6,7 @@ internal class Constants
     public const string GetCompanyByIdSP = @"[WMS].[CompanyGetById]";
     public const string UpdateCompanyByIdSP = @"[WMS].[CompanyUpdate]";
     public const string CreateNewCompanySP = @"[WMS].[CompanyInsert]";
-    public const string DeleteCompanyByIdSP = @"sp";
+    public const string DeleteCompanyByIdSP = @"[WMS].[CompanyDeleteById]";
 
     public const string GetAllBranchSP = @"[WMS].[BranchGetAll]";
     public const string GetBranchIdSP = @"[WMS].[BranchGetById]";
