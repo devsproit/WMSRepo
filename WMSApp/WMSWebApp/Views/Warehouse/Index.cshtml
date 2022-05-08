@@ -1,0 +1,77 @@
+﻿@model IEnumerable<WMSWebApp.ViewModels.Warehouse>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WarehouseCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WarehouseName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactMaintainenceIncharge)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactNumberIncharge)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalSpaceSizeType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalSpaceSize)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WarehouseCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WarehouseName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactMaintainenceIncharge)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactNumberIncharge)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalSpaceSizeType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalSpaceSize)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

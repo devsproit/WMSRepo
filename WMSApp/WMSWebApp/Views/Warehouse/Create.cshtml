@@ -1,0 +1,87 @@
+﻿@model WMSWebApp.ViewModels.Warehouse
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h4>Add New Warehouse</h4>
+<hr />
+<div class="row">
+    <div class="col-md-10">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class=row>
+                <div class="form-group col-md-6">
+                    <div class="row">
+                        <label asp-for="WarehouseCode" class="control-label col-md-4"></label>
+                        <input asp-for="WarehouseCode" class="form-control col-md-4" />   
+                    </div>                    
+                    <span asp-validation-for="WarehouseCode" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="row">
+                        <label asp-for="WarehouseName" class="control-label col-md-4"></label>
+                       <input asp-for="WarehouseName" class="form-control col-md-4" /> 
+                    </div>                    
+                    <span asp-validation-for="WarehouseName" class="text-danger"></span>
+                </div>                
+            </div>
+            <div class=row>
+                <div class="form-group col-md-6">
+                    <div class="row">
+                        <label asp-for="Location" class="control-label col-md-4"></label>
+                        <input asp-for="Location" class="form-control col-md-4" />   
+                    </div>                    
+                    <span asp-validation-for="Location" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="row">
+                        <label asp-for="ContactMaintainenceIncharge" class="control-label col-md-4"></label>
+                       <input asp-for="ContactMaintainenceIncharge" class="form-control col-md-4" /> 
+                    </div>                    
+                    <span asp-validation-for="ContactMaintainenceIncharge" class="text-danger"></span>
+                </div>                
+            </div>
+            <div class=row>
+                <div class="form-group col-md-6">
+                    <div class="row">
+                        <label asp-for="ContactNumberIncharge" class="control-label col-md-4"></label>
+                        <input asp-for="ContactNumberIncharge" class="form-control col-md-4" />   
+                    </div>                    
+                    <span asp-validation-for="ContactNumberIncharge" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="row">
+                        <label asp-for="TotalSpaceSizeType" class="control-label col-md-4"></label>
+                       <input asp-for="TotalSpaceSizeType" class="form-control col-md-4" /> 
+                    </div>                    
+                    <span asp-validation-for="TotalSpaceSizeType" class="text-danger"></span>
+                </div>                
+            </div> 
+            <div class=row>
+                <div class="form-group col-md-6">
+                    <div class="row">
+                        <label asp-for="TotalSpaceSize" class="control-label col-md-4"></label>
+                        <input asp-for="TotalSpaceSize" class="form-control col-md-4" />   
+                    </div>                    
+                    <span asp-validation-for="TotalSpaceSize" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="row">
+                        @*<label asp-for="TotalSpaceSizeType" class="control-label col-md-4"></label>
+                       <input asp-for="TotalSpaceSizeType" class="form-control col-md-4" /> 
+                    </div>                    
+                    <span asp-validation-for="TotalSpaceSizeType" class="text-danger"></span>*@
+                </div>                
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
