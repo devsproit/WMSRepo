@@ -20,5 +20,17 @@ internal class Constants
     public const string CreateNewCustomerSP = @"[WMS].[CustomerInsert]";
     public const string DeleteCustomerByIdSP = @"sp";
 
+    public const string GetAllItemSP = @"[WMS].[ItemGetAll]";
+    public const string GetItemIdSP = @"[WMS].[ItemGetById]";
+    public const string UpdateItemByIdSP = @"[WMS].[ItemUpdate]";
+    public const string CreateNewItemSP = @"[WMS].[ItemInsert]";
+    public const string DeleteItemByIdSP = @"sp";
+
+    public const string GetAllSubItemSP = @"[WMS].[SubItemGetAll]";
+    public const string GetSubItemIdSP = @"[WMS].[SubItemGetById]";
+    public const string UpdateSubItemByIdSP = @"[WMS].[SubItemUpdate]";
+    public const string CreateNewSubItemSP = @"[WMS].[SubItemInsert]";
+    public const string DeleteSubItemByIdSP = @"sp";
+
 
 }
