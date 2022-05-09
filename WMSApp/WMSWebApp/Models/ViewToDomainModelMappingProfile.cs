@@ -19,5 +19,11 @@ public class ViewToDomainModelMappingProfile : Profile
 
         CreateMap<CustomerDb, Customer>();
         CreateMap<Customer, CustomerDb>();
+
+        CreateMap<ItemDb, Item>();
+        CreateMap<Item, ItemDb>();
+
+        CreateMap<SubItemDb, SubItem>();
+        CreateMap<SubItem, SubItemDb>();
     }
 }
