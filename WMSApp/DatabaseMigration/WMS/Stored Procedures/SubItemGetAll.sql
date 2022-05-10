@@ -1,0 +1,6 @@
+﻿CREATE PROCEDURE [WMS].[SubItemGetAll]
+AS
+BEGIN
+	SELECT * FROM WMS.SubItem
+END
+GO
