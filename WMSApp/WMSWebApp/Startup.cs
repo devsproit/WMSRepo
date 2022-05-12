@@ -16,6 +16,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using WMSWebApp.Models;
 using WMSWebApp.ViewModels;
+using WMS.Core;
+using WMS.Data;
+using WMS.Core.Data;
 
 namespace WMSWebApp
 {
@@ -37,7 +40,7 @@ namespace WMSWebApp
             //{
             //    c.UseSqlite("Data Source=blog.db");
             //});
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDBContext>();
+            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDBContext>();
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Account/Login";
@@ -48,7 +51,11 @@ namespace WMSWebApp
             {
                 config.AddProfile(new ViewToDomainModelMappingProfile());
             });
-
+            services.AddDbContext<WMSObjectContext>(options =>
+               options.UseSqlServer(
+                   Configuration.GetConnectionString("default")));
+            services.AddTransient<IDbContext, WMSObjectContext>();
+            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddSingleton<IMapper>(new Mapper(config));
             services.AddSingleton<IAdoConnection>(new AdoConnection(connectionString));
             services.AddTransient<ICompanyHelper, CompanyHelper>();

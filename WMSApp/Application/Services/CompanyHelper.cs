@@ -4,43 +4,47 @@ using Application.Common;
 using DatabaseLibrary;
 using DatabaseLibrary.SQL;
 using Domain.Model;
-
-namespace Application.Services;
-public class CompanyHelper : ICompanyHelper
+using System.Collections.Generic;
+using System.Linq;
+namespace Application.Services
 {
-    private readonly IAdoConnection _adoConnection;
 
-    public CompanyHelper(IAdoConnection adoConnection)
-    {
-        _adoConnection = adoConnection;
-    }
 
-    public List<CompanyDb> GetAllCompanies()
+    public class CompanyHelper : ICompanyHelper
     {
-        List<CompanyDb> data = new List<CompanyDb>();
-        DataTable dbDT = _adoConnection.GetDatatableFromSqlWithSP(Constants.GetAllCompaniesSP);
-        if (dbDT != null)
-            data = dbDT.ToList<CompanyDb>();
-        return data;
-    }
+        private readonly IAdoConnection _adoConnection;
 
-    public CompanyDb GetCompanyById(int Id)
-    {
-        List<CompanyDb> data = new List<CompanyDb>();
-        List<SqlParameter> sqlParameters = new List<SqlParameter>();
-        sqlParameters.Add(new SqlParameter("@Id", Id));
-        DataTable dbDT = _adoConnection.GetDatatableFromSqlWithSP(Constants.GetCompanyByIdSP, sqlParameters);
-        if (dbDT != null)
-            data = dbDT.ToList<CompanyDb>();
-        return data.FirstOrDefault();
-    }
-    public bool CreateNewCompany(CompanyDb company)
-    {
-        int result = 0;
-        List<SqlParameter> sqlParameters = null;
-        if (company != null)
+        public CompanyHelper(IAdoConnection adoConnection)
         {
-            sqlParameters = new List<SqlParameter>()
+            _adoConnection = adoConnection;
+        }
+
+        public List<CompanyDb> GetAllCompanies()
+        {
+            List<CompanyDb> data = new List<CompanyDb>();
+            DataTable dbDT = _adoConnection.GetDatatableFromSqlWithSP(Constants.GetAllCompaniesSP);
+            if (dbDT != null)
+                data = dbDT.ToList<CompanyDb>();
+            return data;
+        }
+
+        public CompanyDb GetCompanyById(int Id)
+        {
+            List<CompanyDb> data = new List<CompanyDb>();
+            List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            sqlParameters.Add(new SqlParameter("@Id", Id));
+            DataTable dbDT = _adoConnection.GetDatatableFromSqlWithSP(Constants.GetCompanyByIdSP, sqlParameters);
+            if (dbDT != null)
+                data = dbDT.ToList<CompanyDb>();
+            return data.FirstOrDefault();
+        }
+        public bool CreateNewCompany(CompanyDb company)
+        {
+            int result = 0;
+            List<SqlParameter> sqlParameters = null;
+            if (company != null)
+            {
+                sqlParameters = new List<SqlParameter>()
                 {
                     new SqlParameter("@ScreenCode", company.ScreenCode),
                     new SqlParameter("@CompanyCode", company.CompanyCode),
@@ -54,17 +58,17 @@ public class CompanyHelper : ICompanyHelper
                     new SqlParameter("@Items", company.Items),
                     new SqlParameter("@SubItem", company.SubItem),
                 };
-            result = _adoConnection.InsertUpdateWithSP(Constants.CreateNewCompanySP, sqlParameters);
+                result = _adoConnection.InsertUpdateWithSP(Constants.CreateNewCompanySP, sqlParameters);
+            }
+            return result > 0 ? true : false;
         }
-        return result > 0 ? true : false;
-    }
-    public bool UpdateCompanyById(CompanyDb company)
-    {
-        int result = 0;
-        List<SqlParameter> sqlParameters = null;
-        if (company != null)
+        public bool UpdateCompanyById(CompanyDb company)
         {
-            sqlParameters = new List<SqlParameter>()
+            int result = 0;
+            List<SqlParameter> sqlParameters = null;
+            if (company != null)
+            {
+                sqlParameters = new List<SqlParameter>()
                 {
                     new SqlParameter("@Id", company.Id),
                     new SqlParameter("@ScreenCode", company.ScreenCode),
@@ -79,16 +83,17 @@ public class CompanyHelper : ICompanyHelper
                     new SqlParameter("@Items", company.Items),
                     new SqlParameter("@SubItem", company.SubItem),
                 };
-            result = _adoConnection.InsertUpdateWithSP(Constants.UpdateCompanyByIdSP, sqlParameters);
+                result = _adoConnection.InsertUpdateWithSP(Constants.UpdateCompanyByIdSP, sqlParameters);
+            }
+            return result > 0 ? true : false;
         }
-        return result > 0 ? true : false;
-    }
-    public bool DeleteCompanyById(int Id)
-    {
-        int result = 0;
-        List<SqlParameter> sqlParameters = new List<SqlParameter>();
-        sqlParameters.Add(new SqlParameter("@Id", Id));
-        result = _adoConnection.InsertUpdateWithSP(Constants.DeleteCompanyByIdSP, sqlParameters);
-        return result > 0 ? true : false;
+        public bool DeleteCompanyById(int Id)
+        {
+            int result = 0;
+            List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            sqlParameters.Add(new SqlParameter("@Id", Id));
+            result = _adoConnection.InsertUpdateWithSP(Constants.DeleteCompanyByIdSP, sqlParameters);
+            return result > 0 ? true : false;
+        }
     }
 }

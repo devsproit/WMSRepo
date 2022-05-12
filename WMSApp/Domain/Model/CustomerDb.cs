@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WMS.Core;
 
 namespace Domain.Model
 {
-    public class CustomerDb
+    public class CustomerDb:BaseEntity
     {
-        public int Id { get; set; }
+        
         public string ScreenCode { get; set; }
         public string CustomerCategory { get; set; }
         public string CustomerName { get; set; }

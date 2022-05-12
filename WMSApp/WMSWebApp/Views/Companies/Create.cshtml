@@ -74,7 +74,12 @@
                 <div class="form-group col-md-6">
                     <div class="row">
                         <label asp-for="SpaceSizeFormat" class="control-label col-md-4"></label>
-                       <input asp-for="SpaceSizeFormat" class="form-control col-md-4" /> 
+                        <select asp-for="SpaceSizeFormat" class="form-control col-md-4">
+                            <option value="Sq foot" >Sq foot</option>
+                            <option value="Per Sq foot">Per Sq foot</option>
+                            <option value="Per Qubic foot">Per Qubic foot</option>
+                        </select>
+                       
                     </div>                    
                     <span asp-validation-for="SpaceSizeFormat" class="text-danger"></span>
                 </div>                
@@ -83,17 +88,18 @@
                 <div class="form-group col-md-6">
                     <div class="row">
                         <label asp-for="Items" class="control-label col-md-4"></label>
-                        <input asp-for="Items" class="form-control col-md-4" />   
+                        <select asp-for="Items" asp-items="@(new SelectList(Model.ItemList,"Id","ItemName"))" class="form-control col-md-4"></select>
+                        
                     </div>                    
                     <span asp-validation-for="Items" class="text-danger"></span>
                 </div>
-                <div class="form-group col-md-6">
+              @*  <div class="form-group col-md-6">
                     <div class="row">
                         <label asp-for="SubItem" class="control-label col-md-4"></label>
                        <input asp-for="SubItem" class="form-control col-md-4" /> 
                     </div>                    
                     <span asp-validation-for="SubItem" class="text-danger"></span>
-                </div>                
+                </div>             *@   
             </div>            
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

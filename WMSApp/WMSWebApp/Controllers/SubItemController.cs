@@ -48,8 +48,8 @@ namespace WMSWebApp.Controllers
                 SubItemName = "Test",
                 ItemName = "Test",
                 MaterialDescription = "Test",
-                SubItemSize="Test",
-                FOC="Test",
+                SubItemSize = "Test",
+                FOC = "Test",
                 SubItemCategory = "Test",
                 SubItemSR = "Test",
 
@@ -131,6 +131,21 @@ namespace WMSWebApp.Controllers
                 return View();
             }
         }
+
+        #region APis
+
+
+        [HttpGet]
+        public IActionResult SearchSubItem(int itemId)
+        {
+            List<SubItem> subItems = new List<SubItem>();
+            var subItemsData = _SubItemHelper.GetSubItemByItemId(itemId);
+            subItems = _mapper.Map<List<SubItem>>(subItemsData);
+            return Json(subItems);
+        }
+
+
+        #endregion
     }
 }
 

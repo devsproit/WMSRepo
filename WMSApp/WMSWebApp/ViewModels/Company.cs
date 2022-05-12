@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WMSWebApp.ViewModels
 {
@@ -27,9 +28,11 @@ namespace WMSWebApp.ViewModels
         public string EmailIdHO { get; set; }
         [Display(Name = "Space Size Format")]
         public string SpaceSizeFormat { get; set; }
-        public string Items { get; set; }
+        public int Items { get; set; }
         [Display(Name = "Sub Item")]
-        public string SubItem { get; set; }
+        public int SubItem { get; set; }
+
+        public List<Item> ItemList { get; set; }
 
     }
 }
