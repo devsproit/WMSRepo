@@ -1,0 +1,100 @@
+﻿@model WMSWebApp.ViewModels.SubItem
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>SubItem</h4>
+<hr />
+<div class="row">
+    <div class="col-md-10">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class=row>
+                <div class="form-group col-md-6">
+                    <div class="row">
+                        <label asp-for="SubItemCode" class="control-label col-md-4"></label>
+                        <input asp-for="SubItemCode" class="form-control col-md-4" />   
+                    </div>                    
+                    <span asp-validation-for="SubItemCode" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="row">
+                        <label asp-for="SubItemName" class="control-label col-md-4"></label>
+                       <input asp-for="SubItemName" class="form-control col-md-4" /> 
+                    </div>                    
+                    <span asp-validation-for="SubItemName" class="text-danger"></span>
+                </div>                
+            </div>
+
+            <div class=row>
+                <div class="form-group col-md-6">
+                    <div class="row">
+                        <label asp-for="ItemName" class="control-label col-md-4"></label>
+                        <input asp-for="ItemName" class="sidebar-dropdown col-md-4" />   
+                    </div>                    
+                    <span asp-validation-for="ItemName" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="row">
+                        <label asp-for="MaterialDescription" class="control-label col-md-4"></label>
+                       <input asp-for="MaterialDescription" class="form-control col-md-4" /> 
+                    </div>                    
+                    <span asp-validation-for="MaterialDescription" class="text-danger"></span>
+                </div>                
+            </div>
+
+            <div class=row>
+                <div class="form-group col-md-6">
+                    <div class="row">
+                        <label asp-for="SubItemSize" class="control-label col-md-4"></label>
+                        <input asp-for="SubItemSize" class="form-control col-md-4" />   
+                    </div>                    
+                    <span asp-validation-for="SubItemSize" class="text-danger"></span>
+                </div>  
+                <div class="form-group col-md-6">
+                    <div class="row">
+                        <label asp-for="FOC" class="control-label col-md-4"></label>
+                       <input asp-for="FOC" class="form-control col-md-4" /> 
+                    </div>                    
+                    <span asp-validation-for="FOC" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class=row>
+                <div class="form-group col-md-6">
+                    <div class="row">
+                        <label asp-for="SubItemCategory" class="control-label col-md-4"></label>
+                        <input asp-for="SubItemCategory" class="form-control col-md-4" />   
+                    </div>                    
+                    <span asp-validation-for="SubItemCategory" class="text-danger"></span>
+                </div>  
+                <div class="form-group col-md-6">
+                    <div class="row">
+                        <label asp-for="SubItemSR" class="control-label col-md-4"></label>
+                       <input asp-for="SubItemSR" class="form-control col-md-4" /> 
+                    </div>                    
+                    <span asp-validation-for="SubItemSR" class="text-danger"></span>
+                </div>
+            </div>
+
+
+             
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

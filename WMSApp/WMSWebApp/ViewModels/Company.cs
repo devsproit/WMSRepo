@@ -6,6 +6,7 @@ namespace WMSWebApp.ViewModels
     {
         public int Id { get; set; }
         public string ScreenCode { get; set; }
+        
         [Display(Name = "Company Code")]
         public string CompanyCode { get; set; }
         [Required]

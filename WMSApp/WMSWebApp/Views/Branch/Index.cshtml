@@ -9,7 +9,26 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<div class="content-wrapper">
+<section class="content">
+ <div class="row">
+            <div class="col-lg-12">
+                <div class="box box-primary">
+
+<div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-cube text-primary"></i> <span>Branch List</span></h3>
+                        <div class="box-tools pull-right">
+                            <div class="has-feedback">
+                                <input type="text" id="mainSearch" class="form-control input-sm" placeholder="Search...">
+                                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                            </div>
+                        </div>
+                        <!-- /.box-tools -->
+                    </div>
+
+ <div class="box-body no-padding">
+<div class="table-responsive mailbox-messages">
+<table class="table table-hover table-striped" id="branchtbl" style="width:100%">
     <thead>
         <tr>
             <th>
@@ -94,3 +113,41 @@
 }
     </tbody>
 </table>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+</section>
+</div>
+
+
+@section Scripts{
+    <!-- ChartJS -->
+    @*<script src="~/adminlte/components/chart.js/Chart.js"></script>*@
+    <script src="~/js/dist/jquery.min.js" type="text/javascript"></script>
+    <script src="~/js/datatables.net/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="~/js/bootstrap/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function ()
+        {
+            var mainTable;
+             mainTable = $('#branchtbl').DataTable({
+                "lengthChange": false,
+                "info": true,
+                "searching": true,
+                "dom": 'lrtip',
+                "scrollX": false,
+                
+            });
+
+            $('#mainSearch').keyup(function ()
+            {
+                mainTable.search($(this).val()).draw();
+            });
+        });
+        </script>
+
+    }

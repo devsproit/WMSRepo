@@ -65,6 +65,8 @@
     <Folder Include="WMS\Stored Procedures\" />
     <Folder Include="Security\" />
     <Folder Include="WMS\Stored Procedures\Company" />
+    <Folder Include="WMS\Stored Procedures\Item" />
+    <Folder Include="WMS\Stored Procedures\SubItem" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="WMS\Tables\Test.sql" />
@@ -91,5 +93,15 @@
     <Build Include="WMS\Stored Procedures\Company\CompanyGetById.sql" />
     <Build Include="WMS\Stored Procedures\Company\CompanyInsert.sql" />
     <Build Include="WMS\Stored Procedures\Company\CompanyUpdate.sql" />
+    <Build Include="WMS\Stored Procedures\Item\ItemGetAll.sql" />
+    <Build Include="WMS\Stored Procedures\Item\ItemGetById.sql" />
+    <Build Include="WMS\Stored Procedures\Item\ItemInsert.sql" />
+    <Build Include="WMS\Stored Procedures\Item\ItemUpdate.sql" />
+    <Build Include="WMS\Tables\Item.sql" />
+    <Build Include="WMS\Tables\SubItem.sql" />
+    <Build Include="WMS\Stored Procedures\SubItemGetAll.sql" />
+    <Build Include="WMS\Stored Procedures\SubItemGetById.sql" />
+    <Build Include="WMS\Stored Procedures\SubItemInsert.sql" />
+    <Build Include="WMS\Stored Procedures\SubItemUpdate.sql" />
   </ItemGroup>
 </Project>
