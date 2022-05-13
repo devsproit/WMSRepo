@@ -15,7 +15,7 @@ namespace WMS.Data
     {
 
         #region Ctor
-        public WMSObjectContext(DbContextOptions options) : base(options)
+        public WMSObjectContext(DbContextOptions<WMSObjectContext> options) : base(options)
         {
 
         }
