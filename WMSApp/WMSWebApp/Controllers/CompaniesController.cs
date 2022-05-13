@@ -13,12 +13,14 @@ namespace WMSWebApp.Controllers
     public class CompaniesController : Controller
     {
         private readonly ICompanyHelper _companyHelper;
+        private readonly IItemHelper _itemHelper;
         private readonly IMapper _mapper;
 
-        public CompaniesController(ICompanyHelper companyHelper, IMapper mapper)
+        public CompaniesController(ICompanyHelper companyHelper, IMapper mapper, IItemHelper itemHelper)
         {
             _companyHelper = companyHelper;
             _mapper = mapper;
+            _itemHelper = itemHelper;
         }
 
         // GET: CompaniesController
@@ -27,7 +29,7 @@ namespace WMSWebApp.Controllers
             List<Company> companies = new List<Company>();
             try
             {
-                var data =_companyHelper.GetAllCompanies();
+                var data = _companyHelper.GetAllCompanies();
                 companies = _mapper.Map<List<Company>>(data);
             }
             catch (Exception)
@@ -41,7 +43,7 @@ namespace WMSWebApp.Controllers
         [NonAction]
         public ActionResult Details(int id)
         {
-            var c= new Company()
+            var c = new Company()
             {
                 CompanyName = "Test",
                 CompanyCode = "Test",
@@ -52,8 +54,8 @@ namespace WMSWebApp.Controllers
             ,
                 EmailIdHO = "EmailIdHO",
                 SpaceSizeFormat = "SpaceSizeFormat",
-                Items = "Items",
-                SubItem = "SubItem"
+                Items = 1,
+                SubItem = 1
             };
             return View(c);
         }
@@ -61,18 +63,21 @@ namespace WMSWebApp.Controllers
         // GET: CompaniesController/Create
         public ActionResult Create()
         {
-            return View();
+            Company company = new Company();
+            var itemData = _itemHelper.GetAllItem();
+            company.ItemList = _mapper.Map<List<Item>>(itemData);
+            return View(company);
         }
 
         // POST: CompaniesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Company c,IFormCollection collection)
+        public ActionResult Create(Company c, IFormCollection collection)
         {
             try
             {
                 var company = _mapper.Map<CompanyDb>(c);
-                var b=_companyHelper.CreateNewCompany(company);
+                var b = _companyHelper.CreateNewCompany(company);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -93,14 +98,14 @@ namespace WMSWebApp.Controllers
             catch (Exception)
             {
                 throw;
-            }            
+            }
             return View(c);
         }
 
         // POST: CompaniesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id,Company c, IFormCollection collection)
+        public ActionResult Edit(int id, Company c, IFormCollection collection)
         {
             try
             {

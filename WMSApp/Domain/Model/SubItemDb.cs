@@ -4,16 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using WMS.Core;
+
 namespace Domain.Model
 {
-    public class SubItemDb
+    public class SubItemDb:BaseEntity
     {
-        public int Id { get; set; }
+        
         public string SubItemCode { get; set; }
 
        
         public string SubItemName { get; set; }
-        public string ItemName { get; set; }
+        public int ItemId { get; set; }
 
         public string MaterialDescription { get; set; }
        
