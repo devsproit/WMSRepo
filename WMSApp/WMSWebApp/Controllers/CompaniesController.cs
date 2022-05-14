@@ -77,7 +77,7 @@ namespace WMSWebApp.Controllers
             try
             {
                 var company = _mapper.Map<CompanyDb>(c);
-                var b = _companyHelper.CreateNewCompany(company);
+                _companyHelper.Insert(company);
                 return RedirectToAction(nameof(Index));
             }
             catch

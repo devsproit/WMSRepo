@@ -14,6 +14,7 @@ namespace Application.Services
         bool UpdateSubItemById(SubItemDb SubItem);
         bool CreateNewSubItem(SubItemDb SubItem);
         SubItemDb GetSubItemByItemId(int id);
+        void Insert(SubItemDb entity);
 
     }
 }

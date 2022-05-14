@@ -24,6 +24,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Application\Application.csproj" />
       <ProjectReference Include="..\DatabaseLibrary\DatabaseLibrary.csproj" />
+      <ProjectReference Include="..\Libraries\WMS.Web.Framework\WMS.Web.Framework.csproj" />
     </ItemGroup>
 
 

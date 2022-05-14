@@ -10,7 +10,7 @@ namespace WMS.Data.Mapping.Items
         #region Methods
         public override void Configure(EntityTypeBuilder<SubItemDb> builder)
         {
-            builder.ToTable("SubItem");
+            builder.ToTable(MappingDefaults.SubItemtable, "WMS");
             builder.HasKey(x => x.Id);
             base.Configure(builder);
         }

@@ -15,7 +15,7 @@ namespace WMS.Data
     {
 
         #region Ctor
-        public WMSObjectContext(DbContextOptions options) : base(options)
+        public WMSObjectContext(DbContextOptions<WMSObjectContext> options) : base(options)
         {
 
         }
@@ -35,6 +35,7 @@ namespace WMS.Data
                 var configuration = (IMappingConfiguration)Activator.CreateInstance(typeConfiguration);
                 configuration.ApplyConfiguration(modelBuilder);
             }
+
             base.OnModelCreating(modelBuilder);
         }
 

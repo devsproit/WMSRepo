@@ -1,8 +1,15 @@
-﻿using WMS.Core;
+﻿
+using System;
+using System.Collections.Generic;
+using WMS.Core;
+using Domain.Model.CompanyMaster;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Domain.Model
 {
 
 
+    [Table("Company", Schema = "WMS")]
     public class CompanyDb : BaseEntity
     {
 
@@ -17,5 +24,15 @@ namespace Domain.Model
         public string SpaceSizeFormat { get; set; }
         public int Items { get; set; }
         public int SubItem { get; set; }
+
+        
+
+        private ICollection<CompanyItemsMapping> _companyItemsMappings;
+        public virtual ICollection<CompanyItemsMapping> CompanyItemsMappings
+        {
+            get => _companyItemsMappings ??= new List<CompanyItemsMapping>();
+            protected set => _companyItemsMappings = value;
+        }
+
     }
 }

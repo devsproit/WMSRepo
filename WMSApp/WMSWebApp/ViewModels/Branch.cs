@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using Domain.Model.CompanyMaster;
+using System.Collections.Generic;
 namespace WMSWebApp.ViewModels
 {
     public class Branch
@@ -15,7 +16,7 @@ namespace WMSWebApp.ViewModels
         [DataType(DataType.MultilineText)]
 
         [Display(Name = "Company Name")]
-        public string CompanyName { get; set; }
+        public int CompanyId { get; set; }
         [DataType(DataType.MultilineText)]
         public string Address { get; set; }
         [DataType(DataType.MultilineText)]
@@ -37,7 +38,9 @@ namespace WMSWebApp.ViewModels
         public string AssociatedEmployee { get; set; }
 
         [Display(Name = "Warehouse Name")]
-        public string WarehouseName { get; set; }
+        public int WarehouseId{ get; set; }
+
+        public List<Company> Companies { get; set; }
 
     }
 }

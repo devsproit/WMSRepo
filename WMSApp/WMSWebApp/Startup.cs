@@ -19,28 +19,31 @@ using WMSWebApp.ViewModels;
 using WMS.Core;
 using WMS.Data;
 using WMS.Core.Data;
-
+using WMS.Web.Framework.Infrastructure.Extentsion;
 namespace WMSWebApp
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             Configuration = configuration;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public IConfiguration Configuration { get; }
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             string connectionString = Configuration.GetConnectionString("default");
-            services.AddDbContext<AppDBContext>(c => c.UseSqlServer(connectionString));
+            
+            
             //services.AddDbContext<AppDBContext>(c =>
             //{
             //    c.UseSqlite("Data Source=blog.db");
             //});
-            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDBContext>();
+            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<WMSObjectContext>();
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Account/Login";
@@ -52,21 +55,25 @@ namespace WMSWebApp
                 config.AddProfile(new ViewToDomainModelMappingProfile());
             });
             services.AddDbContext<WMSObjectContext>(options =>
-               options.UseSqlServer(
-                   Configuration.GetConnectionString("default")));
-            services.AddTransient<IDbContext, WMSObjectContext>();
-            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+            {
+
+                options.UseSqlServer(Configuration.GetConnectionString("default"));
+
+            });
+            //services.AddTransient<IDbContext, WMSObjectContext>();
+            //services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddSingleton<IMapper>(new Mapper(config));
             services.AddSingleton<IAdoConnection>(new AdoConnection(connectionString));
-            services.AddTransient<ICompanyHelper, CompanyHelper>();
-            services.AddTransient<IBranchHelper, BranchHelper>();
-            services.AddTransient<ICustomerHelper,CustomerHelper>();
-            services.AddTransient<IItemHelper, ItemHelper>();
-            services.AddTransient<ISubItemHelper, SubItemHelper>();
+
+            //services.AddTransient<ICompanyHelper, CompanyHelper>();
+            //services.AddTransient<IBranchHelper, BranchHelper>();
+            //services.AddTransient<ICustomerHelper,CustomerHelper>();
+            //services.AddTransient<IItemHelper, ItemHelper>();
+            //services.AddTransient<ISubItemHelper, SubItemHelper>();
 
             services.AddControllersWithViews();
             //services.AddControllers();
-            services.AddControllersWithViews();           
+            return services.ConfigureApplicationServices(Configuration, _webHostEnvironment);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

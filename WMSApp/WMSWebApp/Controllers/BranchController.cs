@@ -15,12 +15,14 @@ namespace WMSWebApp.Controllers
     {
         private readonly IBranchHelper _BranchHelper;
         private readonly IMapper _mapper;
+        private readonly ICompanyHelper _companyService;
 
 
-        public BranchController(IBranchHelper BranchHelper, IMapper mapper)
+        public BranchController(IBranchHelper BranchHelper, IMapper mapper, ICompanyHelper companyService)
         {
             _BranchHelper = BranchHelper;
             _mapper = mapper;
+            _companyService = companyService;
         }
 
 
@@ -46,7 +48,7 @@ namespace WMSWebApp.Controllers
             {
                 BranchName = "Test",
                 BranchCode = "Test",
-                CompanyName = "Test",
+                CompanyId = 1,
                 Address = "Test",
                 Location = "Location",
                 ContactPersonBranch = "ContactPersonBranch",
@@ -54,14 +56,18 @@ namespace WMSWebApp.Controllers
             ,
                 EmailIdBranch = "EmailIdBranch",
                 AssociatedEmployee = "AssociatedEmployee ",
-                WarehouseName = "WH01",
+                WarehouseId = 1,
             };
             return View(B);
         }
         // GET: CompaniesController/Create
         public ActionResult Create()
         {
-            return View();
+            Branch model = new Branch();
+            var comp=_companyService.GetAllCompanies();
+            var companies=_mapper.Map<List<Company>>(comp);
+            model.Companies = companies;
+            return View(model);
         }
 
         // POST: BranchController/Create
@@ -72,7 +78,7 @@ namespace WMSWebApp.Controllers
             try
             {
                 var Branch = _mapper.Map<BranchDb>(c);
-                var b = _BranchHelper.CreateNewBranch(Branch);
+                _BranchHelper.Insert(Branch);
                 return RedirectToAction(nameof(Index));
             }
             catch
