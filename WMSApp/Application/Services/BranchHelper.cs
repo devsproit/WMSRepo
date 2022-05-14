@@ -6,6 +6,7 @@ using DatabaseLibrary;
 using DatabaseLibrary.SQL;
 using Domain.Model;
 using System.Linq;
+using WMS.Core.Data;
 namespace Application.Services
 {
 
@@ -13,10 +14,11 @@ namespace Application.Services
     public class BranchHelper : IBranchHelper
     {
         private readonly IAdoConnection _adoConnection;
-
-        public BranchHelper(IAdoConnection adoConnection)
+        private readonly IRepository<BranchDb> _branchRepository;
+        public BranchHelper(IAdoConnection adoConnection, IRepository<BranchDb> branchRepository)
         {
             _adoConnection = adoConnection;
+            _branchRepository = branchRepository;
         }
 
         public List<BranchDb> GetAllBranch()
@@ -49,14 +51,14 @@ namespace Application.Services
                     new SqlParameter("@ScreenCode", Branch.ScreenCode),
                     new SqlParameter("@BranchCode", Branch.BranchCode),
                     new SqlParameter("@BranchName", Branch.BranchName),
-                    new SqlParameter("@CompanyName", Branch.CompanyName),
+                    new SqlParameter("@CompanyName", Branch.CompanyId),
                     new SqlParameter("@Address", Branch.Address),
                     new SqlParameter("@Location", Branch.Location),
                     new SqlParameter("@ContactPersonBranch", Branch.ContactPersonBranch),
                     new SqlParameter("@ContactNumberBranch", Branch.ContactNumberBranch),
                     new SqlParameter("@EmailIdBranch", Branch.EmailIdBranch),
                     new SqlParameter("AssociatedEmployee", Branch.AssociatedEmployee),
-                    new SqlParameter("@WarehouseName", Branch.WarehouseName),
+                    new SqlParameter("@WarehouseName", Branch.WarehouseId),
 
                 };
                 result = _adoConnection.InsertUpdateWithSP(Constants.CreateNewBranchSP, sqlParameters);
@@ -74,14 +76,14 @@ namespace Application.Services
                    new SqlParameter("@ScreenCode", Branch.ScreenCode),
                     new SqlParameter("@BranchCode", Branch.BranchCode),
                     new SqlParameter("@BranchName", Branch.BranchName),
-                    new SqlParameter("@CompanyName", Branch.CompanyName),
+                    new SqlParameter("@CompanyName", Branch.CompanyId),
                     new SqlParameter("@Address", Branch.Address),
                     new SqlParameter("@Location", Branch.Location),
                     new SqlParameter("@ContactPersonBranch", Branch.ContactPersonBranch),
                     new SqlParameter("@ContactNumberBranch", Branch.ContactNumberBranch),
                     new SqlParameter("@EmailIdBranch", Branch.EmailIdBranch),
                     new SqlParameter("AssociatedEmployee", Branch.AssociatedEmployee),
-                    new SqlParameter("@WarehouseName", Branch.WarehouseName),
+                    new SqlParameter("@WarehouseName", Branch.WarehouseId),
                 };
                 result = _adoConnection.InsertUpdateWithSP(Constants.UpdateBranchByIdSP, sqlParameters);
             }
@@ -94,6 +96,11 @@ namespace Application.Services
             sqlParameters.Add(new SqlParameter("@Id", Id));
             result = _adoConnection.InsertUpdateWithSP(Constants.DeleteBranchByIdSP, sqlParameters);
             return result > 0 ? true : false;
+        }
+
+        public void Insert(BranchDb entity)
+        {
+            _branchRepository.Insert(entity);
         }
 
 

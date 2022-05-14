@@ -9,20 +9,26 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
+using WMS.Core.Infrastructure;
+
 
 namespace WMS.Web.Framework.Infrastructure.Extentsion
 {
     public static class ServiceCollectionExtensions
     {
 
-        public static IServiceProvider ConfigurationApplicationService(this IServiceCollection service,IConfiguration configuration)
+        public static IServiceProvider ConfigureApplicationServices(this IServiceCollection services,
+          IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             //most of API providers require TLS 1.2 nowadays
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-            var containerBuilder = new ContainerBuilder();
-            containerBuilder.Populate(service);
-            var serviceProvider = new AutofacServiceProvider(containerBuilder.Build());
+            //create default file provider
+            CommonHelper.DefaultFileProvider = new WMSFileProvider(hostingEnvironment);
+
+            //create engine and configure service provider
+            var engine = EngineContext.Create();
+            var serviceProvider = engine.ConfigureServices(services, configuration);
             return serviceProvider;
         }
     }

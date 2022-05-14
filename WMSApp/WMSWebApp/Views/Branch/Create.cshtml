@@ -14,13 +14,13 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class=row>
-                <div class="form-group col-md-6">
+              @*  <div class="form-group col-md-6">
                     <div class="row">
                         <label asp-for="ScreenCode" class="control-label col-md-4"></label>
                         <input asp-for="ScreenCode" class="form-control col-md-4" />   
                     </div>                    
                     <span asp-validation-for="ScreenCode" class="text-danger"></span>
-                </div>
+                </div>*@
                 <div class="form-group col-md-6">
                     <div class="row">
                         <label asp-for="BranchCode" class="control-label col-md-4"></label>
@@ -40,10 +40,10 @@
                 </div>
                 <div class="form-group col-md-6">
                     <div class="row">
-                        <label asp-for="CompanyName" class="control-label col-md-4"></label>
-                       <input asp-for="CompanyName" class="form-control col-md-4" /> 
+                        <label asp-for="CompanyId" class="control-label col-md-4"></label>
+                       <select asp-for="CompanyId" asp-items="@(new SelectList(Model.Companies,"Id","CompanyName"))" class="form-control col-md-4"></select>
                     </div>                    
-                    <span asp-validation-for="CompanyName" class="text-danger"></span>
+                    <span asp-validation-for="CompanyId " class="text-danger"></span>
                 </div>                
             </div>
 
@@ -101,10 +101,10 @@
             <div class=row>
                 <div class="form-group col-md-6">
                     <div class="row">
-                        <label asp-for="WarehouseName" class="control-label col-md-4"></label>
-                        <input asp-for="WarehouseName" class="form-control col-md-4" />   
+                        <label asp-for="WarehouseId" class="control-label col-md-4"></label>
+                        <input asp-for="WarehouseId" class="form-control col-md-4" />   
                     </div>                    
-                    <span asp-validation-for="WarehouseName" class="text-danger"></span>
+                    <span asp-validation-for="WarehouseId" class="text-danger"></span>
                 </div>                
             </div>
 

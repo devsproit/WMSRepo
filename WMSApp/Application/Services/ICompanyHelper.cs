@@ -1,6 +1,7 @@
 ﻿using Domain.Model;
 using System.Collections.Generic;
 using System.Linq;
+using WMS.Core;
 namespace Application.Services
 {
 
@@ -12,5 +13,8 @@ namespace Application.Services
         CompanyDb GetCompanyById(int Id);
         bool UpdateCompanyById(CompanyDb company);
         bool CreateNewCompany(CompanyDb company);
+        void Insert(CompanyDb entity);
+        IPagedList<CompanyDb> GetAllCOmpany(int pageIndex = 0, int pageSize = int.MaxValue);
+
     }
 }

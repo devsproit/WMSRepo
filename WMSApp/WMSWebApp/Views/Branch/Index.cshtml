@@ -10,12 +10,12 @@
     <a asp-action="Create">Create New</a>
 </p>
 <div class="content-wrapper">
-<section class="content">
- <div class="row">
+    <section class="content">
+        <div class="row">
             <div class="col-lg-12">
                 <div class="box box-primary">
 
-<div class="box-header with-border">
+                    <div class="box-header with-border">
                         <h3 class="box-title"><i class="fa fa-cube text-primary"></i> <span>Branch List</span></h3>
                         <div class="box-tools pull-right">
                             <div class="has-feedback">
@@ -26,128 +26,129 @@
                         <!-- /.box-tools -->
                     </div>
 
- <div class="box-body no-padding">
-<div class="table-responsive mailbox-messages">
-<table class="table table-hover table-striped" id="branchtbl" style="width:100%">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ScreenCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BranchCode)
-            </th>
-             <th>
-                @Html.DisplayNameFor(model => model.BranchName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CompanyName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Location)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ContactPersonBranch)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ContactNumberBranch)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EmailIdBranch)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AssociatedEmployee)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WarehouseName)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ScreenCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BranchCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BranchName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CompanyName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Location)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContactPersonBranch)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContactNumberBranch)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmailIdBranch)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AssociatedEmployee)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WarehouseName)
-            </td>
+                    <div class="box-body no-padding">
+                        <div class="table-responsive mailbox-messages">
+                            <table class="table table-hover table-striped" id="branchtbl" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.ScreenCode)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.BranchCode)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.BranchName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.CompanyId)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Address)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Location)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.ContactPersonBranch)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.ContactNumberBranch)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.EmailIdBranch)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.AssociatedEmployee)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.WarehouseId)
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ScreenCode)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.BranchCode)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.BranchName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CompanyId)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Address)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Location)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ContactPersonBranch)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ContactNumberBranch)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.EmailIdBranch)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.AssociatedEmployee)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.WarehouseId)
+                                            </td>
 
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
-</div>
-</div>
+                                            <td>
+                                                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
 
-</div>
-</div>
-</div>
+                </div>
+            </div>
+        </div>
 
-</section>
+    </section>
 </div>
 
 
 @section Scripts{
-    <!-- ChartJS -->
+<!-- ChartJS -->
     @*<script src="~/adminlte/components/chart.js/Chart.js"></script>*@
-    <script src="~/js/dist/jquery.min.js" type="text/javascript"></script>
-    <script src="~/js/datatables.net/js/jquery.dataTables.min.js" type="text/javascript"></script>
-    <script src="~/js/bootstrap/bootstrap.min.js"></script>
-    <script>
-        $(document).ready(function ()
-        {
-            var mainTable;
-             mainTable = $('#branchtbl').DataTable({
-                "lengthChange": false,
-                "info": true,
-                "searching": true,
-                "dom": 'lrtip',
-                "scrollX": false,
-                
-            });
+<script src="~/js/dist/jquery.min.js" type="text/javascript"></script>
+<script src="~/js/datatables.net/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="~/js/bootstrap/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function ()
+    {
+        var mainTable;
+         mainTable = $('#branchtbl').DataTable({
+            "lengthChange": false,
+            "info": true,
+            "searching": true,
+            "dom": 'lrtip',
+            "scrollX": false,
 
-            $('#mainSearch').keyup(function ()
-            {
-                mainTable.search($(this).val()).draw();
-            });
         });
-        </script>
+
+        $('#mainSearch').keyup(function ()
+        {
+            mainTable.search($(this).val()).draw();
+        });
+    });
+</script>
 
     }

@@ -11,5 +11,6 @@ namespace Application.Services
         BranchDb GetBranchById(int Id);
         bool UpdateBranchById(BranchDb Branch);
         bool CreateNewBranch(BranchDb Branch);
+        void Insert(BranchDb entity);
     }
 }

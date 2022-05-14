@@ -15,12 +15,14 @@ namespace WMSWebApp.Controllers
     {
         private readonly ISubItemHelper _SubItemHelper;
         private readonly IMapper _mapper;
+        private readonly IItemHelper _itemService;
 
 
-        public SubItemController(ISubItemHelper SubItemHelper, IMapper mapper)
+        public SubItemController(ISubItemHelper SubItemHelper, IMapper mapper, IItemHelper itemService)
         {
             _SubItemHelper = SubItemHelper;
             _mapper = mapper;
+            _itemService = itemService;
         }
 
 
@@ -33,9 +35,9 @@ namespace WMSWebApp.Controllers
                 var data = _SubItemHelper.GetAllSubItem();
                 SubItem = _mapper.Map<List<SubItem>>(data);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+
             }
             return View(SubItem);
         }
@@ -46,10 +48,10 @@ namespace WMSWebApp.Controllers
             {
                 SubItemCode = "Test",
                 SubItemName = "Test",
-                ItemName = "Test",
+                ItemId = 1,
                 MaterialDescription = "Test",
                 SubItemSize = "Test",
-                FOC = "Test",
+                FOC = false,
                 SubItemCategory = "Test",
                 SubItemSR = "Test",
 
@@ -59,7 +61,10 @@ namespace WMSWebApp.Controllers
         // GET: SubItemController/Create
         public ActionResult Create()
         {
-            return View();
+            SubItem model = new SubItem();
+            var items = _itemService.GetAllItem();
+            model.Items = _mapper.Map<List<Item>>(items);
+            return View(model);
         }
 
         // POST: SubItemController/Create
@@ -70,7 +75,7 @@ namespace WMSWebApp.Controllers
             try
             {
                 var SubItem = _mapper.Map<SubItemDb>(c);
-                var b = _SubItemHelper.CreateNewSubItem(SubItem);
+                _SubItemHelper.Insert(SubItem);
                 return RedirectToAction(nameof(Index));
             }
             catch

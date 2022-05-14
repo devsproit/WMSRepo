@@ -24,12 +24,14 @@ namespace WMSWebApp
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             Configuration = configuration;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public IConfiguration Configuration { get; }
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
@@ -71,8 +73,7 @@ namespace WMSWebApp
 
             services.AddControllersWithViews();
             //services.AddControllers();
-            services.AddControllersWithViews();
-            return services.ConfigurationApplicationService(Configuration);
+            return services.ConfigureApplicationServices(Configuration, _webHostEnvironment);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

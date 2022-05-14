@@ -35,6 +35,7 @@ namespace WMS.Data
                 var configuration = (IMappingConfiguration)Activator.CreateInstance(typeConfiguration);
                 configuration.ApplyConfiguration(modelBuilder);
             }
+
             base.OnModelCreating(modelBuilder);
         }
 

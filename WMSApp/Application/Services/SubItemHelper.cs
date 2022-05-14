@@ -95,6 +95,11 @@ namespace Application.Services
             return result > 0 ? true : false;
         }
 
+
+        public virtual void Insert(SubItemDb entity)
+        {
+            _subItemRepository.Insert(entity);
+        }
         public virtual SubItemDb GetSubItemByItemId(int id)
         {
             //var query = from x in _subItemRepository.Table

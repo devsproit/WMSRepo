@@ -6,6 +6,8 @@ using DatabaseLibrary.SQL;
 using Domain.Model;
 using System.Collections.Generic;
 using System.Linq;
+using WMS.Core.Data;
+using WMS.Core;
 namespace Application.Services
 {
 
@@ -13,10 +15,12 @@ namespace Application.Services
     public class CompanyHelper : ICompanyHelper
     {
         private readonly IAdoConnection _adoConnection;
+        private readonly IRepository<CompanyDb> _companyRepository;
 
-        public CompanyHelper(IAdoConnection adoConnection)
+        public CompanyHelper(IAdoConnection adoConnection, IRepository<CompanyDb> companyRepository)
         {
             _adoConnection = adoConnection;
+            _companyRepository = companyRepository;
         }
 
         public List<CompanyDb> GetAllCompanies()
@@ -94,6 +98,23 @@ namespace Application.Services
             sqlParameters.Add(new SqlParameter("@Id", Id));
             result = _adoConnection.InsertUpdateWithSP(Constants.DeleteCompanyByIdSP, sqlParameters);
             return result > 0 ? true : false;
+        }
+
+
+        public virtual void Insert(CompanyDb entity)
+        {
+            _companyRepository.Insert(entity);
+        }
+
+        public virtual IPagedList<CompanyDb> GetAllCOmpany(int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = from x in _companyRepository.Table
+                        orderby x.CompanyName ascending
+                        select x;
+            var result = new PagedList<CompanyDb>(query, pageIndex, pageSize);
+            return result;
+
+
         }
     }
 }

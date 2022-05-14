@@ -22,7 +22,7 @@ namespace Domain.Model
         public string SubItemSize { get; set; }
 
  
-        public string FOC { get; set; }
+        public bool FOC { get; set; }
 
 
         public string SubItemCategory { get; set; }
@@ -30,6 +30,9 @@ namespace Domain.Model
 
         public string SubItemSR { get; set; }
 
+        public decimal BranchPrice { get; set; }
+        public decimal DealerPrice { get; set; }
+        public decimal CustomerPrice { get; set; }
 
     }
 }

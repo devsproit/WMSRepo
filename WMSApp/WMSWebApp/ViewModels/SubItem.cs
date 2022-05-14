@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WMSWebApp.ViewModels
 {
@@ -15,7 +16,7 @@ namespace WMSWebApp.ViewModels
 
         [Required]
         [Display(Name = "Item Name")]
-        public string ItemName { get; set; }
+        public int ItemId { get; set; }
         [DataType(DataType.MultilineText)]
 
         [Display(Name = "Material Description")]
@@ -26,13 +27,21 @@ namespace WMSWebApp.ViewModels
         public string SubItemSize { get; set; }
 
         [Display(Name = "SubItem FOC")]
-        public string FOC { get; set; }
+        public bool FOC { get; set; }
 
         [Display(Name = "SubItem Category")]
         public string SubItemCategory { get; set; }
 
         [Display(Name = "SubItem SR")]
         public string SubItemSR { get; set; }
+        [Display(Name = "Branch Price")]
+        public decimal BranchPrice { get; set; }
+        [Display(Name = "Dealer Price")]
+        public decimal DealerPrice { get; set; }
+        [Display(Name = "Customer Price")]
+        public decimal CustomerPrice { get; set; }
+
+        public List<Item> Items { get; set; }
 
 
     }

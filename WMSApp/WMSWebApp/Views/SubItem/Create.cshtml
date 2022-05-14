@@ -17,73 +17,104 @@
                 <div class="form-group col-md-6">
                     <div class="row">
                         <label asp-for="SubItemCode" class="control-label col-md-4"></label>
-                        <input asp-for="SubItemCode" class="form-control col-md-4" />   
-                    </div>                    
+                        <input asp-for="SubItemCode" class="form-control col-md-4" />
+                    </div>
                     <span asp-validation-for="SubItemCode" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-6">
                     <div class="row">
                         <label asp-for="SubItemName" class="control-label col-md-4"></label>
-                       <input asp-for="SubItemName" class="form-control col-md-4" /> 
-                    </div>                    
+                        <input asp-for="SubItemName" class="form-control col-md-4" />
+                    </div>
                     <span asp-validation-for="SubItemName" class="text-danger"></span>
-                </div>                
+                </div>
             </div>
 
             <div class=row>
                 <div class="form-group col-md-6">
                     <div class="row">
-                        <label asp-for="ItemName" class="control-label col-md-4"></label>
-                        <input asp-for="ItemName" class="sidebar-dropdown col-md-4" />   
-                    </div>                    
-                    <span asp-validation-for="ItemName" class="text-danger"></span>
+                        <label asp-for="ItemId" class="control-label col-md-4"></label>
+                        <select asp-for="ItemId" asp-items="@(new SelectList(Model.Items,"Id","ItemName"))" class="form-control col-md-4"></select>
+                    </div>
+                    <span asp-validation-for="ItemId" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-6">
                     <div class="row">
                         <label asp-for="MaterialDescription" class="control-label col-md-4"></label>
-                       <input asp-for="MaterialDescription" class="form-control col-md-4" /> 
-                    </div>                    
+                        <input asp-for="MaterialDescription" class="form-control col-md-4" />
+                    </div>
                     <span asp-validation-for="MaterialDescription" class="text-danger"></span>
-                </div>                
+                </div>
             </div>
 
             <div class=row>
                 <div class="form-group col-md-6">
                     <div class="row">
                         <label asp-for="SubItemSize" class="control-label col-md-4"></label>
-                        <input asp-for="SubItemSize" class="form-control col-md-4" />   
-                    </div>                    
+                        <input asp-for="SubItemSize" class="form-control col-md-4" />
+                    </div>
                     <span asp-validation-for="SubItemSize" class="text-danger"></span>
-                </div>  
+                </div>
                 <div class="form-group col-md-6">
                     <div class="row">
                         <label asp-for="FOC" class="control-label col-md-4"></label>
-                       <input asp-for="FOC" class="form-control col-md-4" /> 
-                    </div>                    
+                        <select class="form-control col-md-4" asp-for="FOC">
+                            <option value="true">True</option>
+                            <option value="false">False</option>
+                        </select>
+                        
+                    </div>
                     <span asp-validation-for="FOC" class="text-danger"></span>
                 </div>
             </div>
 
 
             <div class=row>
-                <div class="form-group col-md-6">
+                @*<div class="form-group col-md-6">
                     <div class="row">
                         <label asp-for="SubItemCategory" class="control-label col-md-4"></label>
-                        <input asp-for="SubItemCategory" class="form-control col-md-4" />   
-                    </div>                    
+                        <input asp-for="SubItemCategory" class="form-control col-md-4" />
+                    </div>
                     <span asp-validation-for="SubItemCategory" class="text-danger"></span>
-                </div>  
+                </div>*@
                 <div class="form-group col-md-6">
                     <div class="row">
                         <label asp-for="SubItemSR" class="control-label col-md-4"></label>
-                       <input asp-for="SubItemSR" class="form-control col-md-4" /> 
-                    </div>                    
+                        <input asp-for="SubItemSR" class="form-control col-md-4" />
+                    </div>
                     <span asp-validation-for="SubItemSR" class="text-danger"></span>
                 </div>
+                 <div class="form-group col-md-6">
+                    <div class="row">
+                        <label asp-for="BranchPrice" class="control-label col-md-4"></label>
+                        <input asp-for="BranchPrice" class="form-control col-md-4" />
+                    </div>
+                    <span asp-validation-for="BranchPrice" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+               
+                <div class="form-group col-md-6">
+                    <div class="row">
+                        <label asp-for="DealerPrice" class="control-label col-md-4"></label>
+                        <input asp-for="DealerPrice" class="form-control col-md-4" />
+                    </div>
+                    <span asp-validation-for="DealerPrice" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="row">
+                        <label asp-for="CustomerPrice" class="control-label col-md-4"></label>
+                        <input asp-for="CustomerPrice" class="form-control col-md-4" />
+                    </div>
+                    <span asp-validation-for="CustomerPrice" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                
+              
             </div>
 
 
-             
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -96,5 +127,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
