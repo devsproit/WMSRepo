@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Domain.Model.CompanyMaster;
 using System.Collections.Generic;
+using WMS.Data;
+
 namespace WMSWebApp.ViewModels
 {
     public class Branch
@@ -38,9 +40,11 @@ namespace WMSWebApp.ViewModels
         public string AssociatedEmployee { get; set; }
 
         [Display(Name = "Warehouse Name")]
-        public int WarehouseId{ get; set; }
+        public int WarehouseId { get; set; }
 
         public List<Company> Companies { get; set; }
+
+        public List<ApplicationUser> Users { get; set; }
 
     }
 }

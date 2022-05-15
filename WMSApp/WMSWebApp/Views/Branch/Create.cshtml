@@ -27,10 +27,7 @@
                        <input asp-for="BranchCode" class="form-control col-md-4" /> 
                     </div>                    
                     <span asp-validation-for="BranchCode" class="text-danger"></span>
-                </div>                
-            </div>
-
-            <div class=row>
+                </div>    
                 <div class="form-group col-md-6">
                     <div class="row">
                         <label asp-for="BranchName" class="control-label col-md-4"></label>
@@ -38,16 +35,17 @@
                     </div>                    
                     <span asp-validation-for="BranchName" class="text-danger"></span>
                 </div>
+            </div>
+
+            <div class=row>
+                
                 <div class="form-group col-md-6">
                     <div class="row">
                         <label asp-for="CompanyId" class="control-label col-md-4"></label>
                        <select asp-for="CompanyId" asp-items="@(new SelectList(Model.Companies,"Id","CompanyName"))" class="form-control col-md-4"></select>
                     </div>                    
                     <span asp-validation-for="CompanyId " class="text-danger"></span>
-                </div>                
-            </div>
-
-            <div class=row>
+                </div> 
                 <div class="form-group col-md-6">
                     <div class="row">
                         <label asp-for="Address" class="control-label col-md-4"></label>
@@ -55,6 +53,10 @@
                     </div>                    
                     <span asp-validation-for="Address" class="text-danger"></span>
                 </div>
+            </div>
+
+            <div class=row>
+                
                 <div class="form-group col-md-6">
                     <div class="row">
                         <label asp-for="Location" class="control-label col-md-4"></label>
@@ -92,7 +94,9 @@
                 <div class="form-group col-md-6">
                     <div class="row">
                         <label asp-for="AssociatedEmployee" class="control-label col-md-4"></label>
-                       <input asp-for="AssociatedEmployee" class="form-control col-md-4" /> 
+                       <select asp-for="AssociatedEmployee" class="form-control col-md-4" asp-items="@(new SelectList(Model.Users,"Id","Email"))" >
+
+                       </select>
                     </div>                    
                     <span asp-validation-for="AssociatedEmployee" class="text-danger"></span>
                 </div>                
