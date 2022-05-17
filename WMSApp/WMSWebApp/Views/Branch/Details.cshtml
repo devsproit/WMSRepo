@@ -3,120 +3,82 @@
 @{
     ViewData["Title"] = "Details";
 }
-<div class="bg-white pt-6 sm:pt-8 lg:pt-12">
-    <nav class="bg-white border-b border-gray-200 flex" aria-label="Breadcrumb">
-  <ol role="list" class="max-w-screen-xl w-full mx-auto px-4 flex space-x-4 sm:px-6 lg:px-8">
-    <li class="flex">
-      <div class="flex items-center">
-        <a asp-action="Index" class="text-gray-400 hover:text-gray-500">
-          <!-- Heroicon name: solid/home -->
-          <svg class="flex-shrink-0 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-          </svg>
-          <span class="sr-only">Home</span>
-        </a>
-      </div>
-    </li>
 
-    <li class="flex">
-      <div class="flex items-center">
-        <svg class="flex-shrink-0 w-6 h-full text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
-        </svg>
-        <a href="#" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">Branch</a>
-      </div>
-    </li>
+<h1>Details</h1>
 
-    <li class="flex">
-      <div class="flex items-center">
-        <svg class="flex-shrink-0 w-6 h-full text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
-        </svg>
-        <a href="#" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" aria-current="page">@Html.DisplayFor(model => model.CompanyId)</a>
-      </div>
-    </li>
-  </ol>
-    </nav>
-
-
-    <main class="py-10">
-    <!-- Page header -->
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 md:flex md:items-center md:justify-between md:space-x-5 lg:max-w-7xl lg:px-8">
-      <div class="flex items-center space-x-5">
-        <div>
-          <h1 class="text-2xl font-bold text-gray-900"> @Html.DisplayFor(model => model.BranchCode)</h1>
-          <p class="text-sm font-medium text-gray-500">@Html.DisplayNameFor(model => model.WarehouseId )<a href="#" class="text-gray-900"> @Html.DisplayFor(model => model.WarehouseId )</a></p>
-        </div>
-      </div>
-      <div class="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3">
-        <button type="button" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium  text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500">Edit</button>
-        <button type="button" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium  shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-red-500">Delete</button>
-      </div>
-    </div>
-
-    <div class="mt-8 max-w-3xl mx-auto grid grid-cols-1 gap-6 sm:px-6 lg:max-w-7xl lg:grid-flow-col-dense lg:grid-cols-3">
-      <div class="space-y-6 lg:col-start-1 lg:col-span-2">
-        <!-- Description list-->
-        <section aria-labelledby="applicant-information-title">
-          <div class="bg-white shadow sm:rounded-lg">
-            <div class="px-4 py-5 sm:px-6">
-              <h2 id="applicant-information-title" class="text-lg leading-6 font-medium text-gray-900">Branch Information</h2>
-              <p class="mt-1 max-w-2xl text-sm text-gray-500">Branch details and application.</p>
-            </div>
-            <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
-              <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">@Html.DisplayNameFor(model => model.ScreenCode)</dt>
-                  <dd class="mt-1 text-sm text-gray-900">@Html.DisplayFor(model => model.ScreenCode)</dd>
-                </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">@Html.DisplayNameFor(model => model.BranchCode)</dt>
-                  <dd class="mt-1 text-sm text-gray-900">@Html.DisplayFor(model => model.BranchCode)</dd>
-                </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">@Html.DisplayNameFor(model => model.BranchName)</dt>
-                  <dd class="mt-1 text-sm text-gray-900">@Html.DisplayFor(model => model.BranchName)</dd>
-                </div>
-                <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500"> @Html.DisplayNameFor(model => model.CompanyId)</dt>
-                  <dd class="mt-1 text-sm text-gray-900">@Html.DisplayFor(model => model.CompanyId)</dd>
-                </div>
-                <div class="sm:col-span-2">
-                  <dt class="text-sm font-medium text-gray-500">@Html.DisplayNameFor(model => model.Address)</dt>
-                  <dd class="mt-1 text-sm text-gray-900">@Html.DisplayFor(model => model.Address)</dd>
-                </div>
-
-                <div class="sm:col-span-2">
-                  <dt class="text-sm font-medium text-gray-500">@Html.DisplayNameFor(model => model.Location)</dt>
-                  <dd class="mt-1 text-sm text-gray-900">@Html.DisplayFor(model => model.Location)</dd>
-                </div>
-                <div class="sm:col-span-2">
-                  <dt class="text-sm font-medium text-gray-500"> @Html.DisplayNameFor(model => model.ContactPersonBranch)</dt>
-                  <dd class="mt-1 text-sm text-gray-900">@Html.DisplayFor(model => model.ContactPersonBranch)</dd>
-                </div>
-                <div class="sm:col-span-2">
-                  <dt class="text-sm font-medium text-gray-500">@Html.DisplayNameFor(model => model.ContactNumberBranch)</dt>
-                  <dd class="mt-1 text-sm text-gray-900">@Html.DisplayFor(model => model.ContactNumberBranch)</dd>
-                </div>
-                <div class="sm:col-span-2">
-                  <dt class="text-sm font-medium text-gray-500">@Html.DisplayNameFor(model => model.EmailIdBranch)</dt>
-                  <dd class="mt-1 text-sm text-gray-900"> @Html.DisplayFor(model => model.EmailIdBranch)</dd>
-                </div>
-                <div class="sm:col-span-2">
-                  <dt class="text-sm font-medium text-gray-500"> @Html.DisplayNameFor(model => model.AssociatedEmployee)</dt>
-                  <dd class="mt-1 text-sm text-gray-900">@Html.DisplayFor(model => model.AssociatedEmployee)</dd>
-                </div>
-                <div class="sm:col-span-2">
-                  <dt class="text-sm font-medium text-gray-500">@Html.DisplayNameFor(model => model.WarehouseId )</dt>
-                  <dd class="mt-1 text-sm text-gray-900">@Html.DisplayFor(model => model.WarehouseId )</dd>
-                </div>
-              </dl>
-              
-            </div>
-            
-          </div>
-        </section>
-        </div>
-    </div>
-  </main>
+<div>
+    <h4>Branch</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ScreenCode)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ScreenCode)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BranchCode)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BranchCode)
+        </dd>
+         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BranchName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BranchName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CompanyId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CompanyId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ContactPersonBranch)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ContactPersonBranch)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ContactNumberBranch)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ContactNumberBranch)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EmailIdBranch)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EmailIdBranch)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AssociatedEmployee)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AssociatedEmployee)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WarehouseId )
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WarehouseId )
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
 </div>
