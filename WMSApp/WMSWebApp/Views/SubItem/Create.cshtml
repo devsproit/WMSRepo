@@ -82,7 +82,11 @@
                 <div class="form-group col-md-6">
                     <div class="row">
                         <label asp-for="SubItemSR" class="control-label col-md-4"></label>
-                        <input asp-for="SubItemSR" class="form-control col-md-4" />
+                        
+                        <select class="form-control col-md-4" asp-for="SubItemSR">
+                            <option value="true">True</option>
+                            <option value="false">False</option>
+                        </select>
                     </div>
                     <span asp-validation-for="SubItemSR" class="text-danger"></span>
                 </div>
