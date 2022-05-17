@@ -18,69 +18,6 @@
       </div>
     </li>
 
-
-<h1>Create</h1>
-
-<h4>Branch</h4>
-<hr />
-<div class="row">
-    <div class="col-md-10">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class=row>
-              @*  <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="ScreenCode" class="control-label col-md-4"></label>
-                        <input asp-for="ScreenCode" class="form-control col-md-4" />   
-                    </div>                    
-                    <span asp-validation-for="ScreenCode" class="text-danger"></span>
-                </div>*@
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="BranchCode" class="control-label col-md-4"></label>
-                       <input asp-for="BranchCode" class="form-control col-md-4" /> 
-                    </div>                    
-                    <span asp-validation-for="BranchCode" class="text-danger"></span>
-                </div>    
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="BranchName" class="control-label col-md-4"></label>
-                        <input asp-for="BranchName" class="form-control col-md-4" />   
-                    </div>                    
-                    <span asp-validation-for="BranchName" class="text-danger"></span>
-                </div>
-            </div>
-
-            <div class=row>
-                
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="CompanyId" class="control-label col-md-4"></label>
-                       <select asp-for="CompanyId" asp-items="@(new SelectList(Model.Companies,"Id","CompanyName"))" class="form-control col-md-4"></select>
-                    </div>                    
-                    <span asp-validation-for="CompanyId " class="text-danger"></span>
-                </div> 
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="Address" class="control-label col-md-4"></label>
-                        <input asp-for="Address" class="form-control col-md-4" />   
-                    </div>                    
-                    <span asp-validation-for="Address" class="text-danger"></span>
-                </div>
-            </div>
-
-            <div class=row>
-                
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="Location" class="control-label col-md-4"></label>
-                       <input asp-for="Location" class="form-control col-md-4" /> 
-                    </div>                    
-                    <span asp-validation-for="Location" class="text-danger"></span>
-                </div>                
-            </div>
-
     <li class="flex">
       <div class="flex items-center">
         <svg class="flex-shrink-0 w-6 h-full text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -107,7 +44,6 @@
         </div>
     </div>
 
-
     <div class="mt-10 sm:mt-0">
   <div class="px-10 mb-10">
     <div class="mt-5 md:mt-0 md:col-span-2">
@@ -116,36 +52,16 @@
         <div class="shadow overflow-hidden">
           <div class="px-4 py-5 bg-gray-50 sm:p-6">
             <div class="grid grid-cols-6 gap-6">
-                <div class="col-span-6 sm:col-span-3">
+               @* <div class="col-span-6 sm:col-span-3">
                     <label asp-for="ScreenCode" class="block text-sm font-medium text-gray-700">Screen Code</label>
                     <input type="text" asp-for="ScreenCode" id="ScreenCode" autocomplete="given-name" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-2xl border-gray-300 rounded-md">
                     <span asp-validation-for="ScreenCode" class="text-red-500"></span>  
-               </div>
+               </div>*@
               <div class="col-span-6 sm:col-span-3">
                 <label asp-for="BranchCode"class="block text-sm font-medium text-gray-700">Branch Code</label>
                 <input type="text" asp-for="BranchCode" id="BranchCode" autocomplete="BranchCode" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-2xl border-gray-300 rounded-md">
                 <span asp-validation-for="BranchCode" class="text-red-500"></span>
               </div>
-
-
-            <div class=row>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="EmailIdBranch" class="control-label col-md-4"></label>
-                        <input asp-for="EmailIdBranch" class="form-control col-md-4" />   
-                    </div>                    
-                    <span asp-validation-for="EmailIdBranch" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="AssociatedEmployee" class="control-label col-md-4"></label>
-                       <select asp-for="AssociatedEmployee" class="form-control col-md-4" asp-items="@(new SelectList(Model.Users,"Id","Email"))" >
-
-                       </select>
-                    </div>                    
-                    <span asp-validation-for="AssociatedEmployee" class="text-danger"></span>
-                </div>                
-            </div>
 
               <div class="col-span-6 sm:col-span-3">
                 <label asp-for="BranchName" class="block text-sm font-medium text-gray-700">Branch Name</label>
@@ -153,11 +69,10 @@
                 <span asp-validation-for="BranchName" class="text-red-500"></span>
               </div>
               <div class="col-span-6 sm:col-span-3">
-                <label asp-for="CompanyId" class="block text-sm font-medium text-gray-700">Compnay Name</label>
-                <input type="text" asp-for="CompanyId" id="CompanyName" autocomplete="CompanyName" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-2xl border-gray-300 rounded-md">
+                <label asp-for="CompanyId" class="block text-sm font-medium text-gray-700">Compnay ID</label>
+                <select asp-for="CompanyId" asp-items="@(new SelectList(Model.Companies,"Id","CompanyName"))" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-base border-gray-300 rounded-md py-2"></select>
                 <span asp-validation-for="CompanyId" class="text-red-500"></span>
               </div>
-
 
               <div class="col-span-6 sm:col-span-3">
                 <label asp-for="Address" class="block text-sm font-medium text-gray-700">Address</label>
@@ -192,8 +107,8 @@
                 <span asp-validation-for="AssociatedEmployee" class="text-red-500"></span>
               </div>
             <div class="col-span-6 sm:col-span-3">
-                <label asp-for="WarehouseId" class="block text-sm font-medium text-gray-700">Warehouse Name</label>
-                <input type="text" asp-for="WarehouseId" id="WarehouseName" autocomplete="WarehouseName" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-2xl border-gray-300 rounded-md">
+                <label asp-for="WarehouseId" class="block text-sm font-medium text-gray-700">Warehouse ID</label>
+                <input type="text" asp-for="WarehouseId" id="WarehouseId" autocomplete="WarehouseId" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-2xl border-gray-300 rounded-md">
                 <span asp-validation-for="WarehouseId" class="text-red-500"></span>
               </div>
             </div>
@@ -207,6 +122,7 @@
   </div>
 </div>
 </div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
