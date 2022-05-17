@@ -5,9 +5,11 @@ using AutoMapper;
 using DatabaseLibrary.SQL;
 using Domain.Model;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using WMS.Data;
 using WMSWebApp.ViewModels;
-
+using System.Linq;
 
 namespace WMSWebApp.Controllers
 {
@@ -16,13 +18,15 @@ namespace WMSWebApp.Controllers
         private readonly IBranchHelper _BranchHelper;
         private readonly IMapper _mapper;
         private readonly ICompanyHelper _companyService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
 
-        public BranchController(IBranchHelper BranchHelper, IMapper mapper, ICompanyHelper companyService)
+        public BranchController(IBranchHelper BranchHelper, IMapper mapper, ICompanyHelper companyService, UserManager<ApplicationUser> userManager)
         {
             _BranchHelper = BranchHelper;
             _mapper = mapper;
             _companyService = companyService;
+            _userManager = userManager;
         }
 
 
@@ -67,6 +71,8 @@ namespace WMSWebApp.Controllers
             var comp=_companyService.GetAllCompanies();
             var companies=_mapper.Map<List<Company>>(comp);
             model.Companies = companies;
+            var user = _userManager.Users.ToList();
+            model.Users=user;
             return View(model);
         }
 
