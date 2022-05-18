@@ -12,5 +12,6 @@ namespace WMS.Data
         public static string Itemtable => "Item";
         public static string SubItemtable => "SubItem";
         public static string BranchTableName => "Branch";
+        public static string WarehouseTable => "Warehouse";
     }
 }
