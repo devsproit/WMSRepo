@@ -5,18 +5,18 @@
 }
 <div class="pt-6 sm:pt-8 lg:pt-12">
     <nav class="bg-white border-b border-gray-200 flex" aria-label="Breadcrumb">
-  <ol role="list" class="max-w-screen-xl w-full mx-auto px-4 flex space-x-4 sm:px-6 lg:px-8">
-    <li class="flex">
-      <div class="flex items-center">
-        <a asp-action="Index" class="text-gray-400 hover:text-gray-500">
-          <!-- Heroicon name: solid/home -->
-          <svg class="flex-shrink-0 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-          </svg>
-          <span class="sr-only">Home</span>
-        </a>
-      </div>
-    </li>
+        <ol role="list" class="max-w-screen-xl w-full mx-auto px-4 flex space-x-4 sm:px-6 lg:px-8">
+            <li class="flex">
+                <div class="flex items-center">
+                    <a asp-action="Index" class="text-gray-400 hover:text-gray-500">
+                        <!-- Heroicon name: solid/home -->
+                        <svg class="flex-shrink-0 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                        </svg>
+                        <span class="sr-only">Home</span>
+                    </a>
+                </div>
+            </li>
 
     <li class="flex">
       <div class="flex items-center">
@@ -38,9 +38,9 @@
     </nav>
     <div class="p-10">
         <div class="flex justify-between">
-          <div class="min-w-0">
-            <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">Create New Branch</h2>
-          </div>
+            <div class="min-w-0">
+                <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">Create New Branch</h2>
+            </div>
         </div>
     </div>
 
@@ -52,16 +52,36 @@
         <div class="shadow overflow-hidden">
           <div class="px-4 py-5 bg-gray-50 sm:p-6">
             <div class="grid grid-cols-6 gap-6">
-               @* <div class="col-span-6 sm:col-span-3">
+                <div class="col-span-6 sm:col-span-3">
                     <label asp-for="ScreenCode" class="block text-sm font-medium text-gray-700">Screen Code</label>
                     <input type="text" asp-for="ScreenCode" id="ScreenCode" autocomplete="given-name" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-2xl border-gray-300 rounded-md">
                     <span asp-validation-for="ScreenCode" class="text-red-500"></span>  
-               </div>*@
+               </div>
               <div class="col-span-6 sm:col-span-3">
                 <label asp-for="BranchCode"class="block text-sm font-medium text-gray-700">Branch Code</label>
                 <input type="text" asp-for="BranchCode" id="BranchCode" autocomplete="BranchCode" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-2xl border-gray-300 rounded-md">
                 <span asp-validation-for="BranchCode" class="text-red-500"></span>
               </div>
+
+
+            <div class=row>
+                <div class="form-group col-md-6">
+                    <div class="row">
+                        <label asp-for="EmailIdBranch" class="control-label col-md-4"></label>
+                        <input asp-for="EmailIdBranch" class="form-control col-md-4" />   
+                    </div>                    
+                    <span asp-validation-for="EmailIdBranch" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="row">
+                        <label asp-for="AssociatedEmployee" class="control-label col-md-4"></label>
+                       <select asp-for="AssociatedEmployee" class="form-control col-md-4" asp-items="@(new SelectList(Model.Users,"Id","Email"))" >
+
+                       </select>
+                    </div>                    
+                    <span asp-validation-for="AssociatedEmployee" class="text-danger"></span>
+                </div>                
+            </div>
 
               <div class="col-span-6 sm:col-span-3">
                 <label asp-for="BranchName" class="block text-sm font-medium text-gray-700">Branch Name</label>
@@ -69,10 +89,11 @@
                 <span asp-validation-for="BranchName" class="text-red-500"></span>
               </div>
               <div class="col-span-6 sm:col-span-3">
-                <label asp-for="CompanyId" class="block text-sm font-medium text-gray-700">Compnay ID</label>
-                <select asp-for="CompanyId" asp-items="@(new SelectList(Model.Companies,"Id","CompanyName"))" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-base border-gray-300 rounded-md py-2"></select>
+                <label asp-for="CompanyId" class="block text-sm font-medium text-gray-700">Compnay Name</label>
+                <input type="text" asp-for="CompanyId" id="CompanyName" autocomplete="CompanyName" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-2xl border-gray-300 rounded-md">
                 <span asp-validation-for="CompanyId" class="text-red-500"></span>
               </div>
+
 
               <div class="col-span-6 sm:col-span-3">
                 <label asp-for="Address" class="block text-sm font-medium text-gray-700">Address</label>
@@ -85,16 +106,16 @@
                 <span asp-validation-for="Location" class="text-red-500"></span>
               </div>
 
-              <div class="col-span-6 sm:col-span-3">
-                <label asp-for="ContactPersonBranch" class="block text-sm font-medium text-gray-700">Contact Person Branch</label>
-                <input type="text" asp-for="ContactPersonBranch" id="ContactPersonBranch" autocomplete="ContactPersonBranch" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-2xl border-gray-300 rounded-md">
-                <span asp-validation-for="ContactPersonBranch" class="text-red-500"></span>
-              </div>
-              <div class="col-span-6 sm:col-span-3">
-                <label asp-for="ContactNumberBranch" class="block text-sm font-medium text-gray-700">Contact Number Branch</label>
-                <input type="text" asp-for="ContactNumberBranch" id="Location" autocomplete="ContactNumberBranch" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-2xl border-gray-300 rounded-md">
-                <span asp-validation-for="ContactNumberBranch" class="text-red-500"></span>
-              </div>
+                                <div class="col-span-6 sm:col-span-3">
+                                    <label asp-for="ContactPersonBranch" class="block text-sm font-medium text-gray-700">Contact Person Branch</label>
+                                    <input type="text" asp-for="ContactPersonBranch" id="ContactPersonBranch" autocomplete="ContactPersonBranch" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-2xl border-gray-300 rounded-md">
+                                    <span asp-validation-for="ContactPersonBranch" class="text-red-500"></span>
+                                </div>
+                                <div class="col-span-6 sm:col-span-3">
+                                    <label asp-for="ContactNumberBranch" class="block text-sm font-medium text-gray-700">Contact Number Branch</label>
+                                    <input type="text" asp-for="ContactNumberBranch" id="Location" autocomplete="ContactNumberBranch" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-2xl border-gray-300 rounded-md">
+                                    <span asp-validation-for="ContactNumberBranch" class="text-red-500"></span>
+                                </div>
 
               <div class="col-span-6 sm:col-span-3">
                 <label asp-for="EmailIdBranch" class="block text-sm font-medium text-gray-700">Email Id Branch</label>
@@ -107,8 +128,8 @@
                 <span asp-validation-for="AssociatedEmployee" class="text-red-500"></span>
               </div>
             <div class="col-span-6 sm:col-span-3">
-                <label asp-for="WarehouseId" class="block text-sm font-medium text-gray-700">Warehouse ID</label>
-                <input type="text" asp-for="WarehouseId" id="WarehouseId" autocomplete="WarehouseId" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-2xl border-gray-300 rounded-md">
+                <label asp-for="WarehouseId" class="block text-sm font-medium text-gray-700">Warehouse Name</label>
+                <input type="text" asp-for="WarehouseId" id="WarehouseName" autocomplete="WarehouseName" class="mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-2xl border-gray-300 rounded-md">
                 <span asp-validation-for="WarehouseId" class="text-red-500"></span>
               </div>
             </div>
@@ -125,5 +146,7 @@
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

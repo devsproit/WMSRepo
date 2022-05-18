@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Model;
 using WMSWebApp.ViewModels;
+using Domain.Model.Masters;
 
 namespace WMSWebApp.Models
 {
@@ -28,6 +29,11 @@ namespace WMSWebApp.Models
 
             CreateMap<SubItemDb, SubItem>();
             CreateMap<SubItem, SubItemDb>();
+
+            // Ware house
+
+            CreateMap<Warehouse, WarehouseModel>();
+            CreateMap<WarehouseModel, Warehouse>();
         }
     }
 }
