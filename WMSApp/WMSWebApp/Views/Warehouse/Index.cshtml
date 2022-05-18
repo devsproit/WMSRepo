@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WMSWebApp.ViewModels.Warehouse>
+﻿@model IEnumerable<WMSWebApp.ViewModels.WarehouseModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -27,10 +27,10 @@
                 @Html.DisplayNameFor(model => model.Location)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ContactMaintainenceIncharge)
+                @Html.DisplayNameFor(model => model.ContactPerson)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ContactNumberIncharge)
+                @Html.DisplayNameFor(model => model.ContactNumber)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.TotalSpaceSizeType)
@@ -57,10 +57,10 @@
                 @Html.DisplayFor(modelItem => item.Location)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ContactMaintainenceIncharge)
+                @Html.DisplayFor(modelItem => item.ContactPerson)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ContactNumberIncharge)
+                @Html.DisplayFor(modelItem => item.ContactNumber)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TotalSpaceSizeType)
