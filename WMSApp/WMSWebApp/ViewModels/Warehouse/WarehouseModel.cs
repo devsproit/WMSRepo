@@ -19,7 +19,7 @@ namespace WMSWebApp.ViewModels
         [Display(Name = "Total SpaceSize Type")]
         public string TotalSpaceSizeType { get; set; }
         [Display(Name = "Total Space Size")]
-        public string TotalSpaceSize { get; set; }
+        public int TotalSpaceSize { get; set; }
         
         public List<WarehouseZoneAreaModel> ZoneAreaList { get; set; }
 

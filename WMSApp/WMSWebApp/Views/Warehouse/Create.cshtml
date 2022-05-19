@@ -94,22 +94,7 @@
                             <label>Zone Name</label>
 
                         </div>
-                        <div class="col-md-2">
-                            <label>Area Type</label>
-
-                        </div>
-                        <div class="col-md-2">
-                            <label>AreaCode</label>
-
-                        </div>
-                        <div class="col-md-2">
-                            <label>Area Name</label>
-
-                        </div>
-                        <div class="col-md-2">
-                            <label>Area Size</label>
-
-                        </div>
+                      
                     </div>
                     <input type="hidden" value="0" id="zoneno" />
                     <div class="row" id="zone_0">
@@ -119,23 +104,7 @@
                         <div class="col-md-2">
                             <input asp-for="ZoneAreaList[0].ZoneName" class="form-control" placeholder="Zone Name" />
                         </div>
-                        <div class="col-md-2">
-                            <select asp-for="ZoneAreaList[0].AreaType" class="form-control">
-                                <option value="Area">Area</option>
-                                <option value="Asile">Asile Area</option>
-                                <option value="Office_Area">Office Area</option>
-                                <option value="Other_Area">Other Area</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <input asp-for="ZoneAreaList[0].AreaCode" class="form-control" placeholder="Area Code" required autocomplete="off" autocorrect="off">
-                        </div>
-                        <div class="col-md-2">
-                            <input asp-for="ZoneAreaList[0].AreaName" class="form-control" placeholder="Area Name" required autocomplete="off" autocorrect="off">
-                        </div>
-                        <div class="col-md-2">
-                            <input asp-for="ZoneAreaList[0].Size" class="form-control" placeholder="Area Size" required autocomplete="off" autocorrect="off">
-                        </div>
+                       
                     </div>
                     <hr />
                 </div>
@@ -150,8 +119,8 @@
             </div>
             <hr>
             <div class="row">
-                <div class="col-md-1">
-                    <button class="btn btn-primary" type="submit"> Save</button>
+                <div class="col-md-2">
+                    <button class="btn btn-primary" type="submit"> Save & Next</button>
                 </div>
             </div>
         </form>
@@ -186,23 +155,7 @@
                 '    <div class="col-md-2">' +
                 '        <input class="form-control" placeholder="Zone Name" type="text" id="ZoneAreaList_' + no + '__ZoneName" name="ZoneAreaList[' + no + '].ZoneName" value="">' +
                 '    </div>' +
-                '    <div class="col-md-2">' +
-                '        <select class="form-control" id="ZoneAreaList_' + no + '__AreaType" name="ZoneAreaList[' + no + '].AreaType">' +
-                '            <option value="Area">Area</option>' +
-                '            <option value="Asile">Asile Area</option>' +
-                '            <option value="Office_Area">Office Area</option>' +
-                '            <option value="Other_Area">Other Area</option>' +
-                '        </select>' +
-                '    </div>' +
-                '    <div class="col-md-2">' +
-                '        <input class="form-control" placeholder="Area Code" required="" autocomplete="off" autocorrect="off" type="text" id="ZoneAreaList_' + no + '__AreaCode" name="ZoneAreaList[' + no + '].AreaCode" value="">' +
-                '    </div>' +
-                '    <div class="col-md-2">' +
-                '        <input class="form-control" placeholder="Area Name" required="" autocomplete="off" autocorrect="off" type="text" id="ZoneAreaList_' + no + '__AreaName" name="ZoneAreaList[' + no + '].AreaName" value="">' +
-                '    </div>' +
-                '    <div class="col-md-2">' +
-                '        <input class="form-control" placeholder="Area Size" required="" autocomplete="off" autocorrect="off" type="text" id="ZoneAreaList_' + no + '__Size" name="ZoneAreaList[' + no + '].Size" value="">' +
-                '    </div>' +
+               
                 '</div>';
             $(d).insertAfter("#zone_" + totalpax);
             $("#zoneno").val(no);
@@ -217,5 +170,7 @@
             }
 
         }
+
+
     </script>
     }
