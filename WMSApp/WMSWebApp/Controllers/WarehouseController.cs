@@ -31,7 +31,8 @@ public class WarehouseController : Controller
     // GET: WarehouseController
     public ActionResult Index()
     {
-        
+        var warehouses = _warehouseService.GetAllWarehouse(0, 20).ToList();
+        _warehouseList = _mapper.Map<List<WarehouseModel>>(warehouses);
         return View(_warehouseList);
     }
 
