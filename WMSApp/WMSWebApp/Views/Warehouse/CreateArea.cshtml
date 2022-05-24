@@ -1,0 +1,196 @@
+﻿@using WMSWebApp.ViewModels
+@model WarehouseAreaList
+@{
+    ViewData["Title"] = "CreateArea";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+<div class="container mt-10 sm:mt-0">
+    <div class="px-10 mb-10">
+        <div class="mt-5 md:mt-0 md:col-span-2">
+            <form asp-action="CreateArea" asp-controller="Warehouse" id="areaform">
+
+                <div asp-validation-summary="ModelOnly" class="text-red-500"></div>
+                <input asp-for="WarehouseId" type="hidden" />
+                <input type="hidden" value="0" id="zoneno" />
+                <input type="hidden" value="@ViewBag.AvailableSize" id="AvailableSize" />
+                <div class="row">
+                    <h3 class="text-info">Available Space @ViewBag.AvailableSize</h3>
+                </div>
+                <div class="row" id="zone_0">
+                    <div class="form-group col-md-4">
+
+                        <label class="control-label col-md-4">Zone</label>
+                        <select asp-for="WarehouseAreas[0].ZoneId" class="form-control"></select>
+
+                        <span asp-validation-for="WarehouseAreas[0].ZoneId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                        <label asp-for="WarehouseAreas[0].AreaCode" class="control-label "></label>
+                        <input asp-for="WarehouseAreas[0].AreaCode" class="form-control" required />
+
+                        <span asp-validation-for="WarehouseAreas[0].AreaCode" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                        <label asp-for="WarehouseAreas[0].AreaName" class="control-label "></label>
+                        <input asp-for="WarehouseAreas[0].AreaName" class="form-control " required />
+
+                        <span asp-validation-for="WarehouseAreas[0].AreaName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                        <label asp-for="WarehouseAreas[0].AreaType" class="control-label "></label>
+                         <select class="form-control" asp-for="WarehouseAreas[0].AreaType">
+                            <option value="Area">Area</option>
+                            <option value="Aisle">Aisle</option>
+                            <option value="Office Area">Office Area</option>
+                            <option value="Other Area">Other Area</option>
+                        </select>
+
+                        <span asp-validation-for="WarehouseAreas[0].AreaType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+
+                        <label asp-for="WarehouseAreas[0].Size" class="control-label "></label>
+                        <input asp-for="WarehouseAreas[0].Size" class="form-control" required />
+
+                        <span asp-validation-for="WarehouseAreas[0].Size" class="text-danger"></span>
+                    </div>
+                </div>
+                <hr>
+                <br />
+                <div class="row">
+                    <div class="col-md-1">
+                        <button type="button" class="btn btn-primary" onclick="addzone()"><i class="fas fa-plus"></i> </button>
+
+                    </div>
+                    <div class="col-md-1">
+                        <button type="button" class="btn btn-danger" onclick="removezone()"><i class="fas fa-times"></i> </button>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-2">
+                        <button class="btn btn-primary" type="submit"> Save </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+
+        $(document).ready(function() {
+            //CreateArea?warehouseid=13
+            zone('WarehouseAreas_0__ZoneId');
+            $("form").data("validator").settings.submitHandler = function(form) {
+
+                var area = 0;
+                var noofarea = Number($("#zoneno").val()) + 1;
+                console.log(noofarea);
+                for (var i = 0; i < noofarea; i++) {
+                    area = area + Number($('#WarehouseAreas_' + i + '__Size').val());
+
+                }
+                console.log(area);
+                var available = Number($("#AvailableSize").val());
+                console.log(area);
+                if (area > available) {
+                    alert("Provided area can not more then available area.");
+                    return false;
+
+                }
+                form.submit();
+            }
+
+
+        });
+
+
+        //function initialize() {
+        //    var input = document.getElementById('Location');
+        //    new google.maps.places.Autocomplete(input);
+        //}
+
+        //google.maps.event.addDomListener(window, 'load', initialize);
+
+        var addzone = function() {
+            var totalpax = Number($("#zoneno").val());
+            var no = (totalpax + 1);
+            var d = '<br/><div class="row" id="zone_' + no + '">' +
+                '<div class="form-group col-md-6">' +
+                '   ' +
+                '        <label class="control-label col-md-4">Zone</label>' +
+                '        <select class="form-control" data-val="true" data-val-required="The ZoneId field is required." id="WarehouseAreas_' + no + '__ZoneId" name="WarehouseAreas[' + no + '].ZoneId"></select>' +
+                '    ' +
+                '    <span class="text-danger field-validation-valid" data-valmsg-for="WarehouseAreas[' + no + '].ZoneId" data-valmsg-replace="true"></span>' +
+                '</div>' +
+                '<div class="form-group col-md-6">' +
+                '   ' +
+                '        <label class="control-label " for="WarehouseAreas_' + no + '__AreaCode">AreaCode</label>' +
+                '        <input class="form-control" type="text" data-val="true" data-val-required="The AreaCode field is required." id="WarehouseAreas_' + no + '__AreaCode" name="WarehouseAreas[' + no + '].AreaCode" value="">' +
+                '   ' +
+                '    <span class="text-danger field-validation-valid" data-valmsg-for="WarehouseAreas[' + no + '].AreaCode" data-valmsg-replace="true"></span>' +
+                '</div>' +
+                '<div class="form-group col-md-6">' +
+                '    ' +
+                '        <label class="control-label " for="WarehouseAreas_' + no + '__AreaName">AreaName</label>' +
+                '        <input class="form-control " type="text" data-val="true" data-val-required="The AreaName field is required." id="WarehouseAreas_' + no + '__AreaName" name="WarehouseAreas[' + no + '].AreaName" value="">' +
+                '   ' +
+                '    <span class="text-danger field-validation-valid" data-valmsg-for="WarehouseAreas[' + no + '].AreaName" data-valmsg-replace="true"></span>' +
+                '</div>' +
+                '<div class="form-group col-md-6">' +
+                '   ' +
+                '        <label class="control-label " for="WarehouseAreas_' + no + '__Size">Size</label>' +
+                '        <input class="form-control" type="text" data-val="true" data-val-required="The Size field is required." id="WarehouseAreas_' + no + '__Size" name="WarehouseAreas[' + no + '].Size" value="">' +
+                '    ' +
+                '    <span class="text-danger field-validation-valid" data-valmsg-for="WarehouseAreas[' + no + '].Size" data-valmsg-replace="true"></span>' +
+                '</div>' +
+                '</div>';
+            $(d).insertAfter("#zone_" + totalpax);
+            $("#zoneno").val(no);
+
+            zone('WarehouseAreas_' + no + '__ZoneId');
+        }
+        var removezone = function() {
+            var totalpax = Number($("#zoneno").val());
+            if (Number(totalpax) > 0) {
+                $("#zone_" + totalpax).remove();
+                $("#zoneno").val(Number(totalpax) - 1)
+            }
+
+        }
+        var zone = function(id) {
+            var settings = {
+                "url": "@Url.Action("GetZone", "Warehouse",new {warehouseid= @Model.WarehouseId})",
+                "method": "GET",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+
+            };
+
+            $.ajax(settings).done(function(response) {
+                console.log(response);
+                for (var i = 0; i < response.length; i++) {
+
+                    $("#" + id).append('<option value="' + response[i].id + '">' + response[i].zoneName + '</option>')
+                }
+
+            });
+        }
+
+
+    </script>
+}

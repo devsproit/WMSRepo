@@ -15,12 +15,21 @@ namespace Domain.Model.Masters
         public string Location { get; set; }
         public string ContactPerson { get; set; }
         public string ContactNumber { get; set; }
+        public int TotalSpaceSize { get; set; }
 
         private ICollection<WarehouseZoneArea> _warehouseZoneAreas;
-        public ICollection<WarehouseZoneArea> WarehouseZoneAreas
+        public virtual ICollection<WarehouseZoneArea> WarehouseZoneAreas
         {
             get=>_warehouseZoneAreas ??= new List<WarehouseZoneArea>();
             protected set => _warehouseZoneAreas = value;
+        }
+
+        private ICollection<WarehouseZone> _warehouseZones;
+        public virtual ICollection<WarehouseZone> WarehouseZones
+        {
+            get => _warehouseZones ??= new List<WarehouseZone>();
+            protected set => _warehouseZones = value;
+
         }
     }
 }

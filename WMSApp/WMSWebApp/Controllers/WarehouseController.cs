@@ -5,6 +5,8 @@ using WMSWebApp.ViewModels;
 using Application.Services.WarehouseMaster;
 using AutoMapper;
 using Domain.Model.Masters;
+using System.Linq;
+
 namespace WMSWebApp.Controllers;
 public class WarehouseController : Controller
 {
@@ -29,6 +31,8 @@ public class WarehouseController : Controller
     // GET: WarehouseController
     public ActionResult Index()
     {
+        var warehouses = _warehouseService.GetAllWarehouse(0, 20).ToList();
+        _warehouseList = _mapper.Map<List<WarehouseModel>>(warehouses);
         return View(_warehouseList);
     }
 
@@ -55,24 +59,65 @@ public class WarehouseController : Controller
             var warehouse = _mapper.Map<Warehouse>(model);
             foreach (var zoneArea in model.ZoneAreaList)
             {
-                var area = new WarehouseZoneArea()
+                var area = new WarehouseZone()
                 {
-                    AreaCode = zoneArea.AreaCode,
-                    AreaName = zoneArea.AreaName,
-                    AreaType = zoneArea.AreaType,
-                    Size = zoneArea.Size,
+
                     Warehouse = warehouse,
                     ZoneCode = zoneArea.ZoneCode,
                     ZoneName = zoneArea.ZoneName
                 };
+                warehouse.WarehouseZones.Add(area);
             }
-            _warehouseService.Insert(warehouse);
-            return RedirectToAction(nameof(Index));
+            int warehouseId = _warehouseService.Insert(warehouse);
+            return RedirectToAction("CreateArea", new { warehouseid = warehouseId });
         }
         catch
         {
             return View();
         }
+    }
+
+    public IActionResult CreateArea(int warehouseid)
+    {
+        var warehouse = _warehouseService.GetById(warehouseid);
+        if (warehouse == null)
+        {
+            return RedirectToAction("Index");
+        }
+        else
+        {
+            WarehouseAreaList model = new WarehouseAreaList();
+            //WarehouseArea model = new WarehouseArea();
+            model.WarehouseId = warehouseid;
+            //model.AvailableArea = warehouse.TotalSpaceSize;
+            ////model.ZoneList = _warehouseService.GetAllZone(warehouseid, 0, int.MaxValue).ToList();
+            //areaList.WarehouseAreas.Add(model);
+
+            ViewBag.AvailableSize = warehouse.TotalSpaceSize;
+            return View(model);
+        }
+    }
+
+    [HttpGet]
+    public IActionResult GetZone(int warehouseid)
+    {
+        var zone = _warehouseService.GetAllZone(warehouseid, 0, int.MaxValue).ToList();
+        List<WarehouseZoneAreaModel> models = _mapper.Map<List<WarehouseZoneAreaModel>>(zone);
+
+        return Json(models);
+
+    }
+
+    [HttpPost]
+    public IActionResult CreateArea(WarehouseAreaList model)
+    {
+        var areas = _mapper.Map<List<WarehouseZoneArea>>(model.WarehouseAreas);
+        foreach (var item in areas)
+        {
+            item.WarehouseId = model.WarehouseId;
+        }
+        _warehouseService.InsertArea(areas);
+        return RedirectToAction("Index");
     }
 
     // GET: WarehouseController/Edit/5

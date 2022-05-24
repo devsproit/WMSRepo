@@ -34,6 +34,10 @@ namespace WMSWebApp.Models
 
             CreateMap<Warehouse, WarehouseModel>();
             CreateMap<WarehouseModel, Warehouse>();
+            CreateMap<WarehouseZoneAreaModel, WarehouseZone>();
+            CreateMap<WarehouseZone, WarehouseZoneAreaModel>();
+            CreateMap<WarehouseArea, WarehouseZoneArea>();
+            CreateMap<WarehouseZoneArea, WarehouseArea>();
         }
     }
 }
