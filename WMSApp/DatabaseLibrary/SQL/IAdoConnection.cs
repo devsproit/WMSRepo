@@ -9,4 +9,6 @@ public interface IAdoConnection
     DataSet GetMutipleDatatableFromSqlWithSP(string SPName, List<SqlParameter> parameterlist = null);
     int InsertUpdateWithSP(string spName, List<SqlParameter> parameterlist);
 
+    DataTable bulkImport(string SPName, DataTable dataTable);
+
 }

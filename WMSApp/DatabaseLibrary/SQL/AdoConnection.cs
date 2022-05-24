@@ -214,4 +214,34 @@ public class AdoConnection : IAdoConnection
         }
         return SqlDataTable;
     }
+
+    public DataTable bulkImport(string SPName, DataTable dt)
+    {
+        DataTable SqlDataTable = null;
+
+        if (!string.IsNullOrEmpty(SPName))
+        {
+            using (IDbConnection Connector = GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand(SPName, (SqlConnection)Connector);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@tblTypeIntransit",dt);
+                try
+                {
+                    Connector.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+                finally
+                {
+                    Connector.Dispose();
+                }
+            }
+        }
+        return SqlDataTable;
+
+    }
 }

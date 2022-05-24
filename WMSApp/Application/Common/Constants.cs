@@ -32,5 +32,9 @@ internal class Constants
     public const string CreateNewSubItemSP = @"[WMS].[SubItemInsert]";
     public const string DeleteSubItemByIdSP = @"sp";
 
+    public const string CreateNewIntrasItSP = @"[WMS].[IntrasitInsert]";
+    public const string GetAllIntrasitSP = @"[WMS].[IntrasitGetAll]";
+
+    public const string BulkImportintransit = @"[dbo].[spBulkImportIntransit]";
 
 }

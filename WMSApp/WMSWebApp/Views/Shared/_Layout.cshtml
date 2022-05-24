@@ -6,9 +6,12 @@
     <title>@ViewData["Title"] - WMS</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    @*<link rel="stylesheet" href="~/lib/fontawesome.css" />*@
+    <script src="~/js/dist/jquery.js"></script>
+    <script src="~/js/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/dist/jquery.validate.min.js"></script>
+	<script src="~/js/dist/jquery.validate.unobtrusive.min.js"></script>
+	<script src="~/js/dist/jquery.unobtrusive-ajax.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" crossorigin="anonymous">
-  
 </head>
 <body>
     <header>
@@ -25,46 +28,15 @@
                             <a class="nav-link text-dark invisible" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
                         </li>
                     </ul>
-
-                    @* @if (User.Identity.IsAuthenticated)
-                    {
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home.</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
-                        </li>
-                    </ul>
-                    }
-                    else
-                    {
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
-                            </li>
-                        </ul>
-                    }*@
                 </div>
             </div>
         </nav>
     </header>
         <div class="page-wrapper chiller-theme toggled">
- 
-
         <nav id="sidebar" class="sidebar-wrapper">
     <div class="sidebar-content">
       <div class="sidebar-brand">
         <a href="#">WMS Portal</a>
-       @* <div id="close-sidebar">
-          <i class="fas fa-times"></i>
-        </div>*@
       </div>
       <div class="sidebar-header">
           @if (User.Identity.IsAuthenticated)
@@ -72,32 +44,33 @@
               <div class="user-pic">
                 <img class="img-responsive img-rounded" src="~/lib/user.jpg" alt="User picture">
               </div>
+
                 <div class="user-info">
-                  <span class="user-name">
-                    <strong>@User.Identity.Name</strong>
-                  </span>
-                  <span class="user-role">User</span>
-                  <span class="user-status">
-                    <i class="fa fa-circle"></i>
-                    <span>Online</span>
-                  </span class="user-status">
-                  <span>
-                      <i class="fa fa-power-off"></i>
-                      <a class="" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
-                  </span>
+                      <span class="user-name">
+                        <strong>@User.Identity.Name</strong>
+                      </span>
+                      <span class="user-role">User</span>
+                      <span class="user-status">
+                        <i class="fa fa-circle"></i>
+                        <span>Online</span>
+                      </span class="user-status">
+                      <span>
+                          <i class="fa fa-power-off"></i>
+                          <a class="" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                      </span>
                 </div>
-             }
-             else
-                    {
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
-                            </li>
-                        </ul>
-                    }
+          }
+          else
+          {
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                </li>
+            </ul>
+          }
 
       </div>
       <!-- sidebar-header  -->      
@@ -110,61 +83,38 @@
             <a href="#">
               <i class="fa fa-tachometer-alt"></i>
               <span>Masters</span>
-              @*<span class="badge badge-pill badge-warning">New</span>*@
             </a>
             <div class="sidebar-submenu">
               <ul>
                 <li>
-@*                  <a href="#">Dashboard
-                    <span class="badge badge-pill badge-success">Pro</span>
-                  </a>
-*@                  <a asp-area="" asp-controller="Companies" asp-action="Index">Associated Company List.</a>
+                  <a asp-area="" asp-controller="Companies" asp-action="Index">Associated Company List.</a>
                 </li>
                 <li>
-                  @*<a href="#">Add New</a>*@
                   <a asp-area="" asp-controller="Companies" asp-action="Create">Add New Company</a>
                 </li>  
                 <li>
-                  @*<a href="#">Add New</a>*@
                   <a asp-area="" asp-controller="Branch" asp-action="Create">Add New Branch</a>
                 </li>
                  <li>
-@*                  
-*@                  <a asp-area="" asp-controller="Branch" asp-action="Index">Branch List</a>
+                  <a asp-area="" asp-controller="Branch" asp-action="Index">Branch List</a>
                 </li>
-
                 <li>
-                  @*<a href="#">Add New</a>*@
-                  <a asp-area="" asp-controller="Customer" asp-action="Create">Add New Customer</a>
+                  <a asp-area="" asp-controller="Customer" asp-action="Create" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#mainBody">Add New Customer</a>
                 </li>
                  <li>
-@*                  
-*@                  <a asp-area="" asp-controller="Customer" asp-action="Index">Customer List</a>
+                  <a asp-area="" asp-controller="Customer" asp-action="Index">Customer List</a>
                 </li>
-
-
                 <li>
-                  @*<a href="#">Add New</a>*@
                   <a asp-area="" asp-controller="Item" asp-action="Create">Add New Item</a>
                 </li>
                  <li>
-@*                  
-*@                  <a asp-area="" asp-controller="Item" asp-action="Index">Item List</a>
+                  <a asp-area="" asp-controller="Item" asp-action="Index">Item List</a>
                 </li>
-
                 <li>
-                  @*<a href="#">Add New</a>*@
                   <a asp-area="" asp-controller="SubItem" asp-action="Create">Add New SubItem</a>
                 </li>
                  <li>
-@*                  
-*@                  <a asp-area="" asp-controller="SubItem" asp-action="Index">SubItem List</a>
-                </li>         
-                <li>
-                  <a asp-area="" asp-controller="Warehouse" asp-action="Create">Add New Warehouse</a>
-                </li>
-                 <li>
-                  <a asp-area="" asp-controller="Warehouse" asp-action="Index">Warehouse List</a>
+                  <a asp-area="" asp-controller="SubItem" asp-action="Index">SubItem List</a>
                 </li>
               </ul>
             </div>
@@ -178,9 +128,7 @@
             <div class="sidebar-submenu">
               <ul>
                 <li>
-                  <a href="#">Products
-
-                  </a>
+                  <a asp-area="" asp-controller="Intrasit" asp-action="Create"  data-ajax="true" data-ajax-mode="replace" data-ajax-update="#mainBody">Add New Intrasit</a>
                 </li>
                 <li>
                   <a href="#">Orders</a>
@@ -301,7 +249,7 @@
   </nav>
   <div class="page-content">
     <div class="container-fluid">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3" id="mainBody">
             @RenderBody()
         </main>
     </div>
@@ -350,10 +298,6 @@ $("#close-sidebar").click(function() {
 $("#show-sidebar").click(function() {
   $(".page-wrapper").addClass("toggled");
 });
-
-
-   
-   
 });
     </script>
    

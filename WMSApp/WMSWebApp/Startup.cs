@@ -56,7 +56,7 @@ namespace WMSWebApp
             services.AddTransient<ICustomerHelper,CustomerHelper>();
             services.AddTransient<IItemHelper, ItemHelper>();
             services.AddTransient<ISubItemHelper, SubItemHelper>();
-
+            services.AddTransient<IIntrasitHelper, IntrasitHelper>();
             services.AddControllersWithViews();
             //services.AddControllers();
             services.AddControllersWithViews();           
