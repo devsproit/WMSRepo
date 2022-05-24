@@ -81,7 +81,7 @@
       overflow-y: visible !important;
     }
     </style>
-
+    @RenderSection("Style",required: false)
 </head>
 <body>
     <header>
@@ -261,6 +261,9 @@
                 </li>
                 <li>
                   <a href="#">Credit cart</a>
+                </li>
+                 <li>
+                  <a asp-action="Create" asp-controller="Grn">GRN</a>
                 </li>
               </ul>
             </div>
