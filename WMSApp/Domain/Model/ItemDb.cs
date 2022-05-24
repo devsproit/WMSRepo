@@ -7,9 +7,9 @@ using WMS.Core;
 using Domain.Model.CompanyMaster;
 namespace Domain.Model
 {
-    public class ItemDb:BaseEntity
+    public class ItemDb : BaseEntity
     {
-        
+
         public string CompanyName { get; set; }
         public string ItemName { get; set; }
         public string ItemCode { get; set; }
@@ -17,12 +17,12 @@ namespace Domain.Model
         private ICollection<CompanyItemsMapping> _companyItemsMappings;
         public virtual ICollection<CompanyItemsMapping> CompanyItemsMappings
         {
-            get => _companyItemsMappings ??= new List<CompanyItemsMapping>();
+            get => _companyItemsMappings ?? (_companyItemsMappings = new List<CompanyItemsMapping>());
             protected set => _companyItemsMappings = value;
         }
-             
 
 
-        
+
+
     }
 }

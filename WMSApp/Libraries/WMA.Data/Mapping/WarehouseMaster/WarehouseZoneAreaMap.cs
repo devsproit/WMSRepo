@@ -9,11 +9,15 @@ namespace WMS.Data.Mapping.WarehouseMaster
         #region Methods
         public override void Configure(EntityTypeBuilder<WarehouseZoneArea> builder)
         {
-            builder.ToTable(nameof(WarehouseZoneAreaMap));
+            builder.ToTable(nameof(WarehouseZoneArea));
             builder.HasKey(key => key.Id);
             builder.HasOne(warehousezone => warehousezone.Warehouse)
                 .WithMany(warehouse => warehouse.WarehouseZoneAreas)
                 .HasForeignKey(fkey => fkey.WarehouseId)
+                .IsRequired();
+            builder.HasOne(warehousezonearea => warehousezonearea.WarehouseZone)
+                .WithMany(warehousezone => warehousezone.WarehouseZoneAreas)
+                .HasForeignKey(fkey => fkey.ZoneId)
                 .IsRequired();
 
             base.Configure(builder);
