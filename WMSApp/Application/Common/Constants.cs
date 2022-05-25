@@ -27,12 +27,17 @@
         public const string CreateNewItemSP = @"[WMS].[ItemInsert]";
         public const string DeleteItemByIdSP = @"sp";
 
-        public const string GetAllSubItemSP = @"[WMS].[SubItemGetAll]";
-        public const string GetSubItemIdSP = @"[WMS].[SubItemGetById]";
-        public const string UpdateSubItemByIdSP = @"[WMS].[SubItemUpdate]";
-        public const string CreateNewSubItemSP = @"[WMS].[SubItemInsert]";
-        public const string DeleteSubItemByIdSP = @"sp";
+    public const string GetAllSubItemSP = @"[WMS].[SubItemGetAll]";
+    public const string GetSubItemIdSP = @"[WMS].[SubItemGetById]";
+    public const string UpdateSubItemByIdSP = @"[WMS].[SubItemUpdate]";
+    public const string CreateNewSubItemSP = @"[WMS].[SubItemInsert]";
+    public const string DeleteSubItemByIdSP = @"sp";
 
+    public const string CreateNewIntrasItSP = @"[WMS].[IntrasitInsert]";
+    public const string GetAllIntrasitSP = @"[WMS].[IntrasitGetAll]";
+    public const string BulkImportintransit = @"[dbo].[spBulkImportIntransit]";
+
+   
 
     }
 }

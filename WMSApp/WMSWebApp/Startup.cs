@@ -64,13 +64,12 @@ namespace WMSWebApp
             //services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddSingleton<IMapper>(new Mapper(config));
             services.AddSingleton<IAdoConnection>(new AdoConnection(connectionString));
-
-            //services.AddTransient<ICompanyHelper, CompanyHelper>();
-            //services.AddTransient<IBranchHelper, BranchHelper>();
-            //services.AddTransient<ICustomerHelper,CustomerHelper>();
-            //services.AddTransient<IItemHelper, ItemHelper>();
-            //services.AddTransient<ISubItemHelper, SubItemHelper>();
-
+            services.AddTransient<ICompanyHelper, CompanyHelper>();
+            services.AddTransient<IBranchHelper, BranchHelper>();
+            services.AddTransient<ICustomerHelper,CustomerHelper>();
+            services.AddTransient<IItemHelper, ItemHelper>();
+            services.AddTransient<ISubItemHelper, SubItemHelper>();
+            services.AddTransient<IIntrasitHelper, IntrasitHelper>();
             services.AddControllersWithViews();
             //services.AddControllers();
             return services.ConfigureApplicationServices(Configuration, _webHostEnvironment);
