@@ -4,12 +4,14 @@ using Application.Services;
 using AutoMapper;
 using DatabaseLibrary.SQL;
 using Domain.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WMSWebApp.ViewModels;
 
 namespace WMSWebApp.Controllers
 {
+    [Authorize]
     public class CompaniesController : Controller
     {
         private readonly ICompanyHelper _companyHelper;

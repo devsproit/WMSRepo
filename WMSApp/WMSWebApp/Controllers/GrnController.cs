@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WMSWebApp.Controllers
 {
+    [Authorize]
     public class GrnController : Controller
     {
         #region Fields
@@ -19,6 +21,11 @@ namespace WMSWebApp.Controllers
         }
 
         public IActionResult Create()
+        {
+            return View();
+        }
+
+        public virtual IActionResult PODetails(string pono)
         {
             return View();
         }

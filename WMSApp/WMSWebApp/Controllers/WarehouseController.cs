@@ -6,8 +6,10 @@ using Application.Services.WarehouseMaster;
 using AutoMapper;
 using Domain.Model.Masters;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WMSWebApp.Controllers;
+[Authorize]
 public class WarehouseController : Controller
 {
 

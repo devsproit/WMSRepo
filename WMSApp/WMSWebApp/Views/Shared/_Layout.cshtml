@@ -187,11 +187,15 @@
             </a>
             <div class="sidebar-submenu">
               <ul>
+                  <li>
+                      <a asp-action="Register" asp-controller="Account">Add New User</a>
+                  </li>
+                  <li>
+                      <a asp-action="List" asp-controller="Account">User List</a>
+                  </li>
                 <li>
-@*                  <a href="#">Dashboard
-                    <span class="badge badge-pill badge-success">Pro</span>
-                  </a>
-*@                  <a asp-area="" asp-controller="Companies" asp-action="Index">Associated Company List.</a>
+                  
+                  <a asp-area="" asp-controller="Companies" asp-action="Index">Associated Company List.</a>
                 </li>
                 <li>
                   @*<a href="#">Add New</a>*@

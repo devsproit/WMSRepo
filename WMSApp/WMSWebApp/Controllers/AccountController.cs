@@ -4,20 +4,34 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WMSWebApp.ViewModels;
 using WMS.Data;
+using Application.Services.Master;
+using AutoMapper;
+using Domain.Model.Masters;
+using WMS.Web.Framework.Infrastructure.Extentsion;
+
 namespace WMSWebApp.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IUserProfileService _userProfileService;
+        private readonly IMapper _mapper;
+
 
         public AccountController(UserManager<ApplicationUser> userManager,
-                              SignInManager<ApplicationUser> signInManager)
+                              SignInManager<ApplicationUser> signInManager,
+                              IUserProfileService userProfileService,
+                              IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _userProfileService = userProfileService;
+            _mapper = mapper;
         }
+
 
         public IActionResult Register()
         {
@@ -39,7 +53,11 @@ namespace WMSWebApp.Controllers
 
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    UserProfile profile = _mapper.Map<UserProfile>(model);
+                    
+                    _userProfileService.Insert(profile);
 
                     return RedirectToAction("index", "Home");
                 }
@@ -54,6 +72,7 @@ namespace WMSWebApp.Controllers
             }
             return View(model);
         }
+
 
         [HttpGet]
         [AllowAnonymous]
@@ -72,6 +91,7 @@ namespace WMSWebApp.Controllers
 
                 if (result.Succeeded)
                 {
+
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -86,6 +106,19 @@ namespace WMSWebApp.Controllers
             await _signInManager.SignOutAsync();
 
             return RedirectToAction("Login");
+        }
+
+
+        
+        public IActionResult List()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult List(DataSourceRequest request)
+        {
+            return View();
         }
     }
 }

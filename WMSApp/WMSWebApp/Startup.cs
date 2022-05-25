@@ -20,6 +20,8 @@ using WMS.Core;
 using WMS.Data;
 using WMS.Core.Data;
 using WMS.Web.Framework.Infrastructure.Extentsion;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 namespace WMSWebApp
 {
     public class Startup
@@ -43,7 +45,7 @@ namespace WMSWebApp
             //{
             //    c.UseSqlite("Data Source=blog.db");
             //});
-            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<WMSObjectContext>();
+            //services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<WMSObjectContext>();
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Account/Login";
@@ -60,6 +62,29 @@ namespace WMSWebApp
                 options.UseSqlServer(Configuration.GetConnectionString("default"));
 
             });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+            services.AddResponseCompression();
+            services.AddHttpClient();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+                options.IOTimeout = TimeSpan.FromMinutes(20);
+            });
+            services.AddIdentity<ApplicationUser, IdentityRole>
+                (
+                    options =>
+                    {
+                        options.SignIn.RequireConfirmedAccount = false;
+                        options.User.RequireUniqueEmail = true;
+                    }
+
+
+                )
+                .AddRoleManager<RoleManager<IdentityRole>>()
+               .AddEntityFrameworkStores<WMSObjectContext>()
+               .AddDefaultTokenProviders();
             //services.AddTransient<IDbContext, WMSObjectContext>();
             //services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddSingleton<IMapper>(new Mapper(config));
