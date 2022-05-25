@@ -18,9 +18,9 @@ namespace Domain.Model
         public string SubItem_Code { get; set; }
         public string SubItem_Name { get; set; }
         public string MaterialDescription { get; set; }
-        public string Qty { get; set; }
+        public decimal Qty { get; set; }
         public string Unit { get; set; }
-        public string Amt { get; set; }
+        public decimal Amt { get; set; }
         public DateTime ETA { get; set; }
         public bool IsDeleted { get; set; }
 

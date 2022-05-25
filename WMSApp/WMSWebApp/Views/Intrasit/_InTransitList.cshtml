@@ -8,13 +8,13 @@
 			<table id="tblJobBoard" class="table table-bordered compactTable text-center" style="100%">
 				<thead class="bg-light">
 					<tr>
-						<td>Id</td>
+						@*<td>Id</td>*@
 						<td>Branch</td>
 						<td>PurchaseOrder</td>
 						<td>ItemCode</td>
 						<td>SubItemCode</td>
 						<td>SubItemName</td>
-						<td>MaterialDescription</td>
+						@*<td>MaterialDescription</td>*@
 						<td>QTY</td>
 						<td>Amt</td>
 						<td>Action</td>
@@ -24,13 +24,13 @@
 					@for (int i = 0; i < Model.intrasitcList.Count; i++)
 					{
 						<tr>
-							<td>@Model.intrasitcList[i].Id</td>
+						@*	<td>@Model.intrasitcList[i].Id</td>*@
 							<td>@Model.intrasitcList[i].Branch</td>
 							<td>@Model.intrasitcList[i].PurchaseOrder</td>
 							<td>@Model.intrasitcList[i].ItemCode</td>
 							<td>@Model.intrasitcList[i].SubItemCode</td>
 							<td>@Model.intrasitcList[i].SubItemName</td>
-							<td>@Model.intrasitcList[i].MaterialDescription</td>
+							@*<td>@Model.intrasitcList[i].MaterialDescription</td>*@
 							<td>@Model.intrasitcList[i].Qty</td>
 							<td>@Model.intrasitcList[i].Amt</td>
 							<td>

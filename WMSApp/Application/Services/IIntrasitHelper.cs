@@ -16,5 +16,12 @@ namespace Application.Services
         bool UpdateIntrasitById(IntrasitDb intrasit);
         bool CreateNewIntrasit(IntrasitDb intrasit);
         void blukUpload(DataTable ds);
+
+        List<BranchDb> GetAllBranches();
+
+        List<CompanyDb> GetAllCompany();
+
+        List<ItemDb>GetAllItem();
+        List<SubItemDb> GetSubItem(int subItemId);
     }
 }
