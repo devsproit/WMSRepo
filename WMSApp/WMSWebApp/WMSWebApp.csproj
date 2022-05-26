@@ -4,6 +4,10 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+  </ItemGroup>
+
 
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="11.0.1" />
@@ -35,9 +39,13 @@
 
 
     <ItemGroup>
+
+      <None Include="bundleconfig.json" />
+
       <None Include="wwwroot\lib\delete-icon.png" />
       <None Include="wwwroot\lib\detail-icon.png" />
       <None Include="wwwroot\lib\edit-icon.png" />
+
     </ItemGroup>
 
 </Project>
