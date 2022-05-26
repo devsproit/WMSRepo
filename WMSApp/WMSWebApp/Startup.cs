@@ -20,12 +20,14 @@ using WMS.Core;
 using WMS.Data;
 using WMS.Core.Data;
 using WMS.Web.Framework.Infrastructure.Extentsion;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace WMSWebApp
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             Configuration = configuration;
@@ -41,6 +43,7 @@ namespace WMSWebApp
             string connectionString = Configuration.GetConnectionString("default");
             
             
+
             //services.AddDbContext<AppDBContext>(c =>
             //{
             //    c.UseSqlite("Data Source=blog.db");
@@ -55,6 +58,7 @@ namespace WMSWebApp
             var config = new MapperConfiguration(config =>
             {
                 config.AddProfile(new ViewToDomainModelMappingProfile());
+
             });
             services.AddDbContext<WMSObjectContext>(options =>
             {
@@ -89,13 +93,12 @@ namespace WMSWebApp
             //services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddSingleton<IMapper>(new Mapper(config));
             services.AddSingleton<IAdoConnection>(new AdoConnection(connectionString));
-
-            //services.AddTransient<ICompanyHelper, CompanyHelper>();
-            //services.AddTransient<IBranchHelper, BranchHelper>();
-            //services.AddTransient<ICustomerHelper,CustomerHelper>();
-            //services.AddTransient<IItemHelper, ItemHelper>();
-            //services.AddTransient<ISubItemHelper, SubItemHelper>();
-
+            services.AddTransient<ICompanyHelper, CompanyHelper>();
+            services.AddTransient<IBranchHelper, BranchHelper>();
+            services.AddTransient<ICustomerHelper,CustomerHelper>();
+            services.AddTransient<IItemHelper, ItemHelper>();
+            services.AddTransient<ISubItemHelper, SubItemHelper>();
+            services.AddTransient<IIntrasitHelper, IntrasitHelper>();
             services.AddControllersWithViews();
             //services.AddControllers();
             return services.ConfigureApplicationServices(Configuration, _webHostEnvironment);

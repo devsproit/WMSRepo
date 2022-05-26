@@ -11,10 +11,11 @@
 
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="11.0.1" />
-        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.5" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.5" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.5">
+        <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.24" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.24" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.24" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.24">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
@@ -38,7 +39,13 @@
 
 
     <ItemGroup>
+
       <None Include="bundleconfig.json" />
+
+      <None Include="wwwroot\lib\delete-icon.png" />
+      <None Include="wwwroot\lib\detail-icon.png" />
+      <None Include="wwwroot\lib\edit-icon.png" />
+
     </ItemGroup>
 
 </Project>
