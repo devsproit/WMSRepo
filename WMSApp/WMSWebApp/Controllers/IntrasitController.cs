@@ -81,8 +81,7 @@ namespace WMSWebApp.Controllers
 
         // POST: CompaniesController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(Intrasitc intrasitc, IFormCollection collection)
+        public JsonResult Create(Intrasitc intrasitc)
         {
             try
             {
@@ -101,11 +100,11 @@ namespace WMSWebApp.Controllers
                 intrasitDb.Item_Code = intrasitc.ItemCode;
                 intrasitDb.Login_Branch = intrasitc.LoginBranch;
                 var result = _IntrasitHelper.CreateNewIntrasit(intrasitDb);
-                return RedirectToAction(nameof(Index));
+                return Json(new { success = true, message = "Saved Successfully", System.Web.Mvc.JsonRequestBehavior.AllowGet });
             }
             catch (Exception ex)
             {
-                return View(intrasitc);
+                return Json(new { success = false, message = "Not Saved Successfully", System.Web.Mvc.JsonRequestBehavior.AllowGet });
             }
         }
 
@@ -206,6 +205,17 @@ namespace WMSWebApp.Controllers
         {
             var data = _IntrasitHelper.GetSubItem(subItemId);
             return Json(data);
+        }
+
+        public JsonResult Update(Users user)
+        {
+          
+            return Json(System.Web.Mvc.JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult Delete(int ID)
+        {
+          
+            return Json(System.Web.Mvc.JsonRequestBehavior.AllowGet);
         }
     }
 }
