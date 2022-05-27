@@ -2,15 +2,13 @@
 using System.Data;
 using System.Data.SqlClient;
 
-namespace DatabaseLibrary.SQL
+namespace DatabaseLibrary.SQL;
+public interface IAdoConnection
 {
+    DataTable GetDatatableFromSqlWithSP(string SPName, List<SqlParameter> parameterlist = null);
+    DataSet GetMutipleDatatableFromSqlWithSP(string SPName, List<SqlParameter> parameterlist = null);
+    int InsertUpdateWithSP(string spName, List<SqlParameter> parameterlist);
 
+    DataTable bulkImport(string SPName, DataTable dataTable);
 
-    public interface IAdoConnection
-    {
-        DataTable GetDatatableFromSqlWithSP(string SPName, List<SqlParameter> parameterlist = null);
-        DataSet GetMutipleDatatableFromSqlWithSP(string SPName, List<SqlParameter> parameterlist = null);
-        int InsertUpdateWithSP(string spName, List<SqlParameter> parameterlist);
-
-    }
 }

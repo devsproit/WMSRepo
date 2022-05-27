@@ -5,9 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - WMS</title>
     <link rel="stylesheet" href="~/css/site.css" />
+    <script src="~/js/dist/jquery.js"></script>
+    <script src="~/js/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/dist/jquery.validate.min.js"></script>
+	<script src="~/js/dist/jquery.validate.unobtrusive.min.js"></script>
+	<script src="~/js/dist/jquery.unobtrusive-ajax.min.js"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" integrity="sha384-3AB7yXWz4OeoZcPbieVW64vVXEwADiYyAEhwilzWsLw+9FgqpyjjStpPnpBO8o8S" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
     <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
@@ -81,10 +87,11 @@
       overflow-y: visible !important;
     }
     </style>
-
+    @RenderSection("Style",required: false)
 </head>
 <body>
     <header>
+
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow" id="nav1">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"></a>
@@ -98,37 +105,11 @@
                             <a class="nav-link text-dark invisible" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
                         </li>
                     </ul>
-
-                    @* @if (User.Identity.IsAuthenticated)
-                    {
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home.</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
-                        </li>
-                    </ul>
-                    }
-                    else
-                    {
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
-                            </li>
-                        </ul>
-                    }*@
                 </div>
             </div>
         </nav>
     </header>
-        <div class="page-wrapper chiller-theme toggled" style="width: auto !important;">
+        <div class="page-wrapper chiller-theme toggled">
  
 
         <nav id="sidebar" class="sidebar-wrapper">
@@ -145,19 +126,20 @@
               <div class="user-pic">
                 <img class="img-responsive img-rounded" src="~/lib/user.jpg" alt="User picture">
               </div>
+
                 <div class="user-info">
-                  <span class="user-name">
-                    <strong>@User.Identity.Name</strong>
-                  </span>
-                  <span class="user-role">User</span>
-                  <span class="user-status">
-                    <i class="fa fa-circle"></i>
-                    <span>Online</span>
-                  </span class="user-status">
-                  <span>
-                      <i class="fa fa-power-off"></i>
-                      <a class="" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
-                  </span>
+                      <span class="user-name">
+                        <strong>@User.Identity.Name</strong>
+                      </span>
+                      <span class="user-role">User</span>
+                      <span class="user-status">
+                        <i class="fa fa-circle"></i>
+                        <span>Online</span>
+                      </span class="user-status">
+                      <span>
+                          <i class="fa fa-power-off"></i>
+                          <a class="" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                      </span>
                 </div>
              }
              else
@@ -171,6 +153,7 @@
                             </li>
                         </ul>
                     }
+
 
       </div>
       <!-- sidebar-header  -->      
@@ -187,11 +170,15 @@
             </a>
             <div class="sidebar-submenu">
               <ul>
+                  <li>
+                      <a asp-action="Register" asp-controller="Account">Add New User</a>
+                  </li>
+                  <li>
+                      <a asp-action="List" asp-controller="Account">User List</a>
+                  </li>
                 <li>
-@*                  <a href="#">Dashboard
-                    <span class="badge badge-pill badge-success">Pro</span>
-                  </a>
-*@                  <a asp-area="" asp-controller="Companies" asp-action="Index">Associated Company List.</a>
+                  
+                  <a asp-area="" asp-controller="Companies" asp-action="Index">Associated Company List.</a>
                 </li>
                 <li>
                   @*<a href="#">Add New</a>*@
@@ -230,8 +217,8 @@
                   <a asp-area="" asp-controller="SubItem" asp-action="Create">Add New SubItem</a>
                 </li>
                  <li>
-@*                  
-*@                  <a asp-area="" asp-controller="SubItem" asp-action="Index">SubItem List</a>
+
+                 <a asp-area="" asp-controller="SubItem" asp-action="Index">SubItem List</a>
                 </li>
 
                 <li>
@@ -239,6 +226,7 @@
                 </li>
                 <li>
                      <a asp-action="Create" asp-controller="Warehouse" >Create Warehouse</a>
+
                 </li>
               </ul>
             </div>
@@ -261,6 +249,9 @@
                 </li>
                 <li>
                   <a href="#">Credit cart</a>
+                </li>
+                 <li>
+                  <a asp-action="Create" asp-controller="Grn">GRN</a>
                 </li>
               </ul>
             </div>
@@ -373,8 +364,9 @@
       </a>
     </div>
   </nav>
+
   <div class="page-content" style="margin-top: unset !important; width: -webkit-fill-available !important;">
-    <div>
+    <div class="container-fluid" class="pb-3" id="mainBody">
         <main role="main">
             @RenderBody()
         </main>
@@ -424,10 +416,6 @@ $("#close-sidebar").click(function() {
 $("#show-sidebar").click(function() {
   $(".page-wrapper").addClass("toggled");
 });
-
-
-   
-   
 });
     </script>
    

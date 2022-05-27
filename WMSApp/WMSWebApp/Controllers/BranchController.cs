@@ -10,9 +10,11 @@ using Microsoft.AspNetCore.Mvc;
 using WMS.Data;
 using WMSWebApp.ViewModels;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WMSWebApp.Controllers
 {
+    [Authorize]
     public class BranchController : Controller
     {
         private readonly IBranchHelper _BranchHelper;

@@ -4,6 +4,7 @@ using Application.Services;
 using AutoMapper;
 using DatabaseLibrary.SQL;
 using Domain.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WMSWebApp.ViewModels;
@@ -11,6 +12,7 @@ using WMSWebApp.ViewModels;
 
 namespace WMSWebApp.Controllers
 {
+    [Authorize]
     public class ItemController : Controller
     {
         private readonly IItemHelper _ItemHelper;

@@ -2,7 +2,7 @@
 using Domain.Model;
 using WMSWebApp.ViewModels;
 using Domain.Model.Masters;
-
+using WMS.Data;
 namespace WMSWebApp.Models
 {
 
@@ -38,6 +38,9 @@ namespace WMSWebApp.Models
             CreateMap<WarehouseZone, WarehouseZoneAreaModel>();
             CreateMap<WarehouseArea, WarehouseZoneArea>();
             CreateMap<WarehouseZoneArea, WarehouseArea>();
+
+            CreateMap<RegisterViewModel, UserProfile>();
+            CreateMap<UserProfile, RegisterViewModel>();
         }
     }
 }
