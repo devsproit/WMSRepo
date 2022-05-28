@@ -3,133 +3,149 @@
 @{
     ViewData["Title"] = "Create";
 }
-@* Delete this below CSS File after revamping is done. *@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>New Warehouse</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Master</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
 
-<h4>Add New Warehouse</h4>
-<hr />
-<div class="row">
-    <div class="col-md-10">
-        <form asp-action="Create" asp-controller="Warehouse">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class=row>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="WarehouseCode" class="control-label col-md-4"></label>
-                        <input asp-for="WarehouseCode" class="form-control col-md-4" />
+<section class="content">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">New warehouse</h3>
                     </div>
-                    <span asp-validation-for="WarehouseCode" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="WarehouseName" class="control-label col-md-4"></label>
-                        <input asp-for="WarehouseName" class="form-control col-md-4" />
-                    </div>
-                    <span asp-validation-for="WarehouseName" class="text-danger"></span>
-                </div>
-            </div>
-            <div class=row>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="Location" class="control-label col-md-4"></label>
-                        <input asp-for="Location" class="form-control col-md-4" />
-                    </div>
-                    <span asp-validation-for="Location" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="ContactPerson" class="control-label col-md-4"></label>
-                        <input asp-for="ContactPerson" class="form-control col-md-4" />
-                    </div>
-                    <span asp-validation-for="ContactPerson" class="text-danger"></span>
-                </div>
-            </div>
-            <div class=row>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="ContactNumber" class="control-label col-md-4"></label>
-                        <input asp-for="ContactNumber" class="form-control col-md-4" />
-                    </div>
-                    <span asp-validation-for="ContactNumber" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="TotalSpaceSizeType" class="control-label col-md-4"></label>
-                        <select class="form-control" asp-for="TotalSpaceSizeType">
-                            <option value="Sq foot">Sq foot</option>
-                            <option value="Per Sq foot">Per Sq foot</option>
-                            <option value="Per Qubic foot">Per Qubic foot</option>
-                        </select>
-                    </div>
-                    <span asp-validation-for="TotalSpaceSizeType" class="text-danger"></span>
-                </div>
-            </div>
-            <div class=row>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="TotalSpaceSize" class="control-label col-md-4"></label>
-                        <input asp-for="TotalSpaceSize" class="form-control col-md-4" />
-                    </div>
-                    <span asp-validation-for="TotalSpaceSize" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        @*<label asp-for="TotalSpaceSizeType" class="control-label col-md-4"></label>
-                        <input asp-for="TotalSpaceSizeType" class="form-control col-md-4" />
-                        </div>
-                        <span asp-validation-for="TotalSpaceSizeType" class="text-danger"></span>*@
-                    </div>
-                </div>
-            </div>
-            <hr />
-            <div class="row">
-                <div class="col-md-12">
-                    <h3 class="text-info">Zone & Areas</h3>
-                    <div class="form-group row">
-                        <div class="col-md-2">
-                            <label>Zone Code.</label>
 
-                        </div>
-                        <div class="col-md-2">
-                            <label>Zone Name</label>
+                    <form asp-action="Create" asp-controller="Warehouse">
+                        <div class="card-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class=row>
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="WarehouseCode"></label>
+                                        <input asp-for="WarehouseCode" class="form-control "  required/>
+                                    </div>
+                                    <span asp-validation-for="WarehouseCode" class="text-danger"></span>
+                                </div>
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="WarehouseName"></label>
+                                        <input asp-for="WarehouseName" class="form-control " required />
+                                    </div>
+                                    <span asp-validation-for="WarehouseName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class=row>
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Location"></label>
+                                        <input asp-for="Location" class="form-control " required />
+                                    </div>
+                                    <span asp-validation-for="Location" class="text-danger"></span>
+                                </div>
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="ContactPerson"></label>
+                                        <input asp-for="ContactPerson" class="form-control " required />
+                                    </div>
+                                    <span asp-validation-for="ContactPerson" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class=row>
+                                <div class="form-group col-md-6">
+                                    <div class="row">
+                                        <label asp-for="ContactNumber"></label>
+                                        <input asp-for="ContactNumber" class="form-control "  required/>
+                                    </div>
+                                    <span asp-validation-for="ContactNumber" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <label asp-for="TotalSpaceSizeType"></label>
+                                        <select class="form-control" asp-for="TotalSpaceSizeType">
+                                            <option value="Sq foot">Sq foot</option>
+                                            <option value="Per Sq foot">Per Sq foot</option>
+                                            <option value="Per Qubic foot">Per Qubic foot</option>
+                                        </select>
+                                    </div>
+                                    <span asp-validation-for="TotalSpaceSizeType" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class=row>
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <label asp-for="TotalSpaceSize"></label>
+                                        <input asp-for="TotalSpaceSize" class="form-control" required />
+                                    </div>
+                                    <span asp-validation-for="TotalSpaceSize" class="text-danger"></span>
+                                </div>
 
-                        </div>
-                      
-                    </div>
-                    <input type="hidden" value="0" id="zoneno" />
-                    <div class="row" id="zone_0">
-                        <div class="col-md-2">
-                            <input asp-for="ZoneAreaList[0].ZoneCode" class="form-control" placeholder="Zone Code" />
-                        </div>
-                        <div class="col-md-2">
-                            <input asp-for="ZoneAreaList[0].ZoneName" class="form-control" placeholder="Zone Name" />
-                        </div>
-                       
-                    </div>
-                    <hr />
-                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3 class="text-info">Zone & Areas</h3>
+                                    <div class="form-group row">
+                                        <div class="col-md-2">
+                                            <label>Zone Code.</label>
 
-            </div>
-            <br />
-            <div class="row">
-                <div class="col-md-1">
-                    <button type="button" class="btn btn-primary" onclick="addzone()"><i class="fas fa-plus"></i> </button>
-                    <button type="button" class="btn btn-danger" onclick="removezone()"><i class="fas fa-times"></i> </button>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label>Zone Name</label>
+
+                                        </div>
+
+                                    </div>
+                                    <input type="hidden" value="0" id="zoneno" />
+                                    <div class="row" id="zone_0">
+                                        <div class="col-md-2">
+                                            <input asp-for="ZoneAreaList[0].ZoneCode" class="form-control" placeholder="Zone Code" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input asp-for="ZoneAreaList[0].ZoneName" class="form-control" placeholder="Zone Name" />
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                </div>
+
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-primary" onclick="addzone()"><i class="fas fa-plus"></i> </button>
+                                    <button type="button" class="btn btn-danger" onclick="removezone()"><i class="fas fa-times"></i> </button>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="card-footer">
+
+                                <button class="btn btn-primary" type="submit"> Save & Next</button>
+                                <a asp-action="Index" class="btn btn-primary float-right">Back to List</a>
+
+                            </div>
+                        </div>
+                    </form>
+
+
                 </div>
             </div>
-            <hr>
-            <div class="row">
-                <div class="col-md-2">
-                    <button class="btn btn-primary" type="submit"> Save & Next</button>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+</section>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
@@ -155,7 +171,7 @@
                 '    <div class="col-md-2">' +
                 '        <input class="form-control" placeholder="Zone Name" type="text" id="ZoneAreaList_' + no + '__ZoneName" name="ZoneAreaList[' + no + '].ZoneName" value="">' +
                 '    </div>' +
-               
+
                 '</div>';
             $(d).insertAfter("#zone_" + totalpax);
             $("#zoneno").val(no);

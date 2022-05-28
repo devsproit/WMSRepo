@@ -3,134 +3,147 @@
 @{
     ViewData["Title"] = "Create";
 }
-@* Delete this below CSS File after revamping is done. *@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-<h1>Create</h1>
-
-<h4>SubItem</h4>
-<hr />
-<div class="row">
-    <div class="col-md-10">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class=row>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="SubItemCode" class="control-label col-md-4"></label>
-                        <input asp-for="SubItemCode" class="form-control col-md-4" />
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>New SubItem</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Master</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Create New SubItem</h3>
                     </div>
-                    <span asp-validation-for="SubItemCode" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="SubItemName" class="control-label col-md-4"></label>
-                        <input asp-for="SubItemName" class="form-control col-md-4" />
-                    </div>
-                    <span asp-validation-for="SubItemName" class="text-danger"></span>
+                    <form asp-action="Create">
+                        <div class="card-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="row">
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="SubItemCode"></label>
+                                        <input asp-for="SubItemCode" class="form-control " />
+                                    </div>
+                                    <span asp-validation-for="SubItemCode" class="text-danger"></span>
+                                </div>
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="SubItemName"></label>
+                                        <input asp-for="SubItemName" class="form-control " />
+                                    </div>
+                                    <span asp-validation-for="SubItemName" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="ItemId"></label>
+                                        <select asp-for="ItemId" asp-items="@(new SelectList(Model.Items,"Id","ItemName"))" class="form-control"></select>
+                                    </div>
+                                    <span asp-validation-for="ItemId" class="text-danger"></span>
+                                </div>
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="MaterialDescription"></label>
+                                        <input asp-for="MaterialDescription" class="form-control" />
+                                    </div>
+                                    <span asp-validation-for="MaterialDescription" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="SubItemSize"></label>
+                                        <input asp-for="SubItemSize" class="form-control " />
+                                    </div>
+                                    <span asp-validation-for="SubItemSize" class="text-danger"></span>
+                                </div>
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="FOC"></label>
+                                        <select class="form-control" asp-for="FOC">
+                                            <option value="true">True</option>
+                                            <option value="false">False</option>
+                                        </select>
+
+                                    </div>
+                                    <span asp-validation-for="FOC" class="text-danger"></span>
+                                </div>
+                            </div>
+
+
+                            <div class=row>
+
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="SubItemSR"></label>
+
+                                        <select class="form-control" asp-for="SubItemSR">
+                                            <option value="true">True</option>
+                                            <option value="false">False</option>
+                                        </select>
+                                    </div>
+                                    <span asp-validation-for="SubItemSR" class="text-danger"></span>
+                                </div>
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="BranchPrice"></label>
+                                        <input asp-for="BranchPrice" class="form-control " />
+                                    </div>
+                                    <span asp-validation-for="BranchPrice" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="DealerPrice"></label>
+                                        <input asp-for="DealerPrice" class="form-control" />
+                                    </div>
+                                    <span asp-validation-for="DealerPrice" class="text-danger"></span>
+                                </div>
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="CustomerPrice"></label>
+                                        <input asp-for="CustomerPrice" class="form-control " />
+                                    </div>
+                                    <span asp-validation-for="CustomerPrice" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="card-footer">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn btn-primary float-right">Back to List</a>
+                        </div>
+                    </form>
+
                 </div>
             </div>
 
-            <div class=row>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="ItemId" class="control-label col-md-4"></label>
-                        <select asp-for="ItemId" asp-items="@(new SelectList(Model.Items,"Id","ItemName"))" class="form-control col-md-4"></select>
-                    </div>
-                    <span asp-validation-for="ItemId" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="MaterialDescription" class="control-label col-md-4"></label>
-                        <input asp-for="MaterialDescription" class="form-control col-md-4" />
-                    </div>
-                    <span asp-validation-for="MaterialDescription" class="text-danger"></span>
-                </div>
-            </div>
-
-            <div class=row>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="SubItemSize" class="control-label col-md-4"></label>
-                        <input asp-for="SubItemSize" class="form-control col-md-4" />
-                    </div>
-                    <span asp-validation-for="SubItemSize" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="FOC" class="control-label col-md-4"></label>
-                        <select class="form-control col-md-4" asp-for="FOC">
-                            <option value="true">True</option>
-                            <option value="false">False</option>
-                        </select>
-                        
-                    </div>
-                    <span asp-validation-for="FOC" class="text-danger"></span>
-                </div>
-            </div>
-
-
-            <div class=row>
-                @*<div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="SubItemCategory" class="control-label col-md-4"></label>
-                        <input asp-for="SubItemCategory" class="form-control col-md-4" />
-                    </div>
-                    <span asp-validation-for="SubItemCategory" class="text-danger"></span>
-                </div>*@
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="SubItemSR" class="control-label col-md-4"></label>
-                        
-                        <select class="form-control col-md-4" asp-for="SubItemSR">
-                            <option value="true">True</option>
-                            <option value="false">False</option>
-                        </select>
-                    </div>
-                    <span asp-validation-for="SubItemSR" class="text-danger"></span>
-                </div>
-                 <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="BranchPrice" class="control-label col-md-4"></label>
-                        <input asp-for="BranchPrice" class="form-control col-md-4" />
-                    </div>
-                    <span asp-validation-for="BranchPrice" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="row">
-               
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="DealerPrice" class="control-label col-md-4"></label>
-                        <input asp-for="DealerPrice" class="form-control col-md-4" />
-                    </div>
-                    <span asp-validation-for="DealerPrice" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="CustomerPrice" class="control-label col-md-4"></label>
-                        <input asp-for="CustomerPrice" class="form-control col-md-4" />
-                    </div>
-                    <span asp-validation-for="CustomerPrice" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="row">
-                
-              
-            </div>
-
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+</section>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
+
 
 @section Scripts {
     @{
