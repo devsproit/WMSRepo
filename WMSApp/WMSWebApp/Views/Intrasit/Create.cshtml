@@ -9,7 +9,7 @@
 <hr />
 <div class="row">
     <div class="col-md-10">
-        @*  <form asp-action="Create">*@
+          <form>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class=row>
             <div class="form-group col-md-6">
@@ -135,7 +135,7 @@
         <div class="form-group">
             <input type="submit" value="Create" id="btnCreate" class="btn btn-primary" />
         </div>
-        @*</form>*@
+        </form>
 
     </div>
 
@@ -165,123 +165,125 @@
     <a asp-action="Index">Back to List</a>
 </div>
 <script type="text/javascript">
-     $(document).ready(function () {
-         //File Upload
-         $("#fileUploadForm").submit(function (e) {
-             e.preventDefault();
-             debugger;
-             var file = $('#uploadFile').val();
-             if (!(/\.(xlsx|xls|xlsm)$/i).test(file)) {
-                 alert('Please upload valid excel file .xlsx, .xlsm, .xls only.');
-                 $("#uploadFile").val('');
-             } else {
-                 var data = new FormData();
-                 data.append("importFile", $("#uploadFile")[0].files[0]);
-                 $.ajax({
-                     type: 'post',
-                     url: "/Intrasit/OnPostMyUploader",
-                     data: data,
-                     processData: false,
-                     contentType: false
-                 }).done(function (result) {
-                     if (result.status === 1) {
-                         alert(result.message);
-                         location.reload();
-                     }
-                     else {
-                         alert(result.message);
-                     }
-                 });
-             }
-         });
-
-         $("#ItId").change(function () {
-            getSubItemId();
-         });
-         var getSubItemId = function () {
-             debugger;
-             $.ajax({
-                 url: '@Url.Action("GetSubItem","Intrasit")',
-                 type: 'GET',
-                 data: {
-                     subItemId: $('#ItId').val(),
-                 },
-                 success: function (data) {
-                     //$('#SubItemId').find('option').remove()
-                     console.log(data);
-                     $(data).each(
-                         function (index, item) {
-                             $('#subItemId').append('<option value="' + item.id + '">' + item.subItemName + '</option>')
-                         });
-                 },
-                 error: function () {
-                 }
-             });
-         }
-
-         $("#subItemId").change(function () {
-            getMaterialDescription();
-         });
-         var getMaterialDescription = function () {
-             debugger;
-             $.ajax({
-                 url: '@Url.Action("GetMaterialDesc","Intrasit")',
-                 type: 'GET',
-                 data: {
-                     subItemId: $('#subItemId').val(),
-                 },
-                 success: function (data) {
-                     //$('#SubItemId').find('option').remove()
-                    // console.log(data);
-                    if(data.length==0)
-                    {
-                      $('#txtMDesc').val("");
+    $(document).ready(function () {
+        //File Upload
+        $("#fileUploadForm").submit(function (e) {
+            e.preventDefault();
+            debugger;
+            var file = $('#uploadFile').val();
+            if (!(/\.(xlsx|xls|xlsm)$/i).test(file)) {
+                alert('Please upload valid excel file .xlsx, .xlsm, .xls only.');
+                $("#uploadFile").val('');
+            } else {
+                var data = new FormData();
+                data.append("importFile", $("#uploadFile")[0].files[0]);
+                $.ajax({
+                    type: 'post',
+                    url: "/Intrasit/OnPostMyUploader",
+                    data: data,
+                    processData: false,
+                    contentType: false
+                }).done(function (result) {
+                    if (result.status === 1) {
+                        alert(result.message);
+                        location.reload();
                     }
-                    else{
-                         $('#txtMDesc').val(data[0].materialDescription);
+                    else {
+                        alert(result.message);
                     }
-                 },
-                 error: function () {
-                 }
-             });
-         }
+                });
+            }
+        });
 
-         $("#btnCreate").click(function()
-         {  
-              debugger;
-            var intrasitc =
-            {
-                Branch :$("#BId :selected").text(),
-                PurchaseOrder : $("#txtPurchaseOrder").val(),
-                SenderCompany : $('#CId :selected').text(),
-                SubItemName :'',
-                SubItemCode : $('#SubItemId :selected').text(),
-                MaterialDescription : $("#txtMDesc").val(),
-                Unit :$("#txtunit").val(),
-                Amt : $("#txtAmt").val(),
-                Qty : $("#txtqty").val(),
-                ItemCode : $("#ItId :selected").text(),
-                LoginBranch : ''
-           };
-           $.ajax(
-           {
-                url: '@Url.Action("Create","Intrasit")',
-                data: JSON.stringify(intrasitc),
-                type: "POST",
-                contentType: "application/json;charset=utf-8",
-                dataType: "json",
-                processData: false,
-                contentType: false,
-                success: function(result) {
-                    alert('Data Insert Successfully');
-                     $('#txtPurchaseOrder').val(PurchaseOrder);
+        $("#ItId").change(function () {
+           getSubItemId();
+        });
+        var getSubItemId = function () {
+            debugger;
+            $.ajax({
+                url: '@Url.Action("GetSubItem","Intrasit")',
+                type: 'GET',
+                data: {
+                    subItemId: $('#ItId').val(),
                 },
-                error: function(result) {
-                    alert('error');
+                success: function (data) {
+                    //$('#SubItemId').find('option').remove()
+                    console.log(data);
+                    $(data).each(
+                        function (index, item) {
+                            $('#subItemId').append('<option value="' + item.id + '">' + item.subItemName + '</option>')
+                        });
+                },
+                error: function () {
                 }
             });
-         });
-     });
+        }
+
+        $("#subItemId").change(function () {
+           getMaterialDescription();
+        });
+        var getMaterialDescription = function () {
+            debugger;
+            $.ajax({
+                url: '@Url.Action("GetMaterialDesc","Intrasit")',
+                type: 'GET',
+                data: {
+                    subItemId: $('#subItemId').val(),
+                },
+                success: function (data) {
+                    //$('#SubItemId').find('option').remove()
+                   // console.log(data);
+                   if(data.length==0)
+                   {
+                     $('#txtMDesc').val("");
+                   }
+                   else{
+                        $('#txtMDesc').val(data[0].materialDescription);
+                   }
+                },
+                error: function () {
+                }
+            });
+        }
+
+        $("#btnCreate").click(function()
+        {
+             debugger;
+           var intrasitc =
+           {
+               Branch :$("#BId :selected").text(),
+               PurchaseOrder : $("#txtPurchaseOrder").val(),
+               SenderCompany : $('#CId :selected').text(),
+               SubItemName :'',
+               SubItemCode : $('#SubItemId :selected').text(),
+               MaterialDescription : $("#txtMDesc").val(),
+               Unit :$("#txtunit").val(),
+               Amt : $("#txtAmt").val(),
+               Qty : $("#txtqty").val(),
+               ItemCode : $("#ItId :selected").text(),
+               LoginBranch : ''
+          };
+          var params = {
+             intrasitc : intrasitc
+            
+          };
+          $.ajax(
+          {
+               type: 'POST',
+               url: '@Url.Action("Create","Intrasit")',
+               contentType: "application/json;charset=utf-8",
+               dataType: 'json',
+               data: params,
+               success: function(result) {
+                   alert(result.message);
+                   // $('#txtPurchaseOrder').val(PurchaseOrder);
+               },
+               error: function(result) {
+                   alert('error');
+               }
+           });
+        });
+    });
 
 
 </script>

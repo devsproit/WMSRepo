@@ -207,7 +207,7 @@ namespace WMSWebApp.Controllers
             return Json(data);
         }
 
-        public JsonResult Update(Users user)
+        public JsonResult Update(Intrasitc intrasitc)
         {
           
             return Json(System.Web.Mvc.JsonRequestBehavior.AllowGet);
