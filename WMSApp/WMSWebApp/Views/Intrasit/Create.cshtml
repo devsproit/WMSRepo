@@ -249,7 +249,8 @@
         $("#btnCreate").click(function()
         {
              debugger;
-           var intrasitc =
+
+           var tcintrasitc =
            {
                Branch :$("#BId :selected").text(),
                PurchaseOrder : $("#txtPurchaseOrder").val(),
@@ -263,20 +264,31 @@
                ItemCode : $("#ItId :selected").text(),
                LoginBranch : ''
           };
-          var params = {
-             intrasitc : intrasitc
-            
-          };
+          var params = {};
+            params.intrasitc = tcintrasitc,
+            params.intrasitcList = null,
+            params.listSenderBranch =null,
+            params.listSenderCompany =null,
+            params.CId =0,
+            params.BId=0,
+            params.ItId =0,
+            params.SubItemId =0
+          
+        //  var model = {};//pass all you data to an object
+        //model.intrasitc = tcintrasitc ;
+        //model.comments = comments ;
+        //model.loadInfoCorrect = loadInfoCorrect;
           $.ajax(
           {
                type: 'POST',
                url: '@Url.Action("Create","Intrasit")',
                contentType: "application/json;charset=utf-8",
                dataType: 'json',
-               data: params,
-               success: function(result) {
-                   alert(result.message);
-                   // $('#txtPurchaseOrder').val(PurchaseOrder);
+               data: JSON.stringify(params),
+               success: function(data) {
+                   if(data.result)
+                    alert("data inserted");
+                    $('#txtPurchaseOrder').val(PurchaseOrder);
                },
                error: function(result) {
                    alert('error');

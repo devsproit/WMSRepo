@@ -81,30 +81,33 @@ namespace WMSWebApp.Controllers
 
         // POST: CompaniesController/Create
         [HttpPost]
-        public JsonResult Create(Intrasitc intrasitc)
+        public JsonResult Create([FromBody] IntransitViewModel intransitViewModel)
         {
+            bool result = false;
             try
             {
                 // var intrasit = _mapper.Map<IntrasitDb>(intrasitc);
 
                 IntrasitDb intrasitDb = new IntrasitDb();
-                intrasitDb.Branch = intrasitc.Branch;
-                intrasitDb.PurchaseOrder = intrasitc.PurchaseOrder;
-                intrasitDb.Sender_Company = intrasitc.SenderCompany;
-                intrasitDb.SubItem_Name = intrasitc.SubItemName;
-                intrasitDb.SubItem_Code = intrasitc.SubItemCode;
-                intrasitDb.MaterialDescription = intrasitc.MaterialDescription;
-                intrasitDb.Unit = intrasitc.Unit;
-                intrasitDb.Amt = intrasitc.Amt;
-                intrasitDb.Qty = intrasitc.Qty;
-                intrasitDb.Item_Code = intrasitc.ItemCode;
-                intrasitDb.Login_Branch = intrasitc.LoginBranch;
-                var result = _IntrasitHelper.CreateNewIntrasit(intrasitDb);
-                return Json(new { success = true, message = "Saved Successfully", System.Web.Mvc.JsonRequestBehavior.AllowGet });
+                intrasitDb.Branch = intransitViewModel.intrasitc.Branch;
+                intrasitDb.PurchaseOrder = intransitViewModel.intrasitc.PurchaseOrder;
+                intrasitDb.Sender_Company = intransitViewModel.intrasitc.SenderCompany;
+                intrasitDb.SubItem_Name = intransitViewModel.intrasitc.SubItemName;
+                intrasitDb.SubItem_Code = intransitViewModel.intrasitc.SubItemCode;
+                intrasitDb.MaterialDescription = intransitViewModel.intrasitc.MaterialDescription;
+                intrasitDb.Unit = intransitViewModel.intrasitc.Unit;
+                intrasitDb.Amt = intransitViewModel.intrasitc.Amt;
+                intrasitDb.Qty = intransitViewModel.intrasitc.Qty;
+                intrasitDb.Item_Code = intransitViewModel.intrasitc.ItemCode;
+                intrasitDb.Login_Branch = intransitViewModel.intrasitc.LoginBranch;
+                result = _IntrasitHelper.CreateNewIntrasit(intrasitDb);
+                // return Json(new { success = true, message = "Saved Successfully", System.Web.Mvc.JsonRequestBehavior.AllowGet });
+                return Json(new { dtrData = result });
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = "Not Saved Successfully", System.Web.Mvc.JsonRequestBehavior.AllowGet });
+                return Json(result);
+               // return Json(new { success = false, message = "Not Saved Successfully", System.Web.Mvc.JsonRequestBehavior.AllowGet });
             }
         }
 
