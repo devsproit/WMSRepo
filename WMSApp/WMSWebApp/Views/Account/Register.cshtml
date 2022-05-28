@@ -2,88 +2,125 @@
 @{
     ViewData["Title"] = "Register";
 }
-<style>
-    input {
-        color:black !important;
-    }
-</style>
-<link href="https://tailwindui.com/v2-assets/components.css" rel="stylesheet">
-<section class="min-h-screen flex items-stretch text-white">
-    <div class="max-w-7xl mx-auto py-12 sm:px-6 lg:px-8 bg-gray-100">
 
 
-        <div class="max-w-4xl mx-auto">
-            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-                <div class="px-4 py-5 sm:px-6">
-                    <div class="px-4 sm:px-0">
-                        <h3 class="text-lg leading-6 font-medium text-gray-900">Register User</h3>
-                        <p class="mt-1 max-w-2xl text-sm text-gray-500">Use a permanent address where you can receive mail.</p>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Register User</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Master</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<section class="content">
+    <div class="container-fluid">
+
+
+        <div class="row justify-content-center">
+
+
+            <div class="col-md-6">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Register User</h3>
+
                     </div>
-                </div>
-                <div class="mt-5 md:mt-0 md:col-span-2">
+
                     <form asp-action="Register" asp-controller="Account" method="POST">
-                         
-                        <div class="shadow overflow-hidden sm:rounded-md">
-                            <div class="px-4 py-5 bg-white sm:p-6">
-                                <div class="grid grid-cols-6 gap-6">
-                                    <div asp-validation-summary="ModelOnly" class="font-medium text-sm ml-3 text-red-700"></div>
-                                    <div class="col-span-6 sm:col-span-3">
-                                        <label for="first-name" class="block text-sm font-medium text-gray-700">First name</label>
-                                        <input type="text" asp-for="FirstName" autocomplete="given-name" class="text-black-700 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                        <span asp-validation-for="FirstName" class="font-medium text-sm ml-3 text-red-700"></span>
-                                    </div>
 
-                                    <div class="col-span-6 sm:col-span-3">
-                                        <label for="last-name" class="block text-sm font-medium text-gray-700">Last name</label>
-                                        <input type="text" asp-for="LastName" autocomplete="off" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                        <span asp-validation-for="LastName" class="font-medium text-sm ml-3 text-red-700"></span>
-                                    </div>
+                        <div class="card-body">
 
-                                    <div class="col-span-6 sm:col-span-4">
-                                        <label for="email-address" class="block text-sm font-medium text-gray-700">Email address</label>
-                                        <input type="text" asp-for="Email" autocomplete="off" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                        <span asp-validation-for="Email" class="font-medium text-sm ml-3 text-red-700"></span>
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="first-name">First name</label>
+                                        <input type="text" asp-for="FirstName" autocomplete="off" placeholder="First name" class="form-control">
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
                                     </div>
-
-                                    <div class="col-span-6 sm:col-span-3">
-                                        <label for="country" class="block text-sm font-medium text-gray-700">Password</label>
-                                        <input  asp-for="Password" autocomplete="off" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                        <span asp-validation-for="Password" class="font-medium text-sm ml-3 text-red-700"></span>
-                                    </div>
-                                    <div class="col-span-6 sm:col-span-3">
-                                        <label for="country" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-                                        <input  asp-for="ConfirmPassword"  autocomplete="off" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                        <span asp-validation-for="ConfirmPassword" class="font-medium text-sm ml-3 text-red-700"></span>
-                                    </div>
-
-                                    <div class="col-span-6">
-                                        <label for="street-address" class="block text-sm font-medium text-gray-700">Street address</label>
-                                        <input type="text" asp-for="Address" id="street-address" autocomplete="street-address" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                    </div>
-
-                                    <div class="col-span-6 sm:col-span-6 lg:col-span-2">
-                                        <label for="city" class="block text-sm font-medium text-gray-700">City</label>
-                                        <input type="text" asp-for="City" autocomplete="address-level2" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                    </div>
-
-                                    <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-                                        <label for="region" class="block text-sm font-medium text-gray-700">State</label>
-                                        <input type="text" asp-for="State" autocomplete="address-level1" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                                    </div>
-
-                                    <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-                                        <label for="postal-code" class="block text-sm font-medium text-gray-700">PIN / Postal code</label>
-                                        <input type="text" asp-for="PinCode" autocomplete="postal-code" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="last-name">Last name</label>
+                                        <input type="text" asp-for="LastName" autocomplete="off" placeholder="Last name" class="form-control">
+                                        <span asp-validation-for="LastName" class="text-danger"></span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                                <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Save</button>
+
+
+
+
+                            <div class="form-group">
+                                <label for="email-address">Email address</label>
+                                <input type="text" asp-for="Email" autocomplete="off" class="form-control">
+                                <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
+
+                            <div class="row ">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="country">Password</label>
+                                        <input asp-for="Password" autocomplete="off" class="form-control">
+                                        <span asp-validation-for="Password" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="ConfirmPassword">Confirm Password</label>
+                                        <input asp-for="ConfirmPassword" autocomplete="off" class="form-control">
+                                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                    <label for="street-address">Street address</label>
+                                    <input type="text" asp-for="Address" id="street-address" autocomplete="off" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label asp-for="City">City</label>
+                                        <input type="text" asp-for="City" autocomplete="off" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label asp-for="State">State</label>
+                                        <input type="text" asp-for="State" autocomplete="off" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label asp-for="PinCode">PIN / Postal code</label>
+                                        <input type="text" asp-for="PinCode" autocomplete="off" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
                 </div>
+
+
             </div>
+
+
         </div>
     </div>
 
