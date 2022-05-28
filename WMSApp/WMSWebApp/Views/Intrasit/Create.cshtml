@@ -163,7 +163,12 @@
 
 
 
-<script type="text/javascript">
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
     $(document).ready(function() {
         //File Upload
         $("#fileUploadForm").submit(function(e) {
@@ -245,9 +250,4 @@
         }
     });
 </script>
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-
 }
