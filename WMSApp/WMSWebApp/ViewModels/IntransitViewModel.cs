@@ -9,7 +9,7 @@ namespace WMSWebApp.ViewModels
 
         public List<Intrasitc> intrasitcList { get; set; }
 
-        public IEnumerable<BranchDb> listSenderBranch { get; set; }
+        public IEnumerable<Branch> listSenderBranch { get; set; }
 
         public IEnumerable<CompanyDb> listSenderCompany { get; set; }
 

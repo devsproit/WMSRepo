@@ -1,11 +1,13 @@
-﻿using WMS.Core;
+﻿using Domain.Model.Masters;
+using System.Collections.Generic;
+using WMS.Core;
 namespace Domain.Model
 {
 
-    public class BranchDb : BaseEntity
+    public class Branch : BaseEntity
     {
 
-        public string ScreenCode { get; set; }
+       
         public string BranchCode { get; set; }
         public string BranchName { get; set; }
         public int CompanyId { get; set; }
@@ -15,7 +17,14 @@ namespace Domain.Model
         public string ContactNumberBranch { get; set; }
         public string EmailIdBranch { get; set; }
         public string AssociatedEmployee { get; set; }
-        public int WarehouseId { get; set; }
+       
+
+        private ICollection<BranchWiseWarehouse> _branchWiseWarehouses;
+        public virtual ICollection<BranchWiseWarehouse> BranchWiseWarehouses
+        {
+            get => _branchWiseWarehouses ??= new List<BranchWiseWarehouse>();
+            protected set => _branchWiseWarehouses = value;
+        }
 
     }
 }

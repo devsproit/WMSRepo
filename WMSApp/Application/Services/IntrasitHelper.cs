@@ -56,12 +56,12 @@ namespace Application.Services
             throw new NotImplementedException();
         }
 
-        public List<BranchDb> GetAllBranches()
+        public List<Branch> GetAllBranches()
         {
-            List<BranchDb> data = new List<BranchDb>();
+            List<Branch> data = new List<Branch>();
             DataTable dbDT = _adoConnection.GetDatatableFromSqlWithSP(Constants.GetAllBranchSP);
             if (dbDT != null)
-                data = dbDT.ToList<BranchDb>();
+                data = dbDT.ToList<Branch>();
             return data.ToList();
         }
 

@@ -46,6 +46,17 @@ namespace Application.Services.Master
                         select x;
             return query.FirstOrDefault();
         }
+        public virtual IPagedList<UserProfile> GetAllProfile(string email, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query=from x in _userProfileRepository.Table
+                      select x;
+            if(!string.IsNullOrEmpty(email))
+            {
+                query = query.Where(x => x.Email.Contains(email));
+            }
+            var result=new PagedList<UserProfile>(query, pageIndex, pageSize);
+            return result;
+        }
         #endregion
     }
 }

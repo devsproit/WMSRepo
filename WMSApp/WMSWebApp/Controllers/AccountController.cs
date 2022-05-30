@@ -56,7 +56,7 @@ namespace WMSWebApp.Controllers
                     //await _signInManager.SignInAsync(user, isPersistent: false);
 
                     UserProfile profile = _mapper.Map<UserProfile>(model);
-                    
+                    profile.UserId = user.Id;
                     _userProfileService.Insert(profile);
 
                     return RedirectToAction("index", "Home");
