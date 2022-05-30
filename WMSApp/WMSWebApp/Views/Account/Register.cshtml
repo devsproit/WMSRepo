@@ -3,130 +3,141 @@
     ViewData["Title"] = "Register";
 }
 
-
-<section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Register User</h1>
+@section Style{
+    <!-- Select2 -->
+    <link rel="stylesheet" href="~/lib/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/lib/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+}
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Register User</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Master</li>
+                    </ol>
+                </div>
             </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Master</li>
-                </ol>
-            </div>
-        </div>
-    </div><!-- /.container-fluid -->
-</section>
-<section class="content">
-    <div class="container-fluid">
+        </div><!-- /.container-fluid -->
+    </section>
+    <section class="content">
+        <div class="container-fluid">
 
 
-        <div class="row justify-content-center">
+            <div class="row justify-content-center">
 
 
-            <div class="col-md-6">
-                <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">Register User</h3>
+                <div class="col-md-6">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Register User</h3>
 
+                        </div>
+
+                        <form asp-action="Register" asp-controller="Account" method="POST">
+
+                            <div class="card-body">
+
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="first-name">First name</label>
+                                            <input type="text" asp-for="FirstName" autocomplete="off" placeholder="First name" class="form-control">
+                                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="last-name">Last name</label>
+                                            <input type="text" asp-for="LastName" autocomplete="off" placeholder="Last name" class="form-control">
+                                            <span asp-validation-for="LastName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="form-group">
+                                    <label for="email-address">Email address</label>
+                                    <input type="text" asp-for="Email" autocomplete="off" class="form-control">
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+
+                                <div class="row ">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="country">Password</label>
+                                            <input asp-for="Password" autocomplete="off" class="form-control">
+                                            <span asp-validation-for="Password" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="ConfirmPassword">Confirm Password</label>
+                                            <input asp-for="ConfirmPassword" autocomplete="off" class="form-control">
+                                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <label for="street-address">Street address</label>
+                                        <input type="text" asp-for="Address" id="street-address" autocomplete="off" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label asp-for="City">City</label>
+                                            <input type="text" asp-for="City" autocomplete="off" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label asp-for="State">State</label>
+                                            <input type="text" asp-for="State" autocomplete="off" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label asp-for="PinCode">PIN / Postal code</label>
+                                            <input type="text" asp-for="PinCode" autocomplete="off" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="BranchId">Select Branch</label>
+                                            <select asp-for="BranchId" class="form-control select2" asp-items="@(new SelectList(Model.Branches,"Id","BranchName"))"></select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
                     </div>
 
-                    <form asp-action="Register" asp-controller="Account" method="POST">
 
-                        <div class="card-body">
-
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="first-name">First name</label>
-                                        <input type="text" asp-for="FirstName" autocomplete="off" placeholder="First name" class="form-control">
-                                        <span asp-validation-for="FirstName" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="last-name">Last name</label>
-                                        <input type="text" asp-for="LastName" autocomplete="off" placeholder="Last name" class="form-control">
-                                        <span asp-validation-for="LastName" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-
-                            <div class="form-group">
-                                <label for="email-address">Email address</label>
-                                <input type="text" asp-for="Email" autocomplete="off" class="form-control">
-                                <span asp-validation-for="Email" class="text-danger"></span>
-                            </div>
-
-                            <div class="row ">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="country">Password</label>
-                                        <input asp-for="Password" autocomplete="off" class="form-control">
-                                        <span asp-validation-for="Password" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="ConfirmPassword">Confirm Password</label>
-                                        <input asp-for="ConfirmPassword" autocomplete="off" class="form-control">
-                                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 form-group">
-                                    <label for="street-address">Street address</label>
-                                    <input type="text" asp-for="Address" id="street-address" autocomplete="off" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label asp-for="City">City</label>
-                                        <input type="text" asp-for="City" autocomplete="off" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label asp-for="State">State</label>
-                                        <input type="text" asp-for="State" autocomplete="off" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label asp-for="PinCode">PIN / Postal code</label>
-                                        <input type="text" asp-for="PinCode" autocomplete="off" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
-
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </form>
                 </div>
 
 
             </div>
-
-
         </div>
-    </div>
 
-</section>
+    </section>
 
-@section Scripts
+    @section Scripts
     {
 
     @{
@@ -134,5 +145,13 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
 
     }
-
+    <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
+    <script>
+        $(function() {
+            $('.select2').select2({
+                theme: 'bootstrap4'
+            })
+            $('.multiselect').select2()
+        });
+    </script>
     }

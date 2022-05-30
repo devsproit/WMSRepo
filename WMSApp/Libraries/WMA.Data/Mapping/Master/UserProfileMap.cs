@@ -17,6 +17,10 @@ namespace WMS.Data.Mapping.Master
         {
             builder.ToTable(nameof(UserProfile));
             builder.HasKey(x => x.Id);
+            builder.HasOne(profile => profile.Branch)
+                .WithMany(branch => branch.UserProfiles)
+                .HasForeignKey(fkey => fkey.BranchId)
+                .IsRequired();
             base.Configure(builder);
         }
         #endregion

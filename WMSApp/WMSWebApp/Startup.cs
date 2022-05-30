@@ -128,8 +128,8 @@ namespace WMSWebApp
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromDays(5);
 
-                options.LoginPath = new PathString("/Account/Index");
-                options.AccessDeniedPath = new PathString("/Account/Index");
+                options.LoginPath = new PathString("/Account/Login");
+                options.AccessDeniedPath = new PathString("/Account/Login");
                 options.SlidingExpiration = true;
             });
             services.AddControllers().AddNewtonsoftJson(options =>

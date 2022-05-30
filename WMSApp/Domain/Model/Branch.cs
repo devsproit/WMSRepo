@@ -7,7 +7,7 @@ namespace Domain.Model
     public class Branch : BaseEntity
     {
 
-       
+
         public string BranchCode { get; set; }
         public string BranchName { get; set; }
         public int CompanyId { get; set; }
@@ -17,7 +17,7 @@ namespace Domain.Model
         public string ContactNumberBranch { get; set; }
         public string EmailIdBranch { get; set; }
         public string AssociatedEmployee { get; set; }
-       
+
 
         private ICollection<BranchWiseWarehouse> _branchWiseWarehouses;
         public virtual ICollection<BranchWiseWarehouse> BranchWiseWarehouses
@@ -26,5 +26,13 @@ namespace Domain.Model
             protected set => _branchWiseWarehouses = value;
         }
 
+
+        private ICollection<UserProfile> _userProfiles;
+
+        public virtual ICollection<UserProfile> UserProfiles
+        {
+            get => _userProfiles ??= new List<UserProfile>();
+            protected set => _userProfiles = value;
+        }
     }
 }

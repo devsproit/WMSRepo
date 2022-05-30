@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using WMS.Data
+@inject IWorkContext _workContext
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -100,7 +102,19 @@
                         <img src="~/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Alexander Pierce</a>
+                        @{
+
+                            var profile = await _workContext.UserProfile();
+                            if (profile != null)
+                            {
+                                <a href="#" class="d-block">@profile.FirstName @profile.LastName</a>
+                            }
+                            else
+                            {
+                                <a href="#" class="d-block">Not Found</a>
+                            }
+                        }
+
                     </div>
                 </div>
 
