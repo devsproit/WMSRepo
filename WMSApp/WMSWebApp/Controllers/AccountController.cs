@@ -10,7 +10,7 @@ using Domain.Model.Masters;
 using WMS.Web.Framework.Infrastructure.Extentsion;
 using Application.Services;
 using System.Linq;
-
+using System;
 namespace WMSWebApp.Controllers
 {
     [Authorize]
@@ -63,6 +63,7 @@ namespace WMSWebApp.Controllers
 
                     UserProfile profile = _mapper.Map<UserProfile>(model);
                     profile.UserId = user.Id;
+                    profile.CreateOn = DateTime.Now;
                     _userProfileService.Insert(profile);
                     SuccessNotification("New User created successfully.");
                     return RedirectToAction("List", "Account");
