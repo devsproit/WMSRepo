@@ -2,86 +2,52 @@
 @addTagHelper *, AuthoringTagHelpers
 @model WMSWebApp.ViewModels.IntransitViewModel;
 
-    <div class="row">
-	<div class="col-md-12">
-		<div class="table-responsive">
-			<table id="tblJobBoard" class="table table-bordered compactTable text-center" style="100%">
-				<thead class="bg-light">
-					<tr>
-						@*<td>Id</td>*@
-						<td>Branch</td>
-						<td>PurchaseOrder</td>
-						<td>ItemCode</td>
-						<td>SubItemCode</td>
-						<td>SubItemName</td>
-						@*<td>MaterialDescription</td>*@
-						<td>QTY</td>
-						<td>Amt</td>
-						<td>Action</td>
-					</tr>
-				</thead>
-				<tbody>
-					@for (int i = 0; i < Model.intrasitcList.Count; i++)
-					{
-						<tr>
-						@*	<td>@Model.intrasitcList[i].Id</td>*@
-							<td>@Model.intrasitcList[i].Branch</td>
-							<td>@Model.intrasitcList[i].PurchaseOrder</td>
-							<td>@Model.intrasitcList[i].ItemCode</td>
-							<td>@Model.intrasitcList[i].SubItemCode</td>
-							<td>@Model.intrasitcList[i].SubItemName</td>
-							@*<td>@Model.intrasitcList[i].MaterialDescription</td>*@
-							<td>@Model.intrasitcList[i].Qty</td>
-							<td>@Model.intrasitcList[i].Amt</td>
-							<td>
-							@* @Html.ActionLink("EDIT", "EDITMOBILEDATA", new { id = Model.StoreAllData.Tables[0].Rows[i]["MobileID"].ToString() })  *@
-								@*Delete Icon*@
-								@Html.Raw("<img src='~/lib/edit.png' title='Edit' onclick='EditIntrasitc("+@Model.intrasitcList[i].Id +")'  />")
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table id="tblJobBoard" class="table table-bordered compactTable text-center" style="width:100%">
+                <thead class="bg-light">
+                    <tr>
+                        @*<td>Id</td>*@
+                        <td>PurchaseOrder</td>
+                        <td>Sender Company</td>
+                        <td>Sender Branch</td>
+                        <td>Item Code</td>
+                        <td>SubItem Name</td>
+                        <td>Material Description</td>
+                        <td>QTY</td>
+                        <td>Unit</td>
+                        <td>Amt</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @*	@for (int i = 0; i < Model.intrasitcList.Count; i++)
+                        {
+                        <tr>
+                        <td>@Model.intrasitcList[i].Branch</td>
+                        <td>@Model.intrasitcList[i].PurchaseOrder</td>
+                        <td>@Model.intrasitcList[i].ItemCode</td>
+                        <td>@Model.intrasitcList[i].SenderCompany</td>
+                        <td>@Model.intrasitcList[i].SubItemName</td>
+                        <td>@Model.intrasitcList[i].MaterialDescription</td>
+                        <td>@Model.intrasitcList[i].Qty</td>
+                        <td>@Model.intrasitcList[i].Amt</td>
+                        <td>
+                        </tr>
+                        }*@
+                </tbody>
+            </table>
+        </div>
 
-								@Html.Raw("<img src='~/lib/delete.png' title='Delete' onclick='DeleteIntransitc("+ @Model.intrasitcList[i].Id +")'  />")
-							</td>
-							
-						</tr>
-					}
-				</tbody>
-			</table>
-		</div>
-		
-	</div>
+    </div>
 </div>
 
 <script>
     $(document).ready(function () {
         $("#tblJobBoard").DataTable({
-            "processing": false, // for show progress bar
-            "serverSide": false, // for process server side
-            "filter": false, // this is for disable filter (search box)
-            "orderMulti": false, // for disable multiple column at once
-            "paging": true,
-            "bDestroy": true,
-            //"pageLength" : 5,
-            "ordering": false,
-            "bLengthChange": false //show number of pages
-            //"bInfo": false //do not display showing 1 of N records
-        },
-		);
+           
+         });
 
     });
-	
-    function viewJobDetails(vacancyId) {
-        $.ajax({
-           type: 'GET',
-            url: '@Url.Action("GetJobDetails", "JobDetails")?vacancyId=' + vacancyId,
-           cache: false,
-           processData: true,
-           success: function (data) {
-               $('#jobApplyModel').html(data);
-               $("#jobApplyModel").modal('show');
-            },
-        });
-    }
-	function EditIntrasitc(id) {
-       
-    }
 </script>
 

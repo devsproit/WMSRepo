@@ -41,7 +41,7 @@ namespace Application.Services
                     new SqlParameter("@ItemCode", intrasit.Item_Code),
                     new SqlParameter("@SubItemCode", intrasit.SubItem_Code),
                     new SqlParameter("@SubItemName", intrasit.SubItem_Name),
-                    new SqlParameter("@MaterialDescription", intrasit.MaterialDescription),
+                    new SqlParameter("@MaterialDescription", intrasit.Material_Description),
                     new SqlParameter("@Qty", intrasit.Qty),
                     new SqlParameter("@Unit", intrasit.Unit),
                     new SqlParameter("@Amt", intrasit.Amt),
