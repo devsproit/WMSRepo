@@ -1,9 +1,190 @@
-﻿@{
+﻿@model IEnumerable<WMSWebApp.ViewModels.Intrasitc>
+
+@{
     ViewData["Title"] = "Index";
 }
+@* Delete this below CSS File after revamping is done. *@
 
-<h1>Index</h1>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Intrasit List</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Master</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
 
-<p>
-    <a asp-action="Create">Add New Intrasit</a>
-</p>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Upload Bulk</h3>
+                    </div>
+                    <form id="fileUploadForm" method="post" enctype="multipart/form-data" asp-controller="Intrasit" asp-action="OnPostMyUploader">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="exampleInputFile">Upload file:</label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" id="uploadFile" name="uploadFile" />
+                                        @* <label class="custom-file-label" for="exampleInputFile">Choose file</label>*@
+                                        @* <input type="submit" value="Upload" />*@
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" value="Upload" class="btn btn-primary"><i class="fa fa-cloud-upload" aria-hidden="true"></i> Upload</button>
+                        </div>
+
+
+
+
+                    </form>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <a asp-action="Create" class="btn btn-primary">Create New</a>
+                        <div class="card-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-default">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body table-responsive p-0" style="height: 300px;">
+                        <table class="table table-head-fixed text-nowrap" id="tblIntrasit">
+                            <thead>
+                                <tr>
+                                    @* <th>
+                                        @Html.DisplayNameFor(model => model.Id)
+                                        </th>*@
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.PurchaseOrder)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Branch)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ItemCode)
+                                    </th>
+                                      <th>
+                                        @Html.DisplayNameFor(model => model.SubItemCode)
+                                        </th>
+                                   @* <th>
+                                        @Html.DisplayNameFor(model => model.SubItemName)
+                                    </th>*@
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.MaterialDescription)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Qty)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Unit)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Amt)
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PurchaseOrder)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Branch)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ItemCode)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SubItemCode)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MaterialDescription)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Qty)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Unit)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Amt)
+                                        </td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+<!--Datatables -->
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script>
+        $(document).ready(function() {
+        let table = $('#tblIntrasit').DataTable( {
+                
+            });
+         });
+      $("#fileUploadForm").submit(function(e) {
+            e.preventDefault();
+            debugger;
+            var file = $('#uploadFile').val();
+            if (!(/\.(xlsx|xls|xlsm)$/i).test(file)) {
+                alert('Please upload valid excel file .xlsx, .xlsm, .xls only.');
+                $("#uploadFile").val('');
+            } else {
+                var data = new FormData();
+                data.append("importFile", $("#uploadFile")[0].files[0]);
+                $.ajax({
+                    type: 'post',
+                    url: "/Intrasit/OnPostMyUploader",
+                    data: data,
+                    processData: false,
+                    contentType: false
+                }).done(function(result) {
+                    if (result.status === 1) {
+                        alert(result.message);
+                        location.reload();
+                    }
+                    else {
+                        alert(result.message);
+                    }
+                });
+            }
+        });
+</script>
+	}

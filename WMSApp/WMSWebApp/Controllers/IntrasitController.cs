@@ -30,7 +30,31 @@ namespace WMSWebApp.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            List<Intrasitc> intrasitcs = new List<Intrasitc>();
+            try
+            {
+                var data = _IntrasitHelper.GetAllIntrasit();
+                for (int i = 0; i < data.Count; i++)
+                {
+                    Intrasitc objDate = new Intrasitc();
+                    objDate.Id = data[i].Id;
+                    objDate.PurchaseOrder = data[i].PurchaseOrder;
+                    objDate.Branch = data[i].Branch;
+                    objDate.ItemCode = data[i].Item_Code;
+                    objDate.SubItemCode = data[i].SubItem_Code;
+                    objDate.MaterialDescription = data[i].Material_Description;
+                    objDate.Qty = data[i].Qty;
+                    objDate.Unit = data[i].Unit;
+                    objDate.Amt = data[i].Amt;
+                    intrasitcs.Add(objDate);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return View(intrasitcs);
+           
         }
 
         // GET: CompaniesController/Create
@@ -42,22 +66,22 @@ namespace WMSWebApp.Controllers
             intransitViewModel.intrasitc = new Intrasitc();
             try
             {
-                var data = _IntrasitHelper.GetAllIntrasit();
-                for (int i = 0; i < data.Count; i++)
-                {
-                    Intrasitc objDate = new Intrasitc();
-                    objDate.Id = data[i].Id;
-                    objDate.Amt = data[i].Amt;
-                    objDate.Qty = data[i].Qty;
-                    objDate.ETA = data[i].ETA;
-                    objDate.MaterialDescription = data[i].MaterialDescription;
-                    objDate.Branch = data[i].Branch;
-                    objDate.ItemCode = data[i].Item_Code;
-                    objDate.SubItemName = data[i].SubItem_Name;
-                    objDate.SubItemCode = data[i].SubItem_Code;
-                    objDate.PurchaseOrder = data[i].PurchaseOrder;
-                    intrasitcs.Add(objDate);
-                }
+                //var data = _IntrasitHelper.GetAllIntrasit();
+                //for (int i = 0; i < data.Count; i++)
+                //{
+                //    Intrasitc objDate = new Intrasitc();
+                //    objDate.Id = data[i].Id;
+                //    objDate.Amt = data[i].Amt;
+                //    objDate.Qty = data[i].Qty;
+                //    objDate.ETA = data[i].ETA;
+                //    objDate.MaterialDescription = data[i].MaterialDescription;
+                //    objDate.Branch = data[i].Branch;
+                //    objDate.ItemCode = data[i].Item_Code;
+                //    objDate.SubItemName = data[i].SubItem_Name;
+                //    objDate.SubItemCode = data[i].SubItem_Code;
+                //    objDate.PurchaseOrder = data[i].PurchaseOrder;
+                //    intrasitcs.Add(objDate);
+                //}
                 var listBranch = _IntrasitHelper.GetAllBranches();
                 var listCompany = _IntrasitHelper.GetAllCompany();
                 var listItem = _IntrasitHelper.GetAllItem();
@@ -81,31 +105,34 @@ namespace WMSWebApp.Controllers
 
         // POST: CompaniesController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(Intrasitc intrasitc, IFormCollection collection)
+        public JsonResult Create([FromBody] IntransitViewModel intransitViewModel)
         {
             try
             {
                 // var intrasit = _mapper.Map<IntrasitDb>(intrasitc);
-
-                IntrasitDb intrasitDb = new IntrasitDb();
-                intrasitDb.Branch = intrasitc.Branch;
-                intrasitDb.PurchaseOrder = intrasitc.PurchaseOrder;
-                intrasitDb.Sender_Company = intrasitc.SenderCompany;
-                intrasitDb.SubItem_Name = intrasitc.SubItemName;
-                intrasitDb.SubItem_Code = intrasitc.SubItemCode;
-                intrasitDb.MaterialDescription = intrasitc.MaterialDescription;
-                intrasitDb.Unit = intrasitc.Unit;
-                intrasitDb.Amt = intrasitc.Amt;
-                intrasitDb.Qty = intrasitc.Qty;
-                intrasitDb.Item_Code = intrasitc.ItemCode;
-                intrasitDb.Login_Branch = intrasitc.LoginBranch;
-                var result = _IntrasitHelper.CreateNewIntrasit(intrasitDb);
-                return RedirectToAction(nameof(Index));
+                foreach(var item in intransitViewModel.intrasitcList)
+                {
+                    IntrasitDb intrasitDb = new IntrasitDb();
+                    intrasitDb.Branch = null;
+                    intrasitDb.PurchaseOrder = item.PurchaseOrder;
+                    intrasitDb.Sender_Company = item.SenderCompany;
+                    intrasitDb.SubItem_Name = null;
+                    intrasitDb.SubItem_Code = item.SubItemCode;
+                    intrasitDb.Material_Description = item.MaterialDescription;
+                    intrasitDb.Unit = item.Unit;
+                    intrasitDb.Amt = item.Amt;
+                    intrasitDb.Qty = item.Qty;
+                    intrasitDb.Item_Code = item.ItemCode;
+                    intrasitDb.Login_Branch = null;
+                    _IntrasitHelper.CreateNewIntrasit(intrasitDb);
+                }
+                 return Json(new { success = true, message = "Saved Successfully" });
+                // return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                return View(intrasitc);
+                return Json(new { success = false, message = "Not Saved Successfully"});
+                //return View(intrasitc);
             }
         }
 

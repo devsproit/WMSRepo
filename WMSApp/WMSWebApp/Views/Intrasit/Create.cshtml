@@ -29,100 +29,100 @@
                         <h3 class="card-title">Intrasit Process</h3>
 
                     </div>
-                    <form asp-action="Create">
-                        <div class="card-body">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class=row>
-                                <div class=" col-md-6">
+                    @* <form>*@
+                    <div class="card-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class=row>
+                            <div class=" col-md-6">
 
-                                    <div class="form-group">
-                                        <label asp-for="intrasitc.PurchaseOrder"></label>
-                                        <input asp-for="intrasitc.PurchaseOrder" class="form-control " />
-                                    </div>
-                                    <span asp-validation-for="intrasitc.PurchaseOrder" class="text-danger"></span>
+                                <div class="form-group">
+                                    <label asp-for="intrasitc.PurchaseOrder"></label>
+                                    <input asp-for="intrasitc.PurchaseOrder" class="form-control "  id="txtPurchaseOrder" />
                                 </div>
-                                <div class=" col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="intrasitc.SenderCompany"></label>
-                                        <select asp-for="CId" class="form-control " asp-items="@(new SelectList(@ViewBag.ListofCompany,"Id", "CompanyName"))">
-                                        </select>
-                                    </div>
-                                    <span asp-validation-for="intrasitc.SenderCompany" class="text-danger"></span>
-                                </div>
+                                <span asp-validation-for="intrasitc.PurchaseOrder" class="text-danger"></span>
                             </div>
-                            <div class=row>
-                                <div class=" col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="intrasitc.Branch"></label>
-                                        <select asp-for="BId" class="form-control " asp-items="@(new SelectList(@ViewBag.listBranch,"Id", "BranchName"))">
-                                        </select>
-                                    </div>
-                                    <span asp-validation-for="intrasitc.Branch" class="text-danger"></span>
+                            <div class=" col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="intrasitc.SenderCompany"></label>
+                                    <select asp-for="CId" class="form-control " asp-items="@(new SelectList(@ViewBag.ListofCompany,"Id", "CompanyName"))">
+                                    </select>
                                 </div>
-                                <div class=" col-md-6">
-
-                                    <div class="form-group">
-                                        <label asp-for="intrasitc.ItemCode"></label>
-
-                                        <select asp-for="ItId" class="form-control " asp-items="@(new SelectList(@ViewBag.listItem,"Id", "ItemName"))">
-                                        </select>
-                                    </div>
-                                    <span asp-validation-for="intrasitc.ItemCode" class="text-danger"></span>
-                                </div>
+                                <span asp-validation-for="intrasitc.SenderCompany" class="text-danger"></span>
                             </div>
-
-                            <div class=row>
-                                <div class=" col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="intrasitc.SubItemName"></label>
-
-                                        <select asp-for="SubItemId" class="form-control " id="subItemId">
-                                            <option value="0">Select</option>
-                                        </select>
-                                    </div>
-                                    <span asp-validation-for="intrasitc.SubItemName" class="text-danger"></span>
+                        </div>
+                        <div class=row>
+                            <div class=" col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="intrasitc.Branch"></label>
+                                    <select asp-for="BId" class="form-control " asp-items="@(new SelectList(@ViewBag.listBranch,"Id", "BranchName"))">
+                                    </select>
                                 </div>
-                                <div class=" col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="intrasitc.MaterialDescription"></label>
-                                        <input asp-for="intrasitc.MaterialDescription" class="form-control " />
-                                    </div>
-                                    <span asp-validation-for="intrasitc.MaterialDescription" class="text-danger"></span>
-                                </div>
+                                <span asp-validation-for="intrasitc.Branch" class="text-danger"></span>
                             </div>
-                            <div class=row>
-                                <div class=" col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="intrasitc.Qty"></label>
-                                        <input asp-for="intrasitc.Qty" class="form-control " />
-                                    </div>
-                                    @*<span asp-validation-for="EmailIdHO" class="text-danger"></span>*@
-                                </div>
-                                <div class=" col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="intrasitc.Unit"></label>
-                                        <input asp-for="intrasitc.Unit" class="form-control " />
-                                    </div>
-                                    @*  <span asp-validation-for="SpaceSizeFormat" class="text-danger"></span>*@
-                                </div>
-                            </div>
-                            <div class=row>
-                                <div class=" col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="intrasitc.Amt"></label>
-                                        <input asp-for="intrasitc.Amt" class="form-control" />
-                                    </div>
+                            <div class=" col-md-6">
 
-                                </div>
+                                <div class="form-group">
+                                    <label asp-for="intrasitc.ItemCode"></label>
 
+                                    <select asp-for="ItId" class="form-control " asp-items="@(new SelectList(@ViewBag.listItem,"Id", "ItemName"))">
+                                    </select>
+                                </div>
+                                <span asp-validation-for="intrasitc.ItemCode" class="text-danger"></span>
                             </div>
                         </div>
 
-                        <div class="card-footer">
-                            <input type="submit" value="Create" class="btn btn-primary" />
-                            <a asp-action="Index" class="btn btn-primary float-right">Back to List</a>
+                        <div class=row>
+                            <div class=" col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="intrasitc.SubItemName"></label>
+
+                                    <select asp-for="SubItemId" class="form-control " id="subItemId">
+                                        <option value="0">Select</option>
+                                    </select>
+                                </div>
+                                <span asp-validation-for="intrasitc.SubItemName" class="text-danger"></span>
+                            </div>
+                            <div class=" col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="intrasitc.MaterialDescription"></label>
+                                    <input asp-for="intrasitc.MaterialDescription" class="form-control"  id="txtMDesc" readonly/>
+                                </div>
+                             
+                            </div>
                         </div>
-                    </form>
+                        <div class=row>
+                            <div class=" col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="intrasitc.Qty"></label>
+                                    <input asp-for="intrasitc.Qty" class="form-control" id="txtqty" />
+                                </div>
+                                @*<span asp-validation-for="EmailIdHO" class="text-danger"></span>*@
+                            </div>
+                            <div class=" col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="intrasitc.Unit"></label>
+                                    <input asp-for="intrasitc.Unit" class="form-control" id="txtunit" name="unit" />
+                                </div>
+                                @*  <span asp-validation-for="SpaceSizeFormat" class="text-danger"></span>*@
+                            </div>
+                        </div>
+                        <div class=row>
+                            <div class=" col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="intrasitc.Amt"></label>
+                                    <input asp-for="intrasitc.Amt" class="form-control"  id="txtAmt" />
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <input type="submit" value="Create" class="btn btn-primary" id="btnaddRow" />
+                        <a asp-action="Index" class="btn btn-primary float-right">Back to List</a>
+                    </div>
+                    @* </form>*@
                 </div>
             </div>
             <div class="col-md-6">
@@ -131,30 +131,30 @@
                         <h3 class="card-title">Upload Bulk</h3>
 
                     </div>
-                    <form id="fileUploadForm" method="post" enctype="multipart/form-data" asp-controller="Intrasit" asp-action="OnPostMyUploader">
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="exampleInputFile">Upload file:</label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" id="uploadFile" name="uploadFile" />
-                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                    </div>
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">Upload</span>
-                                    </div>
-                                </div>
+                    @* <form id="fileUploadForm" method="post" enctype="multipart/form-data" asp-controller="Intrasit" asp-action="OnPostMyUploader">*@
+                    <div class="card-body">
+                        @*<div class="form-group">
+                            <label for="exampleInputFile">Upload file:</label>
+                            <div class="input-group">
+                            <div class="custom-file">
+                            <input type="file" id="uploadFile" name="uploadFile" />
+                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                             </div>
-                            <partial name="_InTransitList.cshtml" />
-                        </div>
-                        <div class="card-footer">
-                            <button type="submit" value="Upload" class="btn btn-primary"><i class="fa fa-cloud-upload" aria-hidden="true"></i> Upload</button>
-                        </div>
+                            <div class="input-group-append">
+                            <span class="input-group-text">Upload</span>
+                            </div>
+                            </div>
+                            </div>*@
+                        <partial name="_InTransitList.cshtml" />
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" id="btnsubmit" value="Upload" class="btn btn-primary"><i class="fa fa-cloud-upload" aria-hidden="true"></i> Submit</button>
+                    </div>
 
 
 
 
-                    </form>
+                    @*   </form>*@
                 </div>
             </div>
         </div>
@@ -168,86 +168,6 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    <script type="text/javascript">
-    $(document).ready(function() {
-        //File Upload
-        $("#fileUploadForm").submit(function(e) {
-            e.preventDefault();
-            debugger;
-            var file = $('#uploadFile').val();
-            if (!(/\.(xlsx|xls|xlsm)$/i).test(file)) {
-                alert('Please upload valid excel file .xlsx, .xlsm, .xls only.');
-                $("#uploadFile").val('');
-            } else {
-                var data = new FormData();
-                data.append("importFile", $("#uploadFile")[0].files[0]);
-                $.ajax({
-                    type: 'post',
-                    url: "/Intrasit/OnPostMyUploader",
-                    data: data,
-                    processData: false,
-                    contentType: false
-                }).done(function(result) {
-                    if (result.status === 1) {
-                        alert(result.message);
-                        location.reload();
-                    }
-                    else {
-                        alert(result.message);
-                    }
-                });
-            }
-        });
-
-        $("#ItId").change(function() {
-            getSubItemId();
-        });
-        var getSubItemId = function() {
-            debugger;
-            $.ajax({
-                url: '@Url.Action("GetSubItem","Intrasit")',
-                type: 'GET',
-                data: {
-                    subItemId: $('#ItId').val(),
-                },
-                success: function(data) {
-                    //$('#SubItemId').find('option').remove()
-                    console.log(data);
-                    $(data).each(
-                        function(index, item) {
-                            $('#subItemId').append('<option value="' + item.id + '">' + item.subItemName + '</option>')
-                        });
-                },
-                error: function() {
-                }
-            });
-        }
-
-        $("#subItemId").change(function() {
-            getMaterialDescription();
-        });
-        var getMaterialDescription = function() {
-            debugger;
-            $.ajax({
-                url: '@Url.Action("GetMaterialDesc","Intrasit")',
-                type: 'GET',
-                data: {
-                    subItemId: $('#subItemId').val(),
-                },
-                success: function(data) {
-                    //$('#SubItemId').find('option').remove()
-                    // console.log(data);
-                    if (data.length == 0) {
-                        $('#intrasitc_MaterialDescription').val("");
-                    }
-                    else {
-                        $('#intrasitc_MaterialDescription').val(data[0].materialDescription);
-                    }
-                },
-                error: function() {
-                }
-            });
-        }
-    });
-</script>
+<script src="~/js/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/js/Intrasit.js"></script>
 }
