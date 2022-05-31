@@ -17,7 +17,7 @@ namespace Application.Services
         bool CreateNewIntrasit(IntrasitDb intrasit);
         void blukUpload(DataTable ds);
 
-        List<BranchDb> GetAllBranches();
+        List<Branch> GetAllBranches();
 
         List<CompanyDb> GetAllCompany();
 

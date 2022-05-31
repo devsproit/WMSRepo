@@ -11,43 +11,75 @@ using WMS.Data;
 using WMSWebApp.ViewModels;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using Application.Services.Master;
+using Domain.Model.Masters;
+using Application.Services.WarehouseMaster;
+using WMS.Web.Framework.Infrastructure.Extentsion;
 
 namespace WMSWebApp.Controllers
 {
     [Authorize]
-    public class BranchController : Controller
+    public class BranchController : BaseAdminController
     {
         private readonly IBranchHelper _BranchHelper;
         private readonly IMapper _mapper;
         private readonly ICompanyHelper _companyService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserProfileService _userProfileService;
+        private readonly IWarehouseService _warehouseService;
 
-
-        public BranchController(IBranchHelper BranchHelper, IMapper mapper, ICompanyHelper companyService, UserManager<ApplicationUser> userManager)
+        public BranchController(IBranchHelper BranchHelper, IMapper mapper, ICompanyHelper companyService, UserManager<ApplicationUser> userManager,
+            IUserProfileService userProfileService, IWarehouseService warehouseService)
         {
             _BranchHelper = BranchHelper;
             _mapper = mapper;
             _companyService = companyService;
             _userManager = userManager;
+            _userProfileService = userProfileService;
+            _warehouseService = warehouseService;
         }
 
 
-        // GET: BranchController
+
         public ActionResult Index()
         {
-            List<Branch> Branch = new List<Branch>();
-            try
-            {
-                var data = _BranchHelper.GetAllBranch();
-                Branch = _mapper.Map<List<Branch>>(data);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            return View(Branch);
+            return View();
         }
-        // GET: BranchController/Details/5
+
+
+        [HttpPost]
+        public virtual IActionResult List(DataSourceRequest request)
+        {
+            var branches = _BranchHelper.GetAllBranches(request.Page - 1, request.PageSize);
+            var gridData = new DataSourceResult
+            {
+                Data = branches.Select(x =>
+                {
+                    BranchModel m = new BranchModel();
+                    m = _mapper.Map<BranchModel>(x);
+                    var user = _userProfileService.GetByUserId(x.AssociatedEmployee);
+                    if (user != null)
+                    {
+                        m.UserName = $"{user.FirstName} {user.LastName}";
+                    }
+                    var warehouse = x.BranchWiseWarehouses.Select(x => x.Warehouse);
+
+                    if (warehouse.Any())
+                    {
+                        m.Werehouse = string.Join(',', warehouse.Select(x => x.WarehouseName).ToArray());
+                    }
+                    var comp = _companyService.GetCompanyById(x.CompanyId);
+                    if (comp != null)
+                    {
+                        m.CompanyName = comp.CompanyName;
+                    }
+                    return m;
+                }),
+                Total = branches.TotalCount
+            };
+            return Json(gridData);
+        }
+
         public ActionResult Details(int id)
         {
             var B = new Branch()
@@ -62,31 +94,46 @@ namespace WMSWebApp.Controllers
             ,
                 EmailIdBranch = "EmailIdBranch",
                 AssociatedEmployee = "AssociatedEmployee ",
-                WarehouseId = 1,
+                //WarehouseId = 1,
             };
             return View(B);
         }
         // GET: CompaniesController/Create
         public ActionResult Create()
         {
-            Branch model = new Branch();
-            var comp=_companyService.GetAllCompanies();
-            var companies=_mapper.Map<List<Company>>(comp);
+            BranchModel model = new BranchModel();
+            var comp = _companyService.GetAllCompanies();
+            var companies = _mapper.Map<List<Company>>(comp);
             model.Companies = companies;
-            var user = _userManager.Users.ToList();
-            model.Users=user;
+            var users = PrepareUserList(_userProfileService.GetAllProfile("").ToList());
+            model.Users = users;
+            model.Warehouses = _warehouseService.GetAllWarehouse().ToList();
+
             return View(model);
         }
 
         // POST: BranchController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Branch c, IFormCollection collection)
+        public ActionResult Create(BranchModel c, IFormCollection collection)
         {
             try
             {
-                var Branch = _mapper.Map<BranchDb>(c);
-                _BranchHelper.Insert(Branch);
+                var branch = _mapper.Map<Branch>(c);
+                foreach (var item in c.WarehouseId)
+                {
+                    var mapping = new BranchWiseWarehouse()
+                    {
+                        WarehouseId = item,
+                        Branch = branch,
+
+
+
+                    };
+                    branch.BranchWiseWarehouses.Add(mapping);
+                }
+                _BranchHelper.Insert(branch);
+                SuccessNotification("Branch created successfully!.");
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -98,33 +145,46 @@ namespace WMSWebApp.Controllers
         // GET: CompaniesController/Edit/5
         public ActionResult Edit(int id)
         {
-            var c = new Branch();
+            var model = new BranchModel();
             try
             {
-                var data = _BranchHelper.GetBranchById(id);
-                c = _mapper.Map<Branch>(data);
+                var data = _BranchHelper.GetById(id);
+                model = _mapper.Map<BranchModel>(data);
+                var comp = _companyService.GetAllCompanies();
+                var companies = _mapper.Map<List<Company>>(comp);
+                model.Companies = companies;
+                var users = PrepareUserList(_userProfileService.GetAllProfile("").ToList());
+                model.Users = users;
+                model.Warehouses = _warehouseService.GetAllWarehouse().ToList();
+                model.WarehouseId = data.BranchWiseWarehouses.Select(x => x.WarehouseId).ToList();
             }
             catch (Exception)
             {
                 throw;
             }
-            return View(c);
+            return View(model);
         }
         // POST: CompaniesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Branch c, IFormCollection collection)
+        public ActionResult Edit(int id, BranchModel c, IFormCollection collection)
         {
-            try
-            {
-                var Branch = _mapper.Map<BranchDb>(c);
-                var b = _BranchHelper.UpdateBranchById(Branch);
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var branch = _mapper.Map<Branch>(c);
+            //foreach (var item in c.WarehouseId)
+            //{
+            //    var mapping = new BranchWiseWarehouse()
+            //    {
+            //        WarehouseId = item,
+            //        Branch = branch,
+
+
+
+            //    };
+            //    branch.BranchWiseWarehouses.Add(mapping);
+            //}
+            _BranchHelper.Insert(branch);
+            SuccessNotification("Branch updated successfully!.");
+            return RedirectToAction(nameof(Index));
         }
         // GET: CompaniesController/Delete/5
         public ActionResult Delete(int id)
@@ -146,6 +206,30 @@ namespace WMSWebApp.Controllers
             {
                 return View();
             }
+        }
+
+        [NonAction]
+        protected List<UserProfileModel> PrepareUserList(List<UserProfile> users)
+        {
+            List<UserProfileModel> list = new List<UserProfileModel>();
+            foreach (var item in users)
+            {
+                UserProfileModel model = new UserProfileModel();
+                model.UserId = item.UserId;
+                model.Name = $"{item.FirstName} {item.LastName}";
+                list.Add(model);
+            }
+            return list;
+        }
+
+        protected void PrepareBrachCreate(Branch branch, BranchModel model)
+        {
+            branch.Address = model.Address;
+            branch.BranchCode = model.BranchCode;
+            branch.BranchName = model.BranchName;
+            branch.CompanyId = model.CompanyId;
+            branch.EmailIdBranch = model.EmailIdBranch;
+
         }
     }
 }

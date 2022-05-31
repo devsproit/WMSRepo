@@ -7,6 +7,7 @@ using DatabaseLibrary.SQL;
 using Domain.Model;
 using System.Linq;
 using WMS.Core.Data;
+using WMS.Core;
 namespace Application.Services
 {
 
@@ -14,33 +15,33 @@ namespace Application.Services
     public class BranchHelper : IBranchHelper
     {
         private readonly IAdoConnection _adoConnection;
-        private readonly IRepository<BranchDb> _branchRepository;
-        public BranchHelper(IAdoConnection adoConnection, IRepository<BranchDb> branchRepository)
+        private readonly IRepository<Branch> _branchRepository;
+        public BranchHelper(IAdoConnection adoConnection, IRepository<Branch> branchRepository)
         {
             _adoConnection = adoConnection;
             _branchRepository = branchRepository;
         }
 
-        public List<BranchDb> GetAllBranch()
+        public List<Branch> GetAllBranch()
         {
-            List<BranchDb> data = new List<BranchDb>();
+            List<Branch> data = new List<Branch>();
             DataTable dbDT = _adoConnection.GetDatatableFromSqlWithSP(Constants.GetAllBranchSP);
             if (dbDT != null)
-                data = dbDT.ToList<BranchDb>();
+                data = dbDT.ToList<Branch>();
             return data;
         }
 
-        public BranchDb GetBranchById(int Id)
+        public Branch GetBranchById(int Id)
         {
-            List<BranchDb> data = new List<BranchDb>();
+            List<Branch> data = new List<Branch>();
             List<SqlParameter> sqlParameters = new List<SqlParameter>();
             sqlParameters.Add(new SqlParameter("@Id", Id));
             DataTable dbDT = _adoConnection.GetDatatableFromSqlWithSP(Constants.GetBranchIdSP, sqlParameters);
             if (dbDT != null)
-                data = dbDT.ToList<BranchDb>();
+                data = dbDT.ToList<Branch>();
             return data.FirstOrDefault();
         }
-        public bool CreateNewBranch(BranchDb Branch)
+        public bool CreateNewBranch(Branch Branch)
         {
             int result = 0;
             List<SqlParameter> sqlParameters = null;
@@ -48,7 +49,7 @@ namespace Application.Services
             {
                 sqlParameters = new List<SqlParameter>()
                 {
-                    new SqlParameter("@ScreenCode", Branch.ScreenCode),
+                    
                     new SqlParameter("@BranchCode", Branch.BranchCode),
                     new SqlParameter("@BranchName", Branch.BranchName),
                     new SqlParameter("@CompanyName", Branch.CompanyId),
@@ -58,14 +59,14 @@ namespace Application.Services
                     new SqlParameter("@ContactNumberBranch", Branch.ContactNumberBranch),
                     new SqlParameter("@EmailIdBranch", Branch.EmailIdBranch),
                     new SqlParameter("AssociatedEmployee", Branch.AssociatedEmployee),
-                    new SqlParameter("@WarehouseName", Branch.WarehouseId),
+                    //new SqlParameter("@WarehouseName", Branch.WarehouseId),
 
                 };
                 result = _adoConnection.InsertUpdateWithSP(Constants.CreateNewBranchSP, sqlParameters);
             }
             return result > 0 ? true : false;
         }
-        public bool UpdateBranchById(BranchDb Branch)
+        public bool UpdateBranchById(Branch Branch)
         {
             int result = 0;
             List<SqlParameter> sqlParameters = null;
@@ -73,7 +74,7 @@ namespace Application.Services
             {
                 sqlParameters = new List<SqlParameter>()
                 {
-                   new SqlParameter("@ScreenCode", Branch.ScreenCode),
+                   
                     new SqlParameter("@BranchCode", Branch.BranchCode),
                     new SqlParameter("@BranchName", Branch.BranchName),
                     new SqlParameter("@CompanyName", Branch.CompanyId),
@@ -83,7 +84,7 @@ namespace Application.Services
                     new SqlParameter("@ContactNumberBranch", Branch.ContactNumberBranch),
                     new SqlParameter("@EmailIdBranch", Branch.EmailIdBranch),
                     new SqlParameter("AssociatedEmployee", Branch.AssociatedEmployee),
-                    new SqlParameter("@WarehouseName", Branch.WarehouseId),
+                    //new SqlParameter("@WarehouseName", Branch.WarehouseId),
                 };
                 result = _adoConnection.InsertUpdateWithSP(Constants.UpdateBranchByIdSP, sqlParameters);
             }
@@ -98,11 +99,24 @@ namespace Application.Services
             return result > 0 ? true : false;
         }
 
-        public void Insert(BranchDb entity)
+        public void Insert(Branch entity)
         {
             _branchRepository.Insert(entity);
         }
+        public virtual IPagedList<Branch> GetAllBranches(int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = from x in _branchRepository.Table
+                        select x;
+            query = query.OrderByDescending(x => x.Id);
+            return new PagedList<Branch>(query, pageIndex, pageSize);
 
+
+        }
+
+        public virtual Branch GetById(int id)
+        {
+            return _branchRepository.GetById(id);   
+        }
 
     }
 }

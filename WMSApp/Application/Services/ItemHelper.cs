@@ -6,6 +6,7 @@ using DatabaseLibrary.SQL;
 using Domain.Model;
 using System.Collections.Generic;
 using System.Linq;
+using WMS.Core.Data;
 namespace Application.Services
 {
 
@@ -14,9 +15,12 @@ namespace Application.Services
     {
         private readonly IAdoConnection _adoConnection;
 
-        public ItemHelper(IAdoConnection adoConnection)
+        private readonly IRepository<ItemDb> _itemRepository;
+
+        public ItemHelper(IAdoConnection adoConnection, IRepository<ItemDb> itemRepository)
         {
             _adoConnection = adoConnection;
+            _itemRepository = itemRepository;
         }
 
         public List<ItemDb> GetAllItem()
@@ -46,7 +50,7 @@ namespace Application.Services
             {
                 sqlParameters = new List<SqlParameter>()
                 {
-                    new SqlParameter("@CompanyName", Item.CompanyName),
+                    new SqlParameter("@CompanyName", Item.CompanyId),
                     new SqlParameter("@ItemName", Item.ItemName),
                     new SqlParameter("@ItemCode", Item.ItemCode),
                 };
@@ -63,7 +67,7 @@ namespace Application.Services
                 sqlParameters = new List<SqlParameter>()
                 {
                 new SqlParameter("@Id", Item.Id),
-                   new SqlParameter("@CompanyName", Item.CompanyName),
+                   new SqlParameter("@CompanyName", Item.CompanyId),
                     new SqlParameter("@ItemName", Item.ItemName),
                     new SqlParameter("@ItemCode", Item.ItemCode),
                 };
@@ -78,6 +82,12 @@ namespace Application.Services
             sqlParameters.Add(new SqlParameter("@Id", Id));
             result = _adoConnection.InsertUpdateWithSP(Constants.DeleteItemByIdSP, sqlParameters);
             return result > 0 ? true : false;
+        }
+
+
+        public virtual void Update(ItemDb entity)
+        {
+            _itemRepository.Update(entity);
         }
 
 

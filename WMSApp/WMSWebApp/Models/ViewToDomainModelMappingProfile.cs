@@ -3,6 +3,8 @@ using Domain.Model;
 using WMSWebApp.ViewModels;
 using Domain.Model.Masters;
 using WMS.Data;
+using System.Linq;
+using System.Collections.Generic;
 namespace WMSWebApp.Models
 {
 
@@ -18,8 +20,18 @@ namespace WMSWebApp.Models
             CreateMap<Company, CompanyDb>();
 
 
-            CreateMap<BranchDb, Branch>();
-            CreateMap<Branch, BranchDb>();
+            CreateMap<Branch, BranchModel>()
+                .ForMember(model => model.Warehouses, options => options.Ignore());
+
+            CreateMap<BranchModel, Branch>()
+                .ForMember(entity => entity.BranchWiseWarehouses, options => options.Ignore());
+
+
+
+
+
+
+
 
             CreateMap<CustomerDb, Customer>();
             CreateMap<Customer, CustomerDb>();

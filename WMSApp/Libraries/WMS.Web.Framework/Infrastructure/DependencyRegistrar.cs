@@ -14,6 +14,7 @@ using WMS.Core.Infrastructure;
 using Application.Services.WarehouseMaster;
 using Application.Services.GRN;
 using Application.Services.Master;
+using Microsoft.AspNetCore.Http;
 #endregion
 
 
@@ -28,7 +29,8 @@ namespace WMS.Web.Framework.Infrastructure
                .As<IDbContext>().InstancePerLifetimeScope();
             //repositories
             builder.RegisterGeneric(typeof(EfRepository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
-
+            builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
+            builder.RegisterType<WebWorkContext>().As<IWorkContext>().InstancePerLifetimeScope();
             builder.RegisterType<CompanyHelper>().As<ICompanyHelper>().InstancePerLifetimeScope();
             builder.RegisterType<BranchHelper>().As<IBranchHelper>().InstancePerLifetimeScope();
             builder.RegisterType<CustomerHelper>().As<ICustomerHelper>().InstancePerLifetimeScope();
@@ -37,6 +39,8 @@ namespace WMS.Web.Framework.Infrastructure
             builder.RegisterType<WarehouseService>().As<IWarehouseService>().InstancePerLifetimeScope();
             builder.RegisterType<GoodReceivedNoteMasterService>().As<IGoodReceivedNoteMasterService>().InstancePerLifetimeScope();
             builder.RegisterType<UserProfileService>().As<IUserProfileService>().InstancePerLifetimeScope();
+            builder.RegisterType<IntrasitHelper>().As<IIntrasitHelper>().InstancePerLifetimeScope();
+
         }
 
         public int Order => 0;

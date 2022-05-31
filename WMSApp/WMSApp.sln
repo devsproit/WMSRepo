@@ -22,7 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WMS.Core", "Libraries\WMS.Core\WMS.Core.csproj", "{26F6F29D-4168-454A-8A0D-3ECEE93183AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WMS.Web.Framework", "Libraries\WMS.Web.Framework\WMS.Web.Framework.csproj", "{CC50B6D5-8BDA-45AE-B1B4-D5D6DEE159DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WMS.Web.Framework", "Libraries\WMS.Web.Framework\WMS.Web.Framework.csproj", "{CC50B6D5-8BDA-45AE-B1B4-D5D6DEE159DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

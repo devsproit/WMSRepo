@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using WMS.Data
+@inject IWorkContext _workContext
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -100,7 +102,19 @@
                         <img src="~/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Alexander Pierce</a>
+                        @{
+
+                            var profile = await _workContext.UserProfile();
+                            if (profile != null)
+                            {
+                                <a href="#" class="d-block">@profile.FirstName @profile.LastName</a>
+                            }
+                            else
+                            {
+                                <a href="#" class="d-block">Not Found</a>
+                            }
+                        }
+
                     </div>
                 </div>
 
@@ -260,7 +274,7 @@
                                 </li>
                             </ul>
                         </li>
-                      
+
                         <li class="nav-header">Process</li>
                         <li class="nav-item">
                             <a href="pages/calendar.html" class="nav-link">
@@ -270,7 +284,7 @@
                                     <span class="badge badge-info right">2</span>
                                 </p>
                             </a>
-                             <ul class="nav nav-treeview">
+                            <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a asp-action="Create" asp-controller="Intrasit" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
@@ -297,7 +311,7 @@
                                 </li>
                             </ul>
                         </li>
-                        
+
                         <li class="nav-header">Reports</li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -305,8 +319,8 @@
                                 <p>Tabbed IFrame</p>
                             </a>
                         </li>
-                        
-                        
+
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -316,6 +330,7 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
+            @await Html.PartialAsync("Notifications")
             @RenderBody()
         </div>
         <!-- /.content-wrapper -->

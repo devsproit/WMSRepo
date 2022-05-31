@@ -13,7 +13,7 @@ using WMSWebApp.ViewModels;
 namespace WMSWebApp.Controllers
 {
     [Authorize]
-    public class CustomerController : Controller
+    public class CustomerController : BaseAdminController
     {
         private readonly ICustomerHelper _CustomerHelper;
         private readonly IMapper _mapper;
@@ -69,6 +69,8 @@ namespace WMSWebApp.Controllers
             {
                 var Customer = _mapper.Map<CustomerDb>(c);
                 var b = _CustomerHelper.CreateNewCustomer(Customer);
+                SuccessNotification("New Customer added successfully.");
+
                 return RedirectToAction(nameof(Index));
             }
             catch

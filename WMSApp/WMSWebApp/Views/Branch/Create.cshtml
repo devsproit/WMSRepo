@@ -1,152 +1,162 @@
-﻿@model WMSWebApp.ViewModels.Branch
+﻿@model WMSWebApp.ViewModels.BranchModel
 
 @{
     ViewData["Title"] = "Create";
 }
-<section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Create New Branch</h1>
+@section Style{
+    <!-- Select2 -->
+    <link rel="stylesheet" href="~/lib/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/lib/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+   
+}
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Create New Branch</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Master</li>
+                    </ol>
+                </div>
             </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Master</li>
-                </ol>
-            </div>
-        </div>
-    </div><!-- /.container-fluid -->
-</section>
+        </div><!-- /.container-fluid -->
+    </section>
 
-<section class="content">
-    <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">Create New Branch</h3>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Create New Branch</h3>
 
-                    </div>
-                    <form asp-action="Create">
+                        </div>
+                        <form asp-action="Create">
 
 
-                        <div class="card-body">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="card-body">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="ScreenCode">Screen Code</label>
-                                        <input type="text" asp-for="ScreenCode" id="ScreenCode" autocomplete="off" class="form-control">
-                                        <span asp-validation-for="ScreenCode" class="text-danger"></span>
+                                <div class="row">
+                                    @*  <div class="col-md-6">
+                                <div class="form-group">
+                                <label asp-for="ScreenCode">Screen Code</label>
+                                <input type="text" asp-for="ScreenCode" id="ScreenCode" autocomplete="off" class="form-control">
+                                <span asp-validation-for="ScreenCode" class="text-danger"></span>
+                                </div>
+                                </div>*@
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="BranchCode">Branch Code</label>
+                                            <input type="text" asp-for="BranchCode" id="BranchCode" autocomplete="off" class="form-control">
+                                            <span asp-validation-for="BranchCode" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="BranchName">Branch Name</label>
+                                            <input type="text" asp-for="BranchName" id="BranchName" autocomplete="BranchName" class="form-control">
+                                            <span asp-validation-for="BranchName" class="text-danger"></span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="BranchCode">Branch Code</label>
-                                        <input type="text" asp-for="BranchCode" id="BranchCode" autocomplete="off" class="form-control">
-                                        <span asp-validation-for="BranchCode" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
 
 
 
 
-                            <div class=row>
-                                <div class=" col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="EmailIdBranch"></label>
-                                        <input asp-for="EmailIdBranch" class="form-control" />
-                                    </div>
-                                    <span asp-validation-for="EmailIdBranch" class="text-danger"></span>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group ">
-                                        <label asp-for="AssociatedEmployee"></label>
-                                        <select asp-for="AssociatedEmployee" class="form-control" asp-items="@(new SelectList(Model.Users,"Id","Email"))">
-                                        </select>
-                                    </div>
-                                    <span asp-validation-for="AssociatedEmployee" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="BranchName">Branch Name</label>
-                                        <input type="text" asp-for="BranchName" id="BranchName" autocomplete="BranchName" class="form-control">
-                                        <span asp-validation-for="BranchName" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="CompanyId">Compnay Name</label>
-                                        <input type="text" asp-for="CompanyId" id="CompanyName" autocomplete="CompanyName" class="form-control">
-                                        <span asp-validation-for="CompanyId" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="Address">Address</label>
-                                        <input type="text" asp-for="Address" id="Address" autocomplete="Address" class="form-control">
-                                        <span asp-validation-for="Address" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="Location">Location</label>
-                                        <input type="text" asp-for="Location" id="Location" autocomplete="Location" class="form-control">
-                                        <span asp-validation-for="Location" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="ContactPersonBranch">Contact Person Branch</label>
-                                        <input type="text" asp-for="ContactPersonBranch" id="ContactPersonBranch" autocomplete="off" class="form-control">
-                                        <span asp-validation-for="ContactPersonBranch" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="ContactNumberBranch">Contact Number Branch</label>
-                                        <input type="text" asp-for="ContactNumberBranch" id="Location" autocomplete="off" class="form-control">
-                                        <span asp-validation-for="ContactNumberBranch" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="EmailIdBranch">Email Id Branch</label>
-                                        <input type="text" asp-for="EmailIdBranch" id="EmailIdBranch" autocomplete="off" class="form-control">
+                                <div class=row>
+                                    <div class=" col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="EmailIdBranch"></label>
+                                            <input asp-for="EmailIdBranch" class="form-control" />
+                                        </div>
                                         <span asp-validation-for="EmailIdBranch" class="text-danger"></span>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="AssociatedEmployee">Associated Employee</label>
-                                        <input type="text" asp-for="AssociatedEmployee" id="AssociatedEmployee" autocomplete="off" class="form-control">
+                                    <div class="col-md-6">
+                                        <div class="form-group ">
+                                            <label asp-for="AssociatedEmployee"></label>
+                                            <select asp-for="AssociatedEmployee" class="form-control select2" asp-items="@(new SelectList(Model.Users,"UserId","Name"))">
+                                            </select>
+                                        </div>
                                         <span asp-validation-for="AssociatedEmployee" class="text-danger"></span>
                                     </div>
                                 </div>
-                            </div>
+                                <div class="row">
 
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="WarehouseId">Warehouse Name</label>
-                                        <input type="text" asp-for="WarehouseId" id="WarehouseName" autocomplete="WarehouseName" class="form-control">
-                                        <span asp-validation-for="WarehouseId" class="text-danger"></span>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="CompanyId">Compnay Name</label>
+                                            <select asp-for="CompanyId" id="CompanyName" autocomplete="CompanyName" class="form-control select2" asp-items="@(new SelectList(Model.Companies,"Id","CompanyName"))"></select>
+                                            <span asp-validation-for="CompanyId" class="text-danger"></span>
+                                        </div>
                                     </div>
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Address">Address</label>
+                                            <input type="text" asp-for="Address" id="Address" autocomplete="Address" class="form-control">
+                                            <span asp-validation-for="Address" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Location">Location</label>
+                                            <input type="text" asp-for="Location" id="Location" autocomplete="Location" class="form-control">
+                                            <span asp-validation-for="Location" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="ContactPersonBranch">Contact Person Branch</label>
+                                            <input type="text" asp-for="ContactPersonBranch" id="ContactPersonBranch" autocomplete="off" class="form-control">
+                                            <span asp-validation-for="ContactPersonBranch" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="ContactNumberBranch">Contact Number Branch</label>
+                                            <input type="text" asp-for="ContactNumberBranch" id="Location" autocomplete="off" class="form-control">
+                                            <span asp-validation-for="ContactNumberBranch" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="row">
+                            <div class="col-md-6">
+                            <div class="form-group">
+                            <label asp-for="EmailIdBranch">Email Id Branch</label>
+                            <input type="text" asp-for="EmailIdBranch" id="EmailIdBranch" autocomplete="off" class="form-control">
+                            <span asp-validation-for="EmailIdBranch" class="text-danger"></span>
                             </div>
+                            </div>
+                            <div class="col-md-6">
+                            <div class="form-group">
+                            <label asp-for="AssociatedEmployee">Associated Employee</label>
+                            <input type="text" asp-for="AssociatedEmployee" id="AssociatedEmployee" autocomplete="off" class="form-control">
+                            <span asp-validation-for="AssociatedEmployee" class="text-danger"></span>
+                            </div>
+                            </div>
+                            </div>*@
+
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group ">
+                                            <label asp-for="WarehouseId">Warehouse Name</label>
+                                            <div class="select2-purple">
+                                                <select asp-for="WarehouseId" data-placeholder="Select a Warehouse" multiple="multiple" data-dropdown-css-class="select2-purple" class="select2 multiselect" asp-items="@(new SelectList(Model.Warehouses,"Id","WarehouseName"))" style="width: 100%;"></select>
+                                            </div>
+
+                                            <span asp-validation-for="WarehouseId" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
 
 
 
@@ -154,21 +164,31 @@
 
 
 
-                        </div>
-                        <div class="card-footer">
-                            <button type="submit" value="Create" class="btn btn-primary">Submit</button>
-                        </div>
-                    </form>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" value="Create" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
 
-@section Scripts {
+    @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <!-- Select2 -->
+    <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
+    <script>
+        $(function() {
+            $('.select2').select2({
+                theme: 'bootstrap4'
+            })
+            $('.multiselect').select2()
+        });
+    </script>
     }

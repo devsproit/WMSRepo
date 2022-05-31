@@ -17,7 +17,8 @@ namespace Domain.Model.Masters
         public string PinCode { get; set; }
         public string Email { get; set; }
         public DateTime CreateOn { get; set; } = DateTime.Now;
-
+        public int BranchId { get; set; }
+        public virtual Branch Branch  { get; set; }
 
 
     }

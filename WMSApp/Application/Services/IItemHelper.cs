@@ -11,5 +11,6 @@ namespace Application.Services
         ItemDb GetItemById(int Id);
         bool UpdateItemById(ItemDb Item);
         bool CreateNewItem(ItemDb Item);
+        void Update(ItemDb entity);
     }
 }

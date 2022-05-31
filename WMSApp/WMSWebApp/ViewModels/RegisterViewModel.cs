@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using System.Collections.Generic;
+using Domain.Model;
+using System;
 namespace WMSWebApp.ViewModels
 {
     public class RegisterViewModel
@@ -24,5 +26,10 @@ namespace WMSWebApp.ViewModels
         public string State { get; set; }
         public string City { get; set; }
         public string PinCode { get; set; }
+        public List<Branch> Branches { get; set; }
+        public int BranchId { get; set; }
+        public int Id { get; set; }
+        public DateTime CreateOn { get; set; }
+        public string  Branch { get; set; }
     }
 }

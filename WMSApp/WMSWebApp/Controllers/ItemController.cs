@@ -8,21 +8,22 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WMSWebApp.ViewModels;
-
+using System.Linq;
 
 namespace WMSWebApp.Controllers
 {
     [Authorize]
-    public class ItemController : Controller
+    public class ItemController : BaseAdminController
     {
         private readonly IItemHelper _ItemHelper;
         private readonly IMapper _mapper;
+        private readonly ICompanyHelper _companyService;
 
-
-        public ItemController(IItemHelper ItemHelper, IMapper mapper)
+        public ItemController(IItemHelper ItemHelper, IMapper mapper, ICompanyHelper companyService)
         {
             _ItemHelper = ItemHelper;
             _mapper = mapper;
+            _companyService = companyService;
         }
 
 
@@ -46,7 +47,7 @@ namespace WMSWebApp.Controllers
         {
             var B = new Item()
             {
-                CompanyName = "Test",
+                CompanyId = 1,
                 ItemName = "Test",
                 ItemCode = "Test",
 
@@ -56,7 +57,9 @@ namespace WMSWebApp.Controllers
         // GET: ItemController/Create
         public ActionResult Create()
         {
-            return View();
+            Item model = new Item();
+            model.Companies = _companyService.GetAllCOmpany().ToList();
+            return View(model);
         }
 
         // POST: ItemController/Create
@@ -68,6 +71,7 @@ namespace WMSWebApp.Controllers
             {
                 var Item = _mapper.Map<ItemDb>(c);
                 var b = _ItemHelper.CreateNewItem(Item);
+                SuccessNotification("Item Created.");
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -79,17 +83,21 @@ namespace WMSWebApp.Controllers
         // GET: ItemController/Edit/5
         public ActionResult Edit(int id)
         {
-            var c = new Item();
+            var model = new Item();
+           
             try
             {
                 var data = _ItemHelper.GetItemById(id);
-                c = _mapper.Map<Item>(data);
+
+                model = _mapper.Map<Item>(data);
+                
             }
             catch (Exception)
             {
                 throw;
             }
-            return View(c);
+            model.Companies = _companyService.GetAllCOmpany().ToList();
+            return View(model);
         }
         // POST: ItemController/Edit/5
         [HttpPost]
@@ -99,7 +107,8 @@ namespace WMSWebApp.Controllers
             try
             {
                 var Item = _mapper.Map<ItemDb>(c);
-                var b = _ItemHelper.UpdateItemById(Item);
+                 _ItemHelper.Update(Item);
+                SuccessNotification("Item Updated.");
                 return RedirectToAction(nameof(Index));
             }
             catch

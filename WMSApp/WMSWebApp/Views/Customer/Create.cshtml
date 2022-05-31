@@ -3,6 +3,14 @@
 @{
     ViewData["Title"] = "Create";
 }
+
+@section Style{
+    <!-- Select2 -->
+    <link rel="stylesheet" href="~/lib/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/lib/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+   
+}
+
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -35,43 +43,40 @@
 
 
                             <div class=row>
-                                <div class=" col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="ScreenCode"></label>
-                                        <input asp-for="ScreenCode" class="form-control " />
-                                    </div>
-                                    <span asp-validation-for="ScreenCode" class="text-danger"></span>
-                                </div>
-                                <div class=" col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="CustomerCategory" ></label>
-                                        <input asp-for="CustomerCategory" class="form-control" />
-                                    </div>
-                                    <span asp-validation-for="CustomerCategory" class="text-danger"></span>
-                                </div>
                             </div>
 
                             <div class=row>
                                 <div class=" col-md-6">
                                     <div class="form-group">
-                                        <label asp-for="CustomerName" ></label>
-                                        <input asp-for="CustomerName" class="form-control" />
-                                    </div>
-                                    <span asp-validation-for="CustomerName" class="text-danger"></span>
-                                </div>
-                                <div class=" col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="CustomerCode" ></label>
+                                        <label asp-for="CustomerCode"></label>
                                         <input asp-for="CustomerCode" class="form-control" />
                                     </div>
                                     <span asp-validation-for="CustomerCode" class="text-danger"></span>
                                 </div>
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="CustomerName"></label>
+                                        <input asp-for="CustomerName" class="form-control" />
+                                    </div>
+                                    <span asp-validation-for="CustomerName" class="text-danger"></span>
+                                </div>
+
                             </div>
 
                             <div class=row>
                                 <div class=" col-md-6">
                                     <div class="form-group">
-                                        <label asp-for="Location" ></label>
+                                        <label asp-for="CustomerCategory"></label>
+                                        <select asp-for="CustomerCategory" class="form-control" >
+                                            <option value="Dealer">Dealer</option>
+                                            <option value="Customer">Customer</option>
+                                        </select>
+                                    </div>
+                                    <span asp-validation-for="CustomerCategory" class="text-danger"></span>
+                                </div>
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Location"></label>
                                         <input asp-for="Location" class="form-control" />
                                     </div>
                                     <span asp-validation-for="Location" class="text-danger"></span>
@@ -99,4 +104,13 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
+    <script>
+        $(function() {
+            $('.select2').select2({
+                theme: 'bootstrap4'
+            })
+            $('.multiselect').select2()
+        });
+    </script>
     }

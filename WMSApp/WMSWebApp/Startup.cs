@@ -22,6 +22,8 @@ using WMS.Core.Data;
 using WMS.Web.Framework.Infrastructure.Extentsion;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json.Serialization;
 
 namespace WMSWebApp
 {
@@ -63,7 +65,7 @@ namespace WMSWebApp
             services.AddDbContext<WMSObjectContext>(options =>
             {
 
-                options.UseSqlServer(Configuration.GetConnectionString("default"));
+                options.UseSqlServer(Configuration.GetConnectionString("default")).UseLazyLoadingProxies();
 
             });
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
@@ -93,13 +95,48 @@ namespace WMSWebApp
             //services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
             services.AddSingleton<IMapper>(new Mapper(config));
             services.AddSingleton<IAdoConnection>(new AdoConnection(connectionString));
-            services.AddTransient<ICompanyHelper, CompanyHelper>();
-            services.AddTransient<IBranchHelper, BranchHelper>();
-            services.AddTransient<ICustomerHelper,CustomerHelper>();
-            services.AddTransient<IItemHelper, ItemHelper>();
-            services.AddTransient<ISubItemHelper, SubItemHelper>();
-            services.AddTransient<IIntrasitHelper, IntrasitHelper>();
+            //services.AddTransient<ICompanyHelper, CompanyHelper>();
+            //services.AddTransient<IBranchHelper, BranchHelper>();
+            //services.AddTransient<ICustomerHelper,CustomerHelper>();
+            //services.AddTransient<IItemHelper, ItemHelper>();
+            //services.AddTransient<ISubItemHelper, SubItemHelper>();
+            //services.AddTransient<IIntrasitHelper, IntrasitHelper>();
             services.AddControllersWithViews();
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings.
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 6;//6
+                options.Password.RequiredUniqueChars = 1;//1
+
+                // Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = true;
+            });
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromDays(5);
+
+                options.LoginPath = new PathString("/Account/Login");
+                options.AccessDeniedPath = new PathString("/Account/Login");
+                options.SlidingExpiration = true;
+            });
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            });
+            services.AddControllersWithViews().AddNewtonsoftJson();
             //services.AddControllers();
             return services.ConfigureApplicationServices(Configuration, _webHostEnvironment);
         }

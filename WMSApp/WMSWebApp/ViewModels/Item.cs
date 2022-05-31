@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using System.Collections.Generic;
+using Domain.Model;
 namespace WMSWebApp.ViewModels
 {
     public class Item
@@ -7,7 +8,7 @@ namespace WMSWebApp.ViewModels
         public int Id { get; set; }
 
         [Display(Name = "Company Name")]
-        public string CompanyName { get; set; }
+        public int CompanyId { get; set; }
         [DataType(DataType.MultilineText)]
 
         [Display(Name = "Item Name")]
@@ -17,7 +18,10 @@ namespace WMSWebApp.ViewModels
         [Required]
         [Display(Name = "Item Code")]
         public string ItemCode { get; set; }
-        
+
+        public List<CompanyDb> Companies { get; set; }
+
+
 
     }
 }

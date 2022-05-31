@@ -8,34 +8,40 @@ using Application.Services.Master;
 using AutoMapper;
 using Domain.Model.Masters;
 using WMS.Web.Framework.Infrastructure.Extentsion;
+using Application.Services;
+using System.Linq;
 
 namespace WMSWebApp.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseAdminController
     {
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IUserProfileService _userProfileService;
         private readonly IMapper _mapper;
-
+        private readonly IBranchHelper _branchService;
 
         public AccountController(UserManager<ApplicationUser> userManager,
                               SignInManager<ApplicationUser> signInManager,
                               IUserProfileService userProfileService,
-                              IMapper mapper)
+                              IMapper mapper,
+                              IBranchHelper branchService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _userProfileService = userProfileService;
             _mapper = mapper;
+            _branchService = branchService;
         }
 
 
         public IActionResult Register()
         {
-            return View();
+            RegisterViewModel model = new RegisterViewModel();
+            model.Branches = _branchService.GetAllBranches().ToList();
+            return View(model);
         }
 
         [HttpPost]
@@ -56,10 +62,10 @@ namespace WMSWebApp.Controllers
                     //await _signInManager.SignInAsync(user, isPersistent: false);
 
                     UserProfile profile = _mapper.Map<UserProfile>(model);
-                    
+                    profile.UserId = user.Id;
                     _userProfileService.Insert(profile);
-
-                    return RedirectToAction("index", "Home");
+                    SuccessNotification("New User created successfully.");
+                    return RedirectToAction("List", "Account");
                 }
 
                 foreach (var error in result.Errors)
@@ -109,7 +115,7 @@ namespace WMSWebApp.Controllers
         }
 
 
-        
+
         public IActionResult List()
         {
             return View();
@@ -118,7 +124,19 @@ namespace WMSWebApp.Controllers
         [HttpPost]
         public IActionResult List(DataSourceRequest request)
         {
-            return View();
+            var users = _userProfileService.GetAllProfile("");
+            var gridData = new DataSourceResult()
+            {
+
+                Data = users.Select(x =>
+                {
+                    RegisterViewModel profile = _mapper.Map<RegisterViewModel>(x);
+                    profile.Branch = x.Branch.BranchName;
+                    return profile;
+                }),
+                Total = users.TotalCount
+            };
+            return Json(gridData);
         }
     }
 }

@@ -62,7 +62,7 @@ namespace WMSWebApp.Controllers
                 var listCompany = _IntrasitHelper.GetAllCompany();
                 var listItem = _IntrasitHelper.GetAllItem();
                 listCompany.Insert(0, new CompanyDb { Id = 0, CompanyName = "Select" });
-                listBranch.Insert(0, new BranchDb { Id = 0, BranchName = "Select" });
+                listBranch.Insert(0, new Branch { Id = 0, BranchName = "Select" });
                 listItem.Insert(0, new ItemDb { Id = 0, ItemName = "Select" });
                 ViewBag.ListofCompany = listCompany;
                 ViewBag.listBranch = listBranch;

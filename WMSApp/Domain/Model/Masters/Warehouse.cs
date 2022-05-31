@@ -31,5 +31,14 @@ namespace Domain.Model.Masters
             protected set => _warehouseZones = value;
 
         }
+
+        private ICollection<BranchWiseWarehouse> _branchWiseWarehouses;
+        public virtual ICollection<BranchWiseWarehouse> BranchWiseWarehouses
+        {
+            get=>_branchWiseWarehouses??=new List<BranchWiseWarehouse>();
+            protected set => _branchWiseWarehouses = value;
+        }
+
+
     }
 }
