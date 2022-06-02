@@ -8,7 +8,28 @@
     <link href="~/lib/kendoUi/2021/styles/kendo.common.min.css" rel="stylesheet" />
     <link href="~/lib/kendoUi/2021/styles/kendo.default.min.css" rel="stylesheet" />
     <link href="~/lib/kendoUi/2021/styles/kendo.default.mobile.min.css" rel="stylesheet" />
+    <link href="~/lib/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/lib/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <style>
 
+        .ui-autocomplete {
+            /*position: absolute;*/
+            cursor: default;
+            z-index: 1099 !important;
+            max-height: 200px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .ui-datepicker {
+            z-index: 1099 !important;
+        }
+
+        .ui-autocomplete-loading {
+            background: white url("../img/ajax-loader.gif") right center no-repeat;
+        }
+    </style>
 }
 
     <section class="content-header">
@@ -47,9 +68,9 @@
                                         </select>
 
                                     </div>
-                                    <div class="form-group col-md-2" id="ponumber">
+                                    <div class="form-group col-md-2" id="ponumber-area">
                                         <label>PO Number</label>
-                                        <select class="form-control"></select>
+                                        <select class="form-control select2" id="ponumber"></select>
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label>Invoice No.</label>
@@ -63,9 +84,9 @@
                                 <br />
                                 <div class="row">
                                     <div id="myGrid">
+                                    </div>
                                 </div>
-                                </div>
-                                
+
                                 <br />
                                 <div class="row">
                                     <div class="col-md-12">
@@ -221,11 +242,17 @@
         <script src="~/lib/kendoUi/2021/js/kendo.all.min.js"></script>
         <script src="~/lib/kendoUi/2021/js/jszip.min.js"></script>
         <script src="~/js/common.js"></script>
+        <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+        <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
+        <script src="~/js/grn/grnprocess.js"></script>
     </environment>
     <environment exclude="Development">
         <script src="~/lib/kendoUi/2021/js/kendo.all.min.js"></script>
         <script src="~/lib/kendoUi/2021/js/jszip.min.js"></script>
+        <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+        <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
         <script src="~/js/common.min.js"></script>
+          <script src="~/js/grn/grnprocess.js"></script>
     </environment>
     <script src="~/sample/product.js"></script>
 
@@ -255,7 +282,7 @@
                     numeric: false
                 },
                 columns: [
-                    {field:"ProductName",title:"ProductName",width:"200px"},
+                    { field: "ProductName", title: "ProductName", width: "200px" },
                     { field: "UnitPrice", title: "Unit Price", format: "{0:c}", width: "130px" },
                     { field: "UnitsInStock", title: "Units In Stock", width: "130px" },
                     { field: "Discontinued", width: "130px" }

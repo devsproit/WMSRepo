@@ -24,13 +24,25 @@ namespace Application.Services.GRN
 
         #region Methods
 
-        public virtual IPagedList<IntrasitDb> GetPendingPO(string branchCode, int pageIndex = 0, int pageSize = int.MaxValue)
+        public virtual IPagedList<IntrasitDb> GetPendingPO(string branchCode, string pono, int pageIndex = 0, int pageSize = int.MaxValue)
         {
-            var query = from x in _intrasitRepository.Table
-                        select x;
-            query = query.Where(x => x.Login_Branch == branchCode && x.IsGrn == false);
-            var result = new PagedList<IntrasitDb>(query, pageIndex, pageSize);
-            return result;
+            try
+            {
+                var query = from x in _intrasitRepository.Table
+                            select x;
+                query = query.Where(x => x.Login_Branch == branchCode && x.IsGrn == false);
+                if (!string.IsNullOrEmpty(pono))
+                {
+                    query = query.Where(x => x.PurchaseOrder == pono);
+                }
+                var result = new PagedList<IntrasitDb>(query, pageIndex, pageSize);
+                return result;
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
+            
         }
 
         #endregion

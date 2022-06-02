@@ -120,6 +120,8 @@
       <None Include="wwwroot\lib\delete-icon.png" />
       <None Include="wwwroot\lib\detail-icon.png" />
       <None Include="wwwroot\lib\edit-icon.png" />
+      <None Include="wwwroot\lib\jquery-ui\jquery-ui.js" />
+      <None Include="wwwroot\lib\jquery-ui\jquery-ui.min.js" />
       <None Include="wwwroot\lib\plugins\bootstrap\js\bootstrap.bundle.js" />
       <None Include="wwwroot\lib\plugins\bootstrap\js\bootstrap.bundle.js.map" />
       <None Include="wwwroot\lib\plugins\bootstrap\js\bootstrap.bundle.min.js" />

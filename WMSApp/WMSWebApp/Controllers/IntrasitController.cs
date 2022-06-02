@@ -50,8 +50,8 @@ namespace WMSWebApp.Controllers
                     objDate.Amt = data[i].Amt;
                     objDate.Qty = data[i].Qty;
                     objDate.ETA = data[i].ETA;
-                    objDate.MaterialDescription = data[i].MaterialDescription;
-                    objDate.Branch = data[i].Branch;
+                    objDate.MaterialDescription = data[i].Material_Description;
+                    objDate.Branch = data[i].Sender_Branch;
                     objDate.ItemCode = data[i].Item_Code;
                     objDate.SubItemName = data[i].SubItem_Name;
                     objDate.SubItemCode = data[i].SubItem_Code;
@@ -89,12 +89,12 @@ namespace WMSWebApp.Controllers
                 // var intrasit = _mapper.Map<IntrasitDb>(intrasitc);
 
                 IntrasitDb intrasitDb = new IntrasitDb();
-                intrasitDb.Branch = intrasitc.Branch;
+                intrasitDb.Sender_Branch = intrasitc.Branch;
                 intrasitDb.PurchaseOrder = intrasitc.PurchaseOrder;
                 intrasitDb.Sender_Company = intrasitc.SenderCompany;
                 intrasitDb.SubItem_Name = intrasitc.SubItemName;
                 intrasitDb.SubItem_Code = intrasitc.SubItemCode;
-                intrasitDb.MaterialDescription = intrasitc.MaterialDescription;
+                intrasitDb.Material_Description = intrasitc.MaterialDescription;
                 intrasitDb.Unit = intrasitc.Unit;
                 intrasitDb.Amt = intrasitc.Amt;
                 intrasitDb.Qty = intrasitc.Qty;

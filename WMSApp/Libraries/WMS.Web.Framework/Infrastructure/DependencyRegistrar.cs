@@ -40,7 +40,7 @@ namespace WMS.Web.Framework.Infrastructure
             builder.RegisterType<GoodReceivedNoteMasterService>().As<IGoodReceivedNoteMasterService>().InstancePerLifetimeScope();
             builder.RegisterType<UserProfileService>().As<IUserProfileService>().InstancePerLifetimeScope();
             builder.RegisterType<IntrasitHelper>().As<IIntrasitHelper>().InstancePerLifetimeScope();
-
+            builder.RegisterType<IntrasitService>().As<IIntrasitService>().InstancePerLifetimeScope();
         }
 
         public int Order => 0;
