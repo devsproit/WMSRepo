@@ -30,31 +30,7 @@ namespace WMSWebApp.Controllers
 
         public IActionResult Index()
         {
-            List<Intrasitc> intrasitcs = new List<Intrasitc>();
-            try
-            {
-                var data = _IntrasitHelper.GetAllIntrasit();
-                for (int i = 0; i < data.Count; i++)
-                {
-                    Intrasitc objDate = new Intrasitc();
-                    objDate.Id = data[i].Id;
-                    objDate.PurchaseOrder = data[i].PurchaseOrder;
-                    objDate.Branch = data[i].Branch;
-                    objDate.ItemCode = data[i].Item_Code;
-                    objDate.SubItemCode = data[i].SubItem_Code;
-                    objDate.MaterialDescription = data[i].Material_Description;
-                    objDate.Qty = data[i].Qty;
-                    objDate.Unit = data[i].Unit;
-                    objDate.Amt = data[i].Amt;
-                    intrasitcs.Add(objDate);
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-            return View(intrasitcs);
-           
+            return View();
         }
 
         // GET: CompaniesController/Create
@@ -66,22 +42,22 @@ namespace WMSWebApp.Controllers
             intransitViewModel.intrasitc = new Intrasitc();
             try
             {
-                //var data = _IntrasitHelper.GetAllIntrasit();
-                //for (int i = 0; i < data.Count; i++)
-                //{
-                //    Intrasitc objDate = new Intrasitc();
-                //    objDate.Id = data[i].Id;
-                //    objDate.Amt = data[i].Amt;
-                //    objDate.Qty = data[i].Qty;
-                //    objDate.ETA = data[i].ETA;
-                //    objDate.MaterialDescription = data[i].MaterialDescription;
-                //    objDate.Branch = data[i].Branch;
-                //    objDate.ItemCode = data[i].Item_Code;
-                //    objDate.SubItemName = data[i].SubItem_Name;
-                //    objDate.SubItemCode = data[i].SubItem_Code;
-                //    objDate.PurchaseOrder = data[i].PurchaseOrder;
-                //    intrasitcs.Add(objDate);
-                //}
+                var data = _IntrasitHelper.GetAllIntrasit();
+                for (int i = 0; i < data.Count; i++)
+                {
+                    Intrasitc objDate = new Intrasitc();
+                    objDate.Id = data[i].Id;
+                    objDate.Amt = data[i].Amt;
+                    objDate.Qty = data[i].Qty;
+                    objDate.ETA = data[i].ETA;
+                    objDate.MaterialDescription = data[i].Material_Description;
+                    objDate.Branch = data[i].Sender_Branch;
+                    objDate.ItemCode = data[i].Item_Code;
+                    objDate.SubItemName = data[i].SubItem_Name;
+                    objDate.SubItemCode = data[i].SubItem_Code;
+                    objDate.PurchaseOrder = data[i].PurchaseOrder;
+                    intrasitcs.Add(objDate);
+                }
                 var listBranch = _IntrasitHelper.GetAllBranches();
                 var listCompany = _IntrasitHelper.GetAllCompany();
                 var listItem = _IntrasitHelper.GetAllItem();
@@ -105,19 +81,20 @@ namespace WMSWebApp.Controllers
 
         // POST: CompaniesController/Create
         [HttpPost]
-        public JsonResult Create([FromBody] IntransitViewModel intransitViewModel)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Intrasitc intrasitc, IFormCollection collection)
         {
             try
             {
                 // var intrasit = _mapper.Map<IntrasitDb>(intrasitc);
 
                 IntrasitDb intrasitDb = new IntrasitDb();
-                intrasitDb.Branch = intrasitc.Branch;
+                intrasitDb.Sender_Branch = intrasitc.Branch;
                 intrasitDb.PurchaseOrder = intrasitc.PurchaseOrder;
                 intrasitDb.Sender_Company = intrasitc.SenderCompany;
                 intrasitDb.SubItem_Name = intrasitc.SubItemName;
                 intrasitDb.SubItem_Code = intrasitc.SubItemCode;
-                intrasitDb.MaterialDescription = intrasitc.MaterialDescription;
+                intrasitDb.Material_Description = intrasitc.MaterialDescription;
                 intrasitDb.Unit = intrasitc.Unit;
                 intrasitDb.Amt = intrasitc.Amt;
                 intrasitDb.Qty = intrasitc.Qty;
@@ -128,8 +105,7 @@ namespace WMSWebApp.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = "Not Saved Successfully"});
-                //return View(intrasitc);
+                return View(intrasitc);
             }
         }
 
@@ -176,7 +152,7 @@ namespace WMSWebApp.Controllers
         }
         private void GetDataFromCSVFile(DataSet ds)
         {
-           
+
             try
             {
                 DataTable dt = new DataTable();
@@ -192,13 +168,13 @@ namespace WMSWebApp.Controllers
                 dt.Columns.Add("Unit", typeof(string));
                 dt.Columns.Add("Amt", typeof(string));
                 DataTable dt2 = ds.Tables["Sheet1"];
-               
+
                 foreach (DataRow dr in dt2.Rows)
                 {
                     dt.Rows.Add(dr.ItemArray);
                 }
                 dt.Rows[0].Delete();
-                dt.AcceptChanges();dt2.AcceptChanges();
+                dt.AcceptChanges(); dt2.AcceptChanges();
                 dt.Columns["LoginBranch"].ColumnName = "LoginBranch";
                 dt.Columns["SenderCompany"].ColumnName = "SenderCompany";
                 dt.Columns["Branch"].ColumnName = "Branch";
