@@ -77,7 +77,7 @@
                                     <label asp-for="intrasitc.SubItemName"></label>
 
                                     <select asp-for="SubItemId" class="form-control " id="subItemId">
-                                        <option value="0">Select</option>
+                                        <option value="">Select</option>
                                     </select>
                                 </div>
                                 <span asp-validation-for="intrasitc.SubItemName" class="text-danger"></span>
@@ -110,7 +110,7 @@
                             <div class=" col-md-6">
                                 <div class="form-group">
                                     <label asp-for="intrasitc.Amt"></label>
-                                    <input asp-for="intrasitc.Amt" class="form-control"  id="txtAmt" />
+                                    <input asp-for="intrasitc.Amt" class="form-control"  id="txtAmt" name="amt" />
                                 </div>
 
                             </div>

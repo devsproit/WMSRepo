@@ -14,12 +14,21 @@
                 subItemId: $('#ItId').val(),
             },
             success: function (data) {
+                debugger;
                 //$('#SubItemId').find('option').remove()
                 console.log(data);
-                $(data).each(
-                    function (index, item) {
-                        $('#subItemId').append('<option value="' + item.id + '">' + item.subItemName + '</option>')
-                    });
+                if (data.length != 0) {
+                    $(data).each(
+                        function (index, item) {
+                            $('#subItemId').append('<option value="' + item.Id + '">' + item.SubItemName + '</option>')
+                        });
+                } else {
+                   
+                    $('#subItemId').find('option').remove().end().append('<option value="0">Select</option>');
+                    $('#txtMDesc').val('');
+                   // $('#subItemId option:eq(0)').attr('selected', 'selected')
+                }
+              
             },
             error: function () {
             }
@@ -44,7 +53,7 @@
                     $('#txtMDesc').val("");
                 }
                 else {
-                    $('#txtMDesc').val(data[0].materialDescription);
+                    $('#txtMDesc').val(data[0].MaterialDescription);
                 }
             },
             error: function () {
@@ -57,6 +66,15 @@
             this.value = this.value.replace(/\D/g, '');
         }
     });
+    $('input[name="amt"]').on('keypress', function (event) {
+        var regex = new RegExp("^[a-zA-Z0-9]+$");
+        var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+        if (!regex.test(key)) {
+            event.preventDefault();
+            return false;
+        }
+    });
+    
     $('#btnaddRow').on('click', function () {
         debugger;
         var purchaseOrder = $("#txtPurchaseOrder").val();

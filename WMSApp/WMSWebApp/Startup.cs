@@ -24,6 +24,7 @@ using WMS.Web.Framework.Infrastructure.Extentsion;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Serialization;
+using Microsoft.Extensions.FileProviders;
 
 namespace WMSWebApp
 {
@@ -43,8 +44,8 @@ namespace WMSWebApp
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             string connectionString = Configuration.GetConnectionString("default");
-            
-            
+
+
 
             //services.AddDbContext<AppDBContext>(c =>
             //{
@@ -137,6 +138,7 @@ namespace WMSWebApp
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
             });
             services.AddControllersWithViews().AddNewtonsoftJson();
+            services.AddSingleton<IFileProvider>( new PhysicalFileProvider(System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot")));
             //services.AddControllers();
             return services.ConfigureApplicationServices(Configuration, _webHostEnvironment);
         }

@@ -50,7 +50,7 @@ namespace Application.Services
             {
                 sqlParameters = new List<SqlParameter>()
                 {
-                    new SqlParameter("@CompanyName", Item.CompanyId),
+                    new SqlParameter("@CompanyId", Item.CompanyId),
                     new SqlParameter("@ItemName", Item.ItemName),
                     new SqlParameter("@ItemCode", Item.ItemCode),
                 };
