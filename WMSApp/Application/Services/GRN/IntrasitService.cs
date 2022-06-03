@@ -28,21 +28,45 @@ namespace Application.Services.GRN
         {
             try
             {
-                var query = from x in _intrasitRepository.Table
-                            select x;
-                query = query.Where(x => x.Login_Branch == branchCode && x.IsGrn == false);
                 if (!string.IsNullOrEmpty(pono))
                 {
-                    query = query.Where(x => x.PurchaseOrder == pono);
+                    var query = from x in _intrasitRepository.Table
+                                select x;
+                    query = query.Where(x => x.Login_Branch == branchCode && x.IsGrn == false);
+
+                    if (pono == "0")
+                    {
+
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(pono))
+                        {
+                            query = query.Where(x => x.PurchaseOrder == pono);
+                        }
+                    }
+
+
+
+                    var result = new PagedList<IntrasitDb>(query, pageIndex, pageSize);
+                    return result;
                 }
-                var result = new PagedList<IntrasitDb>(query, pageIndex, pageSize);
-                return result;
+                else
+                {
+                    return null;
+                }
+
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return null;
             }
-            
+
+        }
+
+        public virtual IntrasitDb GetById(int id)
+        {
+            return _intrasitRepository.GetById(id);
         }
 
         #endregion

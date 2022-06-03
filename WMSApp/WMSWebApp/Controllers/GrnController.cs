@@ -9,6 +9,9 @@ using WMSWebApp.ViewModels;
 using AutoMapper;
 using System.Collections.Generic;
 using WMSWebApp.ViewModels.GRN;
+using WMS.Web.Framework.Infrastructure.Extentsion;
+using Application.Services.WarehouseMaster;
+using System;
 namespace WMSWebApp.Controllers
 {
     [Authorize]
@@ -18,14 +21,16 @@ namespace WMSWebApp.Controllers
         private readonly IIntrasitService _intrasitService;
         private readonly IWorkContext _workContext;
         private readonly IMapper _mapper;
+        private readonly IWarehouseService _warehouseService;
         #endregion
 
         #region Ctor
-        public GrnController(IIntrasitService intrasitService, IWorkContext workContext, IMapper mapper)
+        public GrnController(IIntrasitService intrasitService, IWorkContext workContext, IMapper mapper, IWarehouseService warehouseService)
         {
             _intrasitService = intrasitService;
             _workContext = workContext;
             _mapper = mapper;
+            _warehouseService = warehouseService;
         }
         #endregion
 
@@ -35,30 +40,161 @@ namespace WMSWebApp.Controllers
             return View();
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
-            return View();
+            CreateModel model = new CreateModel();
+
+            var branch = await _workContext.GetCurrentBranch();
+            List<WarehouseModel> warehouseModel = new List<WarehouseModel>();
+            foreach (var item in branch.BranchWiseWarehouses)
+            {
+                WarehouseModel warehouse = new WarehouseModel();
+                warehouse.WarehouseName = item.Warehouse.WarehouseName;
+                warehouse.WarehouseCode = item.Warehouse.WarehouseCode;
+                warehouse.Id = item.Warehouse.Id;
+                List<WarehouseZoneAreaModel> ZoneList = new List<WarehouseZoneAreaModel>();
+                foreach (var zone in item.Warehouse.WarehouseZones)
+                {
+                    var Zone = new WarehouseZoneAreaModel();
+                    Zone.ZoneName = zone.ZoneName;
+                    Zone.ZoneCode = zone.ZoneCode;
+                    ZoneList.Add(Zone);
+
+                }
+                warehouse.ZoneAreaList = ZoneList;
+                warehouseModel.Add(warehouse);
+            }
+            model.Warehouse = warehouseModel;
+
+            return View(model);
         }
 
         [HttpGet]
         public virtual async Task<IActionResult> PendingPO()
         {
             var branch = await _workContext.GetCurrentBranch();
-            var intrasitData = _intrasitService.GetPendingPO(branch.BranchCode, "", 0, int.MaxValue).ToList().GetUniqePo();
+            var intrasitData = _intrasitService.GetPendingPO(branch.BranchCode, "0", 0, int.MaxValue).ToList().GetUniqePo();
             return Json(intrasitData);
 
         }
 
-        [HttpGet]
+        [HttpPost]
         public virtual async Task<IActionResult> PODetails(string pono)
         {
             var branch = await _workContext.GetCurrentBranch();
-            var intrasitData = _intrasitService.GetPendingPO(branch.BranchCode, pono, 0, int.MaxValue).ToList();
-            List<Intrasitc> intrasit = _mapper.Map<List<Intrasitc>>(intrasitData);
-            return Json(intrasit);
+            var intrasitData = _intrasitService.GetPendingPO(branch.BranchCode, pono, 0, int.MaxValue);
+            int id = 1;
+            var data = new DataSourceResult()
+            {
+                Data = intrasitData.Select(x =>
+                {
+                    var m = new Intrasitc();
+
+                    m.Id = x.Id;
+                    m.LoginBranch = x.Login_Branch;
+                    m.SenderCompany = x.Sender_Company;
+                    m.Branch = x.Sender_Branch;
+                    m.PurchaseOrder = x.PurchaseOrder;
+                    m.ItemCode = x.Item_Code;
+                    m.SubItemCode = x.SubItem_Code;
+                    m.SubItemName = x.SubItem_Name;
+                    m.MaterialDescription = x.Material_Description;
+                    m.Qty = x.Qty;
+                    m.Unit = x.Unit;
+                    m.Amt = x.Amt;
+                    m.ETA = x.ETA;
+                    m.Sno = id;
+                    id++;
+                    return m;
+                }),
+                Total = intrasitData.TotalCount
+            };
+
+            return Json(data);
+        }
+
+        [HttpGet]
+        public virtual IActionResult GetItemDetails(int id)
+        {
+            var x = _intrasitService.GetById(id);
+            var m = new Intrasitc();
+            m.Id = x.Id;
+            m.LoginBranch = x.Login_Branch;
+            m.SenderCompany = x.Sender_Company;
+            m.Branch = x.Sender_Branch;
+            m.PurchaseOrder = x.PurchaseOrder;
+            m.ItemCode = x.Item_Code;
+            m.SubItemCode = x.SubItem_Code;
+            m.SubItemName = x.SubItem_Name;
+            m.MaterialDescription = x.Material_Description;
+            m.Qty = x.Qty;
+            m.Unit = x.Unit;
+            m.Amt = x.Amt;
+            m.ETA = x.ETA;
+            return Json(m);
         }
 
 
+        [HttpGet]
+        public virtual async Task<IActionResult> Warehouse()
+        {
+            var branch = await _workContext.GetCurrentBranch();
+            List<WarehouseModel> warehouseModel = new List<WarehouseModel>();
+            foreach (var item in branch.BranchWiseWarehouses)
+            {
+                WarehouseModel warehouse = new WarehouseModel();
+                warehouse.WarehouseName = item.Warehouse.WarehouseName;
+                warehouse.WarehouseCode = item.Warehouse.WarehouseCode;
+                warehouse.Id = item.Warehouse.Id;
+                List<WarehouseZoneAreaModel> ZoneList = new List<WarehouseZoneAreaModel>();
+                foreach (var zone in item.Warehouse.WarehouseZones)
+                {
+                    var Zone = new WarehouseZoneAreaModel();
+                    Zone.ZoneName = zone.ZoneName;
+                    Zone.ZoneCode = zone.ZoneCode;
+                    ZoneList.Add(Zone);
+
+                }
+                warehouse.ZoneAreaList = ZoneList;
+                warehouseModel.Add(warehouse);
+            }
+            return Json(warehouseModel);
+        }
+
+
+        [HttpGet]
+        public virtual IActionResult WarehouseZone(int warehouseid)
+        {
+            var areas = _warehouseService.GetAllZone(warehouseid);
+            List<WarehouseZoneAreaModel> model = new List<WarehouseZoneAreaModel>();
+            foreach (var item in areas.ToList())
+            {
+                WarehouseZoneAreaModel zone = new WarehouseZoneAreaModel();
+                zone.ZoneName = item.ZoneName;
+                zone.ZoneCode = item.ZoneCode;
+
+                zone.Id = item.Id;
+                model.Add(zone);
+            }
+            return Json(model);
+        }
+
+        [HttpGet]
+        public virtual IActionResult WarehouseArea(int warehouseid, int zoneid)
+        {
+            var areas = _warehouseService.GetAllWarehouseArea(warehouseid, zoneid, true);
+            List<WarehouseArea> model = new List<WarehouseArea>();
+            foreach (var item in areas.ToList())
+            {
+                WarehouseArea area = new WarehouseArea();
+                area.AreaName = item.AreaName;
+                area.AreaCode = item.AreaCode;
+                area.Size = Convert.ToInt32(item.Size);
+                area.Id = item.Id;
+                model.Add(area);
+            }
+            return Json(model);
+        }
         [HttpPost]
         public virtual IActionResult Complete([FromBody] GRNModel model)
         {

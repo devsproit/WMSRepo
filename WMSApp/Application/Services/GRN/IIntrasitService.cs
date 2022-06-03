@@ -11,5 +11,6 @@ namespace Application.Services.GRN
     public interface IIntrasitService
     {
         IPagedList<IntrasitDb> GetPendingPO(string branchCode, string pono, int pageIndex = 0, int pageSize = int.MaxValue);
+        IntrasitDb GetById(int id);
     }
 }

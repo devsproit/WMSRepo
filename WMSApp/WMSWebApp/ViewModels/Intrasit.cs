@@ -23,6 +23,7 @@ namespace WMSWebApp.ViewModels
         public decimal Amt { get; set; }
         public DateTime ETA { get; set; }
         public bool IsDeleted { get; set; }
+        public int Sno { get; set; }
 
     }
 }
