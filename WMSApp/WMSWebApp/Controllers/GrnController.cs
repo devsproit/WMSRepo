@@ -12,6 +12,9 @@ using WMSWebApp.ViewModels.GRN;
 using WMS.Web.Framework.Infrastructure.Extentsion;
 using Application.Services.WarehouseMaster;
 using System;
+using Domain.Model.GRN;
+
+
 namespace WMSWebApp.Controllers
 {
     [Authorize]
@@ -22,15 +25,17 @@ namespace WMSWebApp.Controllers
         private readonly IWorkContext _workContext;
         private readonly IMapper _mapper;
         private readonly IWarehouseService _warehouseService;
+        private readonly IGoodReceivedNoteMasterService _goodReceivedNoteMasterService;
         #endregion
 
         #region Ctor
-        public GrnController(IIntrasitService intrasitService, IWorkContext workContext, IMapper mapper, IWarehouseService warehouseService)
+        public GrnController(IIntrasitService intrasitService, IWorkContext workContext, IMapper mapper, IWarehouseService warehouseService, IGoodReceivedNoteMasterService goodReceivedNoteMasterService)
         {
             _intrasitService = intrasitService;
             _workContext = workContext;
             _mapper = mapper;
             _warehouseService = warehouseService;
+            _goodReceivedNoteMasterService = goodReceivedNoteMasterService;
         }
         #endregion
 
@@ -44,27 +49,27 @@ namespace WMSWebApp.Controllers
         {
             CreateModel model = new CreateModel();
 
-            var branch = await _workContext.GetCurrentBranch();
-            List<WarehouseModel> warehouseModel = new List<WarehouseModel>();
-            foreach (var item in branch.BranchWiseWarehouses)
-            {
-                WarehouseModel warehouse = new WarehouseModel();
-                warehouse.WarehouseName = item.Warehouse.WarehouseName;
-                warehouse.WarehouseCode = item.Warehouse.WarehouseCode;
-                warehouse.Id = item.Warehouse.Id;
-                List<WarehouseZoneAreaModel> ZoneList = new List<WarehouseZoneAreaModel>();
-                foreach (var zone in item.Warehouse.WarehouseZones)
-                {
-                    var Zone = new WarehouseZoneAreaModel();
-                    Zone.ZoneName = zone.ZoneName;
-                    Zone.ZoneCode = zone.ZoneCode;
-                    ZoneList.Add(Zone);
+            //var branch = await _workContext.GetCurrentBranch();
+            //List<WarehouseModel> warehouseModel = new List<WarehouseModel>();
+            //foreach (var item in branch.BranchWiseWarehouses)
+            //{
+            //    WarehouseModel warehouse = new WarehouseModel();
+            //    warehouse.WarehouseName = item.Warehouse.WarehouseName;
+            //    warehouse.WarehouseCode = item.Warehouse.WarehouseCode;
+            //    warehouse.Id = item.Warehouse.Id;
+            //    List<WarehouseZoneAreaModel> ZoneList = new List<WarehouseZoneAreaModel>();
+            //    foreach (var zone in item.Warehouse.WarehouseZones)
+            //    {
+            //        var Zone = new WarehouseZoneAreaModel();
+            //        Zone.ZoneName = zone.ZoneName;
+            //        Zone.ZoneCode = zone.ZoneCode;
+            //        ZoneList.Add(Zone);
 
-                }
-                warehouse.ZoneAreaList = ZoneList;
-                warehouseModel.Add(warehouse);
-            }
-            model.Warehouse = warehouseModel;
+            //    }
+            //    warehouse.ZoneAreaList = ZoneList;
+            //    warehouseModel.Add(warehouse);
+            //}
+            //model.Warehouse = warehouseModel;
 
             return View(model);
         }
@@ -196,10 +201,58 @@ namespace WMSWebApp.Controllers
             return Json(model);
         }
         [HttpPost]
-        public virtual IActionResult Complete([FromBody] GRNModel model)
+        public virtual IActionResult Complete([FromBody] List<CreateModel> model)
         {
+            var branch = _workContext.GetCurrentBranch().Result;
+            var intranicRow = _intrasitService.GetById(model.FirstOrDefault().ItemId);
+            var master = new GoodReceivedNoteMaster();
+            master.PONo = model.FirstOrDefault().Ponumber;
+            master.InvoiceDate = DateTime.Now;
+            master.BranchCode = branch.BranchCode;
+            master.InvoiceNo = model.FirstOrDefault().invoice;
+            master.SenderCompany = intranicRow.Sender_Company;
+            foreach (var item in model)
+            {
+                intranicRow = _intrasitService.GetById(item.ItemId);
+                var details = new GoodReceivedNoteDetails()
+                {
 
-            return Json("");
+                    Amount = intranicRow.Amt,
+                    AreaId = item.Warea,
+                    GoodReceivedNoteMaster = master,
+                    ItemCode = intranicRow.Item_Code,
+                    MaterialDescription = intranicRow.Material_Description,
+                    Qty = Convert.ToInt32(intranicRow.Qty),
+                    SubItemCode = intranicRow.SubItem_Code,
+                    SubItemName = intranicRow.SubItem_Name,
+                    Unit = intranicRow.Unit
+
+                };
+                master.GoodReceivedNoteDetails.Add(details);
+            }
+            _goodReceivedNoteMasterService.Insert(master);
+            foreach (var item in model)
+            {
+                var po = _intrasitService.GetById(item.ItemId);
+                po.IsGrn = true;
+                _intrasitService.Update(po);
+            }
+
+            return Json("OK");
+        }
+
+
+
+        public virtual IActionResult List()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public virtual IActionResult List(DataSourceRequest request)
+        {
+            return View();
         }
         #endregion
 

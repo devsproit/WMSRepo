@@ -69,6 +69,10 @@ namespace Application.Services.GRN
             return _intrasitRepository.GetById(id);
         }
 
+        public virtual void Update(IntrasitDb entitiy)
+        {
+            _intrasitRepository.Update(entitiy);
+        }
         #endregion
 
 

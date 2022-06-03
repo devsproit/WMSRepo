@@ -13,6 +13,7 @@
     <link href="~/lib/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="~/lib/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link rel="stylesheet" href="~/lib/plugins/toastr/toastr.min.css" />
     <style>
 
         .ui-autocomplete {
@@ -57,14 +58,15 @@
                         <div class="card-header">
                             <h3 class="card-title">Good Receive Note</h3>
                         </div>
-                        <form id="areaform">
+                        <form id="grnform">
                             <div class="card-body">
                                 <div asp-validation-summary="ModelOnly" class="text-red-500"></div>
                                 <div class="row">
+                                    
                                     <div class="form-group col-md-2">
 
                                         <label class="control-label">Document type</label>
-                                        <select class="form-control">
+                                        <select class="form-control" id="doctype">
                                             <option value="PO">PO NO.</option>
                                             <option value="Invoice">Invoice No.</option>
                                         </select>
@@ -76,7 +78,7 @@
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label>Invoice No.</label>
-                                        <input class="form-control" id="invoiceNo." />
+                                        <input class="form-control" id="invoiceNo" />
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label>Document Date</label>
@@ -165,7 +167,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Remark</label>
-                                                            <input id="vendor" class="form-control" placeholder="Plant Code" />
+                                                            <input id="Remark" class="form-control" placeholder="Plant Code" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -182,6 +184,12 @@
                                                             <label>Area Code</label>
                                                             <input id="acode" class="form-control" placeholder="Area Code" readonly />
                                                         </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <h3>Add Item to selected area</h3>
+                                                        <button class="btn btn-primary" type="button" id="addtoarea">Add to area</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -204,13 +212,11 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Supplying Plant</label>
-                                                            <select class="form-control">
-                                                                <option>Daikin Pvt. ltd</option>
-                                                            </select>
+                                                            <input id="sendercompany" class="form-control" placeholder="Supplying Plant" />
                                                         </div>
                                                         <div class="form-group">
-                                                            <label>Supplying Plant Code</label>
-                                                            <input id="vendor" class="form-control" placeholder="Copmany Code" />
+                                                            <label>Sender Branch</label>
+                                                            <input id="sender" class="form-control" placeholder="sender branch" />
                                                         </div>
                                                     </div>
 
@@ -232,7 +238,7 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <button class="btn btn-primary">Save</button>
+                                <button class="btn btn-primary" id="finalsave" type="button">Final Save</button>
                             </div>
                         </form>
                     </div>
@@ -240,7 +246,25 @@
             </div>
         </div>
     </section>
+    <div class="modal fade" id="pleaseWait" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Please Wait..</h5>
 
+                </div>
+                <div class="modal-body">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                    </div>
+                </div>
+                @*<div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>*@
+            </div>
+        </div>
+    </div>
 
     @section Scripts{
 
@@ -251,6 +275,7 @@
         <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
         <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
         <script src="~/js/grn/grnprocess.js"></script>
+        <script src="~/lib/plugins/toastr/toastr.min.js"></script>
     </environment>
     <environment exclude="Development">
         <script src="~/lib/kendoUi/2021/js/kendo.all.min.js"></script>
@@ -259,6 +284,7 @@
         <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
         <script src="~/js/common.min.js"></script>
         <script src="~/js/grn/grnprocess.js"></script>
+        <script src="~/lib/plugins/toastr/toastr.min.js"></script>
     </environment>
 
 

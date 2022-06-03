@@ -31,7 +31,10 @@ $(function () {
 
 });
 
+var grndata = [];
+
 $(document).ready(function () {
+
 
     warehouse();
     $("#WarehouseId").change(function () {
@@ -57,7 +60,7 @@ $(document).ready(function () {
         var myTag = element.attr("data-code");
 
         $('#acode').val(myTag);
-       
+
     });
     $("#Warea").trigger("change");
 
@@ -68,7 +71,14 @@ $(document).ready(function () {
         var grid = $('#myGrid').data('kendoGrid');
         grid.dataSource.page(1);
     });
-
+    $("#doctype").on('change', function () {
+        if ($(this).val() === "PO") {
+            $("#ponumber-area").show();
+        }
+        else {
+            $("#ponumber-area").hide();
+        }
+    });
 
     var initialLoad = true;
     $("#myGrid").kendoGrid({
@@ -172,6 +182,115 @@ $(document).ready(function () {
 
     });
 
+    $("#addtoarea").click(function () {
+        var grid = $("#myGrid").data("kendoGrid");
+        if (validation()) {
+
+
+            var selectedItem = grid.dataItem(grid.select());
+            if (grndata.length > 0) {
+                var hasMatch = false;
+                for (var i = 0; i < grndata.length; i++) {
+                    var loc = grndata[i];
+                    if (loc["ItemId"] == selectedItem["Id"]) {
+                        hasMatch = true;
+                        loc["ItemId"] = selectedItem["Id"];
+                        loc["zone"] = $("#zone").val();
+                        loc["WarehouseId"] = $("#WarehouseId").val();
+                        loc["Warea"] = $("#Warea").val();
+                        loc["Remark"] = $("#Remark").val();
+                        loc["wcode"] = $("#wcode").val();
+                        loc["zcode"] = $("#zcode").val();
+                        loc["acode"] = $("#acode").val();
+                        loc["Ponumber"] = $("#ponumber").val();
+                        loc["invoice"] = $("#invoiceNo").val();
+                        toastr.success('Item ' + selectedItem["Id"] + ' successfully updated on area code' + loc["acode"] + ' in zone ' + loc["zone"]);
+                    }
+                    //else {
+                    //    var location = {};
+                    //    location["ItemId"] = selectedItem["Id"];
+                    //    location["zone"] = $("#zone").val();
+                    //    location["WarehouseId"] = $("#WarehouseId").val();
+                    //    location["Warea"] = $("#Warea").val();
+                    //    location["Remark"] = $("#Remark").val();
+                    //    location["wcode"] = $("#wcode").val();
+                    //    location["zcode"] = $("#zcode").val();
+                    //    location["acode"] = $("#acode").val();
+                    //    location["Ponumber"] = $("#ponumber").val();
+                    //    location["invoice"] = $("invoiceNo").val();
+                    //    grndata.push(location);
+                    //}
+                }
+                if (!hasMatch) {
+                    var location = {};
+                    location["ItemId"] = selectedItem["Id"];
+                    location["zone"] = $("#zone").val();
+                    location["WarehouseId"] = $("#WarehouseId").val();
+                    location["Warea"] = $("#Warea").val();
+                    location["Remark"] = $("#Remark").val();
+                    location["wcode"] = $("#wcode").val();
+                    location["zcode"] = $("#zcode").val();
+                    location["acode"] = $("#acode").val();
+                    location["Ponumber"] = $("#ponumber").val();
+                    location["invoice"] = $("#invoiceNo").val();
+                    grndata.push(location);
+                    toastr.success('Item ' + selectedItem["Id"] + ' successfully added on area code' + location["acode"] + ' in zone ' + location["zone"]);
+                }
+            } else {
+                var location = {};
+                location["ItemId"] = selectedItem["Id"];
+                location["zone"] = $("#zone").val();
+                location["WarehouseId"] = $("#WarehouseId").val();
+                location["Warea"] = $("#Warea").val();
+                location["Remark"] = $("#Remark").val();
+                location["wcode"] = $("#wcode").val();
+                location["zcode"] = $("#zcode").val();
+                location["acode"] = $("#acode").val();
+                location["Ponumber"] = $("#ponumber").val();
+                location["invoice"] = $("#invoiceNo").val();
+                grndata.push(location);
+                toastr.success('Item ' + selectedItem["Id"] + ' successfully added on area code' + location["acode"] + ' in zone ' + location["zone"]);
+            }
+
+
+
+            console.log(location);
+        }
+    });
+
+    $("#finalsave").click(function () {
+        if (validation()) {
+            var grid = $('#myGrid').data('kendoGrid');
+            if (grid._data.length !== grndata.length) {
+                alert("Please add all items into warehouse areas.");
+                return false;
+            }
+            else {
+                pleaseWait();
+                var settings = {
+                    "url": "/Grn/Complete",
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify(grndata),
+                };
+
+                $.ajax(settings).done(function (response) {
+                    hideloading();
+                    window.location = "/Grn/List";
+                }).fail(function () {
+
+                    hideloading();
+                    alert("something went wrong please try again.");
+                });
+            }
+        }
+        else {
+
+        }
+    });
 
 });
 function onChange(arg) {
@@ -203,6 +322,8 @@ function fildetails(items) {
     $("#Material").val(items[0]['MaterialDescription']);
     $("#MaterialCode").val(items[0]['SubItemCode']);
     $("#qtyu,#Qtysuk,#QtyD,#QtyO,#QtyI").val(items[0]['Qty']);
+    $("#sendercompany").val(items[0]["SenderCompany"]);
+    $("#sender").val(items[0]["Branch"]);
 }
 
 function warehouse() {
@@ -238,7 +359,7 @@ function zones(warehouseId) {
             $("#zone").trigger("change");
         }
     });
-    
+
     area($("#WarehouseId").val(), $("#zone").val());
 
 }
@@ -256,6 +377,50 @@ function area(warehouseId, zoneid) {
             $("#Warea").trigger("change");
         }
     });
-   
+
 }
 
+function validation() {
+    var grid = $('#myGrid').data('kendoGrid');
+    if ($("#doctype").val() === "PO") {
+
+        if ($("#ponumber").val() == undefined || $("#ponumber").val() === "") {
+            alert("Please select PO number.");
+            return false;
+        }
+        if ($("#invoiceNo").val() === undefined || $("#invoiceNo").val() === "") {
+            alert("Please enter invoice no.");
+            return false;
+        }
+    }
+    else {
+
+        if ($("#invoiceNo").val() === undefined || $("#invoiceNo").val() === "") {
+            alert("Please enter invoice no.");
+            return false;
+        }
+
+        if (grid._data.length == 0) {
+            alert("Please add items.");
+            return false;
+        }
+
+    }
+
+
+    return true;
+}
+
+function pleaseWait() {
+    $('#pleaseWait').modal({
+        backdrop: 'static',
+        keyboard: false
+    })
+}
+
+function hideloading() {
+    $('#pleaseWait').on('shown.bs.modal', function (e) {
+        $(this).hide();
+        $('.modal').modal('hide');
+    })
+}
