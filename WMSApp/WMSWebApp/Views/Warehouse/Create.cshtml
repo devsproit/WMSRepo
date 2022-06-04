@@ -67,7 +67,7 @@
                                 <div class="form-group col-md-6">
                                     <div class="row">
                                         <label asp-for="ContactNumber"></label>
-                                        <input asp-for="ContactNumber" class="form-control "  required/>
+                                        <input asp-for="ContactNumber" id="txtcontactno" class="form-control "  required/>
                                     </div>
                                     <span asp-validation-for="ContactNumber" class="text-danger"></span>
                                 </div>
@@ -186,7 +186,24 @@
             }
 
         }
+         $("#txtcontactno").keydown(function(event) {
+          k = event.which;
+          if ((k >= 96 && k <= 105) || k == 8) {
+            if ($(this).val().length == 10) {
+              if (k == 8) {
+                return true;
+              } else {
+                event.preventDefault();
+                return false;
 
+              }
+            }
+          } else {
+            event.preventDefault();
+            return false;
+          }
+
+        });
 
     </script>
     }

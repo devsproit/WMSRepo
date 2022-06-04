@@ -122,7 +122,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label asp-for="ContactNumberBranch">Contact Number Branch</label>
-                                            <input type="text" asp-for="ContactNumberBranch" id="Location" autocomplete="off" class="form-control">
+                                            <input type="text" asp-for="ContactNumberBranch" autocomplete="off" class="form-control" id="txtcontactno">
                                             <span asp-validation-for="ContactNumberBranch" class="text-danger"></span>
                                         </div>
                                     </div>
@@ -191,4 +191,26 @@
             $('.multiselect').select2()
         });
     </script>
+    <script type="text/javascript">
+            $("#txtcontactno").keydown(function(event) {
+          k = event.which;
+          if ((k >= 96 && k <= 105) || k == 8) {
+            if ($(this).val().length == 10) {
+              if (k == 8) {
+                return true;
+              } else {
+                event.preventDefault();
+                return false;
+
+              }
+            }
+          } else {
+            event.preventDefault();
+            return false;
+          }
+
+        });
+
+       
+</script>
     }

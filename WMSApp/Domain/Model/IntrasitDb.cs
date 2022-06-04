@@ -12,7 +12,7 @@ namespace Domain.Model
         public int Id { get; set; }
         public string Login_Branch { get; set; }
         public string Sender_Company { get; set; }
-        public string Branch { get; set; }
+        public string Sender_Branch { get; set; }
         public string PurchaseOrder { get; set; }
         public string Item_Code { get; set; }
         public string SubItem_Code { get; set; }
@@ -23,6 +23,8 @@ namespace Domain.Model
         public decimal Amt { get; set; }
         public DateTime ETA { get; set; }
         public bool IsDeleted { get; set; }
+
+        public bool IsGrn { get;set; }
 
     }
 }

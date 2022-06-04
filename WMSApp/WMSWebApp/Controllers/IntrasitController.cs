@@ -39,7 +39,7 @@ namespace WMSWebApp.Controllers
                     Intrasitc objDate = new Intrasitc();
                     objDate.Id = data[i].Id;
                     objDate.PurchaseOrder = data[i].PurchaseOrder;
-                    objDate.Branch = data[i].Branch;
+                    objDate.Branch = data[i].Sender_Branch;
                     objDate.ItemCode = data[i].Item_Code;
                     objDate.SubItemCode = data[i].SubItem_Code;
                     objDate.MaterialDescription = data[i].Material_Description;
@@ -54,7 +54,7 @@ namespace WMSWebApp.Controllers
 
             }
             return View(intrasitcs);
-           
+
         }
 
         // GET: CompaniesController/Create
@@ -110,10 +110,10 @@ namespace WMSWebApp.Controllers
             try
             {
                 // var intrasit = _mapper.Map<IntrasitDb>(intrasitc);
-                foreach(var item in intransitViewModel.intrasitcList)
+                foreach (var item in intransitViewModel.intrasitcList)
                 {
                     IntrasitDb intrasitDb = new IntrasitDb();
-                    intrasitDb.Branch = null;
+                    intrasitDb.Sender_Branch = null;
                     intrasitDb.PurchaseOrder = item.PurchaseOrder;
                     intrasitDb.Sender_Company = item.SenderCompany;
                     intrasitDb.SubItem_Name = null;
@@ -126,12 +126,12 @@ namespace WMSWebApp.Controllers
                     intrasitDb.Login_Branch = null;
                     _IntrasitHelper.CreateNewIntrasit(intrasitDb);
                 }
-                 return Json(new { success = true, message = "Saved Successfully" });
+                return Json(new { success = true, message = "Saved Successfully" });
                 // return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = "Not Saved Successfully"});
+                return Json(new { success = false, message = "Not Saved Successfully" });
                 //return View(intrasitc);
             }
         }
@@ -179,7 +179,7 @@ namespace WMSWebApp.Controllers
         }
         private void GetDataFromCSVFile(DataSet ds)
         {
-           
+
             try
             {
                 DataTable dt = new DataTable();
@@ -195,13 +195,13 @@ namespace WMSWebApp.Controllers
                 dt.Columns.Add("Unit", typeof(string));
                 dt.Columns.Add("Amt", typeof(string));
                 DataTable dt2 = ds.Tables["Sheet1"];
-               
+
                 foreach (DataRow dr in dt2.Rows)
                 {
                     dt.Rows.Add(dr.ItemArray);
                 }
                 dt.Rows[0].Delete();
-                dt.AcceptChanges();dt2.AcceptChanges();
+                dt.AcceptChanges(); dt2.AcceptChanges();
                 dt.Columns["LoginBranch"].ColumnName = "LoginBranch";
                 dt.Columns["SenderCompany"].ColumnName = "SenderCompany";
                 dt.Columns["Branch"].ColumnName = "Branch";
@@ -233,6 +233,28 @@ namespace WMSWebApp.Controllers
         {
             var data = _IntrasitHelper.GetSubItem(subItemId);
             return Json(data);
+        }
+
+        
+        public IActionResult DownloadFile()
+        {
+            var memory = DownloadSingleFile("IntransitTemplate.xlsx", "wwwroot\\template");
+            return File(memory.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "IntransitTemplate.xlsx");
+        }
+
+        private MemoryStream DownloadSingleFile(string filename, string uploadPath)
+        {
+            var path = Path.Combine(Directory.GetCurrentDirectory(),uploadPath, filename);
+            var memory = new MemoryStream();
+            if (System.IO.File.Exists(path))
+            {
+                var net = new System.Net.WebClient();
+                var data = net.DownloadData(path);
+                var content = new System.IO.MemoryStream();
+                memory = content;
+            }
+            memory.Position = 0;
+            return memory;
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Application.Services
                 {
                     new SqlParameter("@LoginBranchId", intrasit.Login_Branch),
                     new SqlParameter("@SenderCompanyId", intrasit.Sender_Company),
-                    new SqlParameter("@Branch", intrasit.Branch),
+                    new SqlParameter("@Branch", intrasit.Sender_Branch),
                     new SqlParameter("@PurchaseOrder", intrasit.PurchaseOrder),
                     new SqlParameter("@ItemCode", intrasit.Item_Code),
                     new SqlParameter("@SubItemCode", intrasit.SubItem_Code),
