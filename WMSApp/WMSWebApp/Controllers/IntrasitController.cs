@@ -47,10 +47,9 @@ namespace WMSWebApp.Controllers
                 {
                     Intrasitc objDate = new Intrasitc();
                     objDate.Id = data[i].Id;
-                    objDate.Amt = data[i].Amt;
-                    objDate.Qty = data[i].Qty;
-                    objDate.ETA = data[i].ETA;
-                    objDate.MaterialDescription = data[i].Material_Description;
+
+                    objDate.PurchaseOrder = data[i].PurchaseOrder;
+
                     objDate.Branch = data[i].Sender_Branch;
                     objDate.ItemCode = data[i].Item_Code;
                     objDate.SubItemName = data[i].SubItem_Name;
@@ -58,6 +57,42 @@ namespace WMSWebApp.Controllers
                     objDate.PurchaseOrder = data[i].PurchaseOrder;
                     intrasitcs.Add(objDate);
                 }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return View(intrasitcs);
+
+        }
+
+        // GET: CompaniesController/Create
+        public ActionResult Create()
+        {
+            IntransitViewModel intransitViewModel = new IntransitViewModel();
+            List<Intrasitc> intrasitcs = new List<Intrasitc>();
+            intransitViewModel.intrasitcList = intrasitcs;
+            intransitViewModel.intrasitc = new Intrasitc();
+            try
+            {
+                //var data = _IntrasitHelper.GetAllIntrasit();
+                //for (int i = 0; i < data.Count; i++)
+                //{
+                //    Intrasitc objDate = new Intrasitc();
+                //    objDate.Id = data[i].Id;
+                //    objDate.Amt = data[i].Amt;
+                //    objDate.Qty = data[i].Qty;
+                //    objDate.ETA = data[i].ETA;
+                //    objDate.MaterialDescription = data[i].MaterialDescription;
+                //    objDate.Branch = data[i].Branch;
+                //    objDate.ItemCode = data[i].Item_Code;
+                //    objDate.SubItemName = data[i].SubItem_Name;
+                //    objDate.SubItemCode = data[i].SubItem_Code;
+                //    objDate.PurchaseOrder = data[i].PurchaseOrder;
+                //    intrasitcs.Add(objDate);
+                //}
+
                 var listBranch = _IntrasitHelper.GetAllBranches();
                 var listCompany = _IntrasitHelper.GetAllCompany();
                 var listItem = _IntrasitHelper.GetAllItem();
@@ -88,24 +123,30 @@ namespace WMSWebApp.Controllers
             {
                 // var intrasit = _mapper.Map<IntrasitDb>(intrasitc);
 
-                IntrasitDb intrasitDb = new IntrasitDb();
-                intrasitDb.Sender_Branch = intrasitc.Branch;
-                intrasitDb.PurchaseOrder = intrasitc.PurchaseOrder;
-                intrasitDb.Sender_Company = intrasitc.SenderCompany;
-                intrasitDb.SubItem_Name = intrasitc.SubItemName;
-                intrasitDb.SubItem_Code = intrasitc.SubItemCode;
-                intrasitDb.Material_Description = intrasitc.MaterialDescription;
-                intrasitDb.Unit = intrasitc.Unit;
-                intrasitDb.Amt = intrasitc.Amt;
-                intrasitDb.Qty = intrasitc.Qty;
-                intrasitDb.Item_Code = intrasitc.ItemCode;
-                intrasitDb.Login_Branch = intrasitc.LoginBranch;
-                var result = _IntrasitHelper.CreateNewIntrasit(intrasitDb);
-                return RedirectToAction(nameof(Index));
+                foreach (var item in intransitViewModel.intrasitcList)
+                {
+                    IntrasitDb intrasitDb = new IntrasitDb();
+                    intrasitDb.Sender_Branch = null;
+                    intrasitDb.PurchaseOrder = item.PurchaseOrder;
+                    intrasitDb.Sender_Company = item.SenderCompany;
+                    intrasitDb.SubItem_Name = null;
+                    intrasitDb.SubItem_Code = item.SubItemCode;
+                    intrasitDb.Material_Description = item.MaterialDescription;
+                    intrasitDb.Unit = item.Unit;
+                    intrasitDb.Amt = item.Amt;
+                    intrasitDb.Qty = item.Qty;
+                    intrasitDb.Item_Code = item.ItemCode;
+                    intrasitDb.Login_Branch = null;
+                    _IntrasitHelper.CreateNewIntrasit(intrasitDb);
+                }
+                return Json(new { success = true, message = "Saved Successfully" });
+                // return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                return View(intrasitc);
+                return Json(new { success = false, message = "Not Saved Successfully" });
+                //return View(intrasitc);
+
             }
         }
 
@@ -151,7 +192,9 @@ namespace WMSWebApp.Controllers
             }
         }
         private void GetDataFromCSVFile(DataSet ds)
+
         {
+
 
             try
             {
@@ -167,7 +210,9 @@ namespace WMSWebApp.Controllers
                 dt.Columns.Add("Qty", typeof(string));
                 dt.Columns.Add("Unit", typeof(string));
                 dt.Columns.Add("Amt", typeof(string));
+
                 DataTable dt2 = ds.Tables["Sheet1"];
+
 
                 foreach (DataRow dr in dt2.Rows)
                 {
@@ -206,6 +251,28 @@ namespace WMSWebApp.Controllers
         {
             var data = _IntrasitHelper.GetSubItem(subItemId);
             return Json(data);
+        }
+
+        
+        public IActionResult DownloadFile()
+        {
+            var memory = DownloadSingleFile("IntransitTemplate.xlsx", "wwwroot\\template");
+            return File(memory.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "IntransitTemplate.xlsx");
+        }
+
+        private MemoryStream DownloadSingleFile(string filename, string uploadPath)
+        {
+            var path = Path.Combine(Directory.GetCurrentDirectory(),uploadPath, filename);
+            var memory = new MemoryStream();
+            if (System.IO.File.Exists(path))
+            {
+                var net = new System.Net.WebClient();
+                var data = net.DownloadData(path);
+                var content = new System.IO.MemoryStream();
+                memory = content;
+            }
+            memory.Position = 0;
+            return memory;
         }
     }
 }
