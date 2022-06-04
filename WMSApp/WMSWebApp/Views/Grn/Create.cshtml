@@ -1,4 +1,6 @@
-﻿@{
+﻿@using WMSWebApp.ViewModels.GRN
+@model CreateModel
+@{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -8,7 +10,29 @@
     <link href="~/lib/kendoUi/2021/styles/kendo.common.min.css" rel="stylesheet" />
     <link href="~/lib/kendoUi/2021/styles/kendo.default.min.css" rel="stylesheet" />
     <link href="~/lib/kendoUi/2021/styles/kendo.default.mobile.min.css" rel="stylesheet" />
+    <link href="~/lib/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/lib/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link rel="stylesheet" href="~/lib/plugins/toastr/toastr.min.css" />
+    <style>
 
+        .ui-autocomplete {
+            /*position: absolute;*/
+            cursor: default;
+            z-index: 1099 !important;
+            max-height: 200px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .ui-datepicker {
+            z-index: 1099 !important;
+        }
+
+        .ui-autocomplete-loading {
+            background: white url("../img/ajax-loader.gif") right center no-repeat;
+        }
+    </style>
 }
 
     <section class="content-header">
@@ -34,38 +58,39 @@
                         <div class="card-header">
                             <h3 class="card-title">Good Receive Note</h3>
                         </div>
-                        <form id="areaform">
+                        <form id="grnform">
                             <div class="card-body">
                                 <div asp-validation-summary="ModelOnly" class="text-red-500"></div>
                                 <div class="row">
+                                    
                                     <div class="form-group col-md-2">
 
                                         <label class="control-label">Document type</label>
-                                        <select class="form-control">
+                                        <select class="form-control" id="doctype">
                                             <option value="PO">PO NO.</option>
                                             <option value="Invoice">Invoice No.</option>
                                         </select>
 
                                     </div>
-                                    <div class="form-group col-md-2" id="ponumber">
+                                    <div class="form-group col-md-2" id="ponumber-area">
                                         <label>PO Number</label>
-                                        <select class="form-control"></select>
+                                        <select class="form-control select2" id="ponumber"></select>
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label>Invoice No.</label>
-                                        <input class="form-control" />
+                                        <input class="form-control" id="invoiceNo" />
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label>Document Date</label>
-                                        <input class="form-control" />
+                                        <input class="form-control" readonly value="@(DateTime.Now.ToString("dd-MM-yyyy"))" />
                                     </div>
                                 </div>
                                 <br />
                                 <div class="row">
                                     <div id="myGrid">
+                                    </div>
                                 </div>
-                                </div>
-                                
+
                                 <br />
                                 <div class="row">
                                     <div class="col-md-12">
@@ -85,11 +110,11 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label>Material</label>
-                                                            <input id="vendor" class="form-control" placeholder="Material Name" />
+                                                            <input id="Material" class="form-control" placeholder="Material Name" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Material Code</label>
-                                                            <input id="vendor" class="form-control" placeholder="Material Code" />
+                                                            <input id="MaterialCode" class="form-control" placeholder="Material Code" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -100,23 +125,23 @@
                                                     <div class="col-md-5">
                                                         <div class="form-group">
                                                             <label>Qty in Unit of Entry</label>
-                                                            <input id="vendor" class="form-control" placeholder="Qty" />
+                                                            <input id="qtyu" class="form-control" placeholder="Qty" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Qty in SUK</label>
-                                                            <input id="vendor" class="form-control" placeholder="Qty" />
+                                                            <input id="Qtysuk" class="form-control" placeholder="Qty" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Qty in Delivery Note/Invoice</label>
-                                                            <input id="vendor" class="form-control" placeholder="Qty" />
+                                                            <input id="QtyD" class="form-control" placeholder="Qty" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Qty Ordered</label>
-                                                            <input id="vendor" class="form-control" placeholder="Qty" />
+                                                            <input id="QtyO" class="form-control" placeholder="Qty" />
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Issued Qty </label>
-                                                            <input id="vendor" class="form-control" placeholder="Qty" />
+                                                            <input id="QtyI" class="form-control" placeholder="Qty" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -125,36 +150,46 @@
                                             <div class="tab-pane fade" id="nav-Where" role="tabpanel" aria-labelledby="nav-Where-tab">
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label>Plant</label>
-                                                            <input id="vendor" class="form-control" placeholder="Plant" />
-                                                        </div>
+
                                                         <div class="form-group">
                                                             <label>Storeage Location</label>
-                                                            <input id="vendor" class="form-control" placeholder="Zone" />
+                                                            @*<select asp-for="WarehouseId" asp-items="@(new SelectList(Model.Warehouse,"Id","WarehouseName"))" class="form-control"></select>*@
+                                                            <select class="form-control" id="WarehouseId"></select>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label>Zone</label>
+                                                            <select id="zone" class="form-control" placeholder="Area"></select>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Area</label>
-                                                            <input id="vendor" class="form-control" placeholder="Area" />
+                                                            <select id="Warea" class="form-control" placeholder="Remark"></select>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Remark</label>
-                                                            <input id="vendor" class="form-control" placeholder="Remark" />
+                                                            <input id="Remark" class="form-control" placeholder="Plant Code" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label>Plant Code</label>
-                                                            <input id="vendor" class="form-control" placeholder="Plant Code" />
+                                                            <label>Warehouse code</label>
+                                                            <input id="wcode" class="form-control" placeholder="Plant" readonly />
                                                         </div>
+
                                                         <div class="form-group">
                                                             <label>Zone Code</label>
-                                                            <input id="vendor" class="form-control" placeholder="Zone Code" />
+                                                            <input id="zcode" class="form-control" placeholder="Zone Code" readonly />
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Area Code</label>
-                                                            <input id="vendor" class="form-control" placeholder="Area Code" />
+                                                            <input id="acode" class="form-control" placeholder="Area Code" readonly />
                                                         </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <h3>Add Item to selected area</h3>
+                                                        <button class="btn btn-primary" type="button" id="addtoarea">Add to area</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -163,7 +198,7 @@
                                                     <div class="col-md-5">
                                                         <div class="form-group">
                                                             <label>Purchase order</label>
-                                                            <input id="vendor" class="form-control" placeholder="Purchase order no." />
+                                                            <input id="ponumber_details" class="form-control" placeholder="Purchase order no." />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -177,13 +212,11 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Supplying Plant</label>
-                                                            <select class="form-control">
-                                                                <option>Daikin Pvt. ltd</option>
-                                                            </select>
+                                                            <input id="sendercompany" class="form-control" placeholder="Supplying Plant" />
                                                         </div>
                                                         <div class="form-group">
-                                                            <label>Supplying Plant Code</label>
-                                                            <input id="vendor" class="form-control" placeholder="Copmany Code" />
+                                                            <label>Sender Branch</label>
+                                                            <input id="sender" class="form-control" placeholder="sender branch" />
                                                         </div>
                                                     </div>
 
@@ -205,7 +238,7 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <button class="btn btn-primary">Save</button>
+                                <button class="btn btn-primary" id="finalsave" type="button">Final Save</button>
                             </div>
                         </form>
                     </div>
@@ -213,7 +246,25 @@
             </div>
         </div>
     </section>
+    <div class="modal fade" id="pleaseWait" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Please Wait..</h5>
 
+                </div>
+                <div class="modal-body">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                    </div>
+                </div>
+                @*<div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>*@
+            </div>
+        </div>
+    </div>
 
     @section Scripts{
 
@@ -221,48 +272,23 @@
         <script src="~/lib/kendoUi/2021/js/kendo.all.min.js"></script>
         <script src="~/lib/kendoUi/2021/js/jszip.min.js"></script>
         <script src="~/js/common.js"></script>
+        <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+        <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
+        <script src="~/js/grn/grnprocess.js"></script>
+        <script src="~/lib/plugins/toastr/toastr.min.js"></script>
     </environment>
     <environment exclude="Development">
         <script src="~/lib/kendoUi/2021/js/kendo.all.min.js"></script>
         <script src="~/lib/kendoUi/2021/js/jszip.min.js"></script>
+        <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+        <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
         <script src="~/js/common.min.js"></script>
+        <script src="~/js/grn/grnprocess.js"></script>
+        <script src="~/lib/plugins/toastr/toastr.min.js"></script>
     </environment>
-    <script src="~/sample/product.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            $("#myGrid").kendoGrid({
-                dataSource: {
-                    data: products,
-                    schema: {
-                        model: {
-                            fields: {
-                                ProductName: { type: "string" },
-                                UnitPrice: { type: "number" },
-                                UnitsInStock: { type: "number" },
-                                Discontinued: { type: "boolean" }
-                            }
-                        }
-                    },
-                    pageSize: 20
-                },
-                height: 550,
-                scrollable: true,
-                sortable: true,
-                filterable: true,
-                pageable: {
-                    input: true,
-                    numeric: false
-                },
-                columns: [
-                    {field:"ProductName",title:"ProductName",width:"200px"},
-                    { field: "UnitPrice", title: "Unit Price", format: "{0:c}", width: "130px" },
-                    { field: "UnitsInStock", title: "Units In Stock", width: "130px" },
-                    { field: "Discontinued", width: "130px" }
-                ]
-            });
-        });
-    </script>
+
+
 
     }
 

@@ -4,12 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using WMS.Core;
 namespace Domain.Model
 {
-    public class IntrasitDb
+    public class IntrasitDb : BaseEntity
     {
-        public int Id { get; set; }
+
         public string Login_Branch { get; set; }
         public string Sender_Company { get; set; }
         public string Sender_Branch { get; set; }
@@ -23,6 +23,7 @@ namespace Domain.Model
         public decimal Amt { get; set; }
         public DateTime ETA { get; set; }
         public bool IsDeleted { get; set; }
+        public bool IsGrn { get; set; }
 
         public bool IsGrn { get;set; }
 

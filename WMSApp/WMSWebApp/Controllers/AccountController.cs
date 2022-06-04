@@ -22,18 +22,21 @@ namespace WMSWebApp.Controllers
         private readonly IUserProfileService _userProfileService;
         private readonly IMapper _mapper;
         private readonly IBranchHelper _branchService;
+        private readonly IWorkContext _workContext;
 
         public AccountController(UserManager<ApplicationUser> userManager,
                               SignInManager<ApplicationUser> signInManager,
                               IUserProfileService userProfileService,
                               IMapper mapper,
-                              IBranchHelper branchService)
+                              IBranchHelper branchService,
+                              IWorkContext workContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _userProfileService = userProfileService;
             _mapper = mapper;
             _branchService = branchService;
+            _workContext = workContext;
         }
 
 
@@ -74,9 +77,10 @@ namespace WMSWebApp.Controllers
                     ModelState.AddModelError("", error.Description);
                 }
 
-                ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
+                //ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
 
             }
+            model.Branches = _branchService.GetAllBranches().ToList();
             return View(model);
         }
 
@@ -98,7 +102,16 @@ namespace WMSWebApp.Controllers
 
                 if (result.Succeeded)
                 {
+                    var loggedinUser = await _userManager.FindByEmailAsync(user.Email);
+                    var userProfile = _userProfileService.GetByUserId(loggedinUser.Id);
+                    if (userProfile != null)
+                    {
+                        _workContext.SetLoginBranch(userProfile.BranchId);
+                    }
+                    else
+                    {
 
+                    }
                     return RedirectToAction("Index", "Home");
                 }
 

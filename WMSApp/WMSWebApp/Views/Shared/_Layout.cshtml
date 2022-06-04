@@ -43,6 +43,16 @@
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <!-- Navbar Search -->
+                <li class="nav-item d-none d-sm-inline-block">
+                    @{
+                        var branch = await _workContext.GetCurrentBranch();
+                        if (branch != null)
+                        {
+                            <a href="#">Branch Login:- @branch.BranchName (@branch.BranchCode)</a>
+                        }
+                    }
+
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" data-widget="navbar-search" href="#" role="button">
                         <i class="fas fa-search"></i>

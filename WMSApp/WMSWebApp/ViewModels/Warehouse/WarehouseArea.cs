@@ -19,6 +19,8 @@ namespace WMSWebApp.ViewModels
 
         public string AreaType { get; set; }
         public int AvailableArea { get; set; }
+
+        public int Id { get; set; }
         //public List<WarehouseZone> ZoneList { get; set; }
     }
 
