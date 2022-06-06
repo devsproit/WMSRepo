@@ -25,7 +25,7 @@ namespace Domain.Model
         public bool IsDeleted { get; set; }
         public bool IsGrn { get; set; }
 
-        public bool IsGrn { get;set; }
+        
 
     }
 }

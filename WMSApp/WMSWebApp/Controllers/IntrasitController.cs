@@ -30,16 +30,7 @@ namespace WMSWebApp.Controllers
 
         public IActionResult Index()
         {
-            return View();
-        }
-
-        // GET: CompaniesController/Create
-        public ActionResult Create()
-        {
-            IntransitViewModel intransitViewModel = new IntransitViewModel();
             List<Intrasitc> intrasitcs = new List<Intrasitc>();
-            intransitViewModel.intrasitcList = intrasitcs;
-            intransitViewModel.intrasitc = new Intrasitc();
             try
             {
                 var data = _IntrasitHelper.GetAllIntrasit();
@@ -47,17 +38,16 @@ namespace WMSWebApp.Controllers
                 {
                     Intrasitc objDate = new Intrasitc();
                     objDate.Id = data[i].Id;
-
                     objDate.PurchaseOrder = data[i].PurchaseOrder;
-
                     objDate.Branch = data[i].Sender_Branch;
                     objDate.ItemCode = data[i].Item_Code;
-                    objDate.SubItemName = data[i].SubItem_Name;
                     objDate.SubItemCode = data[i].SubItem_Code;
-                    objDate.PurchaseOrder = data[i].PurchaseOrder;
+                    objDate.MaterialDescription = data[i].Material_Description;
+                    objDate.Qty = data[i].Qty;
+                    objDate.Unit = data[i].Unit;
+                    objDate.Amt = data[i].Amt;
                     intrasitcs.Add(objDate);
                 }
-
             }
             catch (Exception ex)
             {
@@ -92,7 +82,6 @@ namespace WMSWebApp.Controllers
                 //    objDate.PurchaseOrder = data[i].PurchaseOrder;
                 //    intrasitcs.Add(objDate);
                 //}
-
                 var listBranch = _IntrasitHelper.GetAllBranches();
                 var listCompany = _IntrasitHelper.GetAllCompany();
                 var listItem = _IntrasitHelper.GetAllItem();
@@ -116,13 +105,11 @@ namespace WMSWebApp.Controllers
 
         // POST: CompaniesController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(Intrasitc intrasitc, IFormCollection collection)
+        public JsonResult Create([FromBody] IntransitViewModel intransitViewModel)
         {
             try
             {
                 // var intrasit = _mapper.Map<IntrasitDb>(intrasitc);
-
                 foreach (var item in intransitViewModel.intrasitcList)
                 {
                     IntrasitDb intrasitDb = new IntrasitDb();
@@ -146,7 +133,6 @@ namespace WMSWebApp.Controllers
             {
                 return Json(new { success = false, message = "Not Saved Successfully" });
                 //return View(intrasitc);
-
             }
         }
 
@@ -192,9 +178,7 @@ namespace WMSWebApp.Controllers
             }
         }
         private void GetDataFromCSVFile(DataSet ds)
-
         {
-
 
             try
             {
@@ -210,9 +194,7 @@ namespace WMSWebApp.Controllers
                 dt.Columns.Add("Qty", typeof(string));
                 dt.Columns.Add("Unit", typeof(string));
                 dt.Columns.Add("Amt", typeof(string));
-
                 DataTable dt2 = ds.Tables["Sheet1"];
-
 
                 foreach (DataRow dr in dt2.Rows)
                 {
@@ -253,7 +235,7 @@ namespace WMSWebApp.Controllers
             return Json(data);
         }
 
-        
+
         public IActionResult DownloadFile()
         {
             var memory = DownloadSingleFile("IntransitTemplate.xlsx", "wwwroot\\template");
@@ -262,7 +244,7 @@ namespace WMSWebApp.Controllers
 
         private MemoryStream DownloadSingleFile(string filename, string uploadPath)
         {
-            var path = Path.Combine(Directory.GetCurrentDirectory(),uploadPath, filename);
+            var path = Path.Combine(Directory.GetCurrentDirectory(), uploadPath, filename);
             var memory = new MemoryStream();
             if (System.IO.File.Exists(path))
             {
@@ -276,4 +258,3 @@ namespace WMSWebApp.Controllers
         }
     }
 }
-
