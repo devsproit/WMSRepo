@@ -18,6 +18,8 @@
                 //$('#SubItemId').find('option').remove()
                 console.log(data);
                 if (data.length != 0) {
+                    $('#subItemId').find('option').remove().end().append('<option value="0">Select</option>');
+                    $('#txtMDesc').val('');
                     $(data).each(
                         function (index, item) {
                             $('#subItemId').append('<option value="' + item.Id + '">' + item.SubItemName + '</option>')
