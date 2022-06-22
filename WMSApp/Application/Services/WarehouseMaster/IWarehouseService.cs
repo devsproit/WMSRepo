@@ -15,5 +15,7 @@ namespace Application.Services.WarehouseMaster
         void InsertArea(List<WarehouseZoneArea> entities);
 
         IPagedList<WarehouseZoneArea> GetAllWarehouseArea(int warehouseId, int zoneId = 0, bool onlyArea = true, int pageId = 0, int pageSize = int.MaxValue);
+        WarehouseZoneArea GetWarehouseZoneAreaById(int id);
+        WarehouseZone GetZoneById(int id);
     }
 }

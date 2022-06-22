@@ -67,7 +67,10 @@ namespace Application.Services.WarehouseMaster
         {
             _warehouseZoneAreaRepository.Insert(entities);
         }
-
+        public virtual WarehouseZone GetZoneById(int id)
+        {
+            return _warehouseZoneRepository.GetById(id);
+        }
         public virtual IPagedList<WarehouseZoneArea> GetAllWarehouseArea(int warehouseId, int zoneId = 0, bool onlyArea = true, int pageId = 0, int pageSize = int.MaxValue)
         {
             var query = from x in _warehouseZoneAreaRepository.Table
@@ -83,6 +86,11 @@ namespace Application.Services.WarehouseMaster
             }
             var result = new PagedList<WarehouseZoneArea>(query, pageId, pageSize);
             return result;
+        }
+
+        public virtual WarehouseZoneArea GetWarehouseZoneAreaById(int id)
+        {
+            return _warehouseZoneAreaRepository.GetById(id);
         }
         #endregion
     }
