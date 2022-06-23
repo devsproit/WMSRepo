@@ -25,10 +25,11 @@ namespace Application.Services.GRN
         #endregion
 
         #region Methods
-        public virtual IPagedList<GoodReceivedNoteMaster> GetAllMaster(int pageIndex = 0, int pageSize = int.MaxValue)
+        public virtual IPagedList<GoodReceivedNoteMaster> GetAllMaster(string branch, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = from x in _grnMasterRepository.Table
                         select x;
+            query=query.Where(x=>x.BranchCode==branch);
             var result = new PagedList<GoodReceivedNoteMaster>(query, pageIndex, pageSize);
             return result;
         }

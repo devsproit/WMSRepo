@@ -1,0 +1,167 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Style{
+
+    <link href="~/lib/kendoUi/2021/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/lib/kendoUi/2021/styles/kendo.default.min.css" rel="stylesheet" />
+    <link href="~/lib/kendoUi/2021/styles/kendo.default.mobile.min.css" rel="stylesheet" />
+    <link href="~/lib/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/lib/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link rel="stylesheet" href="~/lib/plugins/toastr/toastr.min.css" />
+    <style>
+
+        .ui-autocomplete {
+            /*position: absolute;*/
+            cursor: default;
+            z-index: 1099 !important;
+            max-height: 200px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .ui-datepicker {
+            z-index: 1099 !important;
+        }
+
+        .ui-autocomplete-loading {
+            background: white url("../img/ajax-loader.gif") right center no-repeat;
+        }
+    </style>
+}
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Create Pick Slip</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Master</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Create New Branch</h3>
+
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">Ship To</div>
+                                <div class="col-md-6">Ordered By</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>GRN No</label>
+                                        <select class="form-control select2" id="grn"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Item</label>
+                                        <select class="form-control" id="items"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Location</label>
+                                        <input class="form-control" id="location" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Qty</label>
+                                        <input class="form-control" id="qty" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>Serial No</label>
+                                        <input class="form-control" />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class=" row">
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary" type="button" id="add-new">Add</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-danger" id="reset" type="button">Reset</button>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div id="pick-grid">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button class="btn btn-primary" id="save"> Final Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="modal fade" id="pleaseWait" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Please Wait..</h5>
+
+                </div>
+                <div class="modal-body">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                    </div>
+                </div>
+                @*<div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+    @section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <environment include="Development">
+        <script src="~/lib/kendoUi/2021/js/kendo.all.min.js"></script>
+        <script src="~/lib/kendoUi/2021/js/jszip.min.js"></script>
+        <script src="~/js/common.js"></script>
+        <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+        <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
+        <script src="~/js/PickSlip/pickslipprocess.js"></script>
+        <script src="~/lib/plugins/toastr/toastr.min.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/kendoUi/2021/js/kendo.all.min.js"></script>
+        <script src="~/lib/kendoUi/2021/js/jszip.min.js"></script>
+        <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+        <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
+        <script src="~/js/common.min.js"></script>
+        <script src="~/js/PickSlip/pickslipprocess.js"></script>
+        <script src="~/lib/plugins/toastr/toastr.min.js"></script>
+    </environment>
+    }

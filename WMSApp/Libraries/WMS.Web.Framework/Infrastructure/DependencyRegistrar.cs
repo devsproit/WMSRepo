@@ -15,6 +15,7 @@ using Application.Services.WarehouseMaster;
 using Application.Services.GRN;
 using Application.Services.Master;
 using Microsoft.AspNetCore.Http;
+using Application.Services.PS;
 #endregion
 
 
@@ -41,6 +42,8 @@ namespace WMS.Web.Framework.Infrastructure
             builder.RegisterType<UserProfileService>().As<IUserProfileService>().InstancePerLifetimeScope();
             builder.RegisterType<IntrasitHelper>().As<IIntrasitHelper>().InstancePerLifetimeScope();
             builder.RegisterType<IntrasitService>().As<IIntrasitService>().InstancePerLifetimeScope();
+            builder.RegisterType<PickSlipService>().As<IPickSlipService>().InstancePerLifetimeScope();
+            builder.RegisterType<TempPickSlipDetailsService>().As<ITempPickSlipDetailsService>().InstancePerLifetimeScope();
         }
 
         public int Order => 0;
