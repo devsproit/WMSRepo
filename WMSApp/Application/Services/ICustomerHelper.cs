@@ -14,5 +14,6 @@ namespace Application.Services
         CustomerDb GetCustomerById(int Id);
         bool UpdateCustomerById(CustomerDb Customer);
         bool CreateNewCustomer(CustomerDb Customer);
+        List<CustomerDb> GetCustomerByName (string Name);
     }
 }

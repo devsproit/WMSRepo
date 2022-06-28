@@ -86,6 +86,15 @@ namespace Application.Services
             return result > 0 ? true : false;
         }
 
-
+        public List<CustomerDb> GetCustomerByName(string cname)
+        {
+            List<CustomerDb> data = new List<CustomerDb>();
+            List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            sqlParameters.Add(new SqlParameter("@cuscategory", cname));
+            DataTable dbDT = _adoConnection.GetDatatableFromSqlWithSP(Constants.GetCustomerByNameSP, sqlParameters);
+            if (dbDT != null)
+                data = dbDT.ToList<CustomerDb>();
+            return data;
+        }
     }
 }

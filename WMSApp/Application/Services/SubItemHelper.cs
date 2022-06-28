@@ -112,5 +112,17 @@ namespace Application.Services
 
         }
 
+        public SubItemDb GetSubItemCustomerAmt(string subItemName,string stype)
+        {
+            List<SubItemDb> data = new List<SubItemDb>();
+            List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            sqlParameters.Add(new SqlParameter("@subName", subItemName));
+            sqlParameters.Add(new SqlParameter("@type", stype));
+            DataTable dbDT = _adoConnection.GetDatatableFromSqlWithSP(Constants.GetSubItemCustAmtSP, sqlParameters);
+            if (dbDT != null)
+                data = dbDT.ToList<SubItemDb>();
+            return data.FirstOrDefault();
+        }
+
     }
 }

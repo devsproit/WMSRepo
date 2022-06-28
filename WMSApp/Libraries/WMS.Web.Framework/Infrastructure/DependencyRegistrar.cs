@@ -15,6 +15,8 @@ using Application.Services.WarehouseMaster;
 using Application.Services.GRN;
 using Application.Services.Master;
 using Microsoft.AspNetCore.Http;
+using Application.Services.PO;
+using Domain.Model.PO;
 #endregion
 
 
@@ -41,6 +43,13 @@ namespace WMS.Web.Framework.Infrastructure
             builder.RegisterType<UserProfileService>().As<IUserProfileService>().InstancePerLifetimeScope();
             builder.RegisterType<IntrasitHelper>().As<IIntrasitHelper>().InstancePerLifetimeScope();
             builder.RegisterType<IntrasitService>().As<IIntrasitService>().InstancePerLifetimeScope();
+            builder.RegisterType<PurchaseOrder>().As<IPurchaseOrder>().InstancePerLifetimeScope();
+            builder.RegisterType<SenderCompanyHelper>().As<ISenderCompany>().InstancePerLifetimeScope();
+            builder.RegisterType<SalePo>().As<ISalePo>().InstancePerLifetimeScope();
+            builder.RegisterType<StockTransferPo>().As<IStockTransferPo>().InstancePerLifetimeScope();
+            builder.RegisterType<SrnPo>().As<ISrnPo>().InstancePerLifetimeScope();
+            builder.RegisterType<ServiceOrderPo>().As<IServiceOrderPo>().InstancePerLifetimeScope();
+
         }
 
         public int Order => 0;
