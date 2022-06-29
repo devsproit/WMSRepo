@@ -15,6 +15,6 @@ namespace Application.Services
         bool CreateNewSubItem(SubItemDb SubItem);
         SubItemDb GetSubItemByItemId(int id);
         void Insert(SubItemDb entity);
-
+        SubItemDb GetSubItemCustomerAmt(string subItemName,string type);
     }
 }

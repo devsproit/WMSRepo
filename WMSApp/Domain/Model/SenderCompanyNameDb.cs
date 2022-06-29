@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WMS.Core;
 
 namespace Domain.Model
 {
-    public class SenderCompanyNameDb
+    public class SenderCompanyNameDb :BaseEntity
     {
-        public int Id { get; set; }
+        
         public string CompanyCode { get; set; }
-        public string SenderCompanyCode { get; set; }
-        public string SenderCompanyName { get; set; }
+        public string Sender_Company_Code { get; set; }
+        public string Sender_Company_Name { get; set; }
         
     }
 }

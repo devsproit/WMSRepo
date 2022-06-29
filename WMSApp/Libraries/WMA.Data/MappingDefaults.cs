@@ -13,5 +13,17 @@ namespace WMS.Data
         public static string SubItemtable => "SubItem";
         public static string BranchTableName => "Branch";
         public static string WarehouseTable => "Warehouse";
+
+        public static string SalePoTable => "SalePo";
+
+        public static string PurchaseOrderTable => "PurchaseOrder";
+
+        public static string StockTransferTable => "StockTransferPo";
+
+        public static string SRnTable => "SRNPo";
+
+        public static string ServiceOrderTable => "ServiceOrderPO";
+
+
     }
 }
