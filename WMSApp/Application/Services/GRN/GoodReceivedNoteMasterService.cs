@@ -12,13 +12,15 @@ namespace Application.Services.GRN
     {
         #region Fields
         private readonly IRepository<GoodReceivedNoteMaster> _grnMasterRepository;
+        private readonly IRepository<GoodReceivedNoteDetails> _grnDetailsRepository;
 
         #endregion
 
         #region Ctor
-        public GoodReceivedNoteMasterService(IRepository<GoodReceivedNoteMaster> grnMasterRepository)
+        public GoodReceivedNoteMasterService(IRepository<GoodReceivedNoteMaster> grnMasterRepository, IRepository<GoodReceivedNoteDetails> grnDetailsRepository)
         {
             _grnMasterRepository = grnMasterRepository;
+            _grnDetailsRepository = grnDetailsRepository;
         }
 
 
@@ -29,8 +31,26 @@ namespace Application.Services.GRN
         {
             var query = from x in _grnMasterRepository.Table
                         select x;
-            query=query.Where(x=>x.BranchCode==branch);
+            query = query.Where(x => x.BranchCode == branch);
             var result = new PagedList<GoodReceivedNoteMaster>(query, pageIndex, pageSize);
+            return result;
+        }
+
+
+        public virtual IPagedList<Stocks> GetStocks(string branchcode, string itemcode = null, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = from x in _grnDetailsRepository.Table
+                        join y in _grnMasterRepository.Table
+                        on x.GRNId equals y.Id
+                        where y.BranchCode == branchcode
+                        group x by x.SubItemCode into item
+                        select new Stocks
+                        {
+                            ItemCode = item.Key,
+                            Qty = item.Sum(x => x.Qty),
+                            SubItemName = item.FirstOrDefault().SubItemName
+                        };
+            var result = new PagedList<Stocks>(query, pageIndex, pageSize);
             return result;
         }
 
