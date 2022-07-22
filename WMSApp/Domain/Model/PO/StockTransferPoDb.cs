@@ -17,5 +17,6 @@ namespace Domain.Model.PO
         public int StockTransferPOQty { get; set; }
         public string StockTransferPOAmt { get; set; }
         public string StockTransferPOSerialNumber { get; set; }
+        public string SubItemCode { get; set; }
     }
 }

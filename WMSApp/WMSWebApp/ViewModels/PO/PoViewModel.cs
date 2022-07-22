@@ -22,5 +22,6 @@ namespace WMSWebApp.ViewModels.PO
         public List<ServiceOrderCategory> serviceOrderCategories { get; set; }
 
 
+
     }
 }

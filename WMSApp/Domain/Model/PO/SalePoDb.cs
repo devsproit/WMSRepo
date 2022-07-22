@@ -17,5 +17,6 @@ namespace Domain.Model.PO
         public int SalePOQty { get; set; }
         public string SalePOAmt { get; set; }
         public string SalePOSerialNumber { get; set; }
+        public string SubItemCode { get; set; }
     }
 }

@@ -33,7 +33,7 @@ namespace WMSWebApp.Controllers
 
         #region Ctor
         public PoController(IMapper mapper, IPurchaseOrder purchaseOrder, ISubItemHelper SubItemHelper, IBranchHelper BranchHelper, IItemHelper ItemHelper, ISenderCompany senderCompany,
-            ISalePo salePo, IStockTransferPo stockTransferPo, ISrnPo srnPo,ICustomerHelper customerHelper,IServiceOrderPo serviceOrderPo)
+            ISalePo salePo, IStockTransferPo stockTransferPo, ISrnPo srnPo, ICustomerHelper customerHelper, IServiceOrderPo serviceOrderPo)
         {
             _SubItemHelper = SubItemHelper;
             _mapper = mapper;
@@ -47,7 +47,7 @@ namespace WMSWebApp.Controllers
             _srnPo = srnPo;
             _customerHelper = customerHelper;
 
-         }
+        }
         #endregion
 
         #region Methods
@@ -63,7 +63,7 @@ namespace WMSWebApp.Controllers
             var listBranch = _BranchHelper.GetAllBranch();
             var listItem = _ItemHelper.GetAllItem();
             var listSendCompany = _senderCompany.GetAllSenderCompanies();
-          //  var listCategory = "";
+            //  var listCategory = "";
             listSendCompany.Insert(0, new SenderCompanyNameDb { Id = 0, Sender_Company_Name = "Select" });
             listBranch.Insert(0, new Branch { Id = 0, BranchName = "Select" });
             listItem.Insert(0, new ItemDb { Id = 0, ItemName = "Select" });
@@ -73,9 +73,9 @@ namespace WMSWebApp.Controllers
             ViewBag.listItem = listItem;
             ViewBag.listSubItem = listSubItem;
 
-            purchaseOrderViewModel.listItem=listItem;
-            purchaseOrderViewModel.listSubItem=listSubItem;
-            purchaseOrderViewModel.listBranch=listBranch;
+            purchaseOrderViewModel.listItem = listItem;
+            purchaseOrderViewModel.listSubItem = listSubItem;
+            purchaseOrderViewModel.listBranch = listBranch;
             purchaseOrderViewModel.listSenderCompany = listSendCompany;
             return View();
         }
@@ -90,11 +90,13 @@ namespace WMSWebApp.Controllers
                 purchaseOrderDb.POCategory = poViewModel.POCatrgory;
                 purchaseOrderDb.PODate = currentDate;
                 purchaseOrderDb.PONumber = poViewModel.PONumber;
+
                 if (poViewModel.stockTransferCategories != null)
                 {
                     _purchaseOrder.Insert(purchaseOrderDb);
                     foreach (var item in poViewModel.stockTransferCategories)
                     {
+                        
                         StockTransferPoDb stockTransferPo = new StockTransferPoDb();
                         stockTransferPo.StockTransferPOCategory = item.StockTransferPOCategory;
                         stockTransferPo.StockTransferPOSendingTo = item.StockTransferPOSendingTo;
@@ -104,6 +106,8 @@ namespace WMSWebApp.Controllers
                         stockTransferPo.StockTransferPOAmt = item.StockTransferPOAmt;
                         stockTransferPo.StockTransferPOSerialNumber = item.StockTransferPOSerialNumber;
                         stockTransferPo.PONumber = poViewModel.PONumber;
+                        var subItem = _SubItemHelper.GetSubItemById(Convert.ToInt32(item.SubItemCode));
+                        stockTransferPo.SubItemCode = subItem.SubItemCode;
                         _stockTransferPo.Insert(stockTransferPo);
                     }
                 }
@@ -125,6 +129,8 @@ namespace WMSWebApp.Controllers
                         serviceOrderPODb.ServiceOrderPOServiceRequestNumber = item.ServiceOrderPOServiceRequestNumber;
                         serviceOrderPODb.ServiceOrderPOSalePO = item.ServiceOrderPOSalePO;
                         serviceOrderPODb.ServiceOrderPOSaleDate = item.ServiceOrderPOSaleDate;
+                        var subItem = _SubItemHelper.GetSubItemById(Convert.ToInt32(item.SubItemCode));
+                        serviceOrderPODb.SubItemCode = subItem.SubItemCode;
                         _serviceOrderPO.Insert(serviceOrderPODb);
                     }
 
@@ -143,6 +149,8 @@ namespace WMSWebApp.Controllers
                         salePoDb.SalePOAmt = item.SalePOAmt;
                         salePoDb.SalePOSerialNumber = item.SalePOSerialNumber;
                         salePoDb.PONumber = poViewModel.PONumber;
+                        var subItem = _SubItemHelper.GetSubItemById(Convert.ToInt32(item.SubItemCode));
+                        salePoDb.SubItemCode = subItem.SubItemCode;
                         _salePo.Insert(salePoDb);
                     }
                 }
@@ -160,6 +168,8 @@ namespace WMSWebApp.Controllers
                         sRNPo.SrnPOSendingTo = item.SrnPOSendingTo;
                         sRNPo.SrnPOSubItem = item.SrnPOSubItem;
                         sRNPo.PONumber = poViewModel.PONumber;
+                        var subItem = _SubItemHelper.GetSubItemById(Convert.ToInt32(item.SubItemCode));
+                        sRNPo.SubItemCode = subItem.SubItemCode;
                         _srnPo.Insert(sRNPo);
                     }
                     _purchaseOrder.Insert(purchaseOrderDb);
@@ -197,9 +207,9 @@ namespace WMSWebApp.Controllers
         /// <returns>
         /// </returns>
         [HttpGet]
-        public JsonResult GetAmtTo(string subName,string type)
+        public JsonResult GetAmtTo(string subName, string type)
         {
-            var data = _SubItemHelper.GetSubItemCustomerAmt(subName,type);
+            var data = _SubItemHelper.GetSubItemCustomerAmt(subName, type);
             return Json(data);
         }
         #endregion

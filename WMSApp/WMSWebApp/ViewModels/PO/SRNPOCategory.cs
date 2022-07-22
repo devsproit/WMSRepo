@@ -12,6 +12,6 @@
         public int SrnPOQty { get; set; }
         public string SrnPOSrnCause { get; set; }
 
-
+        public string SubItemCode { get; set; }
     }
 }

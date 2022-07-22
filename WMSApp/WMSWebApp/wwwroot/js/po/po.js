@@ -70,6 +70,7 @@
             var salePo = "Not Applicable";
             var saleDate = "Not Applicable";
             var ServiceRequestNumber = "Not Applicable";
+            var subItemCode = $("#spSubItem").val();
         } else if (dropdownText == "StockTransfer PO") {
             var stockTransferPOCatagry = $('#stpCategory :selected').text();
             var stockTransferPoSendingTo = $('#stpSendingTo :selected').text();//ItId
@@ -82,6 +83,7 @@
             var salePo = "Not Applicable";
             var saleDate = "Not Applicable";
             var ServiceRequestNumber = "Not Applicable";
+            var subItemCode = $("#stpSubItem").val();
         }
         else if (dropdownText == "SRN PO") {
             var stockTransferPOCatagry = $('#srnCategory :selected').text();
@@ -95,6 +97,7 @@
             var salePo = "Not Applicable";
             var saleDate = "Not Applicable";
             var ServiceRequestNumber = "Not Applicable";
+            var subItemCode = $("#srnSubItem").val();
         }
         else if (dropdownText == "ServiceOrder PO") {
             var stockTransferPOCatagry = $('#sopCategory :selected').text();
@@ -108,12 +111,13 @@
             var serviceCategory = $("#sopServiceCatagry").val();
             var salePo = $("#sopSalePo").val();
             var saleDate = $("#sopSaleDate").val();
+            var subItemCode = $("#sopSubItem").val();
         }
         ////   var purchaseOrder = $("#txtPurchaseOrder").val();StockTransferPOCatagry
 
 
 
-        t.row.add([stockTransferPOCatagry, stockTransferPoSendingTo, stockTransferPoItem, stockTransferPoSubitem, stockTransferPoQty, stockTransferPoAmt, stockTransferPoSerialNumber, serviceCategory, salePo, saleDate, ServiceRequestNumber]).draw();
+        t.row.add([stockTransferPOCatagry, stockTransferPoSendingTo, stockTransferPoItem, subItemCode, stockTransferPoSubitem, stockTransferPoQty, stockTransferPoAmt, stockTransferPoSerialNumber, serviceCategory, salePo, saleDate, ServiceRequestNumber]).draw();
     });
 
     $('input[id="spQty"]').on('keypress', function (event) {
@@ -161,10 +165,12 @@
                 myData["SalePOCategory"] = data[i][0];
                 myData["SalePOSendingTo"] = data[i][1];//senderCompany
                 myData["SalePOItem"] = data[i][2];
-                myData["SalePOSubItem"] = data[i][3];
-                myData["SalePOQty"] = data[i][4];//
-                myData["SalePOAmt"] = data[i][5];
-                myData["SalePOSerialNumber"] = data[i][6];//
+                myData["SalePOSubItem"] = data[i][4];
+                myData["SubItemCode"] = data[i][3]
+                myData["SalePOQty"] = data[i][5];//
+                myData["SalePOAmt"] = data[i][6];
+                myData["SalePOSerialNumber"] = data[i][7];//
+                
                 jsonObj.push(myData);
             }
             var data = {
@@ -187,10 +193,11 @@
                 myData["StockTransferPOCategory"] = data[i][0];
                 myData["StockTransferPOSendingTo"] = data[i][1];//senderCompany
                 myData["StockTransferPOItem"] = data[i][2];
-                myData["StockTransferPOSubItem"] = data[i][3];
-                myData["StockTransferPOQty"] = data[i][4];//
-                myData["StockTransferPOAmt"] = data[i][5];
-                myData["StockTransferPOSerialNumber"] = data[i][6];//
+                myData["StockTransferPOSubItem"] = data[i][4];
+                myData["SubItemCode"] = data[i][3]
+                myData["StockTransferPOQty"] = data[i][5];//
+                myData["StockTransferPOAmt"] = data[i][6];
+                myData["StockTransferPOSerialNumber"] = data[i][7];//
                 jsonObj.push(myData);
             }
             console.log(jsonObj);
@@ -215,10 +222,11 @@
                 myData["ServiceOrderPOCategory"] = data[i][0];
                 myData["ServiceOrderPOSendingTo"] = data[i][1];//senderCompany
                 myData["ServiceOrderPOItem"] = data[i][2];
-                myData["ServiceOrderPOSubitem"] = data[i][3];
-                myData["ServiceOrderPOQty"] = data[i][4];//
-                myData["ServiceOrderPOAmt"] = data[i][5];
-                myData["ServiceOrderPOSerialNumber"] = data[i][6];//
+                myData["ServiceOrderPOSubitem"] = data[i][4];
+                myData["SubItemCode"] = data[i][3]
+                myData["ServiceOrderPOQty"] = data[i][5];//
+                myData["ServiceOrderPOAmt"] = data[i][6];
+                myData["ServiceOrderPOSerialNumber"] = data[i][7];//
                 jsonObj.push(myData);
             }
             console.log(jsonObj);
@@ -242,10 +250,11 @@
                 myData["SrnPOCategory"] = data[i][0];
                 myData["SrnPOSendingTo"] = data[i][1];//senderCompany
                 myData["SrnPOItem"] = data[i][2];
-                myData["SrnPOSubItem"] = data[i][3];
-                myData["SrnPOQty"] = data[i][4];//
-                myData["SrnPOSrnCause"] = data[i][5];
-                myData["SrnSerialNumber"] = data[i][6];//
+                myData["SrnPOSubItem"] = data[i][4];
+                myData["SubItemCode"] = data[i][3]
+                myData["SrnPOQty"] = data[i][5];//
+                myData["SrnPOSrnCause"] = data[i][6];
+                myData["SrnSerialNumber"] = data[i][7];//
                 jsonObj.push(myData);
             }
             console.log(jsonObj);
