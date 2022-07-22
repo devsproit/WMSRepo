@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WMS.Core.Data;
+using WMS.Core;
 
 namespace Application.Services.PO
 {
-    public class ServiceOrderPo: IServiceOrderPo
+    public class ServiceOrderPo : IServiceOrderPo
     {
         #region Fields
         private readonly IRepository<ServiceOrderPODb> _serviceOrderPoRepository;
@@ -29,6 +30,8 @@ namespace Application.Services.PO
         {
             _serviceOrderPoRepository.Update(serviceOrderPO);
         }
+
+       
         #endregion
     }
 }

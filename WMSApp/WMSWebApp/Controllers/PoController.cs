@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WMS.Data;
 using WMSWebApp.ViewModels.PO;
 
 namespace WMSWebApp.Controllers
@@ -29,11 +30,12 @@ namespace WMSWebApp.Controllers
         private readonly IServiceOrderPo _serviceOrderPO;
         private readonly ISrnPo _srnPo;
         private readonly ICustomerHelper _customerHelper;
+        private readonly IWorkContext _workContext;
         #endregion
 
         #region Ctor
         public PoController(IMapper mapper, IPurchaseOrder purchaseOrder, ISubItemHelper SubItemHelper, IBranchHelper BranchHelper, IItemHelper ItemHelper, ISenderCompany senderCompany,
-            ISalePo salePo, IStockTransferPo stockTransferPo, ISrnPo srnPo, ICustomerHelper customerHelper, IServiceOrderPo serviceOrderPo)
+            ISalePo salePo, IStockTransferPo stockTransferPo, ISrnPo srnPo, ICustomerHelper customerHelper, IServiceOrderPo serviceOrderPo, IWorkContext workContext)
         {
             _SubItemHelper = SubItemHelper;
             _mapper = mapper;
@@ -46,7 +48,7 @@ namespace WMSWebApp.Controllers
             _serviceOrderPO = serviceOrderPo;
             _srnPo = srnPo;
             _customerHelper = customerHelper;
-
+            _workContext = workContext;
         }
         #endregion
 
@@ -81,16 +83,17 @@ namespace WMSWebApp.Controllers
         }
 
         [HttpPost]
-        public virtual IActionResult Create([FromBody] PoViewModel poViewModel)
+        public virtual async Task<IActionResult> Create([FromBody] PoViewModel poViewModel)
         {
             try
             {
+                var branch = await _workContext.GetCurrentBranch();
                 DateTime currentDate = DateTime.Now;
                 PurchaseOrderDb purchaseOrderDb = new PurchaseOrderDb();
                 purchaseOrderDb.POCategory = poViewModel.POCatrgory;
                 purchaseOrderDb.PODate = currentDate;
                 purchaseOrderDb.PONumber = poViewModel.PONumber;
-
+                purchaseOrderDb.BranchCode = branch.BranchCode;
                 if (poViewModel.stockTransferCategories != null)
                 {
                     _purchaseOrder.Insert(purchaseOrderDb);
