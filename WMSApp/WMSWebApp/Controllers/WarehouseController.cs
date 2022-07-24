@@ -7,6 +7,9 @@ using AutoMapper;
 using Domain.Model.Masters;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using System.Net.Http;
+using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace WMSWebApp.Controllers;
 [Authorize]
@@ -16,13 +19,15 @@ public class WarehouseController : Controller
     #region fields
     private readonly IWarehouseService _warehouseService;
     private readonly IMapper _mapper;
+    private readonly IConfiguration Configuration;
     #endregion
 
     #region Ctor
-    public WarehouseController(IWarehouseService warehouseService, IMapper mapper)
+    public WarehouseController(IWarehouseService warehouseService, IMapper mapper, IConfiguration _configuration)
     {
         _warehouseService = warehouseService;
         _mapper = mapper;
+        Configuration = _configuration;
     }
     #endregion
 
@@ -48,6 +53,15 @@ public class WarehouseController : Controller
     // GET: WarehouseController/Create
     public ActionResult Create()
     {
+        Root districtslist = new Root();
+        HttpClient client = new HttpClient();
+        string apiUrl = Configuration.GetValue<string>("districtUrl");
+        HttpResponseMessage response = client.GetAsync(apiUrl).Result;
+        if (response.IsSuccessStatusCode)
+        {
+            districtslist = JsonConvert.DeserializeObject<Root>(response.Content.ReadAsStringAsync().Result);
+        }
+        ViewBag.districts = districtslist.districts;
         return View();
     }
 

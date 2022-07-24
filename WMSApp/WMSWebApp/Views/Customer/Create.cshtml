@@ -77,7 +77,8 @@
                                 <div class=" col-md-6">
                                     <div class="form-group">
                                         <label asp-for="Location"></label>
-                                        <input asp-for="Location" class="form-control" />
+                                          <select  class="form-control" id="ddllocation" asp-items="@(new SelectList(@ViewBag.districts,"district_id", "district_name"))">
+                                        </select>
                                     </div>
                                     <span asp-validation-for="Location" class="text-danger"></span>
                                 </div>
@@ -112,5 +113,8 @@
             })
             $('.multiselect').select2()
         });
+           $('#ddllocation').change(function() {debugger;
+        $('#Location').val($("#ddllocation option:selected").text());
     </script>
+
     }

@@ -63,7 +63,10 @@
                                 <div class="form-group col-md-6">
                                     <div class="row">
                                         <label asp-for="Location" class="control-label col-md-4"></label>
-                                        <input asp-for="Location" class="form-control col-md-4" />
+                                        @*<input asp-for="Location" class="form-control col-md-4" />*@
+                                        <select  class="form-control col-md-4" id="ddllocation" asp-items="@(new SelectList(@ViewBag.districts,"district_id", "district_name"))">
+                                        </select>
+                                       <input asp-for="Location" type="hidden"/>
                                     </div>
                                     <span asp-validation-for="Location" class="text-danger"></span>
                                 </div>
@@ -147,25 +150,28 @@
     }
 
 <script type="text/javascript">
-            $("#txtcontactno").keydown(function(event) {
-          k = event.which;
-          if ((k >= 96 && k <= 105) || k == 8) {
-            if ($(this).val().length == 10) {
-              if (k == 8) {
-                return true;
-              } else {
-                event.preventDefault();
-                return false;
-
-              }
-            }
+        $("#txtcontactno").keydown(function(event) 
+        {
+      k = event.which;
+      if ((k >= 96 && k <= 105) || k == 8) {
+        if ($(this).val().length == 10) {
+          if (k == 8) {
+            return true;
           } else {
             event.preventDefault();
             return false;
+
           }
+        }
+      } else {
+        event.preventDefault();
+        return false;
+      }
 
-        });
+    });
+     $('#ddllocation').change(function() {debugger;
+        $('#Location').val($("#ddllocation option:selected").text());
+    });
 
-       
 </script>
     }

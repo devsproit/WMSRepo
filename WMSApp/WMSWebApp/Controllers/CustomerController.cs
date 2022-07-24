@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Net.Http;
 using Application.Services;
 using AutoMapper;
 using DatabaseLibrary.SQL;
@@ -7,6 +9,8 @@ using Domain.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using WMSWebApp.ViewModels;
 
 
@@ -17,12 +21,14 @@ namespace WMSWebApp.Controllers
     {
         private readonly ICustomerHelper _CustomerHelper;
         private readonly IMapper _mapper;
+        private readonly IConfiguration Configuration;
 
 
-        public CustomerController(ICustomerHelper CustomerHelper, IMapper mapper)
+        public CustomerController(ICustomerHelper CustomerHelper, IMapper mapper, IConfiguration _configuration)
         {
             _CustomerHelper = CustomerHelper;
             _mapper = mapper;
+            Configuration = _configuration;
         }
 
 
@@ -57,6 +63,15 @@ namespace WMSWebApp.Controllers
         // GET: CustomerController/Create
         public ActionResult Create()
         {
+            Root districtslist = new Root();
+            HttpClient client = new HttpClient();
+            string apiUrl = Configuration.GetValue<string>("districtUrl");
+            HttpResponseMessage response = client.GetAsync(apiUrl).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                districtslist = JsonConvert.DeserializeObject<Root>(response.Content.ReadAsStringAsync().Result);
+            }
+            ViewBag.districts = districtslist.districts;
             return View();
         }
 
