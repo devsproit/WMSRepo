@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WMS.Core.Data;
-
+using WMS.Core;
 namespace Application.Services.PO
 {
     public partial class SalePo : ISalePo
@@ -28,6 +28,22 @@ namespace Application.Services.PO
         public void Update(SalePoDb salePoDb)
         {
             _salePoRepository.Update(salePoDb);
+        }
+
+        public virtual IPagedList<SalePoDb> GetSalePos(string poNumber = "0", int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = from x in _salePoRepository.Table
+                        select x;
+
+            if (poNumber != "0")
+            {
+                query = query.Where(x => x.PONumber == poNumber);
+            }
+
+            query = query.OrderByDescending(x => x.Id);
+
+            var result = new PagedList<SalePoDb>(query, pageIndex, pageSize);
+            return result;
         }
         #endregion
     }

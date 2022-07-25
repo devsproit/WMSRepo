@@ -87,7 +87,7 @@ namespace WMSWebApp.Controllers
         {
             try
             {
-                var branch = await _workContext.GetCurrentBranch();
+                var branch =await _workContext.GetCurrentBranch();
                 DateTime currentDate = DateTime.Now;
                 PurchaseOrderDb purchaseOrderDb = new PurchaseOrderDb();
                 purchaseOrderDb.POCategory = poViewModel.POCatrgory;
