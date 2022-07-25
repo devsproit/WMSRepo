@@ -14,6 +14,8 @@ namespace Domain.Model.PO
         public string PONumber { get; set; }
 
         public string POCategory { get; set; }
+        public string BranchCode { get; set; }
+        public bool ProcessStatus { get; set; } = false;
 
     }
 }

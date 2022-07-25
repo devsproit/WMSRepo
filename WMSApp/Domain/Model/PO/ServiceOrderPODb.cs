@@ -25,5 +25,6 @@ namespace Domain.Model.PO
         public string ServiceOrderPOAmt { get; set; }
 
         public string ServiceOrderPOSerialNumber { get; set; }
+        public string SubItemCode { get; set; }
     }
 }

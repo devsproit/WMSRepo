@@ -7,7 +7,7 @@ using WMS.Core;
 
 namespace Domain.Model.PO
 {
-    public  class SRNPoDb : BaseEntity
+    public class SRNPoDb : BaseEntity
     {
         public string PONumber { get; set; }
         public string SrnPOCategory { get; set; }
@@ -19,6 +19,7 @@ namespace Domain.Model.PO
         public int SrnPOQty { get; set; }
         public string SrnPOSrnCause { get; set; }
         public string SrnSerialNumber { get; set; }
+        public string SubItemCode { get; set; }
 
     }
 }
