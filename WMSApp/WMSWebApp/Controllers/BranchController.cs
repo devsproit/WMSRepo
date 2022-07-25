@@ -15,6 +15,9 @@ using Application.Services.Master;
 using Domain.Model.Masters;
 using Application.Services.WarehouseMaster;
 using WMS.Web.Framework.Infrastructure.Extentsion;
+using Microsoft.Extensions.Configuration;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace WMSWebApp.Controllers
 {
@@ -27,9 +30,10 @@ namespace WMSWebApp.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserProfileService _userProfileService;
         private readonly IWarehouseService _warehouseService;
+        private readonly IConfiguration Configuration;
 
         public BranchController(IBranchHelper BranchHelper, IMapper mapper, ICompanyHelper companyService, UserManager<ApplicationUser> userManager,
-            IUserProfileService userProfileService, IWarehouseService warehouseService)
+            IUserProfileService userProfileService, IWarehouseService warehouseService,IConfiguration _configuration)
         {
             _BranchHelper = BranchHelper;
             _mapper = mapper;
@@ -37,6 +41,7 @@ namespace WMSWebApp.Controllers
             _userManager = userManager;
             _userProfileService = userProfileService;
             _warehouseService = warehouseService;
+            Configuration = _configuration;
         }
 
 
@@ -108,7 +113,15 @@ namespace WMSWebApp.Controllers
             var users = PrepareUserList(_userProfileService.GetAllProfile("").ToList());
             model.Users = users;
             model.Warehouses = _warehouseService.GetAllWarehouse().ToList();
-
+            Root districtslist = new Root();
+            HttpClient client = new HttpClient();
+            string apiUrl = Configuration.GetValue<string>("districtUrl");
+            HttpResponseMessage response = client.GetAsync(apiUrl).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                districtslist = JsonConvert.DeserializeObject<Root>(response.Content.ReadAsStringAsync().Result);
+            }
+            ViewBag.districts = districtslist.districts;
             return View(model);
         }
 

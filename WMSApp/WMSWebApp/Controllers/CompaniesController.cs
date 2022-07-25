@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using Application.Services;
 using AutoMapper;
+using Castle.Core.Configuration;
 using DatabaseLibrary.SQL;
 using Domain.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using WMSWebApp.ViewModels;
-
+using Microsoft.Extensions.Configuration;
 namespace WMSWebApp.Controllers
 {
     [Authorize]
@@ -17,12 +20,13 @@ namespace WMSWebApp.Controllers
         private readonly ICompanyHelper _companyHelper;
         private readonly IItemHelper _itemHelper;
         private readonly IMapper _mapper;
-
-        public CompaniesController(ICompanyHelper companyHelper, IMapper mapper, IItemHelper itemHelper)
+        private Microsoft.Extensions.Configuration.IConfiguration Configuration;
+        public CompaniesController(ICompanyHelper companyHelper, IMapper mapper, IItemHelper itemHelper, Microsoft.Extensions.Configuration.IConfiguration _configuration)
         {
             _companyHelper = companyHelper;
             _mapper = mapper;
             _itemHelper = itemHelper;
+            Configuration = _configuration;
         }
 
         // GET: CompaniesController
@@ -68,6 +72,15 @@ namespace WMSWebApp.Controllers
             Company company = new Company();
             var itemData = _itemHelper.GetAllItem();
             company.ItemList = _mapper.Map<List<Item>>(itemData);
+            Root districtslist = new Root();
+            HttpClient client = new HttpClient();
+            string apiUrl = Configuration.GetValue<string>("districtUrl");
+            HttpResponseMessage response = client.GetAsync(apiUrl).Result;
+            if (response.IsSuccessStatusCode)
+            {
+                districtslist = JsonConvert.DeserializeObject<Root>(response.Content.ReadAsStringAsync().Result);
+            }
+            ViewBag.districts = districtslist.districts;
             return View(company);
         }
 
