@@ -38,19 +38,19 @@ $(document).ready(function () {
 
     $("#doctype").change(function () {
         console.log("doctype change");
-        PoNumber($(this).val());
+        PoNumberForInvoice($(this).val());
     });
 
 
-    $("#grn").change(function () {
-        itemList($(this).val());
+    $("#ponumber").change(function () {
+        itemList($(this).val(), $("#doctype").val());
     });
     $("#items").change(function () {
         console.log($("#items option:selected").data('areaid'));
         area($("#items option:selected").data('areaid'));
     });
 
-    $("#save").click(function () {
+    $("#finalsave").click(function () {
         var items = $('#pick-grid').data().kendoGrid.dataSource.data();
         console.log(items);
         if (items.length > 0) {
@@ -85,37 +85,7 @@ $(document).ready(function () {
         }
     });
 
-    $("#add-new").click(function () {
-
-        $.ajax({
-            type: "GET",
-            url: "/PickSlip/GetGrnProduct?id=" + grnid,
-            data: "{}",
-            success: function (data) {
-                for (var i = 0; i < data.length; i++) {
-                    var newRow = {
-                        Id: sn,
-                        GRN: $("#grn").val(),
-                        SubItemCode: $("#items option:selected").data('code'),
-                        SubItemName: $("#items option:selected").data("itemname"),
-                        AreaId: $("#items option:selected").data('areaid'),
-                        Location: $("#location").val(),
-                        Qty: $("#qty").val(),
-                    };
-
-                    var grid = $("#pick-grid").data("kendoGrid");
-                    grid.dataSource.add(newRow);
-                    sn++;
-                }
-                
-                
-                toastr.success('Item  successfully added into list.');
-            }
-        });
-
-       
-
-    });
+    
 
     var initialLoad = true;
     $("#pick-grid").kendoGrid({
@@ -197,32 +167,23 @@ $(document).ready(function () {
             width: 120
         },
         {
-            field: "AreaId",
-            title: "AreaId",
-        },
-        {
-            field: "Location",
-            title: "Location",
-            width: 300
-        },
-        {
             field: "Qty",
             title: "Qty",
             encoded: false,
             width: 120
         },
-            //{
-            //    field: "Unit",
-            //    title: "Unit",
-            //    width: 100
-            //},
+            {
+                field: "Unit",
+                title: "Unit",
+                width: 100
+            },
 
 
-            //{
-            //    field: "Amt",
-            //    title: "Amt",
-            //    width: 100
-            //},
+            {
+                field: "Amount",
+                title: "Amount",
+                width: 100
+            },
 
 
         ],
@@ -249,16 +210,27 @@ function additionalData() {
 function itemList(id, doctype) {
     $.ajax({
         type: "GET",
-        url: "/PickSlip/GetPoProduct?id=" + id + "&docType=" + doctype,
+        url: "/Invoice/GetPoProduct?id=" + id + "&docType=" + doctype,
         data: "{}",
         success: function (data) {
-            var s = '';
+            var sn = 1;
             for (var i = 0; i < data.length; i++) {
-                s += '<option value="' + data[i].Id + '" data-code=' + data[i].SubItemCode + ' data-itemname=' + data[i].SubItemName +
-                    ' data-areaid=' + data[i].AreaId + ' >' + data[i].SubItemName + '</option>';
+                var newRow = {
+                    Id: sn,
+                    PONumber: data[i].PoNumber,
+                    SubItemCode: data[i].SubItemCode,
+                    SubItemName: data[i].SubItemName,
+                    Qty: data[i].Qty,
+                    Amount: data[i].Amount
+                };
+
+                var grid = $("#pick-grid").data("kendoGrid");
+                grid.dataSource.add(newRow);
+                sn++;
             }
-            $("#items").html(s);
-            $("#items").trigger("change");
+
+
+            toastr.success('PO Item successfully added into list.');
         }
     });
 
@@ -279,19 +251,21 @@ function area(areaId) {
 
 }
 
-function PoNumber(docType) {
+function PoNumberForInvoice(docType) {
 
     $.ajax({
         type: "GET",
         url: "/PickSlip/PoList?docType=" + docType,
         data: "{}",
         success: function (data) {
+
+
             var s = '';
             for (var i = 0; i < data.length; i++) {
-                s += '<option value="' + data[i].GRNId + '" >' + data[i].GRNId + '</option>';
+                s += '<option value="' + data[i].PoNumber + '" >' + data[i].PoNumber + '</option>';
             }
-            $("#grn").html(s);
-            $("#grn").trigger("change");
+            $("#ponumber").html(s);
+            $("#ponumber").trigger("change");
         }
     });
 }

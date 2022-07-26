@@ -23,6 +23,10 @@ namespace Application.Services.PO
 
 
         #endregion
+
+        #region Methods
+
+        
         public void Insert(PurchaseOrderDb entiry)
         {
             _poRepository.Insert(entiry);
@@ -45,6 +49,6 @@ namespace Application.Services.PO
 
         }
 
-
+        #endregion
     }
 }

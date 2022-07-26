@@ -31,7 +31,22 @@ namespace Application.Services.PO
             _serviceOrderPoRepository.Update(serviceOrderPO);
         }
 
-       
+        public virtual IPagedList<ServiceOrderPODb> GetServicePos(string poNumber = "0", int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = from x in _serviceOrderPoRepository.Table
+                        select x;
+            if (poNumber != "0")
+            {
+                query = query.Where(x => x.PONumber == poNumber);
+            }
+            query = query.OrderByDescending(x => x.Id);
+
+            var result = new PagedList<ServiceOrderPODb>(query, pageIndex, pageSize);
+            return result;
+
+        }
+
+
         #endregion
     }
 }

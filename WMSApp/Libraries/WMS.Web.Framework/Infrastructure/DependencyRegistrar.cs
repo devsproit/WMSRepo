@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Http;
 using Application.Services.PO;
 using Domain.Model.PO;
 using Application.Services.PS;
+using Application.Services.Invoice;
 #endregion
 
 
@@ -53,6 +54,7 @@ namespace WMS.Web.Framework.Infrastructure
 
             builder.RegisterType<PickSlipService>().As<IPickSlipService>().InstancePerLifetimeScope();
             builder.RegisterType<TempPickSlipDetailsService>().As<ITempPickSlipDetailsService>().InstancePerLifetimeScope();
+            builder.RegisterType<InvoiceService>().As<IInvoiceService>().InstancePerLifetimeScope();
         }
 
         public int Order => 0;

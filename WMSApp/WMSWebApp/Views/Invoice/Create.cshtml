@@ -1,0 +1,297 @@
+﻿@using WMSWebApp.ViewModels.GRN
+@model CreateModel
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Style{
+
+
+    <link href="~/lib/kendoUi/2021/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/lib/kendoUi/2021/styles/kendo.default.min.css" rel="stylesheet" />
+    <link href="~/lib/kendoUi/2021/styles/kendo.default.mobile.min.css" rel="stylesheet" />
+    <link href="~/lib/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/lib/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link rel="stylesheet" href="~/lib/plugins/toastr/toastr.min.css" />
+    <style>
+
+        .ui-autocomplete {
+            /*position: absolute;*/
+            cursor: default;
+            z-index: 1099 !important;
+            max-height: 200px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .ui-datepicker {
+            z-index: 1099 !important;
+        }
+
+        .ui-autocomplete-loading {
+            background: white url("../img/ajax-loader.gif") right center no-repeat;
+        }
+    </style>
+}
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Invoice</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Invoice</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <section>
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Invoice</h3>
+                        </div>
+                        <form id="grnform">
+                            <div class="card-body">
+                                <div asp-validation-summary="ModelOnly" class="text-red-500"></div>
+                                <div class="row">
+
+                                    <div class="form-group col-md-2">
+
+                                        <label class="control-label">Document type</label>
+                                        <select class="form-control" id="doctype">
+                                            <option value="Select">Select</option>
+                                            <option value="StockTransfer PO">StockTransfer PO</option>
+                                            <option value="Sale PO">Sale PO</option>
+                                            @*<option value="SRN_PO">SRN PO</option>*@
+                                            <option value="ServiceOrder PO">ServiceOrder PO</option>
+                                        </select>
+
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>PO Number</label>
+                                        <select class="form-control select2" id="ponumber"></select>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>Invoice No.</label>
+                                        <input class="form-control" id="invoiceNo" />
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>Invoice Date</label>
+                                        <input class="form-control" readonly value="@(DateTime.Now.ToString("dd-MM-yyyy"))" />
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div id="pick-grid">
+                                    </div>
+                                </div>
+
+                                <br />
+                                @*<div class="row">
+                                    <div class="col-md-12">
+                                        <nav>
+                                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                <a class="nav-item nav-link active" id="nav-Meterial-tab" data-toggle="tab" href="#nav-Meterial" role="tab" aria-controls="nav-Meterial" aria-selected="true">Meterial</a>
+                                                <a class="nav-item nav-link" id="nav-Quantity-tab" data-toggle="tab" href="#nav-Quantity" role="tab" aria-controls="nav-Quantity" aria-selected="false">Quantity</a>
+                                                <a class="nav-item nav-link" id="nav-Where-tab" data-toggle="tab" href="#nav-Where" role="tab" aria-controls="nav-Where" aria-selected="false">Where</a>
+                                                <a class="nav-item nav-link" id="nav-Purchase-tab" data-toggle="tab" href="#nav-Purchase" role="tab" aria-controls="nav-Purchase" aria-selected="false">Purchase Order Data</a>
+                                                <a class="nav-item nav-link" id="nav-Receiver-tab" data-toggle="tab" href="#nav-Receiver" role="tab" aria-controls="nav-Receiver" aria-selected="false">Receiver</a>
+                                                <a class="nav-item nav-link" id="nav-Serial-tab" data-toggle="tab" href="#nav-Serial" role="tab" aria-controls="nav-Serial" aria-selected="false">Serial Numbers</a>
+                                            </div>
+                                        </nav>
+                                        <div class="tab-content" id="nav-tabContent">
+                                            <div class="tab-pane fade show active" id="nav-Meterial" role="tabpanel" aria-labelledby="nav-Meterial-tab">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>Material</label>
+                                                            <input id="Material" class="form-control" placeholder="Material Name" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Material Code</label>
+                                                            <input id="MaterialCode" class="form-control" placeholder="Material Code" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="tab-pane fade" id="nav-Quantity" role="tabpanel" aria-labelledby="nav-Quantity-tab">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label>Qty in Unit of Entry</label>
+                                                            <input id="qtyu" class="form-control" placeholder="Qty" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Qty in SUK</label>
+                                                            <input id="Qtysuk" class="form-control" placeholder="Qty" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Qty in Delivery Note/Invoice</label>
+                                                            <input id="QtyD" class="form-control" placeholder="Qty" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Qty Ordered</label>
+                                                            <input id="QtyO" class="form-control" placeholder="Qty" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Issued Qty </label>
+                                                            <input id="QtyI" class="form-control" placeholder="Qty" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="tab-pane fade" id="nav-Where" role="tabpanel" aria-labelledby="nav-Where-tab">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group">
+                                                            <label>Storeage Location</label>
+                                                            
+                                                            <select class="form-control" id="WarehouseId"></select>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label>Zone</label>
+                                                            <select id="zone" class="form-control" placeholder="Area"></select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Area</label>
+                                                            <select id="Warea" class="form-control" placeholder="Remark"></select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Remark</label>
+                                                            <input id="Remark" class="form-control" placeholder="Plant Code" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label>Warehouse code</label>
+                                                            <input id="wcode" class="form-control" placeholder="Plant" readonly />
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label>Zone Code</label>
+                                                            <input id="zcode" class="form-control" placeholder="Zone Code" readonly />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Area Code</label>
+                                                            <input id="acode" class="form-control" placeholder="Area Code" readonly />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <h3>Add Item to selected area</h3>
+                                                        <button class="btn btn-primary" type="button" id="addtoarea">Add to area</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="nav-Purchase" role="tabpanel" aria-labelledby="nav-Purchase-tab">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label>Purchase order</label>
+                                                            <input id="ponumber_details" class="form-control" placeholder="Purchase order no." />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="nav-Receiver" role="tabpanel" aria-labelledby="nav-Receiver-tab">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>Vendor</label>
+                                                            <input id="vendor" class="form-control" placeholder="Vendor Name" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Supplying Plant</label>
+                                                            <input id="sendercompany" class="form-control" placeholder="Supplying Plant" />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Sender Branch</label>
+                                                            <input id="sender" class="form-control" placeholder="sender branch" />
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+
+                                            <div class="tab-pane fade" id="nav-Serial" role="tabpanel" aria-labelledby="nav-Serial-tab">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <label>Serial Number</label>
+                                                        <input id="vendor" class="form-control" placeholder="Serial Number" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br />
+                                        </div>
+                                    </div>
+                                </div>*@
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-primary" id="finalsave" type="button">Final Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="modal fade" id="pleaseWait" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Please Wait..</h5>
+
+                </div>
+                <div class="modal-body">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                    </div>
+                </div>
+                @*<div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+            </div>*@
+            </div>
+        </div>
+    </div>
+
+    @section Scripts{
+
+    <environment include="Development">
+        <script src="~/lib/kendoUi/2021/js/kendo.all.min.js"></script>
+        <script src="~/lib/kendoUi/2021/js/jszip.min.js"></script>
+        <script src="~/js/common.js"></script>
+        <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+        <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
+        <script src="~/js/invoice/invoiceprocess.js "></script>
+        <script src="~/lib/plugins/toastr/toastr.min.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/kendoUi/2021/js/kendo.all.min.js"></script>
+        <script src="~/lib/kendoUi/2021/js/jszip.min.js"></script>
+        <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+        <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
+        <script src="~/js/common.min.js"></script>
+        <script src="~/js/invoice/invoiceprocess.js "></script>
+        <script src="~/lib/plugins/toastr/toastr.min.js"></script>
+    </environment>
+
+
+
+
+    }
+

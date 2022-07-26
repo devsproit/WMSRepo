@@ -55,24 +55,24 @@
                 <div class="col-md-10">
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title">Create New Branch</h3>
+                            <h3 class="card-title">Pick Slip</h3>
 
                         </div>
                         <div class="card-body">
-                            <div class="row">
+                          @*  <div class="row">
                                 <div class="col-md-6">Ship To</div>
                                 <div class="col-md-6">Ordered By</div>
-                            </div>
+                            </div>*@
                             <div class="row">
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label>Doc Type</label>
                                         <select class="form-control" id="doctype">
                                             <option value="Select">Select</option>
-                                            <option value="StockTransfer_PO">StockTransfer PO</option>
-                                            <option value="Sale_PO">Sale PO</option>
+                                            <option value="StockTransfer PO">StockTransfer PO</option>
+                                            <option value="Sale PO">Sale PO</option>
                                             @*<option value="SRN_PO">SRN PO</option>*@
-                                            <option value="ServiceOrder_PO">ServiceOrder PO</option>
+                                            <option value="ServiceOrder PO">ServiceOrder PO</option>
                                         </select>
                                     </div>
                                 </div>
@@ -82,7 +82,7 @@
                                         <select class="form-control select2" id="grn"></select>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                @*<div class="col-md-2">
                                     <div class="form-group">
                                         <label>Item</label>
                                         <select class="form-control" id="items"></select>
@@ -105,7 +105,7 @@
                                         <label>Serial No</label>
                                         <input class="form-control" />
                                     </div>
-                                </div>
+                                </div>*@
 
                             </div>
                             <div class=" row">
@@ -164,7 +164,7 @@
         <script src="~/js/common.js"></script>
         <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
         <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
-
+        <script src="~/js/PickSlip/pickslipprocess.js" asp-append-version="true"></script>
         <script src="~/lib/plugins/toastr/toastr.min.js"></script>
     </environment>
     <environment exclude="Development">
@@ -173,7 +173,7 @@
         <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
         <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
         <script src="~/js/common.min.js"></script>
-
+        <script src="~/js/PickSlip/pickslipprocess.js" asp-append-version="true"></script>
         <script src="~/lib/plugins/toastr/toastr.min.js"></script>
     </environment>
 

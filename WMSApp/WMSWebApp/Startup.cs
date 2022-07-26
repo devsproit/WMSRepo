@@ -25,6 +25,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Serialization;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.ResponseCompression;
 
 namespace WMSWebApp
 {
@@ -103,6 +104,7 @@ namespace WMSWebApp
             //services.AddTransient<ISubItemHelper, SubItemHelper>();
             //services.AddTransient<IIntrasitHelper, IntrasitHelper>();
             services.AddControllersWithViews();
+            services.AddRazorPages();
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.
@@ -139,6 +141,21 @@ namespace WMSWebApp
             });
             services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddSingleton<IFileProvider>( new PhysicalFileProvider(System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot")));
+            services.Configure<GzipCompressionProviderOptions>(options =>
+            {
+                options.Level = System.IO.Compression.CompressionLevel.Optimal;
+
+            });
+
+            services.AddResponseCompression(options =>
+            {
+                options.EnableForHttps = true;
+                options.Providers.Add<GzipCompressionProvider>();
+            });
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.IgnoreNullValues = true;
+            });
             //services.AddControllers();
             return services.ConfigureApplicationServices(Configuration, _webHostEnvironment);
         }

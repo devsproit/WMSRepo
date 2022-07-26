@@ -2,7 +2,7 @@
     //$("#spAmt").format({ format: "#,###.00", locale: "us" });
     //$("#stpAmt").format({ format: "#,###.00", locale: "us" });
     //$("#sopAmt").format({ format: "#,###.00", locale: "us" });
-   // $(this).format({ format: "#,###.00", locale: "us" });
+    // $(this).format({ format: "#,###.00", locale: "us" });
     var t = $('#tblpo').DataTable();
     $('#doctype').on('change', function () {
         debugger;
@@ -170,15 +170,12 @@
                 myData["SalePOQty"] = data[i][5];//
                 myData["SalePOAmt"] = data[i][6];
                 myData["SalePOSerialNumber"] = data[i][7];//
-                
+
                 jsonObj.push(myData);
             }
-            var data = {
-                //  PODate: $("#PoDate").val(),
-                PONumber: $("#PONumber").val(),
-                POCatrgory: drpdown
-
-            };
+            var data = {};
+            PONumber: $("#PONumber").val();
+            POCatrgory: drpdown;
             data.salePOCategories = jsonObj;
             data.stockTransferCategories = null;
             data.serviceOrderCategories = null;
@@ -241,7 +238,8 @@
             data.serviceOrderCategories = jsonObj;
             data.sRNPOCategories = null;
 
-        } else if (drpdown == "SRN PO") {
+        }
+        else if (drpdown == "SRN PO") {
             jsonObj = [];
             var table = $('#tblpo').DataTable();
             var data = table.data();
@@ -290,20 +288,23 @@
         //        }
         //    });
 
-
+        console.log(data);
         var settings = {
             "url": "/Po/Create",
             "method": "POST",
             /* "timeout": 0,*/
-            "contentType": 'application/json; charset=utf-8',
+            "headers": {
+                "Content-Type": "application/json; charset=UTF-8"
+            },
             //"headers": {
             //    "Content-Type": "application/json"
             //},
             "data": JSON.stringify(data),
+
         };
 
         $.ajax(settings).done(function (response) {
-            if (message == "Saved Successfully") {
+            if (response.message == "Saved Successfully") {
                 alert("data inserted");
                 table.clear().draw();
                 SalePOCleanData();
@@ -325,19 +326,19 @@
 
 
 $("#spCategory").change(function () {
-   // debugger;
+    // debugger;
     var type = $('#doctype :selected').text();
     var catogry = $('#spCategory :selected').text();
     getSubItemId(catogry, type);
 });
 $("#srnCategory").change(function () {
-   // debugger;
+    // debugger;
     var type = $('#doctype :selected').text();
     var catogry = $('#srnCategory :selected').text();
     getSubItemId(catogry, type);
 });
 $("#sopCategory").change(function () {
-   // debugger;
+    // debugger;
     var type = $('#doctype :selected').text();
     var catogry = $('#sopCategory :selected').text();
     getSubItemId(catogry, type);
@@ -472,7 +473,7 @@ function ServiceOrderPoCleanData() {
     $("#sopSerialNumber").val("");
     var t = $('#tblpo').DataTable();
     t.clear().draw();
-   
+
 }
 function SrnPoCleanData() {
     $('#srnCategory').val(0);
