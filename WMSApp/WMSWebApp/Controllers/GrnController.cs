@@ -13,8 +13,8 @@ using WMS.Web.Framework.Infrastructure.Extentsion;
 using Application.Services.WarehouseMaster;
 using System;
 using Domain.Model.GRN;
-
-
+using Application.Services.StockMgnt;
+using Domain.Model.StockManagement;
 namespace WMSWebApp.Controllers
 {
     [Authorize]
@@ -26,16 +26,18 @@ namespace WMSWebApp.Controllers
         private readonly IMapper _mapper;
         private readonly IWarehouseService _warehouseService;
         private readonly IGoodReceivedNoteMasterService _goodReceivedNoteMasterService;
+        private readonly IItemStockService _itemStockService;
         #endregion
 
         #region Ctor
-        public GrnController(IIntrasitService intrasitService, IWorkContext workContext, IMapper mapper, IWarehouseService warehouseService, IGoodReceivedNoteMasterService goodReceivedNoteMasterService)
+        public GrnController(IIntrasitService intrasitService, IWorkContext workContext, IMapper mapper, IWarehouseService warehouseService, IGoodReceivedNoteMasterService goodReceivedNoteMasterService, IItemStockService itemStockService)
         {
             _intrasitService = intrasitService;
             _workContext = workContext;
             _mapper = mapper;
             _warehouseService = warehouseService;
             _goodReceivedNoteMasterService = goodReceivedNoteMasterService;
+            _itemStockService = itemStockService;
         }
         #endregion
 
@@ -231,11 +233,20 @@ namespace WMSWebApp.Controllers
                 master.GoodReceivedNoteDetails.Add(details);
             }
             _goodReceivedNoteMasterService.Insert(master);
+            // update stocks
+            foreach (var item in model)
+            {
+                intranicRow = _intrasitService.GetById(item.ItemId);
+                AddUpdateStock(intranicRow.SubItem_Code, branch.BranchCode, Convert.ToInt32(intranicRow.Qty));
+
+            }
             foreach (var item in model)
             {
                 var po = _intrasitService.GetById(item.ItemId);
                 po.IsGrn = true;
                 _intrasitService.Update(po);
+
+
             }
 
             return Json("OK");
@@ -253,6 +264,29 @@ namespace WMSWebApp.Controllers
         public virtual IActionResult List(DataSourceRequest request)
         {
             return View();
+        }
+        #endregion
+
+        #region Utilities
+        protected void AddUpdateStock(string itemCode, string branchCode, int qty)
+        {
+            var stock = _itemStockService.ItemByCode(itemCode, branchCode);
+            if (stock != null)
+            {
+                var item = _itemStockService.GetById(stock.Id);
+                item.Qty = item.Qty + qty;
+                item.LastUpdate = DateTime.Now;
+                _itemStockService.Update(item);
+            }
+            else
+            {
+                var item = new ItemStock();
+                item.BranchCode = branchCode;
+                item.ItemCode = itemCode;
+                item.LastUpdate = DateTime.Now;
+                item.Qty = qty;
+                _itemStockService.Insert(item);
+            }
         }
         #endregion
 

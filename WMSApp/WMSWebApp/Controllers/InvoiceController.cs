@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Application.Services.Invoice;
 using Domain.Model.Invoice;
 using WMS.Web.Framework.Infrastructure.Extentsion;
+using Domain.Model.PO;
 
 namespace WMSWebApp.Controllers
 {

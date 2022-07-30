@@ -1,16 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Domain.Model.GRN;
 using Domain.Model.StockManagement;
-namespace WMS.Data.Mapping.GRN
+     
+
+namespace WMS.Data.Mapping.Stocks
 {
-    public partial class StocksMap : WMSEntityTypeConfiguration<ItemStock>
+    public partial class ItemStockMap: WMSEntityTypeConfiguration<ItemStock>
     {
-        #region Methods
+        #region Method
         public override void Configure(EntityTypeBuilder<ItemStock> builder)
         {
-            builder.ToTable(nameof(Stocks));
-            builder.HasKey(key => key.Id);
+            builder.ToTable(nameof(ItemStock));
+            builder.HasKey(x => x.Id);  
             base.Configure(builder);
         }
         #endregion
