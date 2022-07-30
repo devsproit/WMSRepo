@@ -56,7 +56,7 @@ namespace WMS.Web.Framework.Infrastructure
             builder.RegisterType<PickSlipService>().As<IPickSlipService>().InstancePerLifetimeScope();
             builder.RegisterType<TempPickSlipDetailsService>().As<ITempPickSlipDetailsService>().InstancePerLifetimeScope();
             builder.RegisterType<InvoiceService>().As<IInvoiceService>().InstancePerLifetimeScope();
-            builder.RegisterType<IItemStockService>().As<IItemStockService>().InstancePerLifetimeScope();
+            builder.RegisterType<ItemStockService>().As<IItemStockService>().InstancePerLifetimeScope();
         }
 
         public int Order => 0;
