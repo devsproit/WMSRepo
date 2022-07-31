@@ -116,6 +116,15 @@ namespace WMS.Web.Framework.Controllers
             return Json(gridModel);
         }
 
+        /// <summary>
+        /// Access denied view
+        /// </summary>
+        /// <returns>Access denied view</returns>
+        protected ActionResult AccessDeniedView()
+        {
+            //return new HttpUnauthorizedResult();
+            return RedirectToAction("AccessDenied", "Security");
+        }
         ///// <summary>
         ///// Display "Edit" (manage) link (in public store)
         ///// </summary>

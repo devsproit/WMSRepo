@@ -1,6 +1,10 @@
-﻿@model WMSWebApp.ViewModels.RegisterViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@inject RoleManager<IdentityRole> _roleManager
+
+@model WMSWebApp.ViewModels.RegisterViewModel
 @{
     ViewData["Title"] = "Register";
+    var roles = _roleManager.Roles.ToList();
 }
 
 @section Style{
@@ -120,6 +124,12 @@
                                                 <select asp-for="BranchList" data-placeholder="Select a Warehouse" multiple="multiple" data-dropdown-css-class="select2-purple" class="select2 multiselect" asp-items="@(new SelectList(Model.Branches,"Id","BranchName"))" style="width: 100%;"></select>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label asp-for="Role"></label>
+
+                                        <select asp-for="Role" class="form-control" asp-items="@(new SelectList(roles,"Name","Name"))" required></select>
+                                        <span asp-validation-for="Role" class="text-danger"></span>
                                     </div>
                                 </div>
 

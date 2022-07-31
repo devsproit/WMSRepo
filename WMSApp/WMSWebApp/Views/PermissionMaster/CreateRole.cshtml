@@ -1,0 +1,146 @@
+﻿@using WMSWebApp.ViewModels.Security;
+@model CreateRoleModel
+@{
+    ViewData["Title"] = "CreateRole";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 0;
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>
+                    User Role
+                    @*<small>new</small>*@
+                </h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Master</a></li>
+                    <li class="breadcrumb-item active">Role for System</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- form start -->
+                <form role="form" asp-action="CreateRole" enctype="multipart/form-data" asp-controller="PermissionMaster" method="post">
+                    <div class="box">
+                        <div class="box-header">
+
+                            <div class="form-group col-md-4">
+                                <label for="RoleName">Role</label>
+
+                                <input type="text" class="form-control copyRoleId" id="Role" name="Role" placeholder="Enter Role ">
+                            </div>
+
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table id="" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Permission </th>
+                                        <th>Add <input type="checkbox" id="chkadd" class="checkall" data-checkwhat="chkadd" /></th>
+                                        <th>Edit <input type="checkbox" id="chkadd" class="checkall" data-checkwhat="chkedit" /></th>
+                                        <th>View <input type="checkbox" id="chkadd" class="checkall" data-checkwhat="chkview" /></th>
+                                        <th>Delete <input type="checkbox" id="chkadd" class="checkall" data-checkwhat="chkdelete" /></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+                                    @foreach (var item in Model.PermissionMaster)
+                                    {
+
+
+
+                                        @*@for (i = 0; i < item.; i++)
+                                    {*@
+                                        <tr>
+                                            <td>
+
+                                                @item.Permission
+
+
+                                                <input type="hidden" asp-for="PermissionMap[i].PermissionId" id="PermissionMap[i].PermissionId" value="@item.Id" />
+                                                <input type="hidden" asp-for="PermissionMap[i].RoleId" id="RoleId" class="copyRoleId" />
+
+
+
+                                            </td>
+                                            <td>
+                                                <label>
+
+                                                    @Html.CheckBoxFor(m => Model.PermissionMap[i].Add ,new {@class="chkadd"})
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label>
+
+                                                    @Html.CheckBoxFor(m => Model.PermissionMap[i].Edit ,new {@class="chkedit"})
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label>
+
+                                                    @Html.CheckBoxFor(m => Model.PermissionMap[i].View ,new {@class="chkview"})
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label>
+
+                                                    @Html.CheckBoxFor(m => Model.PermissionMap[i].Delete ,new {@class="chkdelete"})
+                                                </label>
+                                            </td>
+
+
+                                        </tr>
+
+
+
+                                        i++;
+                                    }
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer">
+
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+
+                    </div>
+                    <!-- /.box -->
+                </form>
+            </div>
+            <!-- /.col -->
+        </div>
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+@section Scripts
+    {
+
+    <script>
+        $(function() {
+            $(".checkall").click(function() {
+                checkwhat = $(this).data("checkwhat");
+                
+               $('input:checkbox.'+checkwhat).not(this).prop('checked', this.checked);
+            });
+        });
+    </script>
+        }
