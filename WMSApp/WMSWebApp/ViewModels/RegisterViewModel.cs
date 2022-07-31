@@ -32,5 +32,7 @@ namespace WMSWebApp.ViewModels
         public int Id { get; set; }
         public DateTime CreateOn { get; set; }
         public string Branch { get; set; }
+
+        public string Role { get; set; }
     }
 }

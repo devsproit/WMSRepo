@@ -66,7 +66,7 @@ namespace WMSWebApp.Controllers
                 if (result.Succeeded)
                 {
                     //await _signInManager.SignInAsync(user, isPersistent: false);
-
+                    await _userManager.AddToRoleAsync(user, model.Role);
                     UserProfile profile = _mapper.Map<UserProfile>(model);
                     profile.UserId = user.Id;
                     profile.CreateOn = DateTime.Now;
