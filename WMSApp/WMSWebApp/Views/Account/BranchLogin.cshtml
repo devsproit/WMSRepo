@@ -1,0 +1,71 @@
+﻿@model WMSWebApp.ViewModels.BranchLogin
+@{
+    ViewData["Title"] = "Branch Login";
+    Layout = null;
+    var branch = (List<Domain.Model.Branch>)ViewBag.branch;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Warehouse Management | Log in (v2)</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/lib/plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="~/lib/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <!-- /.login-logo -->
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <a href="#" class="h1"><b>Warehouse</b>System</a>
+            </div>
+            <div class="card-body">
+                <p class="login-box-msg">Sign in to Branch</p>
+
+                <form asp-action="BranchLogin" asp-controller="Account" method="post">
+                    <div class="input-group mb-3">
+                        <select asp-for="Id" class="form-control" asp-items="@(new SelectList(branch,"Id", "BranchName"))"></select>
+                       
+                    </div>
+                    
+                    <div class="row">
+                       
+                        <!-- /.col -->
+                        <div class="col-6">
+                            <button type="submit" class="btn btn-primary btn-block">Branch Login</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+                <!-- /.social-auth-links -->
+
+              @*  <p class="mb-1">
+                    <a href="forgot-password.html">I forgot my password</a>
+                </p>*@
+                @*<p class="mb-0">
+                <a href="register.html" class="text-center">Register a new membership</a>
+                </p>*@
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.login-box -->
+    <!-- jQuery -->
+    <script src="~/lib/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/lib/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/dist/js/adminlte.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>

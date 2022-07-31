@@ -14,4 +14,9 @@ namespace WMSWebApp.ViewModels
         [Display(Name = "Remember Me")]
         public bool RememberMe { get; set; }
     }
+
+    public class BranchLogin
+    {
+        public int Id { get; set; }
+    }
 }

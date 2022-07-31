@@ -11,6 +11,7 @@ using WMS.Web.Framework.Infrastructure.Extentsion;
 using Application.Services;
 using System.Linq;
 using System;
+using System.Collections.Generic;
 namespace WMSWebApp.Controllers
 {
     [Authorize]
@@ -23,13 +24,14 @@ namespace WMSWebApp.Controllers
         private readonly IMapper _mapper;
         private readonly IBranchHelper _branchService;
         private readonly IWorkContext _workContext;
-
+        private readonly IUserBranchMappingService _userBranchMappingService;
         public AccountController(UserManager<ApplicationUser> userManager,
                               SignInManager<ApplicationUser> signInManager,
                               IUserProfileService userProfileService,
                               IMapper mapper,
                               IBranchHelper branchService,
-                              IWorkContext workContext)
+                              IWorkContext workContext,
+                              IUserBranchMappingService userBranchMappingService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -37,6 +39,7 @@ namespace WMSWebApp.Controllers
             _mapper = mapper;
             _branchService = branchService;
             _workContext = workContext;
+            _userBranchMappingService = userBranchMappingService;
         }
 
 
@@ -67,7 +70,20 @@ namespace WMSWebApp.Controllers
                     UserProfile profile = _mapper.Map<UserProfile>(model);
                     profile.UserId = user.Id;
                     profile.CreateOn = DateTime.Now;
+                    profile.BranchId = model.BranchList.FirstOrDefault();
                     _userProfileService.Insert(profile);
+                    List<UserBranchMapping> userBranch = new List<UserBranchMapping>();
+                    foreach (var item in model.BranchList)
+                    {
+                        var branch = new UserBranchMapping()
+                        {
+                            BranchId = item,
+                            RefGuid = user.Id,
+
+                        };
+                        userBranch.Add(branch);
+                    }
+                    _userBranchMappingService.Insert(userBranch);
                     SuccessNotification("New User created successfully.");
                     return RedirectToAction("List", "Account");
                 }
@@ -104,21 +120,38 @@ namespace WMSWebApp.Controllers
                 {
                     var loggedinUser = await _userManager.FindByEmailAsync(user.Email);
                     var userProfile = _userProfileService.GetByUserId(loggedinUser.Id);
-                    if (userProfile != null)
-                    {
-                        _workContext.SetLoginBranch(userProfile.BranchId);
-                    }
-                    else
-                    {
+                    //if (userProfile != null)
+                    //{
+                    //    _workContext.SetLoginBranch(userProfile.BranchId);
+                    //}
+                    //else
+                    //{
 
-                    }
-                    return RedirectToAction("Index", "Home");
+                    //}
+                    return RedirectToAction("BranchLogin", "Account");
                 }
 
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
 
             }
             return View(user);
+        }
+
+        public async Task<IActionResult> BranchLogin()
+        {
+            BranchLogin model = new BranchLogin();
+            var userid = await _workContext.GetCurrentUserAsync();
+            var branchs = _userBranchMappingService.GetBranchByUser(userid.Id);
+            ViewBag.branch = branchs;
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult BranchLogin(BranchLogin model)
+        {
+            _workContext.SetLoginBranch(model.Id);
+
+            return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> Logout()

@@ -114,8 +114,11 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label asp-for="BranchId">Select Branch</label>
-                                            <select asp-for="BranchId" class="form-control select2" asp-items="@(new SelectList(Model.Branches,"Id","BranchName"))"></select>
+                                            <label asp-for="BranchList">Select Branch</label>
+
+                                            <div class="select2-purple">
+                                                <select asp-for="BranchList" data-placeholder="Select a Warehouse" multiple="multiple" data-dropdown-css-class="select2-purple" class="select2 multiselect" asp-items="@(new SelectList(Model.Branches,"Id","BranchName"))" style="width: 100%;"></select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
