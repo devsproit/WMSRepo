@@ -88,7 +88,7 @@ namespace WMSWebApp.Controllers
         public virtual async Task<IActionResult> StockList(DataSourceRequest request)
         {
             var branch = await _workContext.GetCurrentBranch();
-            var stocks = _itemStockService.GetItemStocks(0, branch.BranchCode, request.Page - 1, request.PageSize);
+            var stocks = _itemStockService.GetItemStocks(branch.Id, request.Page - 1, request.PageSize);
             var dataGrid = new DataSourceResult()
             {
                 Data = stocks.Select(x =>
