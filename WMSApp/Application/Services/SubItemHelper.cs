@@ -112,6 +112,13 @@ namespace Application.Services
 
         }
 
+        public virtual SubItemDb GetItemByCOde(string subItemCode)
+        {
+            var query = from x in _subItemRepository.Table
+                        where x.SubItemCode == subItemCode
+                        select x;
+            return query.FirstOrDefault();
+        }
         public SubItemDb GetSubItemCustomerAmt(string subItemName,string stype)
         {
             List<SubItemDb> data = new List<SubItemDb>();

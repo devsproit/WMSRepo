@@ -187,7 +187,7 @@ namespace WMSWebApp.Controllers
 
                     };
                     details.Add(m);
-                    ReduceUpdateStock(item.SubItemCode, branch.BranchCode, item.StockTransferPOQty);
+                   // ReduceUpdateStock(item.SubItemCode, branch.BranchCode, item.StockTransferPOQty);
                 }
 
                 _invoiceService.InsertDetails(details);
@@ -214,7 +214,7 @@ namespace WMSWebApp.Controllers
                         SerialNo = item.SalePOSerialNumber
                     };
                     details.Add(m);
-                    ReduceUpdateStock(item.SubItemCode, branch.BranchCode, item.SalePOQty);
+                    //ReduceUpdateStock(item.SubItemCode, branch.BranchCode, item.SalePOQty);
                 }
                 _invoiceService.InsertDetails(details);
             }
@@ -242,7 +242,7 @@ namespace WMSWebApp.Controllers
 
                     };
                     details.Add(m);
-                    ReduceUpdateStock(item.SubItemCode, branch.BranchCode, item.ServiceOrderPOQty);
+                    //ReduceUpdateStock(item.SubItemCode, item., item.ServiceOrderPOQty);
                 }
 
                 _invoiceService.InsertDetails(details);
@@ -254,9 +254,9 @@ namespace WMSWebApp.Controllers
 
 
         #region Utilities
-        protected void ReduceUpdateStock(string itemCode, string branchCode, int qty)
+        protected void ReduceUpdateStock(string itemCode, int warehouse, int qty)
         {
-            var stock = _itemStockService.ItemByCode(itemCode, branchCode);
+            var stock = _itemStockService.ItemByCode(itemCode, warehouse);
             if (stock != null)
             {
                 var item = _itemStockService.GetById(stock.Id);
@@ -266,8 +266,8 @@ namespace WMSWebApp.Controllers
             }
             else
             {
-                var item = new ItemStock();
-                item.BranchCode = branchCode;
+                var item = new InventoryStock();
+                item.WarehouseId = warehouse;
                 item.ItemCode = itemCode;
                 item.LastUpdate = DateTime.Now;
                 item.Qty = qty;
