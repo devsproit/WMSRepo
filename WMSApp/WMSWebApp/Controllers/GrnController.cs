@@ -237,7 +237,7 @@ namespace WMSWebApp.Controllers
             foreach (var item in model)
             {
                 intranicRow = _intrasitService.GetById(item.ItemId);
-                AddUpdateStock(intranicRow.SubItem_Code, branch.BranchCode, Convert.ToInt32(intranicRow.Qty));
+                AddUpdateStock(intranicRow.SubItem_Code, item.WarehouseId, Convert.ToInt32(intranicRow.Qty));
 
             }
             foreach (var item in model)
@@ -268,9 +268,9 @@ namespace WMSWebApp.Controllers
         #endregion
 
         #region Utilities
-        protected void AddUpdateStock(string itemCode, string branchCode, int qty)
+        protected void AddUpdateStock(string itemCode, int warehouseId, int qty)
         {
-            var stock = _itemStockService.ItemByCode(itemCode, branchCode);
+            var stock = _itemStockService.ItemByCode(itemCode, warehouseId);
             if (stock != null)
             {
                 var item = _itemStockService.GetById(stock.Id);
@@ -280,8 +280,8 @@ namespace WMSWebApp.Controllers
             }
             else
             {
-                var item = new ItemStock();
-                item.BranchCode = branchCode;
+                var item = new InventoryStock();
+                item.WarehouseId = warehouseId;
                 item.ItemCode = itemCode;
                 item.LastUpdate = DateTime.Now;
                 item.Qty = qty;

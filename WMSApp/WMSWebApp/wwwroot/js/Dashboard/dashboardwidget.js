@@ -6,6 +6,8 @@
         addAntiForgeryToken(data);
         return data;
     }
+
+
     var initialLoad = true;
     $("#intrasit-grid").kendoGrid({
 
@@ -193,10 +195,99 @@
             encoded: false,
             width: 120
         },
-        
+
         ],
 
     });
 
+
+    $("#Inventorystock-grid").kendoGrid({
+
+        toolbar: ["excel"],
+        excel: {
+            fileName: "Stock.xlsx",
+            proxyURL: "/Home/StockList",
+            filterable: true
+        },
+        dataSource: {
+
+            transport: {
+                read: {
+                    url: "/Home/StockList",
+                    type: "POST",
+                    dataType: "json",
+                    data: additionalData,
+                    complete: function (result) {
+                        console.log("Remote built-in transport", result);
+                        if (result.status == 401) {
+                            //document.location.href = "/AccessDenied/Index";
+                        }
+                    }
+
+                }
+            },
+            schema: {
+                data: "Data",
+                total: "Total",
+                errors: "Errors"
+            },
+            error: function (e) {
+                //display_kendoui_grid_error(e);
+                // Cancel the changes
+                console.log(e)
+                this.cancelChanges();
+            },
+            pageSize: 20,
+            sortable: true,
+            serverPaging: true,
+            serverSorting: true,
+            requestStart: function () {
+                if (initialLoad) //<-- if it's the initial load, manually start the spinner
+                    kendo.ui.progress($("#Inventorystock-grid"), true);
+            },
+            requestEnd: function () {
+                if (initialLoad)
+                    kendo.ui.progress($("#Inventorystock-grid"), false);
+                initialLoad = false; //<-- make sure the spinner doesn't fire again (that would produce two spinners instead of one)
+
+            },
+
+        },
+        pageable: {
+            refresh: true,
+            pageSizes: true
+        },
+        excel: {
+            allPages: true
+        },
+        scrollable: false,
+        columns: [{
+            field: "Id",
+            title: "ID",
+
+            width: 50
+        },
+        {
+            field: "ItemName",
+            title: "ItemName",
+            width: 100
+        },
+
+        {
+            field: "ItemCode",
+            title: "ItemCode",
+            width: 100
+        },
+        {
+            field: "Qty",
+            title: "Qty",
+
+            width: 100
+        },
+
+
+        ],
+
+    });
 });
 

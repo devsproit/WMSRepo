@@ -24,6 +24,8 @@ namespace WMS.Data
 
         public static string ServiceOrderTable => "ServiceOrderPO";
 
+        public static string Stock => "ItemStock";
+
 
     }
 }

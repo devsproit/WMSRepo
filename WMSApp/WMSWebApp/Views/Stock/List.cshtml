@@ -1,0 +1,243 @@
+﻿@{
+    ViewData["Title"] = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var branch = (List<Domain.Model.Branch>)ViewBag.branch;
+}
+
+@section Style{
+    <link href="~/lib/kendoUi/2021/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/lib/kendoUi/2021/styles/kendo.rtl.min.css" rel="stylesheet" />
+    <link href="~/lib/kendoUi/2021/styles/kendo.default.min.css" rel="stylesheet" />
+    <link href="~/lib/kendoUi/2021/styles/kendo.default.mobile.min.css" rel="stylesheet" />
+    <link href="~/lib/jquery-ui-1.13.0.custom/jquery-ui.min.css" rel="stylesheet" />
+
+}
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>
+                        Stock
+                        @*<small>new</small>*@
+                    </h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Master</a></li>
+                        <li class="breadcrumb-item active">Item Stok warehouse wise</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-edit"></i>
+                                Stocks
+                            </h3>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="row">
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="col-form-label">Branch</label>
+                                        <select class="form-control" id="branch" asp-items="@(new SelectList(branch,"Id","BranchName"))">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="col-form-label">Ware house</label>
+                                        <select class="form-control" id="warehouse">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary" id="search" type="button">Search</button>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table table-responsive" id="stock-grid">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card -->
+                    </div>
+
+
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- ./row -->
+        </div><!-- /.container-fluid -->
+
+
+
+
+
+
+
+    </section>
+    <!-- /.content -->
+    @section Scripts{
+    <environment include="Development">
+        <script src="~/lib/kendoUi/2021/js/kendo.all.min.js"></script>
+        <script src="~/lib/kendoUi/2021/js/jszip.min.js"></script>
+         <script src="~/js/common.js"></script>
+        <script src="~/lib/jquery-ui-1.13.0.custom/jquery-ui.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/kendoUi/2021/js/kendo.all.min.js"></script>
+        <script src="~/lib/kendoUi/2021/js/jszip.min.js"></script>
+       <script src="~/js/common.min.js"></script>
+        <script src="~/lib/jquery-ui-1.13.0.custom/jquery-ui.min.js"></script>
+
+    </environment>
+
+
+    <script>
+        function additionalData() {
+            var data = {
+                branchId: $("#branch").val(),
+                warehouseId: $("#warehouse").val(),
+
+            }
+            addAntiForgeryToken(data);
+            return data;
+        }
+
+        $(document).ready(function() {
+
+            $("#branch").on("change", function() {
+                var branchId = $("#branch").val();
+                $.ajax({
+                    type: "GET",
+                    url: "@Html.Raw(Url.Action("WareHouse", "Stock"))?branchId=" + branchId,
+                    async: false,
+                    success: function(data) {
+                        var s = '';
+                        for (var i = 0; i < data.length; i++) {
+                            s += '<option value="' + data[i].Id + '" data-code=' + data[i].WarehouseCode + '>' + data[i].WarehouseName + '</option>';
+                        }
+                        $("#warehouse").html(s);
+                    }
+                });
+            });
+
+            $('#search').click(function() {
+                //search
+                var grid = $('#stock-grid').data('kendoGrid');
+                grid.dataSource.page(1);
+                return false;
+            });
+
+            var initialLoad = true;
+            $("#stock-grid").kendoGrid({
+
+                toolbar: ["excel"],
+                excel: {
+                    fileName: "Stock.xlsx",
+                    proxyURL: "@Html.Raw(Url.Action("List", "Stock"))",
+                    filterable: true
+                },
+                dataSource: {
+
+                    transport: {
+                        read: {
+                            url: "@Html.Raw(Url.Action("List", "Stock"))",
+                            type: "POST",
+                            dataType: "json",
+                            data: additionalData,
+                            complete: function(result) {
+                                console.log("Remote built-in transport", result);
+                                if (result.status == 401) {
+                                    document.location.href = "@Html.Raw(Url.Action("Index", "AccessDenied"))";
+                                }
+                            }
+
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        total: "Total",
+                        errors: "Errors"
+                    },
+                    error: function(e) {
+                        //display_kendoui_grid_error(e);
+                        // Cancel the changes
+                        console.log(e)
+                        this.cancelChanges();
+                    },
+                    pageSize: 20,
+                    sortable: true,
+                    serverPaging: true,
+                    serverSorting: true,
+                    requestStart: function() {
+                        if (initialLoad) //<-- if it's the initial load, manually start the spinner
+                            kendo.ui.progress($("#stock-grid"), true);
+                    },
+                    requestEnd: function() {
+                        if (initialLoad)
+                            kendo.ui.progress($("#stock-grid"), false);
+                        initialLoad = false; //<-- make sure the spinner doesn't fire again (that would produce two spinners instead of one)
+
+                    },
+
+                },
+                pageable: {
+                    refresh: true,
+                    pageSizes: true
+                },
+                excel: {
+                    allPages: true
+                },
+                scrollable: false,
+                columns: [{
+                    field: "Id",
+                    title: "ID",
+
+                    width: 50
+                },
+                {
+                    field: "ItemName",
+                    title: "ItemName",
+                    width: 100
+                },
+
+                {
+                    field: "ItemCode",
+                    title: "ItemCode",
+                    width: 100
+                },
+                {
+                    field: "Qty",
+                    title: "Qty",
+
+                    width: 100
+                },
+
+
+                ],
+
+            });
+
+
+
+        });
+    </script>
+}
+
