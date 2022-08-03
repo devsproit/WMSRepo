@@ -12,6 +12,7 @@ using Application.Services;
 using System.Linq;
 using System;
 using System.Collections.Generic;
+using WMSWebApp.ViewModels.Account;
 namespace WMSWebApp.Controllers
 {
     [Authorize]
@@ -108,6 +109,8 @@ namespace WMSWebApp.Controllers
             return View();
         }
 
+
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel user)
@@ -135,6 +138,93 @@ namespace WMSWebApp.Controllers
 
             }
             return View(user);
+        }
+        public async Task<IActionResult> Edit(int id)
+        {
+            var userProfile = _userProfileService.GetById(id);
+            var user = await _userManager.FindByIdAsync(userProfile.UserId);
+            var role = await _userManager.GetRolesAsync(user);
+            UpdateUserModel model = new UpdateUserModel()
+            {
+                Address = userProfile.Address,
+                BranchId = userProfile.BranchId,
+                City = userProfile.City,
+                Email = userProfile.Email,
+                FirstName = userProfile.FirstName,
+                LastName = userProfile.LastName,
+                PinCode = userProfile.PinCode,
+                State = userProfile.State,
+                Role = role.FirstOrDefault(),
+                UserId = userProfile.UserId
+            };
+
+            var branch = _branchService.GetAllBranch();
+            model.Branches = branch;
+            model.BranchList = _userBranchMappingService.GetBranchMapping(userProfile.UserId).Select(x => x.BranchId).ToList();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(UpdateUserModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+
+
+                var branch = _branchService.GetAllBranch();
+                model.Branches = branch;
+                model.BranchList = _userBranchMappingService.GetBranchMapping(model.UserId).Select(x => x.BranchId).ToList();
+
+                return View(model);
+            }
+            else
+            {
+                var user = await _userManager.FindByIdAsync(model.UserId);
+
+                // check and update passowrd
+                if (!string.IsNullOrEmpty(model.Password))
+                {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                    var passwordRestStatus =await _userManager.ResetPasswordAsync(user, token, model.Password);
+                    if(passwordRestStatus.Succeeded)
+                    {
+                        SuccessNotification("Password successfully changed.");
+                    }
+                    else
+                    {
+
+                        ErrorNotification("Error in password change.");
+                    }
+                }
+
+                var userProfile = _userProfileService.GetById(model.Id);
+                userProfile.Address = model.Address;
+                userProfile.FirstName = model.FirstName;
+                userProfile.LastName = model.LastName;
+                userProfile.PinCode = model.PinCode;
+                userProfile.State = model.State;
+                userProfile.City = model.City;
+                _userProfileService.Update(userProfile);
+
+                _userBranchMappingService.DeleteBranch(userProfile.UserId);
+                List<UserBranchMapping> userBranch = new List<UserBranchMapping>();
+                foreach (var item in model.BranchList)
+                {
+                    var updateBranch = new UserBranchMapping()
+                    {
+                        BranchId = item,
+                        RefGuid = userProfile.UserId,
+
+                    };
+                    userBranch.Add(updateBranch);
+                }
+                _userBranchMappingService.Insert(userBranch);
+                SuccessNotification("user updated successfully.");
+                return RedirectToAction("List");
+            }
+
         }
 
         public async Task<IActionResult> BranchLogin()
