@@ -9,12 +9,12 @@
     <link rel="stylesheet" href="~/lib/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <style>
         /*.select2-container--default .select2-selection--multiple .select2-selection__choice {
-                    background-color: #007bff !important;
-                    border-color: #006fe6 !important;
-                    color: #fff !important;
-                    padding: 0 10px !important;
-                    margin-top: .31rem !important;
-                }*/
+                            background-color: #007bff !important;
+                            border-color: #006fe6 !important;
+                            color: #fff !important;
+                            padding: 0 10px !important;
+                            margin-top: .31rem !important;
+                        }*/
     </style>
 }
     <section class="content-header">
@@ -83,17 +83,14 @@
                                         </div>
                                         <span asp-validation-for="EmailIdBranch" class="text-danger"></span>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group ">
-                                            <label asp-for="AssociatedEmployee"></label>
-                                            <select asp-for="AssociatedEmployee" class="form-control select2" asp-items="@(new SelectList(Model.Users,"UserId","Name"))">
-                                            </select>
-                                        </div>
-                                        <span asp-validation-for="AssociatedEmployee" class="text-danger"></span>
-                                    </div>
+                                    @*  <div class="col-md-6">
+                                <div class="form-group ">
+                                <label asp-for="AssociatedEmployee"></label>
+                                <select asp-for="AssociatedEmployee" class="form-control select2" asp-items="@(new SelectList(Model.Users,"UserId","Name"))">
+                                </select>
                                 </div>
-                                <div class="row">
-
+                                <span asp-validation-for="AssociatedEmployee" class="text-danger"></span>
+                                </div>*@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label asp-for="CompanyId">Compnay Name</label>
@@ -101,6 +98,8 @@
                                             <span asp-validation-for="CompanyId" class="text-danger"></span>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
                                 </div>
 
                                 <div class="row">
@@ -159,7 +158,9 @@
                                             <label asp-for="WarehouseId">Warehouse Name</label>
                                             <div class="select2-purple">
                                                 @*@Html.DropDownListFor(x=>x.WarehouseId,new MultiSelectList(Model.Warehouses,"Id","WarehouseName"),new{@class = "form-control select-multiple", multiple = "multiple",style="width: 100%;",data_dropdown_css_class="select2-purple"})*@
-                                                <select asp-for="WarehouseId" data-placeholder="Select a Warehouse" multiple="multiple" data-dropdown-css-class="select2-purple" class="select2 multiselect" asp-items="@(new MultiSelectList(Model.Warehouses,"Id","WarehouseName"))" style="width: 100%;"></select>
+                                                <div class="select2-purple">
+                                                    <select asp-for="WarehouseId" data-placeholder="Select a Warehouse" multiple="multiple" data-dropdown-css-class="select2-purple" class="select2 multiselect" asp-items="@(new SelectList(Model.Warehouses,"Id","WarehouseName"))" style="width: 100%;"></select>
+                                                </div>
                                             </div>
 
                                             <span asp-validation-for="WarehouseId" class="text-danger"></span>

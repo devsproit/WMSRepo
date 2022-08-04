@@ -13,6 +13,8 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using WMSWebApp.ViewModels.Account;
+using Application.Services.Security;
+
 namespace WMSWebApp.Controllers
 {
     [Authorize]
@@ -26,13 +28,15 @@ namespace WMSWebApp.Controllers
         private readonly IBranchHelper _branchService;
         private readonly IWorkContext _workContext;
         private readonly IUserBranchMappingService _userBranchMappingService;
+        private readonly IPermissionMasterService _permissionMasterServcie;
         public AccountController(UserManager<ApplicationUser> userManager,
                               SignInManager<ApplicationUser> signInManager,
                               IUserProfileService userProfileService,
                               IMapper mapper,
                               IBranchHelper branchService,
                               IWorkContext workContext,
-                              IUserBranchMappingService userBranchMappingService)
+                              IUserBranchMappingService userBranchMappingService,
+                              IPermissionMasterService permissionMasterServcie)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -41,11 +45,18 @@ namespace WMSWebApp.Controllers
             _branchService = branchService;
             _workContext = workContext;
             _userBranchMappingService = userBranchMappingService;
+            _permissionMasterServcie = permissionMasterServcie;
         }
 
 
         public IActionResult Register()
         {
+
+
+            if (!_permissionMasterServcie.Authorize(StandardPermissionProvider.User, PermissionType.Add).Result)
+            {
+                return AccessDeniedView();
+            }
             RegisterViewModel model = new RegisterViewModel();
             model.Branches = _branchService.GetAllBranches().ToList();
             return View(model);
@@ -54,6 +65,10 @@ namespace WMSWebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            if (!_permissionMasterServcie.Authorize(StandardPermissionProvider.User, PermissionType.Add).Result)
+            {
+                return AccessDeniedView();
+            }
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
@@ -141,6 +156,10 @@ namespace WMSWebApp.Controllers
         }
         public async Task<IActionResult> Edit(int id)
         {
+            if (!_permissionMasterServcie.Authorize(StandardPermissionProvider.User, PermissionType.Edit).Result)
+            {
+                return AccessDeniedView();
+            }
             var userProfile = _userProfileService.GetById(id);
             var user = await _userManager.FindByIdAsync(userProfile.UserId);
             var role = await _userManager.GetRolesAsync(user);
@@ -168,6 +187,10 @@ namespace WMSWebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateUserModel model)
         {
+            if (!_permissionMasterServcie.Authorize(StandardPermissionProvider.User, PermissionType.Edit).Result)
+            {
+                return AccessDeniedView();
+            }
             if (!ModelState.IsValid)
             {
 
@@ -255,12 +278,20 @@ namespace WMSWebApp.Controllers
 
         public IActionResult List()
         {
+            if (!_permissionMasterServcie.Authorize(StandardPermissionProvider.User, PermissionType.View).Result)
+            {
+                return AccessDeniedView();
+            }
             return View();
         }
 
         [HttpPost]
         public IActionResult List(DataSourceRequest request)
         {
+            if (!_permissionMasterServcie.Authorize(StandardPermissionProvider.User, PermissionType.View).Result)
+            {
+                return AccessDeniedView();
+            }
             var users = _userProfileService.GetAllProfile("");
             var gridData = new DataSourceResult()
             {

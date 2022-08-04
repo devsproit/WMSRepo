@@ -59,7 +59,7 @@ namespace WMS.Web.Framework.Infrastructure
             builder.RegisterType<InvoiceService>().As<IInvoiceService>().InstancePerLifetimeScope();
             builder.RegisterType<ItemStockService>().As<IItemStockService>().InstancePerLifetimeScope();
             builder.RegisterType<UserBranchMappingService>().As<IUserBranchMappingService>().InstancePerLifetimeScope();
-            builder.RegisterType<PermissionMasterService>().As<IPermissionMasterServcie>().InstancePerLifetimeScope();
+            builder.RegisterType<PermissionMasterService>().As<IPermissionMasterService>().InstancePerLifetimeScope();
             builder.RegisterType<PermissionRoleMappingService>().As<IPermissionRoleMappingService>().InstancePerLifetimeScope();
         }
 

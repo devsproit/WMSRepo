@@ -12,7 +12,7 @@ using WMS.Core.Data;
 using WMS.Data;
 namespace Application.Services.Security
 {
-    public class PermissionMasterService : IPermissionMasterServcie
+    public class PermissionMasterService : IPermissionMasterService
     {
         #region Fields
         private readonly IRepository<PermissionMaster> _permissionMasterRepository;

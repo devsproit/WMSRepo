@@ -7,8 +7,8 @@ namespace WMSWebApp.ViewModels
     {
         public int Id { get; set; }
 
-        [Display(Name = "Company Name")]
-        public int CompanyId { get; set; }
+        //[Display(Name = "Company Name")]
+        //public int CompanyId { get; set; }
         [DataType(DataType.MultilineText)]
 
         [Display(Name = "Item Name")]
@@ -19,7 +19,7 @@ namespace WMSWebApp.ViewModels
         [Display(Name = "Item Code")]
         public string ItemCode { get; set; }
 
-        public List<CompanyDb> Companies { get; set; }
+        //public List<CompanyDb> Companies { get; set; }
 
 
 
