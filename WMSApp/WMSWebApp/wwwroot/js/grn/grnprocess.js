@@ -93,6 +93,7 @@ $(document).ready(function () {
                     dataType: "json",
                     data: additionalData,
                     complete: function (result) {
+                        debugger;
                         console.log("Remote built-in transport", result);
                         if (result.status == 401) {
                             /* document.location.href = "@Html.Raw(Url.Action("Index", "AccessDenied"))";*/

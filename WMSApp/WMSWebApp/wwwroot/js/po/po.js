@@ -326,19 +326,19 @@
 
 
 $("#spCategory").change(function () {
-    // debugger;
+    debugger;
     var type = $('#doctype :selected').text();
     var catogry = $('#spCategory :selected').text();
     getSubItemId(catogry, type);
 });
 $("#srnCategory").change(function () {
-    // debugger;
+    debugger;
     var type = $('#doctype :selected').text();
     var catogry = $('#srnCategory :selected').text();
     getSubItemId(catogry, type);
 });
 $("#sopCategory").change(function () {
-    // debugger;
+    debugger;
     var type = $('#doctype :selected').text();
     var catogry = $('#sopCategory :selected').text();
     getSubItemId(catogry, type);
@@ -346,7 +346,7 @@ $("#sopCategory").change(function () {
 
 
 var getSubItemId = function (catogry, type) {
-    //debugger;
+    debugger;
     $.ajax({
         url: '/Po/GetSendingTo',//'@Url.Action("GetSubItem","Intrasit")',
         type: 'GET',
@@ -382,7 +382,8 @@ var getSubItemId = function (catogry, type) {
                 }
 
             }
-            else if (type == "SRN_PO") {
+            else if (type == "SRN PO") {
+                debugger;
                 $('#srnSendingTo').find('option').remove().end().append('<option value="0">Select</option>');
                 if (data.length != 0) {
                     $(data).each(

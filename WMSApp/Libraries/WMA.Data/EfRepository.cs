@@ -106,6 +106,8 @@ namespace WMS.Data
             return Entities.Find(id);
         }
 
+
+
         /// <summary>
         /// Insert entity
         /// </summary>

@@ -11,6 +11,9 @@ namespace Application.Services.PO
     {
         void Insert(PurchaseOrderDb entiry);
         void Update(PurchaseOrderDb entiry);
+
         IPagedList<PurchaseOrderDb> GetPurchaseOrders(string branchCode, string category, bool status = false, int pageIndex = 0, int pageSize = int.MaxValue);
+
+        IPagedList<PurchaseOrderDb> GetPendingPO(string branchCode, string pono, int pageIndex = 0, int pageSize = int.MaxValue);
     }
 }
