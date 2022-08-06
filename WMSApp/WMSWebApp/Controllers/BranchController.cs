@@ -197,8 +197,10 @@ namespace WMSWebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, BranchModel c, IFormCollection collection)
         {
-            var branch = _mapper.Map<Branch>(c);
-            
+            var branch = _BranchHelper.GetById(c.Id);
+            branch = _mapper.Map<BranchModel, Branch>(c, branch);
+
+           
             _BranchHelper.Update(branch);
             SuccessNotification("Branch updated successfully!.");
             return RedirectToAction(nameof(Index));
