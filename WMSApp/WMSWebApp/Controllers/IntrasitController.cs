@@ -1,5 +1,6 @@
 ﻿using Application.Services;
 using AutoMapper;
+using ClosedXML.Excel;
 using Domain.Model;
 using ExcelDataReader;
 using Microsoft.AspNetCore.Http;
@@ -238,8 +239,34 @@ namespace WMSWebApp.Controllers
 
         public IActionResult DownloadFile()
         {
-            var memory = DownloadSingleFile("IntransitTemplate.xlsx", "wwwroot\\template");
-            return File(memory.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "IntransitTemplate.xlsx");
+            //var memory = DownloadSingleFile("IntransitTemplate.xlsx", "wwwroot\\template");
+            //return File(memory.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "IntransitTemplate.xlsx");
+            string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            string fileName = "IntransitTemplate.xlsx";
+
+            using (var workbook = new XLWorkbook())
+            {
+                IXLWorksheet worksheet =
+                workbook.Worksheets.Add("Authors");
+                worksheet.Cell(1, 1).Value = "LoginBranchId";
+                worksheet.Cell(1, 2).Value = "SenderCompanyId";
+                worksheet.Cell(1, 3).Value = "Branch";
+                worksheet.Cell(1, 4).Value = "PurchaseOrder";
+                worksheet.Cell(1, 5).Value = "ItemCode";
+                worksheet.Cell(1, 6).Value = "SubItemCode";
+                worksheet.Cell(1, 7).Value = "SubItemName";
+                worksheet.Cell(1, 8).Value = "MaterialDescription";
+                worksheet.Cell(1, 9).Value = "Qty";
+                worksheet.Cell(1, 10).Value = "Unit";
+                worksheet.Cell(1, 11).Value = "Amt";
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return File(content, contentType, fileName);
+                }
+            }
+
         }
 
         private MemoryStream DownloadSingleFile(string filename, string uploadPath)

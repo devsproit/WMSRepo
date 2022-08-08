@@ -38,7 +38,7 @@ namespace WMSWebApp.Controllers
                 var data = _companyHelper.GetAllCompanies();
                 companies = _mapper.Map<List<Company>>(data);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }
