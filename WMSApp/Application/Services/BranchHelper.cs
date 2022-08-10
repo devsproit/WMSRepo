@@ -107,6 +107,7 @@ namespace Application.Services
         {
             var query = from x in _branchRepository.Table
                         select x;
+            
             query = query.OrderByDescending(x => x.Id);
             return new PagedList<Branch>(query, pageIndex, pageSize);
 
