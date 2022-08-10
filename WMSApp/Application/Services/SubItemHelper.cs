@@ -33,13 +33,14 @@ namespace Application.Services
 
         public SubItemDb GetSubItemById(int Id)
         {
-            List<SubItemDb> data = new List<SubItemDb>();
-            List<SqlParameter> sqlParameters = new List<SqlParameter>();
-            sqlParameters.Add(new SqlParameter("@Id", Id));
-            DataTable dbDT = _adoConnection.GetDatatableFromSqlWithSP(Constants.GetSubItemIdSP, sqlParameters);
-            if (dbDT != null)
-                data = dbDT.ToList<SubItemDb>();
-            return data.FirstOrDefault();
+            //List<SubItemDb> data = new List<SubItemDb>();
+            //List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            //sqlParameters.Add(new SqlParameter("@Id", Id));
+            //DataTable dbDT = _adoConnection.GetDatatableFromSqlWithSP(Constants.GetSubItemIdSP, sqlParameters);
+            //if (dbDT != null)
+            //    data = dbDT.ToList<SubItemDb>();
+            //return data.FirstOrDefault();
+            return _subItemRepository.GetById(Id);
         }
         public bool CreateNewSubItem(SubItemDb SubItem)
         {
@@ -127,6 +128,7 @@ namespace Application.Services
                 data = dbDT.ToList<SubItemDb>();
             return data.FirstOrDefault();
         }
+
 
         
 
