@@ -14,11 +14,11 @@ namespace Domain.Model.SRN
         public string BranchCode { get; set; }
         public string SenderCompany { get; set; }
 
-        private ICollection<SrnNoteDetails> _srnReceivedNoteDetails;
+        private ICollection<SrnReceivedNoteDetails> _srnReceivedNoteDetails;
 
-        public virtual ICollection<SrnNoteDetails> SrnNoteDetails
+        public virtual ICollection<SrnReceivedNoteDetails> SrnReceivedNoteDetails
         {
-            get => _srnReceivedNoteDetails ?? (_srnReceivedNoteDetails = new List<SrnNoteDetails>());
+            get => _srnReceivedNoteDetails ?? (_srnReceivedNoteDetails = new List<SrnReceivedNoteDetails>());
             protected set => _srnReceivedNoteDetails = value;
         }
 

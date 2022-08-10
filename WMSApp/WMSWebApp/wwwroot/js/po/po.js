@@ -5,7 +5,7 @@
     // $(this).format({ format: "#,###.00", locale: "us" });
     var t = $('#tblpo').DataTable();
     $('#doctype').on('change', function () {
-        debugger;
+       /// debugger;
         if ($(this).val() === 'StockTransfer_PO') {
             $('#StockTransferPO').css("display", "block");
             $('#SalePO').css("display", "none");
@@ -56,7 +56,7 @@
     });
 
     $('#btnAdd').on('click', function () {
-        debugger;
+       // debugger;
         var dropdownText = $('#doctype :selected').text();
         if (dropdownText == "Sale PO") {
             var stockTransferPOCatagry = $('#spCategory :selected').text();
@@ -71,6 +71,7 @@
             var saleDate = "Not Applicable";
             var ServiceRequestNumber = "Not Applicable";
             var subItemCode = $("#spSubItem").val();
+            var invNumber = "Not Applicable";
         } else if (dropdownText == "StockTransfer PO") {
             var stockTransferPOCatagry = $('#stpCategory :selected').text();
             var stockTransferPoSendingTo = $('#stpSendingTo :selected').text();//ItId
@@ -84,8 +85,10 @@
             var saleDate = "Not Applicable";
             var ServiceRequestNumber = "Not Applicable";
             var subItemCode = $("#stpSubItem").val();
+            var invNumber = "Not Applicable";
         }
         else if (dropdownText == "SRN PO") {
+            debugger;
             var stockTransferPOCatagry = $('#srnCategory :selected').text();
             var stockTransferPoSendingTo = $('#srnSendingTo :selected').text();//ItId
             var stockTransferPoItem = $("#srnItem :selected").text();
@@ -98,6 +101,7 @@
             var saleDate = "Not Applicable";
             var ServiceRequestNumber = "Not Applicable";
             var subItemCode = $("#srnSubItem").val();
+            var invNumber = $("#invNumber").val();
         }
         else if (dropdownText == "ServiceOrder PO") {
             var stockTransferPOCatagry = $('#sopCategory :selected').text();
@@ -112,22 +116,24 @@
             var salePo = $("#sopSalePo").val();
             var saleDate = $("#sopSaleDate").val();
             var subItemCode = $("#sopSubItem").val();
+            var invNumber = "Not Applicable";
+
         }
         ////   var purchaseOrder = $("#txtPurchaseOrder").val();StockTransferPOCatagry
 
 
 
-        t.row.add([stockTransferPOCatagry, stockTransferPoSendingTo, stockTransferPoItem, subItemCode, stockTransferPoSubitem, stockTransferPoQty, stockTransferPoAmt, stockTransferPoSerialNumber, serviceCategory, salePo, saleDate, ServiceRequestNumber]).draw();
+        t.row.add([stockTransferPOCatagry, stockTransferPoSendingTo, stockTransferPoItem, subItemCode, stockTransferPoSubitem, stockTransferPoQty, stockTransferPoAmt, stockTransferPoSerialNumber, serviceCategory, salePo, saleDate, ServiceRequestNumber,invNumber]).draw();
     });
 
-    $('input[id="spQty"]').on('keypress', function (event) {
-        var regex = new RegExp("/^\d*[.]?\d*$/");
-        var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-        if (!regex.test(key)) {
-            event.preventDefault();
-            return false;
-        }
-    });
+    //$('input[id="spQty"]').on('keypress', function (event) {
+    //    var regex = new RegExp("/^\d*[.]?\d*$/");
+    //    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    //    if (!regex.test(key)) {
+    //        event.preventDefault();
+    //        return false;
+    //    }
+    //});
     //$('input[id="srnQty"]').on('keypress', function (event) {
     //    var regex = new RegExp("/[^0-9]/g");
     //    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
@@ -136,14 +142,14 @@
     //        return false;
     //    }
     //});
-    $('input[id="stpQty"]').on('keypress', function (event) {
-        var regex = new RegExp("^[a-zA-Z0-9]+$");
-        var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-        if (!regex.test(key)) {
-            event.preventDefault();
-            return false;
-        }
-    });
+    //$('input[id="stpQty"]').on('keypress', function (event) {
+    //    var regex = new RegExp("^[a-zA-Z0-9]+$");
+    //    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    //    if (!regex.test(key)) {
+    //        event.preventDefault();
+    //        return false;
+    //    }
+    //});
     //$('input[id="sopQty"]').on('keypress', function (event) {
     //    var regex = new RegExp("^[a-zA-Z0-9]+$");
     //    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
@@ -154,6 +160,7 @@
     //});
 
     $("#finalsave").click(function () {
+        debugger;
         var drpdown = $('#doctype :selected').text();
 
         if (drpdown == "Sale PO") {
@@ -170,12 +177,15 @@
                 myData["SalePOQty"] = data[i][5];//
                 myData["SalePOAmt"] = data[i][6];
                 myData["SalePOSerialNumber"] = data[i][7];//
-
+                myData["invNumber"] = data[i][12];
                 jsonObj.push(myData);
             }
-            var data = {};
-            PONumber: $("#PONumber").val();
-            POCatrgory: drpdown;
+            var data = {
+                //  PODate: $("#PoDate").val(),
+                PONumber: $("#PONumber").val(),
+                POCatrgory: drpdown
+
+            };
             data.salePOCategories = jsonObj;
             data.stockTransferCategories = null;
             data.serviceOrderCategories = null;
@@ -195,6 +205,7 @@
                 myData["StockTransferPOQty"] = data[i][5];//
                 myData["StockTransferPOAmt"] = data[i][6];
                 myData["StockTransferPOSerialNumber"] = data[i][7];//
+                myData["invNumber"] = data[i][8];
                 jsonObj.push(myData);
             }
             console.log(jsonObj);
@@ -224,6 +235,7 @@
                 myData["ServiceOrderPOQty"] = data[i][5];//
                 myData["ServiceOrderPOAmt"] = data[i][6];
                 myData["ServiceOrderPOSerialNumber"] = data[i][7];//
+                myData["invNumber"] = data[i][8];
                 jsonObj.push(myData);
             }
             console.log(jsonObj);
@@ -253,6 +265,7 @@
                 myData["SrnPOQty"] = data[i][5];//
                 myData["SrnPOSrnCause"] = data[i][6];
                 myData["SrnSerialNumber"] = data[i][7];//
+                myData["invNumber"] = data[i][8]; 
                 jsonObj.push(myData);
             }
             console.log(jsonObj);
@@ -326,19 +339,19 @@
 
 
 $("#spCategory").change(function () {
-    debugger;
+   // debugger;
     var type = $('#doctype :selected').text();
     var catogry = $('#spCategory :selected').text();
     getSubItemId(catogry, type);
 });
 $("#srnCategory").change(function () {
-    debugger;
+   // debugger;
     var type = $('#doctype :selected').text();
     var catogry = $('#srnCategory :selected').text();
     getSubItemId(catogry, type);
 });
 $("#sopCategory").change(function () {
-    debugger;
+   // debugger;
     var type = $('#doctype :selected').text();
     var catogry = $('#sopCategory :selected').text();
     getSubItemId(catogry, type);
@@ -346,7 +359,7 @@ $("#sopCategory").change(function () {
 
 
 var getSubItemId = function (catogry, type) {
-    debugger;
+   // debugger;
     $.ajax({
         url: '/Po/GetSendingTo',//'@Url.Action("GetSubItem","Intrasit")',
         type: 'GET',
@@ -354,7 +367,7 @@ var getSubItemId = function (catogry, type) {
             category: catogry,
         },
         success: function (data) {
-            debugger;
+            //debugger;
             //$('#SubItemId').find('option').remove()
             console.log(data);
             if (type == "Sale PO") {
@@ -383,7 +396,7 @@ var getSubItemId = function (catogry, type) {
 
             }
             else if (type == "SRN PO") {
-                debugger;
+                //debugger;
                 $('#srnSendingTo').find('option').remove().end().append('<option value="0">Select</option>');
                 if (data.length != 0) {
                     $(data).each(
@@ -402,13 +415,13 @@ var getSubItemId = function (catogry, type) {
 }
 
 $("#spSubItem").change(function () {
-    debugger;
+   // debugger;
     var type = $('#doctype :selected').text();
     var catogry = $('#spSubItem :selected').text();
     getamt(catogry, type);
 });
 $("#stpSubItem").change(function () {
-    debugger;
+    //debugger;
     var type = $('#doctype :selected').text();
     var catogry = $('#stpSubItem :selected').text();
     getamt(catogry, type);
@@ -429,7 +442,7 @@ var getamt = function (catogry, type) {
             type: type
         },
         success: function (data) {
-            debugger;
+            //debugger;
             //$('#SubItemId').find('option').remove()
             console.log(data);
             if (type == "Sale PO") {
@@ -488,6 +501,7 @@ function SrnPoCleanData() {
     $("#srnQty").val("");
     $("#ddlSrnCause").val(0);
     $("#srnSerialNumber").val("");
+    $("#invNumber").val("");
     var t = $('#tblpo').DataTable();
     t.clear().draw();
 }

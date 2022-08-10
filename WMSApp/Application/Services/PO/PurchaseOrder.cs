@@ -37,7 +37,10 @@ namespace Application.Services.PO
         {
             _poRepository.Update(entiry);
         }
-
+        public PurchaseOrderDb GetById(int id)
+        {
+            return _poRepository.GetById(id);
+        }
         public virtual IPagedList<PurchaseOrderDb> GetPurchaseOrders(string branchCode, string category, bool status = true, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = from x in _poRepository.Table

@@ -21,5 +21,8 @@ namespace Domain.Model.PO
         public string SrnSerialNumber { get; set; }
         public string SubItemCode { get; set; }
 
+        public string InvoiceNo { get; set; }
+
+        public bool IsProcess { get; set; }
     }
 }

@@ -13,12 +13,12 @@ namespace Application.Services.SRN
     {
         #region Fields
         private readonly IRepository<SrnReceivedNoteMaster> _srnMasterRepository;
-        private readonly IRepository<SrnNoteDetails> _srnDetailsRepository;
+        private readonly IRepository<SrnReceivedNoteDetails> _srnDetailsRepository;
 
         #endregion
 
         #region Ctor
-        public SRNNoteMasterService(IRepository<SrnReceivedNoteMaster> srnMasterRepository, IRepository<SrnNoteDetails> srnDetailsRepository)
+        public SRNNoteMasterService(IRepository<SrnReceivedNoteMaster> srnMasterRepository, IRepository<SrnReceivedNoteDetails> srnDetailsRepository)
         {
             _srnMasterRepository = srnMasterRepository;
             _srnDetailsRepository = srnDetailsRepository;

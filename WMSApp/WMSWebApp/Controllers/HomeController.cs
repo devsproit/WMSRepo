@@ -36,7 +36,14 @@ namespace WMSWebApp.Controllers
             var branch = await _workContext.GetCurrentBranch();
             DashboardCountModel model = new DashboardCountModel();
             var pendingGRN = _intrasitService.GetPendingPO(branch.BranchCode, "0");
-            model.GRN = pendingGRN.Count;
+            if(pendingGRN != null)
+            {
+                model.GRN = pendingGRN.Count;
+            }
+            else
+            {
+                model.GRN = 0;
+            }
             return View(model);
         }
 

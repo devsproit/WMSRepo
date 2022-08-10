@@ -221,7 +221,7 @@ namespace WMSWebApp.Controllers
             foreach (var item in model)
             {
                 // intranicRow = _intrasitService.GetById(item.ItemId);
-                var details = new SrnNoteDetails()
+                var details = new SrnReceivedNoteDetails()
                 {
 
                     Amount = 0,
@@ -235,15 +235,19 @@ namespace WMSWebApp.Controllers
                     Unit = "0"
 
                 };
-                master.SrnNoteDetails.Add(details);
+                master.SrnReceivedNoteDetails.Add(details);
             }
             _srnReceivedNoteMasterService.Insert(master);
-            //foreach (var item in model)
-            //{
-            //    var po = _intrasitService.GetById(item.ItemId);
-            //    po.IsGrn = true;
-            //    _intrasitService.Update(po);
-            //}
+            foreach (var item in model)
+            {
+                var sRNPo = _srnPo.GetById(item.ItemId);
+                sRNPo.IsProcess = true;
+                _srnPo.Update(sRNPo);
+
+                var po = _purchaseOrder.GetById(item.ItemId);
+                po.ProcessStatus = true;
+                _purchaseOrder.Update(po);
+            }
 
             return Json("OK");
         }

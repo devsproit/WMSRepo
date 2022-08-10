@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WMS.Core;
 namespace Domain.Model.SRN
 {
-    public partial class SrnNoteDetails: BaseEntity
+    public partial class SrnReceivedNoteDetails: BaseEntity
     {
         public int SRNId { get; set; }
         public string ItemCode { get; set; }
