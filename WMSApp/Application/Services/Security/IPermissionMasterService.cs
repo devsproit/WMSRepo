@@ -10,7 +10,7 @@ using WMS.Data;
 
 namespace Application.Services.Security
 {
-    public partial interface IPermissionMasterServcie
+    public partial interface IPermissionMasterService
     {
         void AddPermissionMaster(PermissionMaster entity);
         void UpdatePermissionMaster(PermissionMaster entity);

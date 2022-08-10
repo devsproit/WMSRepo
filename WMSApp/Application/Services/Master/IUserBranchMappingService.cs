@@ -14,6 +14,8 @@ namespace Application.Services.Master
         void Update(UserBranchMapping entity);
         List<Branch> GetBranchByUser(string refguid);
         void Insert(List<UserBranchMapping> entity);
+        List<UserBranchMapping> GetBranchMapping(string userId, int pageIndex = 0, int pageSize = int.MaxValue);
+        void DeleteBranch(string userId);
 
     }
 }

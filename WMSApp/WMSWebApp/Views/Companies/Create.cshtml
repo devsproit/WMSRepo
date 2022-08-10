@@ -3,175 +3,191 @@
 @{
     ViewData["Title"] = "Add New Company";
 }
-@* Delete this below CSS File after revamping is done. *@
-
-<section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Add New Company</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Master</li>
-                </ol>
-            </div>
-        </div>
-    </div><!-- /.container-fluid -->
-</section>
-
-<section class="content">
-    <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-md-10">
-                <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">Comapny informations</h3>
-
-                    </div>
-                    <form asp-action="Create">
-                        <div class="card-body">
 
 
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div class=row>
-                                <div class="form-group col-md-6">
-                                    <div class="row">
-                                        <label asp-for="CompanyCode" class="control-label col-md-4"></label>
-                                        <input asp-for="CompanyCode" class="form-control col-md-4" />
-                                    </div>
-                                    <span asp-validation-for="CompanyCode" class="text-danger"></span>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <div class="row">
-                                        <label asp-for="CompanyName" class="control-label col-md-4"></label>
-                                        <input asp-for="CompanyName" class="form-control col-md-4" />
-                                    </div>
-                                    <span asp-validation-for="CompanyName" class="text-danger"></span>
-                                </div>
-                            </div>
-
-                            <div class=row>
-                                <div class="form-group col-md-6">
-                                    <div class="row">
-                                        <label asp-for="Address" class="control-label col-md-4"></label>
-                                        <input asp-for="Address" class="form-control col-md-4" />
-                                    </div>
-                                    <span asp-validation-for="Address" class="text-danger"></span>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <div class="row">
-                                        <label asp-for="Location" class="control-label col-md-4"></label>
-                                        @*<input asp-for="Location" class="form-control col-md-4" />*@
-                                        <select  class="form-control col-md-4" id="ddllocation" asp-items="@(new SelectList(@ViewBag.districts,"district_id", "district_name"))">
-                                        </select>
-                                       <input asp-for="Location" type="hidden"/>
-                                    </div>
-                                    <span asp-validation-for="Location" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class=row>
-                                <div class="form-group col-md-6">
-                                    <div class="row">
-                                        <label asp-for="ContactPersonHO" class="control-label col-md-4"></label>
-                                        <input asp-for="ContactPersonHO" class="form-control col-md-4" />
-                                    </div>
-                                    <span asp-validation-for="ContactPersonHO" class="text-danger"></span>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <div class="row">
-                                        <label asp-for="ContactNumberHO" class="control-label col-md-4"></label>
-                                        <input asp-for="ContactNumberHO" class="form-control col-md-4" id="txtcontactno" />
-                                    </div>
-                                    <span asp-validation-for="ContactNumberHO" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class=row>
-                                <div class="form-group col-md-6">
-                                    <div class="row">
-                                        <label asp-for="EmailIdHO" class="control-label col-md-4"></label>
-                                        <input asp-for="EmailIdHO" class="form-control col-md-4" id="txtemail" />
-                                    </div>
-                                    <span asp-validation-for="EmailIdHO" class="text-danger"></span>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <div class="row">
-                                        <label asp-for="SpaceSizeFormat" class="control-label col-md-4"></label>
-                                        <select asp-for="SpaceSizeFormat" class="form-control col-md-4">
-                                            <option value="Sq foot">Sq foot</option>
-                                            <option value="Per Sq foot">Per Sq foot</option>
-                                            <option value="Per Qubic foot">Per Qubic foot</option>
-                                        </select>
-
-                                    </div>
-                                    <span asp-validation-for="SpaceSizeFormat" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class=row>
-                                <div class="form-group col-md-6">
-                                    <div class="row">
-                                        <label asp-for="Items" class="control-label col-md-4"></label>
-                                        <select asp-for="Items" asp-items="@(new SelectList(Model.ItemList,"Id","ItemName"))" class="form-control col-md-4"></select>
-
-                                    </div>
-                                    <span asp-validation-for="Items" class="text-danger"></span>
-                                </div>
-                                @*  <div class="form-group col-md-6">
-                                    <div class="row">
-                                    <label asp-for="SubItem" class="control-label col-md-4"></label>
-                                    <input asp-for="SubItem" class="form-control col-md-4" />
-                                    </div>
-                                    <span asp-validation-for="SubItem" class="text-danger"></span>
-                                    </div>             *@
-                            </div>
-
-                        </div>
-                        <div class="card-footer">
-
-                            <input type="submit" value="Create" class="btn btn-primary" />
-                            <a class="btn btn-primary float-right" asp-action="Index">Back to List</a>
-
-                        </div>
-                    </form>
+@section Style{
+    <!-- Select2 -->
+    <link rel="stylesheet" href="~/lib/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/lib/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+}
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Add New Company</h1>
                 </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Master</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
 
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Comapny informations</h3>
+
+                        </div>
+                        <form asp-action="Create">
+                            <div class="card-body">
+
+
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class=row>
+                                    <div class="form-group col-md-6">
+                                        <div class="row">
+                                            <label asp-for="CompanyCode" class="control-label col-md-4"></label>
+                                            <input asp-for="CompanyCode" class="form-control col-md-4" />
+                                        </div>
+                                        <span asp-validation-for="CompanyCode" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <div class="row">
+                                            <label asp-for="CompanyName" class="control-label col-md-4"></label>
+                                            <input asp-for="CompanyName" class="form-control col-md-4" />
+                                        </div>
+                                        <span asp-validation-for="CompanyName" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class=row>
+                                    <div class="form-group col-md-6">
+                                        <div class="row">
+                                            <label asp-for="Address" class="control-label col-md-4"></label>
+                                            <input asp-for="Address" class="form-control col-md-4" />
+                                        </div>
+                                        <span asp-validation-for="Address" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <div class="row">
+                                            <label asp-for="Location" class="control-label col-md-4"></label>
+                                            @*<input asp-for="Location" class="form-control col-md-4" />*@
+                                            <select class="form-control col-md-4" id="ddllocation" asp-items="@(new SelectList(@ViewBag.districts,"district_id", "district_name"))">
+                                            </select>
+                                            <input asp-for="Location" type="hidden" />
+                                        </div>
+                                        <span asp-validation-for="Location" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class=row>
+                                    <div class="form-group col-md-6">
+                                        <div class="row">
+                                            <label asp-for="ContactPersonHO" class="control-label col-md-4"></label>
+                                            <input asp-for="ContactPersonHO" class="form-control col-md-4" />
+                                        </div>
+                                        <span asp-validation-for="ContactPersonHO" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <div class="row">
+                                            <label asp-for="ContactNumberHO" class="control-label col-md-4"></label>
+                                            <input asp-for="ContactNumberHO" class="form-control col-md-4" id="txtcontactno" />
+                                        </div>
+                                        <span asp-validation-for="ContactNumberHO" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class=row>
+                                    <div class="form-group col-md-6">
+                                        <div class="row">
+                                            <label asp-for="EmailIdHO" class="control-label col-md-4"></label>
+                                            <input asp-for="EmailIdHO" class="form-control col-md-4" id="txtemail" />
+                                        </div>
+                                        <span asp-validation-for="EmailIdHO" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <div class="row">
+                                            <label asp-for="SpaceSizeFormat" class="control-label col-md-4"></label>
+                                            <select asp-for="SpaceSizeFormat" class="form-control col-md-4">
+                                                <option value="Sq foot">Sq foot</option>
+                                                <option value="Per Sq foot">Per Sq foot</option>
+                                                <option value="Per Qubic foot">Per Qubic foot</option>
+                                            </select>
+
+                                        </div>
+                                        <span asp-validation-for="SpaceSizeFormat" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Items"></label>
+                                            <div class="select2-purple">
+                                                <select asp-for="Items" data-placeholder="Select a Warehouse" multiple="multiple" data-dropdown-css-class="select2-purple" class="select2 multiselect" asp-items="@(new SelectList(Model.ItemList,"Id","ItemName"))" style="width: 100%;"></select>
+                                            </div>
+                                        </div>
+                                        <span asp-validation-for="Items" class="text-danger"></span>
+                                    </div>
+                                    @*  <div class="form-group col-md-6">
+                                <div class="row">
+                                <label asp-for="SubItem" class="control-label col-md-4"></label>
+                                <input asp-for="SubItem" class="form-control col-md-4" />
+                                </div>
+                                <span asp-validation-for="SubItem" class="text-danger"></span>
+                                </div>             *@
+                                </div>
+
+                            </div>
+                            <div class="card-footer">
+
+                                <input type="submit" value="Create" class="btn btn-primary" />
+                                <a class="btn btn-primary float-right" asp-action="Index">Back to List</a>
+
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
 
 
-@section Scripts {
+    @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
+        <script>
+            $(function() {
+                $('.select2').select2({
+                    theme: 'bootstrap4'
+                })
+                $('.multiselect').select2()
+            });
+        </script>
     }
 
-<script type="text/javascript">
-        $("#txtcontactno").keydown(function(event) 
-        {
-      k = event.which;
-      if ((k >= 96 && k <= 105) || k == 8) {
-        if ($(this).val().length == 10) {
-          if (k == 8) {
-            return true;
-          } else {
-            event.preventDefault();
-            return false;
+    <script type="text/javascript">
+        //    $("#txtcontactno").keydown(function(event)
+        //    {
+        //  k = event.which;
+        //  if ((k >= 96 && k <= 105) || k == 8) {
+        //    if ($(this).val().length == 10) {
+        //      if (k == 8) {
+        //        return true;
+        //      } else {
+        //        event.preventDefault();
+        //        return false;
 
-          }
-        }
-      } else {
-        event.preventDefault();
-        return false;
-      }
+        //      }
+        //    }
+        //  } else {
+        //    event.preventDefault();
+        //    return false;
+        //  }
 
-    });
-     $('#ddllocation').change(function() {debugger;
-        $('#Location').val($("#ddllocation option:selected").text());
-    });
+        //});
+        $('#ddllocation').change(function() {
+            debugger;
+            $('#Location').val($("#ddllocation option:selected").text());
+        });
 
-</script>
+    </script>
     }

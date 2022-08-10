@@ -51,6 +51,25 @@ namespace Application.Services.Master
                         select y;
             return query.ToList();
         }
+
+        public virtual List<UserBranchMapping> GetBranchMapping(string userId, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = from x in _userBranchRepository.Table
+                        where x.RefGuid == userId
+                        select x;
+            query = query.OrderByDescending(x => x.Id);
+            var result = new PagedList<UserBranchMapping>(query, pageIndex, pageSize);
+            return result;
+        }
+
+        public virtual void DeleteBranch(string userId)
+        {
+            var query = from x in _userBranchRepository.Table
+                        where x.RefGuid == userId
+                        select x;
+            _userBranchRepository.Delete(query);
+
+        }
         #endregion
     }
 }

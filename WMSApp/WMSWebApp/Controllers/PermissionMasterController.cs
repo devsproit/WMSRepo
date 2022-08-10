@@ -15,13 +15,13 @@ namespace WMSWebApp.Controllers
     public class PermissionMasterController : BaseAdminController
     {
         #region Fields
-        private readonly IPermissionMasterServcie _permissionMasterServcie;
+        private readonly IPermissionMasterService _permissionMasterServcie;
         private readonly IPermissionRoleMappingService _permissionRoleMappingService;
         private readonly RoleManager<IdentityRole> _roleManager;
         #endregion
 
         #region Ctor
-        public PermissionMasterController(IPermissionMasterServcie permissionMasterServcie, IPermissionRoleMappingService permissionRoleMappingService, RoleManager<IdentityRole> roleManager)
+        public PermissionMasterController(IPermissionMasterService permissionMasterServcie, IPermissionRoleMappingService permissionRoleMappingService, RoleManager<IdentityRole> roleManager)
         {
             _permissionMasterServcie = permissionMasterServcie;
             _permissionRoleMappingService = permissionRoleMappingService;
@@ -38,10 +38,10 @@ namespace WMSWebApp.Controllers
 
         public IActionResult List()
         {
-            //if (!_permissionMasterServcie.Authorize(StandardPermissionProvider.Staff, PermissionType.View).Result)
-            //{
-            //    return AccessDeniedView();
-            //}
+            if (!_permissionMasterServcie.Authorize(StandardPermissionProvider.Permission, PermissionType.View).Result)
+            {
+                return AccessDeniedView();
+            }
             return View();
         }
 
@@ -58,10 +58,10 @@ namespace WMSWebApp.Controllers
 
         public IActionResult RoleList()
         {
-            //if (!_permissionMasterServcie.Authorize(StandardPermissionProvider.Permission, PermissionType.View).Result)
-            //{
-            //    return AccessDeniedView();
-            //}
+            if (!_permissionMasterServcie.Authorize(StandardPermissionProvider.Permission, PermissionType.View).Result)
+            {
+                return AccessDeniedView();
+            }
             return View();
         }
 
@@ -69,10 +69,10 @@ namespace WMSWebApp.Controllers
 
         public IActionResult CreateRole()
         {
-            //if (!_permissionMasterServcie.Authorize(StandardPermissionProvider.Permission, PermissionType.Add).Result)
-            //{
-            //    return AccessDeniedView();
-            //}
+            if (!_permissionMasterServcie.Authorize(StandardPermissionProvider.Permission, PermissionType.Add).Result)
+            {
+                return AccessDeniedView();
+            }
             var Permission = _permissionMasterServcie.GetAllPermissionMaster().ToList();
             CreateRoleModel model = new CreateRoleModel();
             model.PermissionMaster = Permission;
@@ -138,10 +138,10 @@ namespace WMSWebApp.Controllers
 
         public async Task<IActionResult> UpdateRole(string id)
         {
-            //if (!_permissionMasterServcie.Authorize(StandardPermissionProvider.Permission, PermissionType.Edit).Result)
-            //{
-            //    return AccessDeniedView();
-            //}
+            if (!_permissionMasterServcie.Authorize(StandardPermissionProvider.Permission, PermissionType.Edit).Result)
+            {
+                return AccessDeniedView();
+            }
 
             var role = await _roleManager.FindByIdAsync(id);
             var roleWisePermission = _permissionRoleMappingService.GetPermissionMapListRoleWise(id);

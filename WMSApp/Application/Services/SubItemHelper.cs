@@ -100,15 +100,12 @@ namespace Application.Services
         {
             _subItemRepository.Insert(entity);
         }
-        public virtual SubItemDb GetSubItemByItemId(int id)
+        public virtual List<SubItemDb> GetSubItemByItemId(int id)
         {
-            //var query = from x in _subItemRepository.Table
-            //            where x.ItemId == id
-            //            select x;
-
-
-
-            return _subItemRepository.Table.FirstOrDefault(x => x.ItemId == id);
+            var query = from x in _subItemRepository.Table
+                        where x.ItemId == id
+                        select x;
+            return query.ToList();
 
         }
 
@@ -119,7 +116,7 @@ namespace Application.Services
                         select x;
             return query.FirstOrDefault();
         }
-        public SubItemDb GetSubItemCustomerAmt(string subItemName,string stype)
+        public SubItemDb GetSubItemCustomerAmt(string subItemName, string stype)
         {
             List<SubItemDb> data = new List<SubItemDb>();
             List<SqlParameter> sqlParameters = new List<SqlParameter>();
@@ -130,6 +127,8 @@ namespace Application.Services
                 data = dbDT.ToList<SubItemDb>();
             return data.FirstOrDefault();
         }
+
+        
 
     }
 }

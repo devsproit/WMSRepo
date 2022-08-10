@@ -38,13 +38,13 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="card-body">
                             <div class=row>
-                                <div class=" col-md-6">
+                              @*  <div class=" col-md-6">
                                     <div class="form-group">
                                         <label asp-for="CompanyId"></label>
                                         <select asp-for="CompanyId" class="form-control select2" asp-items="@(new SelectList(Model.Companies,"Id","CompanyName"))"></select>
                                     </div>
                                     <span asp-validation-for="CompanyId" class="text-danger"></span>
-                                </div>
+                                </div>*@
                                 <div class=" col-md-6">
                                     <div class="form-group">
                                         <label asp-for="ItemName"></label>

@@ -118,5 +118,9 @@ namespace Application.Services
             return _branchRepository.GetById(id);   
         }
 
+        public virtual void Update(Branch entity)
+        {
+            _branchRepository.Update(entity);
+        }
     }
 }
