@@ -35,7 +35,19 @@ namespace Application.Services.GRN
             var result = new PagedList<GoodReceivedNoteMaster>(query, pageIndex, pageSize);
             return result;
         }
-
+        public virtual IPagedList<GoodReceivedNoteDetails> GetReport(DateTime fromdate, DateTime todate, string branch = "ALL",int pageIndex=0,int pageSize=int.MaxValue)
+        {
+            var query = from x in _grnDetailsRepository.Table
+                        select x;
+            query = query.Where(x => x.GoodReceivedNoteMaster.InvoiceDate.Date >= fromdate.Date && x.GoodReceivedNoteMaster.InvoiceDate.Date <= todate.Date);
+            if(branch!="ALL")
+            {
+                query = query.Where(x => x.GoodReceivedNoteMaster.BranchCode == branch);
+            }
+            query = query.OrderByDescending(x => x.GoodReceivedNoteMaster.Id);
+            var result = new PagedList<GoodReceivedNoteDetails>(query, pageIndex, pageSize);
+            return result;
+        }
 
         public virtual IPagedList<Stocks> GetStocks(string branchcode, string itemcode = null, int pageIndex = 0, int pageSize = int.MaxValue)
         {
