@@ -59,8 +59,8 @@ namespace Application.Services
                     new SqlParameter("@ContactNumberHO", company.ContactNumberHO),
                     new SqlParameter("@EmailIdHO", company.EmailIdHO),
                     new SqlParameter("@SpaceSizeFormat", company.SpaceSizeFormat),
-                    new SqlParameter("@Items", company.Items),
-                    new SqlParameter("@SubItem", company.SubItem),
+                    //new SqlParameter("@Items", company.Items),
+                    //new SqlParameter("@SubItem", company.SubItem),
                 };
                 result = _adoConnection.InsertUpdateWithSP(Constants.CreateNewCompanySP, sqlParameters);
             }
@@ -84,8 +84,8 @@ namespace Application.Services
                     new SqlParameter("@ContactNumberHO", company.ContactNumberHO),
                     new SqlParameter("@EmailIdHO", company.EmailIdHO),
                     new SqlParameter("@SpaceSizeFormat", company.SpaceSizeFormat),
-                    new SqlParameter("@Items", company.Items),
-                    new SqlParameter("@SubItem", company.SubItem),
+                    //new SqlParameter("@Items", company.Items),
+                    //new SqlParameter("@SubItem", company.SubItem),
                 };
                 result = _adoConnection.InsertUpdateWithSP(Constants.UpdateCompanyByIdSP, sqlParameters);
             }
@@ -115,6 +115,12 @@ namespace Application.Services
             return result;
 
 
+        }
+
+
+        public virtual CompanyDb GetById(int id)
+        {
+            return _companyRepository.GetById(id);
         }
     }
 }

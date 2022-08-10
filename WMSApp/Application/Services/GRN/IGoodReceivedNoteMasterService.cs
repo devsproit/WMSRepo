@@ -16,6 +16,6 @@ namespace Application.Services.GRN
         IPagedList<GoodReceivedNoteMaster> GetAllMaster(string branch, int pageIndex = 0, int pageSize = int.MaxValue);
 
         IPagedList<Stocks> GetStocks(string branchcode, string itemcode = null, int pageIndex = 0, int pageSize = int.MaxValue);
-
+        IPagedList<GoodReceivedNoteDetails> GetReport(DateTime fromdate, DateTime todate, string branch = "ALL", int pageIndex = 0, int pageSize = int.MaxValue);
     }
 }

@@ -28,11 +28,13 @@ namespace WMSWebApp.ViewModels
         public string EmailIdHO { get; set; }
         [Display(Name = "Space Size Format")]
         public string SpaceSizeFormat { get; set; }
-        public int Items { get; set; }
+        public List<int> Items { get; set; }
         [Display(Name = "Sub Item")]
         public int SubItem { get; set; }
 
         public List<Item> ItemList { get; set; }
+
+
 
     }
 }

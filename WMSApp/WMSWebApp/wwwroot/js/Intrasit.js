@@ -20,7 +20,7 @@
                 if (data.length != 0) {
                     $(data).each(
                         function (index, item) {
-                            $('#subItemId').append('<option value="' + item.Id + '">' + item.SubItemName + '</option>')
+                            $('#subItemId').append('<option value="' + item.ItemId + '">' + item.SubItemName + '</option>')
                         });
                 } else {
                    
@@ -76,7 +76,7 @@
     });
     
     $('#btnaddRow').on('click', function () {
-        debugger;
+        
         var purchaseOrder = $("#txtPurchaseOrder").val();
         var senderCompany = $('#CId :selected').text();
         var senderBranch = $('#BId :selected').text();//ItId
@@ -146,4 +146,16 @@
                 }
             });
     });
+
+  //  $("#txtAmt").on
+ //   $("#txtAmt").html(Number($("#txtAmt").val()).toLocaleString('en'));
+    //function ReplaceNumberWithCommas(yourNumber) {
+    //    //Seperates the components of the number
+    //    var components = yourNumber.toString().split(".");
+    //    //Comma-fies the first part
+    //    components[0] = components[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    //    //Combines the two sections
+    //    return components.join(".");
+    //}
+
 });

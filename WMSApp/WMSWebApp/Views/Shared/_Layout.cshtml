@@ -167,6 +167,12 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
+                                    <a asp-action="Index" asp-controller="PermissionMaster" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Security Master</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a asp-action="Register" asp-controller="Account" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Add New User</p>
@@ -342,12 +348,17 @@
 
                         <li class="nav-header">Reports</li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a asp-action="List" asp-controller="Stock" class="nav-link">
                                 <i class="nav-icon fas fa-ellipsis-h"></i>
-                                <p>Tabbed IFrame</p>
+                                <p>Stock Report</p>
                             </a>
                         </li>
-
+                        <li class="nav-item">
+                            <a asp-action="GRNReport" asp-controller="Report" class="nav-link">
+                                <i class="nav-icon fas fa-ellipsis-h"></i>
+                                <p>GRN Report</p>
+                            </a>
+                        </li>
 
                     </ul>
                 </nav>

@@ -28,8 +28,11 @@ namespace WMSWebApp.ViewModels
         public string PinCode { get; set; }
         public List<Branch> Branches { get; set; }
         public int BranchId { get; set; }
+        public List<int> BranchList { get; set; }
         public int Id { get; set; }
         public DateTime CreateOn { get; set; }
-        public string  Branch { get; set; }
+        public string Branch { get; set; }
+
+        public string Role { get; set; }
     }
 }

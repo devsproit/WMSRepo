@@ -18,6 +18,7 @@ using WMS.Web.Framework.Infrastructure.Extentsion;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http;
 using Newtonsoft.Json;
+using Application.Services.Security;
 
 namespace WMSWebApp.Controllers
 {
@@ -31,9 +32,10 @@ namespace WMSWebApp.Controllers
         private readonly IUserProfileService _userProfileService;
         private readonly IWarehouseService _warehouseService;
         private readonly IConfiguration Configuration;
+        private readonly IPermissionMasterService _permissionMasterService;
 
         public BranchController(IBranchHelper BranchHelper, IMapper mapper, ICompanyHelper companyService, UserManager<ApplicationUser> userManager,
-            IUserProfileService userProfileService, IWarehouseService warehouseService,IConfiguration _configuration)
+            IUserProfileService userProfileService, IWarehouseService warehouseService, IConfiguration _configuration, IPermissionMasterService permissionMasterService)
         {
             _BranchHelper = BranchHelper;
             _mapper = mapper;
@@ -42,12 +44,17 @@ namespace WMSWebApp.Controllers
             _userProfileService = userProfileService;
             _warehouseService = warehouseService;
             Configuration = _configuration;
+            _permissionMasterService = permissionMasterService;
         }
 
 
 
         public ActionResult Index()
         {
+            if (!_permissionMasterService.Authorize(StandardPermissionProvider.Branch, PermissionType.View).Result)
+            {
+                return AccessDeniedView();
+            }
             return View();
         }
 
@@ -106,6 +113,10 @@ namespace WMSWebApp.Controllers
         // GET: CompaniesController/Create
         public ActionResult Create()
         {
+            if (!_permissionMasterService.Authorize(StandardPermissionProvider.Branch, PermissionType.Add).Result)
+            {
+                return AccessDeniedView();
+            }
             BranchModel model = new BranchModel();
             var comp = _companyService.GetAllCompanies();
             var companies = _mapper.Map<List<Company>>(comp);
@@ -158,6 +169,10 @@ namespace WMSWebApp.Controllers
         // GET: CompaniesController/Edit/5
         public ActionResult Edit(int id)
         {
+            if (!_permissionMasterService.Authorize(StandardPermissionProvider.Company, PermissionType.Edit).Result)
+            {
+                return AccessDeniedView();
+            }
             var model = new BranchModel();
             try
             {
@@ -182,20 +197,11 @@ namespace WMSWebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, BranchModel c, IFormCollection collection)
         {
-            var branch = _mapper.Map<Branch>(c);
-            //foreach (var item in c.WarehouseId)
-            //{
-            //    var mapping = new BranchWiseWarehouse()
-            //    {
-            //        WarehouseId = item,
-            //        Branch = branch,
+            var branch = _BranchHelper.GetById(c.Id);
+            branch = _mapper.Map<BranchModel, Branch>(c, branch);
 
-
-
-            //    };
-            //    branch.BranchWiseWarehouses.Add(mapping);
-            //}
-            _BranchHelper.Insert(branch);
+           
+            _BranchHelper.Update(branch);
             SuccessNotification("Branch updated successfully!.");
             return RedirectToAction(nameof(Index));
         }

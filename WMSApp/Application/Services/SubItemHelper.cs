@@ -33,13 +33,14 @@ namespace Application.Services
 
         public SubItemDb GetSubItemById(int Id)
         {
-            List<SubItemDb> data = new List<SubItemDb>();
-            List<SqlParameter> sqlParameters = new List<SqlParameter>();
-            sqlParameters.Add(new SqlParameter("@Id", Id));
-            DataTable dbDT = _adoConnection.GetDatatableFromSqlWithSP(Constants.GetSubItemIdSP, sqlParameters);
-            if (dbDT != null)
-                data = dbDT.ToList<SubItemDb>();
-            return data.FirstOrDefault();
+            //List<SubItemDb> data = new List<SubItemDb>();
+            //List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            //sqlParameters.Add(new SqlParameter("@Id", Id));
+            //DataTable dbDT = _adoConnection.GetDatatableFromSqlWithSP(Constants.GetSubItemIdSP, sqlParameters);
+            //if (dbDT != null)
+            //    data = dbDT.ToList<SubItemDb>();
+            //return data.FirstOrDefault();
+            return _subItemRepository.GetById(Id);
         }
         public bool CreateNewSubItem(SubItemDb SubItem)
         {
@@ -100,19 +101,23 @@ namespace Application.Services
         {
             _subItemRepository.Insert(entity);
         }
-        public virtual SubItemDb GetSubItemByItemId(int id)
+        public virtual List<SubItemDb> GetSubItemByItemId(int id)
         {
-            //var query = from x in _subItemRepository.Table
-            //            where x.ItemId == id
-            //            select x;
-
-
-
-            return _subItemRepository.Table.FirstOrDefault(x => x.ItemId == id);
+            var query = from x in _subItemRepository.Table
+                        where x.ItemId == id
+                        select x;
+            return query.ToList();
 
         }
 
-        public SubItemDb GetSubItemCustomerAmt(string subItemName,string stype)
+        public virtual SubItemDb GetItemByCOde(string subItemCode)
+        {
+            var query = from x in _subItemRepository.Table
+                        where x.SubItemCode == subItemCode
+                        select x;
+            return query.FirstOrDefault();
+        }
+        public SubItemDb GetSubItemCustomerAmt(string subItemName, string stype)
         {
             List<SubItemDb> data = new List<SubItemDb>();
             List<SqlParameter> sqlParameters = new List<SqlParameter>();
@@ -123,6 +128,9 @@ namespace Application.Services
                 data = dbDT.ToList<SubItemDb>();
             return data.FirstOrDefault();
         }
+
+
+        
 
     }
 }

@@ -14,6 +14,9 @@ using WMS.Data;
 using WMS.Web.Framework.Infrastructure.Extentsion;
 using WMSWebApp.ViewModels;
 using Domain.Model.GRN;
+using Application.Services.StockMgnt;
+using WMSWebApp.ViewModels.Stock;
+
 namespace WMSWebApp.Controllers
 {
     [Authorize]
@@ -23,12 +26,16 @@ namespace WMSWebApp.Controllers
         private readonly IIntrasitService _intrasitService;
         private readonly IWorkContext _workContext;
         private readonly IGoodReceivedNoteMasterService _goodReceivedNoteMasterService;
-        public HomeController(ILogger<HomeController> logger, IIntrasitService intrasitService, IWorkContext workContext, IGoodReceivedNoteMasterService goodReceivedNoteMasterService)
+        private readonly IItemStockService _itemStockService;
+        private readonly ISubItemHelper _subItemService;
+        public HomeController(ILogger<HomeController> logger, IIntrasitService intrasitService, IWorkContext workContext, IGoodReceivedNoteMasterService goodReceivedNoteMasterService, IItemStockService itemStockService, ISubItemHelper subItemService)
         {
             _logger = logger;
             _intrasitService = intrasitService;
             _workContext = workContext;
             _goodReceivedNoteMasterService = goodReceivedNoteMasterService;
+            _itemStockService = itemStockService;
+            _subItemService = subItemService;
         }
 
         public async Task<IActionResult> Index()
@@ -82,6 +89,29 @@ namespace WMSWebApp.Controllers
             };
 
             return Json(data);
+        }
+
+        [HttpPost]
+        public virtual async Task<IActionResult> StockList(DataSourceRequest request)
+        {
+            var branch = await _workContext.GetCurrentBranch();
+            var stocks = _itemStockService.GetItemStocks(branch.Id, request.Page - 1, request.PageSize);
+            var dataGrid = new DataSourceResult()
+            {
+                Data = stocks.Select(x =>
+                {
+                    ItemStockList stock = new ItemStockList();
+                    stock.Id = x.Id;
+                    stock.Qty = x.Qty;
+                    stock.ItemCode = x.ItemCode;
+                    var item = _subItemService.GetItemByCOde(x.ItemCode);
+                    if (item != null)
+                        stock.ItemName = item.SubItemName;
+                    return stock;
+                }),
+                Total = stocks.TotalCount
+            };
+            return Json(dataGrid);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Application.Services;
+using Application.Services.Security;
 using AutoMapper;
 using DatabaseLibrary.SQL;
 using Domain.Model;
@@ -13,18 +14,20 @@ using WMSWebApp.ViewModels;
 namespace WMSWebApp.Controllers
 {
     [Authorize]
-    public class SubItemController : Controller
+    public class SubItemController : BaseAdminController
     {
         private readonly ISubItemHelper _SubItemHelper;
         private readonly IMapper _mapper;
         private readonly IItemHelper _itemService;
+        private readonly IPermissionMasterService _permissionMasterService;
 
 
-        public SubItemController(ISubItemHelper SubItemHelper, IMapper mapper, IItemHelper itemService)
+        public SubItemController(ISubItemHelper SubItemHelper, IMapper mapper, IItemHelper itemService, IPermissionMasterService permissionMasterService)
         {
             _SubItemHelper = SubItemHelper;
             _mapper = mapper;
             _itemService = itemService;
+            _permissionMasterService = permissionMasterService;
         }
 
 
@@ -63,6 +66,10 @@ namespace WMSWebApp.Controllers
         // GET: SubItemController/Create
         public ActionResult Create()
         {
+            if (!_permissionMasterService.Authorize(StandardPermissionProvider.SubItemMaster, PermissionType.Add).Result)
+            {
+                return AccessDeniedView();
+            }
             SubItem model = new SubItem();
             var items = _itemService.GetAllItem();
             model.Items = _mapper.Map<List<Item>>(items);
@@ -89,6 +96,10 @@ namespace WMSWebApp.Controllers
         // GET: SubItemController/Edit/5
         public ActionResult Edit(int id)
         {
+            if (!_permissionMasterService.Authorize(StandardPermissionProvider.SubItemMaster, PermissionType.Edit).Result)
+            {
+                return AccessDeniedView();
+            }
             var c = new SubItem();
             try
             {
@@ -120,6 +131,10 @@ namespace WMSWebApp.Controllers
         // GET: SubItemController/Delete/5
         public ActionResult Delete(int id)
         {
+            if (!_permissionMasterService.Authorize(StandardPermissionProvider.SubItemMaster, PermissionType.Delete).Result)
+            {
+                return AccessDeniedView();
+            }
             return View();
         }
 

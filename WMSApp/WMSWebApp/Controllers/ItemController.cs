@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WMSWebApp.ViewModels;
 using System.Linq;
+using Application.Services.Security;
 
 namespace WMSWebApp.Controllers
 {
@@ -18,18 +19,23 @@ namespace WMSWebApp.Controllers
         private readonly IItemHelper _ItemHelper;
         private readonly IMapper _mapper;
         private readonly ICompanyHelper _companyService;
-
-        public ItemController(IItemHelper ItemHelper, IMapper mapper, ICompanyHelper companyService)
+        private readonly IPermissionMasterService _permissionMasterService;
+        public ItemController(IItemHelper ItemHelper, IMapper mapper, ICompanyHelper companyService, IPermissionMasterService permissionMasterService)
         {
             _ItemHelper = ItemHelper;
             _mapper = mapper;
             _companyService = companyService;
+            _permissionMasterService = permissionMasterService;
         }
 
 
         // GET: ItemController
         public ActionResult Index()
         {
+            if (!_permissionMasterService.Authorize(StandardPermissionProvider.ItemMaster, PermissionType.Add).Result)
+            {
+                return AccessDeniedView();
+            }
             List<Item> Item = new List<Item>();
             try
             {
@@ -47,7 +53,7 @@ namespace WMSWebApp.Controllers
         {
             var B = new Item()
             {
-                CompanyId = 1,
+              
                 ItemName = "Test",
                 ItemCode = "Test",
 
@@ -57,8 +63,12 @@ namespace WMSWebApp.Controllers
         // GET: ItemController/Create
         public ActionResult Create()
         {
+            if (!_permissionMasterService.Authorize(StandardPermissionProvider.ItemMaster, PermissionType.Add).Result)
+            {
+                return AccessDeniedView();
+            }
             Item model = new Item();
-            model.Companies = _companyService.GetAllCOmpany().ToList();
+            //model.Companies = _companyService.GetAllCOmpany().ToList();
             return View(model);
         }
 
@@ -83,6 +93,10 @@ namespace WMSWebApp.Controllers
         // GET: ItemController/Edit/5
         public ActionResult Edit(int id)
         {
+            if (!_permissionMasterService.Authorize(StandardPermissionProvider.ItemMaster, PermissionType.Edit).Result)
+            {
+                return AccessDeniedView();
+            }
             var model = new Item();
            
             try
@@ -96,7 +110,7 @@ namespace WMSWebApp.Controllers
             {
                 throw;
             }
-            model.Companies = _companyService.GetAllCOmpany().ToList();
+            //model.Companies = _companyService.GetAllCOmpany().ToList();
             return View(model);
         }
         // POST: ItemController/Edit/5
@@ -119,6 +133,10 @@ namespace WMSWebApp.Controllers
         // GET: ItemController/Delete/5
         public ActionResult Delete(int id)
         {
+            if (!_permissionMasterService.Authorize(StandardPermissionProvider.ItemMaster, PermissionType.Delete).Result)
+            {
+                return AccessDeniedView();
+            }
             return View();
         }
 

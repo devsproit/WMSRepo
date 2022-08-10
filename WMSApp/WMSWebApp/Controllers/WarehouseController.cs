@@ -10,24 +10,26 @@ using Microsoft.AspNetCore.Authorization;
 using System.Net.Http;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
-
+using Application.Services.Security;
 namespace WMSWebApp.Controllers;
 [Authorize]
-public class WarehouseController : Controller
+public class WarehouseController : BaseAdminController
 {
 
     #region fields
     private readonly IWarehouseService _warehouseService;
     private readonly IMapper _mapper;
     private readonly IConfiguration Configuration;
+    private readonly IPermissionMasterService  _permissionMasterService;
     #endregion
 
     #region Ctor
-    public WarehouseController(IWarehouseService warehouseService, IMapper mapper, IConfiguration _configuration)
+    public WarehouseController(IWarehouseService warehouseService, IMapper mapper, IConfiguration _configuration, IPermissionMasterService permissionMasterServcie)
     {
         _warehouseService = warehouseService;
         _mapper = mapper;
         Configuration = _configuration;
+        _permissionMasterService = permissionMasterServcie;
     }
     #endregion
 
@@ -53,6 +55,10 @@ public class WarehouseController : Controller
     // GET: WarehouseController/Create
     public ActionResult Create()
     {
+        if (!_permissionMasterService.Authorize(StandardPermissionProvider.Warehouse, PermissionType.Add).Result)
+        {
+            return AccessDeniedView();
+        }
         Root districtslist = new Root();
         HttpClient client = new HttpClient();
         string apiUrl = Configuration.GetValue<string>("districtUrl");
@@ -95,6 +101,10 @@ public class WarehouseController : Controller
 
     public IActionResult CreateArea(int warehouseid)
     {
+        if (!_permissionMasterService.Authorize(StandardPermissionProvider.Warehouse, PermissionType.Add).Result)
+        {
+            return AccessDeniedView();
+        }
         var warehouse = _warehouseService.GetById(warehouseid);
         if (warehouse == null)
         {
@@ -139,6 +149,10 @@ public class WarehouseController : Controller
     // GET: WarehouseController/Edit/5
     public ActionResult Edit(int id)
     {
+        if (!_permissionMasterService.Authorize(StandardPermissionProvider.Warehouse, PermissionType.Edit).Result)
+        {
+            return AccessDeniedView();
+        }
         return View();
     }
 
@@ -160,6 +174,10 @@ public class WarehouseController : Controller
     // GET: WarehouseController/Delete/5
     public ActionResult Delete(int id)
     {
+        if (!_permissionMasterService.Authorize(StandardPermissionProvider.Warehouse, PermissionType.Delete).Result)
+        {
+            return AccessDeniedView();
+        }
         return View();
     }
 

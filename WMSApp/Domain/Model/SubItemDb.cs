@@ -22,7 +22,7 @@ namespace Domain.Model
         public string SubItemSize { get; set; }
 
  
-        public bool FOC { get; set; }
+        public string FOC { get; set; }
 
 
         public string SubItemCategory { get; set; }

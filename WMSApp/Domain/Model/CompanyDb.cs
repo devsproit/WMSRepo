@@ -22,8 +22,8 @@ namespace Domain.Model
         public string ContactNumberHO { get; set; }
         public string EmailIdHO { get; set; }
         public string SpaceSizeFormat { get; set; }
-        public int Items { get; set; }
-        public int SubItem { get; set; }
+        //public int Items { get; set; }
+        //public int SubItem { get; set; }
 
         
 

@@ -3,111 +3,154 @@
 @{
     ViewData["Title"] = "Update Company";
 }
-@* Delete this below CSS File after revamping is done. *@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-<h4>Update Company Details</h4>
-<hr />
-<div class="row">
-    <div class="col-md-10">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @*<div class="form-group">
-                <label asp-for="ScreenCode" class="control-label"></label>
-                <input asp-for="ScreenCode" class="form-control" />
-                <span asp-validation-for="ScreenCode" class="text-danger"></span>
-            </div>*@
-             <div class=row>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="CompanyCode" class="control-label col-md-4"></label>
-                        <input asp-for="CompanyCode" class="form-control col-md-4" />   
-                    </div>                    
-                    <span asp-validation-for="CompanyCode" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="CompanyName" class="control-label col-md-4"></label>
-                       <input asp-for="CompanyName" class="form-control col-md-4" /> 
-                    </div>                    
-                    <span asp-validation-for="CompanyName" class="text-danger"></span>
-                </div>                
-            </div>
-            <div class=row>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="Address" class="control-label col-md-4"></label>
-                        <input asp-for="Address" class="form-control col-md-4" />   
-                    </div>                    
-                    <span asp-validation-for="Address" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="Location" class="control-label col-md-4"></label>
-                       <input asp-for="Location" class="form-control col-md-4" /> 
-                    </div>                    
-                    <span asp-validation-for="Location" class="text-danger"></span>
-                </div>                
-            </div>
-            <div class=row>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="ContactPersonHO" class="control-label col-md-4"></label>
-                        <input asp-for="ContactPersonHO" class="form-control col-md-4" />   
-                    </div>                    
-                    <span asp-validation-for="ContactPersonHO" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="ContactNumberHO" class="control-label col-md-4"></label>
-                       <input asp-for="ContactNumberHO" class="form-control col-md-4" /> 
-                    </div>                    
-                    <span asp-validation-for="ContactNumberHO" class="text-danger"></span>
-                </div>                
-            </div>
-            <div class=row>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="EmailIdHO" class="control-label col-md-4"></label>
-                        <input asp-for="EmailIdHO" class="form-control col-md-4" />   
-                    </div>                    
-                    <span asp-validation-for="EmailIdHO" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="SpaceSizeFormat" class="control-label col-md-4"></label>
-                       <input asp-for="SpaceSizeFormat" class="form-control col-md-4" /> 
-                    </div>                    
-                    <span asp-validation-for="SpaceSizeFormat" class="text-danger"></span>
-                </div>                
-            </div>
-            <div class=row>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="Items" class="control-label col-md-4"></label>
-                        <input asp-for="Items" class="form-control col-md-4" />   
-                    </div>                    
-                    <span asp-validation-for="Items" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <div class="row">
-                        <label asp-for="SubItem" class="control-label col-md-4"></label>
-                       <input asp-for="SubItem" class="form-control col-md-4" /> 
-                    </div>                    
-                    <span asp-validation-for="SubItem" class="text-danger"></span>
-                </div>                
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@section Style{
+    <!-- Select2 -->
+    <link rel="stylesheet" href="~/lib/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/lib/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 }
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Companies List</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Master</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Comapny informations</h3>
+
+                        </div>
+                        <form asp-action="Edit">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            @*<div class="form-group">
+                        <label asp-for="ScreenCode" class="control-label"></label>
+                        <input asp-for="ScreenCode" class="form-control" />
+                        <span asp-validation-for="ScreenCode" class="text-danger"></span>
+                        </div>*@
+                            <div class="card-body">
+
+
+                                <div class=row>
+                                    <div class="form-group col-md-6">
+                                        <div class="row">
+                                            <label asp-for="CompanyCode" class="control-label col-md-4"></label>
+                                            <input asp-for="CompanyCode" class="form-control col-md-4" />
+                                        </div>
+                                        <span asp-validation-for="CompanyCode" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <div class="row">
+                                            <label asp-for="CompanyName" class="control-label col-md-4"></label>
+                                            <input asp-for="CompanyName" class="form-control col-md-4" />
+                                        </div>
+                                        <span asp-validation-for="CompanyName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class=row>
+                                    <div class="form-group col-md-6">
+                                        <div class="row">
+                                            <label asp-for="Address" class="control-label col-md-4"></label>
+                                            <input asp-for="Address" class="form-control col-md-4" />
+                                        </div>
+                                        <span asp-validation-for="Address" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <div class="row">
+                                            <label asp-for="Location" class="control-label col-md-4"></label>
+                                            <input asp-for="Location" class="form-control col-md-4" />
+                                        </div>
+                                        <span asp-validation-for="Location" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class=row>
+                                    <div class="form-group col-md-6">
+                                        <div class="row">
+                                            <label asp-for="ContactPersonHO" class="control-label col-md-4"></label>
+                                            <input asp-for="ContactPersonHO" class="form-control col-md-4" />
+                                        </div>
+                                        <span asp-validation-for="ContactPersonHO" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <div class="row">
+                                            <label asp-for="ContactNumberHO" class="control-label col-md-4"></label>
+                                            <input asp-for="ContactNumberHO" class="form-control col-md-4" />
+                                        </div>
+                                        <span asp-validation-for="ContactNumberHO" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class=row>
+                                    <div class="form-group col-md-6">
+                                        <div class="row">
+                                            <label asp-for="EmailIdHO" class="control-label col-md-4"></label>
+                                            <input asp-for="EmailIdHO" class="form-control col-md-4" />
+                                        </div>
+                                        <span asp-validation-for="EmailIdHO" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <div class="row">
+                                            <label asp-for="SpaceSizeFormat" class="control-label col-md-4"></label>
+                                            <input asp-for="SpaceSizeFormat" class="form-control col-md-4" />
+                                        </div>
+                                        <span asp-validation-for="SpaceSizeFormat" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <div class="row">
+                                            <label asp-for="Items" class="control-label col-md-4"></label>
+                                            <div class="select2-purple">
+                                                <select asp-for="Items" data-placeholder="Select a Warehouse" multiple="multiple" data-dropdown-css-class="select2-purple" class="select2 multiselect" asp-items="@(new SelectList(Model.ItemList,"Id","ItemName"))" style="width: 100%;"></select>
+                                            </div>
+                                        </div>
+                                        <span asp-validation-for="Items" class="text-danger"></span>
+                                    </div>
+                                    @*<div class="form-group col-md-6">
+                                <div class="row">
+                                <label asp-for="SubItem" class="control-label col-md-4"></label>
+                                <input asp-for="SubItem" class="form-control col-md-4" />
+                                </div>
+                                <span asp-validation-for="SubItem" class="text-danger"></span>
+                                </div>*@
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <input type="submit" value="Save" class="btn btn-primary" />
+                                <a asp-action="Index" class="btn btn-primary float-right">Back to List</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    @section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+    }
+    <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
+    <script>
+        $(function() {
+            $('.select2').select2({
+                theme: 'bootstrap4'
+            })
+            $('.multiselect').select2()
+        });
+    </script>
+    }

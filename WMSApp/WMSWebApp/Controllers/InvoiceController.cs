@@ -8,7 +8,9 @@ using System.Collections.Generic;
 using Application.Services.Invoice;
 using Domain.Model.Invoice;
 using WMS.Web.Framework.Infrastructure.Extentsion;
-
+using Domain.Model.PO;
+using Domain.Model.StockManagement;
+using Application.Services.StockMgnt;
 namespace WMSWebApp.Controllers
 {
     public class InvoiceController : BaseAdminController
@@ -21,10 +23,11 @@ namespace WMSWebApp.Controllers
         private readonly IStockTransferPo _stockTransferPoService;
         private readonly IWorkContext _workContext;
         private readonly IInvoiceService _invoiceService;
+        private readonly IItemStockService _itemStockService;
         #endregion
 
         #region Ctor
-        public InvoiceController(IPurchaseOrder purchaseOrderService, ISalePo salePoService, IServiceOrderPo serviceOrderPoService, IStockTransferPo stockTransferPoService, IWorkContext workContext, IInvoiceService invoiceService)
+        public InvoiceController(IPurchaseOrder purchaseOrderService, ISalePo salePoService, IServiceOrderPo serviceOrderPoService, IStockTransferPo stockTransferPoService, IWorkContext workContext, IInvoiceService invoiceService, IItemStockService itemStockService)
         {
             _purchaseOrderService = purchaseOrderService;
             _salePoService = salePoService;
@@ -32,6 +35,7 @@ namespace WMSWebApp.Controllers
             _stockTransferPoService = stockTransferPoService;
             _workContext = workContext;
             _invoiceService = invoiceService;
+            _itemStockService = itemStockService;
         }
         #endregion
 
@@ -159,7 +163,7 @@ namespace WMSWebApp.Controllers
             InvoiceMaster master = new InvoiceMaster();
             List<InvoiceDetails> details = new List<InvoiceDetails>();
             string docType = model.DocType;
-
+            var branch = _workContext.GetCurrentBranch().Result;
             if (docType == "StockTransfer PO")
             {
                 var items = _stockTransferPoService.GetStockTransferPos(model.PoNumber);
@@ -183,6 +187,7 @@ namespace WMSWebApp.Controllers
 
                     };
                     details.Add(m);
+                   // ReduceUpdateStock(item.SubItemCode, branch.BranchCode, item.StockTransferPOQty);
                 }
 
                 _invoiceService.InsertDetails(details);
@@ -209,6 +214,7 @@ namespace WMSWebApp.Controllers
                         SerialNo = item.SalePOSerialNumber
                     };
                     details.Add(m);
+                    //ReduceUpdateStock(item.SubItemCode, branch.BranchCode, item.SalePOQty);
                 }
                 _invoiceService.InsertDetails(details);
             }
@@ -236,12 +242,37 @@ namespace WMSWebApp.Controllers
 
                     };
                     details.Add(m);
+                    //ReduceUpdateStock(item.SubItemCode, item., item.ServiceOrderPOQty);
                 }
 
                 _invoiceService.InsertDetails(details);
             }
 
             return Json(true);
+        }
+        #endregion
+
+
+        #region Utilities
+        protected void ReduceUpdateStock(string itemCode, int warehouse, int qty)
+        {
+            var stock = _itemStockService.ItemByCode(itemCode, warehouse);
+            if (stock != null)
+            {
+                var item = _itemStockService.GetById(stock.Id);
+                item.Qty = item.Qty - qty;
+                item.LastUpdate = DateTime.Now;
+                _itemStockService.Update(item);
+            }
+            else
+            {
+                var item = new InventoryStock();
+                item.WarehouseId = warehouse;
+                item.ItemCode = itemCode;
+                item.LastUpdate = DateTime.Now;
+                item.Qty = qty;
+                _itemStockService.Insert(item);
+            }
         }
         #endregion
 

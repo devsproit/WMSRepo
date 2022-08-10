@@ -75,25 +75,23 @@
                                     </div>
                                     <span asp-validation-for="EmailIdBranch" class="text-danger"></span>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group ">
-                                        <label asp-for="AssociatedEmployee"></label>
-                                        <select asp-for="AssociatedEmployee" class="form-control select2" asp-items="@(new SelectList(Model.Users,"UserId","Name"))">
-                                        </select>
-                                    </div>
-                                    <span asp-validation-for="AssociatedEmployee" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="row">
-
-                                <div class="col-md-6">
+                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label asp-for="CompanyId">Compnay Name</label>
                                         <select asp-for="CompanyId" id="CompanyName" autocomplete="CompanyName" class="form-control select2" asp-items="@(new SelectList(Model.Companies,"Id","CompanyName"))"></select>
                                         <span asp-validation-for="CompanyId" class="text-danger"></span>
                                     </div>
                                 </div>
+                               @* <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <label asp-for="AssociatedEmployee"></label>
+                                        <select asp-for="AssociatedEmployee" class="form-control select2" asp-items="@(new SelectList(Model.Users,"UserId","Name"))">
+                                        </select>
+                                    </div>
+                                    <span asp-validation-for="AssociatedEmployee" class="text-danger"></span>
+                                </div>*@
                             </div>
+                         
 
                             <div class="row">
                                 <div class="col-md-6">
@@ -195,25 +193,25 @@
     });
 </script>
 <script type="text/javascript">
-        $("#txtcontactno").keydown(function(event) {
-      k = event.which;
-      if ((k >= 96 && k <= 105) || k == 8) {
-        if ($(this).val().length == 10) {
-          if (k == 8) {
-            return true;
-          } else {
-            event.preventDefault();
-            return false;
+    //    $("#txtcontactno").keydown(function(event) {
+    //  k = event.which;
+    //  if ((k >= 96 && k <= 105) || k == 8) {
+    //    if ($(this).val().length == 10) {
+    //      if (k == 8) {
+    //        return true;
+    //      } else {
+    //        event.preventDefault();
+    //        return false;
 
-          }
-        }
-      } else {
-        event.preventDefault();
-        return false;
-      }
+    //      }
+    //    }
+    //  } else {
+    //    event.preventDefault();
+    //    return false;
+    //  }
 
-    });
-      $('#ddllocation').change(function() {//debugger;
+    //});
+      $('#ddllocation').change(function() {debugger;
         $('#Location').val($("#ddllocation option:selected").text());
     });
 

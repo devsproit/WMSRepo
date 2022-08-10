@@ -15,6 +15,6 @@ namespace Application.Services
         bool CreateNewCompany(CompanyDb company);
         void Insert(CompanyDb entity);
         IPagedList<CompanyDb> GetAllCOmpany(int pageIndex = 0, int pageSize = int.MaxValue);
-
+        CompanyDb GetById(int id);
     }
 }
