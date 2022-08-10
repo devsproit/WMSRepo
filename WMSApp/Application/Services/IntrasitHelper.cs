@@ -34,8 +34,8 @@ namespace Application.Services
             {
                 sqlParameters = new List<SqlParameter>()
                 {
-                    new SqlParameter("@LoginBranchId", intrasit.Login_Branch),
-                    new SqlParameter("@SenderCompanyId", intrasit.Sender_Company),
+                    new SqlParameter("@LoginBranch", intrasit.Login_Branch),
+                    new SqlParameter("@SenderCompany", intrasit.Sender_Company),
                     new SqlParameter("@Branch", intrasit.Sender_Branch),
                     new SqlParameter("@PurchaseOrder", intrasit.PurchaseOrder),
                     new SqlParameter("@ItemCode", intrasit.Item_Code),
