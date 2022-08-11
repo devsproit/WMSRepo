@@ -14,7 +14,7 @@
                 subItemId: $('#ItId').val(),
             },
             success: function (data) {
-                
+                //debugger;
                 //$('#SubItemId').find('option').remove()
                 console.log(data);
                 if (data.length != 0) {

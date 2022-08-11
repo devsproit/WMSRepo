@@ -13,5 +13,7 @@
         public string SrnPOSrnCause { get; set; }
 
         public string SubItemCode { get; set; }
+
+        public string InvoiceNo { get; set; }
     }
 }

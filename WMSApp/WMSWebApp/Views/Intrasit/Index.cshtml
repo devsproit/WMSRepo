@@ -162,7 +162,7 @@
          });
       $("#fileUploadForm").submit(function(e) {
             e.preventDefault();
-            debugger;
+            //debugger;
             var file = $('#uploadFile').val();
             if (!(/\.(xlsx|xls|xlsm)$/i).test(file)) {
                 alert('Please upload valid excel file .xlsx, .xlsm, .xls only.');
@@ -177,12 +177,12 @@
                     processData: false,
                     contentType: false
                 }).done(function(result) {
-                    if (result.status === 1) {
-                        alert(result.message);
+                    if (result.Status === 1) {
+                        alert(result.Message);
                         location.reload();
                     }
                     else {
-                        alert(result.message);
+                        alert(result.Message);
                     }
                 });
             }
