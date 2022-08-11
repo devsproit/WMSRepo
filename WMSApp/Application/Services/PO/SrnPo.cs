@@ -9,17 +9,18 @@ using WMS.Core.Data;
 
 namespace Application.Services.PO
 {
-    public class SrnPo:ISrnPo
+    public class SrnPo : ISrnPo
     {
         #region Fields
         private readonly IRepository<SRNPoDb> _srnPoRepository;
-
+        private readonly IRepository<PurchaseOrderDb> _poRepository;
         #endregion
 
         #region Ctor
-        public SrnPo(IRepository<SRNPoDb> srnPoRepository)
+        public SrnPo(IRepository<SRNPoDb> srnPoRepository, IRepository<PurchaseOrderDb> poRepository)
         {
             _srnPoRepository = srnPoRepository;
+            _poRepository = poRepository;
         }
 
         //public SRNPoDb GetAll(string PoNo)
@@ -39,9 +40,11 @@ namespace Application.Services.PO
                 if (!string.IsNullOrEmpty(pono))
                 {
                     var query = from x in _srnPoRepository.Table
+                                join y in _poRepository.Table
+                                on x.PONumber equals y.PONumber
+                                where y.BranchCode == branchCode
+                                && x.PONumber == pono
                                 select x;
-                   // query = query.Where(x => x.PONumber == pono);
-                  //  query = query.Where(x => x.PONumber == pono.Trim());
                     var result = new PagedList<SRNPoDb>(query, pageIndex, pageSize);
                     return result;
                 }
@@ -66,8 +69,8 @@ namespace Application.Services.PO
         {
             _srnPoRepository.Update(salePoDb);
         }
-        
-       
+
+
 
         #endregion
     }

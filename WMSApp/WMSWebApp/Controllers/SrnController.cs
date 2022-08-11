@@ -35,7 +35,7 @@ namespace WMSWebApp.Controllers
         #endregion
 
         #region Ctor
-        public SrnController(IWorkContext workContext, IMapper mapper, ISrnPo srnPo, IPurchaseOrder purchaseOrder, 
+        public SrnController(IWorkContext workContext, IMapper mapper, ISrnPo srnPo, IPurchaseOrder purchaseOrder,
             IWarehouseService warehouseService, ISRNNoteMasterService sRNNoteMasterService, IIntrasitService intrasitService)
         {
             _srnPo = srnPo;
@@ -44,7 +44,7 @@ namespace WMSWebApp.Controllers
             _purchaseOrder = purchaseOrder;
             _warehouseService = warehouseService;
             _srnReceivedNoteMasterService = sRNNoteMasterService;
-            _intrasitService = intrasitService; 
+            _intrasitService = intrasitService;
         }
         #endregion
 
@@ -96,7 +96,7 @@ namespace WMSWebApp.Controllers
         public virtual async Task<IActionResult> PODetails(string pono)
         {
             var branch = await _workContext.GetCurrentBranch();
-            var srnData = _srnPo.GetSrnDetails(branch.BranchCode, pono, int.MaxValue).ToList();
+            var srnData = _srnPo.GetSrnDetails(branch.BranchCode, pono, 0, int.MaxValue).ToList();
             int id = 1;
             var data = new DataSourceResult()
             {
@@ -217,7 +217,7 @@ namespace WMSWebApp.Controllers
             master.InvoiceDate = DateTime.Now;
             master.BranchCode = branch.BranchCode;
             master.InvoiceNo = model.FirstOrDefault().invoice;
-           // master.SenderCompany = intranicRow.Sender_Company;
+            // master.SenderCompany = intranicRow.Sender_Company;
             foreach (var item in model)
             {
                 // intranicRow = _intrasitService.GetById(item.ItemId);

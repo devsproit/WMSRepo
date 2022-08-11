@@ -64,7 +64,7 @@ namespace Application.Services.PO
 
                     if (pono == "0")
                     {
-
+                        query = query.Where(x =>x.POCategory == "SRN PO");
                     }
                     else
                     {

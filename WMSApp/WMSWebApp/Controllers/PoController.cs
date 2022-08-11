@@ -69,7 +69,7 @@ namespace WMSWebApp.Controllers
             listSendCompany.Insert(0, new SenderCompanyNameDb { Id = 0, Sender_Company_Name = "Select" });
             listBranch.Insert(0, new Branch { Id = 0, BranchName = "Select" });
             listItem.Insert(0, new ItemDb { Id = 0, ItemName = "Select" });
-            listSubItem.Insert(0, new SubItemDb { ItemId = 0, SubItemName = "Select" });
+            listSubItem.Insert(0, new SubItemDb { Id = 0, SubItemName = "Select" });
             ViewBag.ListofSenderCompany = listSendCompany;
             ViewBag.listBranch = listBranch;
             ViewBag.listItem = listItem;
