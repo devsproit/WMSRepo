@@ -107,35 +107,36 @@ namespace WMSWebApp.Controllers
             var branch = _workContext.GetCurrentBranch().Result;
             var pos = _purchaseOrder.GetPurchaseOrders(branch.BranchCode, docType);
             List<GrnListModel> list = new List<GrnListModel>();
-            list = pos.Select(x => new GrnListModel() { PoNumber = x.PONumber }).ToList();
+            list = pos.Select(x => new GrnListModel() { PoNumber = x.PONumber, GRNId = x.Id }).ToList();
             return Json(list);
         }
 
-        [HttpGet]
-        public virtual IActionResult GetGrnProduct(int id)
-        {
-            var grnitems = _goodReceivedNoteMasterService.GetbyId(id);
-            var items = grnitems.GoodReceivedNoteDetails.ToList();
-            List<GrnItemListModel> model = new List<GrnItemListModel>();
-            foreach (var item in items)
-            {
-                GrnItemListModel m = new GrnItemListModel()
-                {
-                    Amount = item.Amount,
-                    SubItemName = item.SubItemName,
-                    AreaId = item.AreaId,
-                    GRNId = item.GRNId,
-                    Id = item.Id,
-                    ItemCode = item.ItemCode,
-                    MaterialDescription = item.MaterialDescription,
-                    Qty = item.Qty,
-                    SubItemCode = item.SubItemCode,
-                    Unit = item.Unit,
-                };
-                model.Add(m);
-            }
-            return Json(model);
-        }
+        //[HttpGet]
+        //public virtual IActionResult GetGrnProduct(int id,string category)
+        //{
+        //    var grnitems = _purchaseOrder.GetById(id);
+        //    if(category=="")
+        //    var items = grnitems.GoodReceivedNoteDetails.ToList();
+        //    List<GrnItemListModel> model = new List<GrnItemListModel>();
+        //    foreach (var item in items)
+        //    {
+        //        GrnItemListModel m = new GrnItemListModel()
+        //        {
+        //            Amount = item.Amount,
+        //            SubItemName = item.SubItemName,
+        //            AreaId = item.AreaId,
+        //            GRNId = item.GRNId,
+        //            Id = item.Id,
+        //            ItemCode = item.ItemCode,
+        //            MaterialDescription = item.MaterialDescription,
+        //            Qty = item.Qty,
+        //            SubItemCode = item.SubItemCode,
+        //            Unit = item.Unit,
+        //        };
+        //        model.Add(m);
+        //    }
+        //    return Json(model);
+        //}
 
 
         [HttpGet]
@@ -145,19 +146,20 @@ namespace WMSWebApp.Controllers
             if (docType == "StockTransfer PO")
             {
                 var items = _stockTransferPoService.GetStockTransferPos(id);
+              
                 foreach (var item in items)
                 {
                     GrnItemListModel m = new GrnItemListModel()
                     {
                         Amount = 0,
                         SubItemName = item.StockTransferPOSubItem,
-                        GRNId = item.Id,
+                        POId = id,
                         Id = item.Id,
                         ItemCode = item.StockTransferPOItem,
                         MaterialDescription = "",
                         Qty = item.StockTransferPOQty,
                         SubItemCode = item.SubItemCode,
-
+                        Location = ""
                     };
                     model.Add(m);
                 }
@@ -171,20 +173,23 @@ namespace WMSWebApp.Controllers
                     {
                         Amount = Convert.ToInt32(item.SalePOAmt),
                         SubItemName = item.SalePOSubItem,
-                        //AreaId = item.AreaId,
-                        //GRNId = item.GRNId,
+                        AreaId = 0,
+                        POId = id,
                         Id = item.Id,
                         ItemCode = item.SalePOSubItem,
                         MaterialDescription = "",
                         Qty = item.SalePOQty,
                         SubItemCode = item.SubItemCode,
+                        Location = ""
+
+
 
                     };
                     model.Add(m);
                 }
             }
             else
-                    
+
             {
                 var items = _serviceOrderPoService.GetServicePos(id);
                 foreach (var item in items)
@@ -198,7 +203,8 @@ namespace WMSWebApp.Controllers
                         MaterialDescription = "",
                         Qty = item.ServiceOrderPOQty,
                         SubItemCode = item.SubItemCode,
-
+                        Location = "",
+                        POId = id,
                     };
                     model.Add(m);
                 }

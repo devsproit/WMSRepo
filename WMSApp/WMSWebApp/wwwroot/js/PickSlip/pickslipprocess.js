@@ -43,7 +43,7 @@ $(document).ready(function () {
 
 
     $("#grn").change(function () {
-        itemList($(this).val());
+        itemList($(this).val(), $("#doctype").val());
     });
     $("#items").change(function () {
         console.log($("#items option:selected").data('areaid'));
@@ -86,34 +86,21 @@ $(document).ready(function () {
     });
 
     $("#add-new").click(function () {
-
+        var grnid = $("#grn").val();
+        var category = $("#doctype").val();
         $.ajax({
             type: "GET",
-            url: "/PickSlip/GetGrnProduct?id=" + grnid,
+            url: "/PickSlip/GetPoProduct?id=" + grnid + "&docType=" + category,
             data: "{}",
             success: function (data) {
-                for (var i = 0; i < data.length; i++) {
-                    var newRow = {
-                        Id: sn,
-                        GRN: $("#grn").val(),
-                        SubItemCode: $("#items option:selected").data('code'),
-                        SubItemName: $("#items option:selected").data("itemname"),
-                        AreaId: $("#items option:selected").data('areaid'),
-                        Location: $("#location").val(),
-                        Qty: $("#qty").val(),
-                    };
-
-                    var grid = $("#pick-grid").data("kendoGrid");
-                    grid.dataSource.add(newRow);
-                    sn++;
-                }
-                
-                
+                console.log(data);
+                var grid = $("#pick-grid").data("kendoGrid");
+                grid.dataSource.add(data);
                 toastr.success('Item  successfully added into list.');
             }
         });
 
-       
+
 
     });
 
@@ -286,9 +273,10 @@ function PoNumber(docType) {
         url: "/PickSlip/PoList?docType=" + docType,
         data: "{}",
         success: function (data) {
+            console.log(data);
             var s = '';
             for (var i = 0; i < data.length; i++) {
-                s += '<option value="' + data[i].GRNId + '" >' + data[i].GRNId + '</option>';
+                s += '<option value="' + data[i].PoNumber + '" >' + data[i].PoNumber + '</option>';
             }
             $("#grn").html(s);
             $("#grn").trigger("change");

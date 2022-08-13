@@ -49,6 +49,11 @@ namespace Application.Services.PO
 
         }
 
+        public virtual PurchaseOrderDb GetById(int id)
+        {
+            return _poRepository.GetById(id);
+        }
+
         #endregion
     }
 }
