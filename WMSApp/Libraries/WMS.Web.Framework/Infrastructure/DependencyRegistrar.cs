@@ -63,7 +63,7 @@ namespace WMS.Web.Framework.Infrastructure
             builder.RegisterType<PermissionMasterService>().As<IPermissionMasterService>().InstancePerLifetimeScope();
             builder.RegisterType<PermissionRoleMappingService>().As<IPermissionRoleMappingService>().InstancePerLifetimeScope();
             builder.RegisterType<SRNNoteMasterService>().As<ISRNNoteMasterService>().InstancePerLifetimeScope();
-            
+            builder.RegisterType<VenderVehicleService>().As<IVenderVehicleService>().InstancePerLifetimeScope();
         }
 
         public int Order => 0;

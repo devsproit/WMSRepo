@@ -123,5 +123,13 @@ namespace Application.Services
         {
             _branchRepository.Update(entity);
         }
+        public virtual Branch GetBranchByCode(string code)
+        {
+            var query = from x in _branchRepository.Table
+                        where x.BranchCode == code
+                        select x;
+            return query.FirstOrDefault();
+
+        }
     }
 }

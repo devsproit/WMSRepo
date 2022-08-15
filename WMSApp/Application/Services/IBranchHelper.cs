@@ -15,5 +15,7 @@ namespace Application.Services
         IPagedList<Branch> GetAllBranches(int pageIndex = 0, int pageSize = int.MaxValue);
         Branch GetById(int id);
         void Update(Branch entity);
+
+        Branch GetBranchByCode(string code);
     }
 }

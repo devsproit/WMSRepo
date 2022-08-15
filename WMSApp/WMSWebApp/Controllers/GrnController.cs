@@ -15,6 +15,8 @@ using System;
 using Domain.Model.GRN;
 using Application.Services.StockMgnt;
 using Domain.Model.StockManagement;
+using Application.Services.Master;
+using Application.Services;
 namespace WMSWebApp.Controllers
 {
     [Authorize]
@@ -27,10 +29,13 @@ namespace WMSWebApp.Controllers
         private readonly IWarehouseService _warehouseService;
         private readonly IGoodReceivedNoteMasterService _goodReceivedNoteMasterService;
         private readonly IItemStockService _itemStockService;
+        private readonly IVenderVehicleService _venderVehicleService;
+        private readonly IBranchHelper _branchService;
+
         #endregion
 
         #region Ctor
-        public GrnController(IIntrasitService intrasitService, IWorkContext workContext, IMapper mapper, IWarehouseService warehouseService, IGoodReceivedNoteMasterService goodReceivedNoteMasterService, IItemStockService itemStockService)
+        public GrnController(IIntrasitService intrasitService, IWorkContext workContext, IMapper mapper, IWarehouseService warehouseService, IGoodReceivedNoteMasterService goodReceivedNoteMasterService, IItemStockService itemStockService, IVenderVehicleService venderVehicleService, IBranchHelper branchService)
         {
             _intrasitService = intrasitService;
             _workContext = workContext;
@@ -38,6 +43,8 @@ namespace WMSWebApp.Controllers
             _warehouseService = warehouseService;
             _goodReceivedNoteMasterService = goodReceivedNoteMasterService;
             _itemStockService = itemStockService;
+            _venderVehicleService = venderVehicleService;
+            _branchService = branchService;
         }
         #endregion
 
@@ -47,9 +54,10 @@ namespace WMSWebApp.Controllers
             return View();
         }
 
-        public async Task<IActionResult> CreateAsync()
+        public IActionResult Create()
         {
             CreateModel model = new CreateModel();
+            model.Vehicles = _venderVehicleService.VendorVehicles().ToList();
 
             //var branch = await _workContext.GetCurrentBranch();
             //List<WarehouseModel> warehouseModel = new List<WarehouseModel>();
@@ -256,14 +264,35 @@ namespace WMSWebApp.Controllers
 
         public virtual IActionResult List()
         {
-            return View();
+            var branch = _branchService.GetAllBranches();
+            return View(branch.ToList());
         }
 
 
         [HttpPost]
-        public virtual IActionResult List(DataSourceRequest request)
+        public virtual async Task<IActionResult> List(DataSourceRequest request, string branchCode)
         {
-            return View();
+            var branch = await _workContext.GetCurrentBranch();
+            var grns = _goodReceivedNoteMasterService.GetAllMaster(branchCode, request.Page - 1, request.PageSize);
+            var gridData = new DataSourceResult()
+            {
+                Data = grns.Select(x =>
+                {
+                    GRNListReportModel m = new GRNListReportModel();
+                    m.PONo = x.PONo;
+                    m.Id = x.Id;
+                    m.InvoiceNo = x.InvoiceNo;
+                    m.InvoiceDate = x.InvoiceDate;
+                    m.BranchCode = branchCode;
+                    var branch = _branchService.GetBranchByCode(branchCode);
+                    if (branch != null)
+                        m.Branch = branch.BranchName;
+                    m.SenderCompany = x.SenderCompany;
+                    return m;
+                }),
+                Total = grns.TotalCount
+            };
+            return Json(gridData);
         }
         #endregion
 

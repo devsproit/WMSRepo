@@ -325,6 +325,7 @@ function fildetails(items) {
     $("#qtyu,#Qtysuk,#QtyD,#QtyO,#QtyI").val(items[0]['Qty']);
     $("#sendercompany").val(items[0]["SenderCompany"]);
     $("#sender").val(items[0]["Branch"]);
+    
 }
 
 function warehouse() {
