@@ -62,7 +62,7 @@
                             <div class="card-body">
                                 <div asp-validation-summary="ModelOnly" class="text-red-500"></div>
                                 <div class="row">
-                                    
+
                                     <div class="form-group col-md-2">
 
                                         <label class="control-label">Document type</label>
@@ -87,7 +87,31 @@
                                 </div>
                                 <br />
                                 <div class="row">
-                                    <div id="myGrid">
+                                    <div id="myGrid" class="col-md-7">
+                                    </div>
+                                    <div class="col-md-4">
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Vendor</label>
+                                                    <select id="vendor" class="form-control" placeholder="Vendor Name" asp-items="@(new SelectList(Model.Vehicles,"VehicleNo","VehicleNo"))">
+
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Supplying Plant</label>
+                                                    <input id="sendercompany" class="form-control" placeholder="Supplying Plant" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Sender Branch</label>
+                                                    <input id="sender" class="form-control" placeholder="sender branch" />
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
                                     </div>
                                 </div>
 
@@ -100,7 +124,7 @@
                                                 <a class="nav-item nav-link" id="nav-Quantity-tab" data-toggle="tab" href="#nav-Quantity" role="tab" aria-controls="nav-Quantity" aria-selected="false">Quantity</a>
                                                 <a class="nav-item nav-link" id="nav-Where-tab" data-toggle="tab" href="#nav-Where" role="tab" aria-controls="nav-Where" aria-selected="false">Where</a>
                                                 <a class="nav-item nav-link" id="nav-Purchase-tab" data-toggle="tab" href="#nav-Purchase" role="tab" aria-controls="nav-Purchase" aria-selected="false">Purchase Order Data</a>
-                                                <a class="nav-item nav-link" id="nav-Receiver-tab" data-toggle="tab" href="#nav-Receiver" role="tab" aria-controls="nav-Receiver" aria-selected="false">Receiver</a>
+
                                                 <a class="nav-item nav-link" id="nav-Serial-tab" data-toggle="tab" href="#nav-Serial" role="tab" aria-controls="nav-Serial" aria-selected="false">Serial Numbers</a>
                                             </div>
                                         </nav>
@@ -203,26 +227,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="tab-pane fade" id="nav-Receiver" role="tabpanel" aria-labelledby="nav-Receiver-tab">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <div class="form-group">
-                                                            <label>Vendor</label>
-                                                            <input id="vendor" class="form-control" placeholder="Vendor Name" />
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Supplying Plant</label>
-                                                            <input id="sendercompany" class="form-control" placeholder="Supplying Plant" />
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Sender Branch</label>
-                                                            <input id="sender" class="form-control" placeholder="sender branch" />
-                                                        </div>
-                                                    </div>
 
-
-                                                </div>
-                                            </div>
 
                                             <div class="tab-pane fade" id="nav-Serial" role="tabpanel" aria-labelledby="nav-Serial-tab">
                                                 <div class="row">
@@ -259,9 +264,9 @@
                     </div>
                 </div>
                 @*<div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>*@
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+            </div>*@
             </div>
         </div>
     </div>

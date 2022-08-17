@@ -81,7 +81,7 @@ namespace WMSWebApp.Controllers
             purchaseOrderViewModel.listSenderCompany = listSendCompany;
             return View();
         }
-
+        
         [HttpPost]
         public virtual async Task<IActionResult> Create([FromBody] PoViewModel poViewModel)
         {
@@ -94,6 +94,7 @@ namespace WMSWebApp.Controllers
                 purchaseOrderDb.PODate = currentDate;
                 purchaseOrderDb.PONumber = poViewModel.PONumber;
                 purchaseOrderDb.BranchCode = branch.BranchCode;
+                purchaseOrderDb.ProcessStatus = false;
                 if (poViewModel.stockTransferCategories != null)
                 {
                     _purchaseOrder.Insert(purchaseOrderDb);
@@ -171,11 +172,13 @@ namespace WMSWebApp.Controllers
                         sRNPo.SrnPOSendingTo = item.SrnPOSendingTo;
                         sRNPo.SrnPOSubItem = item.SrnPOSubItem;
                         sRNPo.PONumber = poViewModel.PONumber;
+                        sRNPo.InvoiceNo = item.InvoiceNo;
+                        sRNPo.IsProcess = false;
                         var subItem = _SubItemHelper.GetSubItemById(Convert.ToInt32(item.SubItemCode));
                         sRNPo.SubItemCode = subItem.SubItemCode;
                         _srnPo.Insert(sRNPo);
                     }
-                    _purchaseOrder.Insert(purchaseOrderDb);
+                   
                 }
 
                 return Json(new { success = true, message = "Saved Successfully" });

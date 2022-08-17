@@ -21,6 +21,7 @@ using Application.Services.PS;
 using Application.Services.Invoice;
 using Application.Services.StockMgnt;
 using Application.Services.Security;
+using Application.Services.SRN;
 #endregion
 
 
@@ -61,6 +62,8 @@ namespace WMS.Web.Framework.Infrastructure
             builder.RegisterType<UserBranchMappingService>().As<IUserBranchMappingService>().InstancePerLifetimeScope();
             builder.RegisterType<PermissionMasterService>().As<IPermissionMasterService>().InstancePerLifetimeScope();
             builder.RegisterType<PermissionRoleMappingService>().As<IPermissionRoleMappingService>().InstancePerLifetimeScope();
+            builder.RegisterType<SRNNoteMasterService>().As<ISRNNoteMasterService>().InstancePerLifetimeScope();
+            builder.RegisterType<VenderVehicleService>().As<IVenderVehicleService>().InstancePerLifetimeScope();
         }
 
         public int Order => 0;

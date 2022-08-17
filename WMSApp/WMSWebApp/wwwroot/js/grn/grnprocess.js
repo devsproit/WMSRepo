@@ -93,6 +93,7 @@ $(document).ready(function () {
                     dataType: "json",
                     data: additionalData,
                     complete: function (result) {
+                        //debugger;
                         console.log("Remote built-in transport", result);
                         if (result.status == 401) {
                             /* document.location.href = "@Html.Raw(Url.Action("Index", "AccessDenied"))";*/
@@ -324,6 +325,7 @@ function fildetails(items) {
     $("#qtyu,#Qtysuk,#QtyD,#QtyO,#QtyI").val(items[0]['Qty']);
     $("#sendercompany").val(items[0]["SenderCompany"]);
     $("#sender").val(items[0]["Branch"]);
+    
 }
 
 function warehouse() {

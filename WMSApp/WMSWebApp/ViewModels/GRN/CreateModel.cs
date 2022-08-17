@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-
+using Domain.Model.Masters;
 namespace WMSWebApp.ViewModels.GRN
 {
     public class CreateModel
@@ -15,6 +15,7 @@ namespace WMSWebApp.ViewModels.GRN
         public string acode { get; set; }
         public string Ponumber { get; set; }
         public string invoice { get; set; }
+        public List<VendorVehicle> Vehicles { get; set; }
 
     }
 }
