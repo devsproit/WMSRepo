@@ -17,6 +17,7 @@
                 //debugger;
                 //$('#SubItemId').find('option').remove()
                 console.log(data);
+                $('#subItemId').find('option').remove().end().append('<option value="0">Select</option>');
                 if (data.length != 0) {
                     $(data).each(
                         function (index, item) {

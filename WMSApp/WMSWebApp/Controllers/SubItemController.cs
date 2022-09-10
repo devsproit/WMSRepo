@@ -42,7 +42,7 @@ namespace WMSWebApp.Controllers
             }
             catch (Exception ex)
             {
-
+                throw ex;
             }
             return View(SubItem);
         }
@@ -56,7 +56,7 @@ namespace WMSWebApp.Controllers
                 ItemId = 1,
                 MaterialDescription = "Test",
                 SubItemSize = "Test",
-                FOC = false,
+                FOC = "false",
                 SubItemCategory = "Test",
                 SubItemSR = "Test",
 

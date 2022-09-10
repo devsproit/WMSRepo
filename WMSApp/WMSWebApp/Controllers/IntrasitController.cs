@@ -247,7 +247,7 @@ namespace WMSWebApp.Controllers
             using (var workbook = new XLWorkbook())
             {
                 IXLWorksheet worksheet =
-                workbook.Worksheets.Add("Authors");
+                workbook.Worksheets.Add("Sheet1");
                 worksheet.Cell(1, 1).Value = "LoginBranchId";
                 worksheet.Cell(1, 2).Value = "SenderCompanyId";
                 worksheet.Cell(1, 3).Value = "Branch";
