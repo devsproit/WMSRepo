@@ -13,6 +13,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using WMS.Data;
 using WMSWebApp.ViewModels;
 using static System.Net.WebRequestMethods;
 
@@ -22,7 +23,7 @@ namespace WMSWebApp.Controllers
     {
         private readonly IIntrasitHelper _IntrasitHelper;
         private readonly IMapper _mapper;
-
+        private readonly IWorkContext _workContext;
         public IntrasitController(IIntrasitHelper intrasitHelper, IMapper mapper)
         {
             _IntrasitHelper = intrasitHelper;
@@ -111,6 +112,7 @@ namespace WMSWebApp.Controllers
             try
             {
                 // var intrasit = _mapper.Map<IntrasitDb>(intrasitc);
+                var branch = _workContext.GetCurrentBranch().Result;
                 foreach (var item in intransitViewModel.intrasitcList)
                 {
                     IntrasitDb intrasitDb = new IntrasitDb();
@@ -124,7 +126,7 @@ namespace WMSWebApp.Controllers
                     intrasitDb.Amt = item.Amt;
                     intrasitDb.Qty = item.Qty;
                     intrasitDb.Item_Code = item.ItemCode;
-                    intrasitDb.Login_Branch = null;
+                    intrasitDb.Login_Branch = branch.BranchName;
                     _IntrasitHelper.CreateNewIntrasit(intrasitDb);
                 }
                 return Json(new { success = true, message = "Saved Successfully" });
