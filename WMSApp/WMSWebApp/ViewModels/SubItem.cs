@@ -27,7 +27,7 @@ namespace WMSWebApp.ViewModels
         public string SubItemSize { get; set; }
 
         [Display(Name = "SubItem FOC")]
-        public bool FOC { get; set; }
+        public string FOC { get; set; }
 
         [Display(Name = "SubItem Category")]
         public string SubItemCategory { get; set; }

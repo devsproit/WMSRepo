@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WMS.Data;
+using WMS.Web.Framework.Infrastructure.Extentsion;
 using WMSWebApp.ViewModels.PO;
 
 namespace WMSWebApp.Controllers
@@ -57,6 +58,39 @@ namespace WMSWebApp.Controllers
         {
             return View();
         }
+        //public virtual IActionResult List(DataSourceRequest request, string guid)
+        //{
+        //    var result = _tempPickSlipDetailsService.GetAllTemp(guid, request.Page - 1, request.PageSize);
+        //    var gridData = new DataSourceResult()
+        //    {
+        //        Data = result.Select(x =>
+        //        {
+        //            PickslipDetailModel m = new PickslipDetailModel();
+        //            m.Qty = x.Qty;
+        //            //m.Unit = x.Unit;
+        //            m.PickSlipId = x.PickSlipId;
+        //            //m.Amount = x.Amount;
+        //            m.AreaId = x.AreaId;
+        //            var area = _warehouseService.GetWarehouseZoneAreaById(x.AreaId);
+        //            if (area != null)
+        //            {
+        //                var zone = _warehouseService.GetZoneById(area.ZoneId);
+        //                m.Location = $"Zone-{zone.ZoneName} Area- {area.AreaName}";
+        //            }
+        //            m.ItemCode = x.ItemCode;
+        //            m.SubItemName = x.SubItemName;
+        //            m.SubItemCode = x.SubItemCode;
+        //            m.Guid = x.Guid;
+        //            m.Id = x.Id;
+        //            m.GRN = x.GRNId;
+        //            return m;
+        //        }),
+
+        //        Total = result.TotalCount
+        //    };
+
+        //    return Json(gridData);
+        //}
 
         public ActionResult Create()
         {
