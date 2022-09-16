@@ -15,7 +15,9 @@ namespace Application.Services.StockMgnt
         IPagedList<InventoryStock> GetItemStocks(int warehouse = 0, string itemCode = "", int pageIndex = 0, int pageSize = int.MaxValue);
         IPagedList<InventoryStock> GetItemStocks(int branchId, int pageIndex = 0, int pageSize = int.MaxValue);
         InventoryStock ItemByCode(string itemCode, int warehouse);
+        List<InventoryStock> ItemsByCode(string itemCode, int warehouse, bool avaibaleStock = true);
         InventoryStock GetById(int id);
+        
 
     }
 }

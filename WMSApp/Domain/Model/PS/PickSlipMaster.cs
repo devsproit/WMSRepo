@@ -11,6 +11,7 @@ namespace Domain.Model.PS
         public string PickSlipName { get; set; }
         public string BranchCode { get; set; }
         public DateTime CreateOn { get; set; }
+        public string DockType { get; set; }
 
         private ICollection<PickSlipDetails> _pickSlipDetails;
         public virtual ICollection<PickSlipDetails> PickSlipDetails

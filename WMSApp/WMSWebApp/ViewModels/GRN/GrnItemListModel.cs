@@ -14,5 +14,8 @@
         public decimal Amount { get; set; }
         public int AreaId { get; set; }
         public string Location { get; set; }
+        public int InventoryId { get; set; }
+
+        public string DockType { get; set; }
     }
 }

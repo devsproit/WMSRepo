@@ -57,9 +57,24 @@ $(document).ready(function () {
 
             var list = [];
             for (var i = 0; i < items.length; i++) {
-                list.push[items[i].init];
+                var location = {};
+                location["Amount"] = items[i].Amount;
+                location["AreaId"] = items[i].AreaId;
+                location["Id"] = items[i].Id;
+                location["InventoryId"] = items[i].InventoryId;
+                location["ItemCode"] = items[i].ItemCode;
+                location["Location"] = items[i].Location;
+                location["MaterialDescription"] = items[i].MaterialDescription;
+                location["POId"] = items[i].POId;
+                location["Qty"] = items[i].Qty;
+                location["SubItemCode"] = items[i].SubItemCode;
+                location["SubItemName"] = items[i].SubItemName;
+                location["Unit"] = items[i].Unit;
+                location["DockType"] = $("#doctype").val();
+                list.push(location);
+                console.log(items[i].AreaId);
             }
-
+            console.log(list);
             var settings = {
                 "url": "/PickSlip/Save",
                 "method": "POST",
@@ -95,12 +110,10 @@ $(document).ready(function () {
             success: function (data) {
                 console.log(data);
                 var grid = $("#pick-grid").data("kendoGrid");
-                grid.dataSource.add(data);
+                grid.dataSource.add(data[0]);
                 toastr.success('Item  successfully added into list.');
             }
         });
-
-
 
     });
 
@@ -126,9 +139,27 @@ $(document).ready(function () {
                 }
             },
             schema: {
-                data: "Data",
                 total: "Total",
-                errors: "Errors"
+                errors: "Errors",
+                data: "Data",
+                model: {
+                    id: "Id",
+                    field: {
+                        POId: { editable: false },
+                        SubItemCode: { editable: false },
+                        SubItemName: { editable: false },
+                        AreaId: { editable: false },
+                        Qty: { editable: false },
+                        POId: { editable: false },
+                        Location: {
+                            defaultValue: {
+                                AreaId: 0,
+                                Location: ""
+                            }
+                        }
+                    }
+                },
+
             },
             error: function (e) {
                 //display_kendoui_grid_error(e);
@@ -159,7 +190,7 @@ $(document).ready(function () {
             refresh: true,
             pageSizes: true
         },
-
+        editable: "incell",
         scrollable: false,
         columns: [{
             field: "Id",
@@ -168,8 +199,8 @@ $(document).ready(function () {
             width: 50
         },
         {
-            field: "PONumber",
-            title: "PONumber",
+            field: "POId",
+            title: "POId",
             width: 100
         },
         {
@@ -190,7 +221,9 @@ $(document).ready(function () {
         {
             field: "Location",
             title: "Location",
-            width: 300
+            width: 300,
+            editor: clientLocationEditor,
+            //template: "#: CargoTypeText #"
         },
         {
             field: "Qty",
@@ -198,6 +231,12 @@ $(document).ready(function () {
             encoded: false,
             width: 120
         },
+        {
+            field: "InventoryId",
+            title: "InventoryId",
+
+        },
+        { command: "destroy", title: "&nbsp;", width: 120 }
             //{
             //    field: "Unit",
             //    title: "Unit",
@@ -223,7 +262,38 @@ $(document).ready(function () {
 });
 
 
+function clientLocationEditor(container, options) {
+    console.log(options.model["SubItemCode"]);
+    $('<input required name="' + options.field + '">')
+        .appendTo(container)
+        .kendoDropDownList({
+            dataTextField: "Location",
+            dataValueField: "Location",
+            //template: "<div class='dropdown-country-wrap'><img src='../content/web/country-flags/#:CountryNameShort#.png' alt='#: CountryNameLong#' title='#: CountryNameLong#' width='30' /><span>#:CountryNameLong #</span></div>",
+            change: function (e) {
+                //var ddl = this;
+                //var value = ddl.dataItem().value;
+                //var editedRow = ddl.element.closest("tr");
+                var grid = $('#grid').data('kendoGrid');
+                //var model = grid.editable.options.model;
+                console.log(e.sender.dataItem().AreaId);
+                options.model.set("AreaId", e.sender.dataItem().AreaId);
+                options.model.set("InventoryId", e.sender.dataItem().InventoryId);
 
+                //model.set("AreaId", value);
+            },
+            dataSource: {
+                dataValueField: "Location",
+                transport: {
+                    read: {
+                        url: "/PickSlip/GetLocation?SubItemCode=" + options.model["SubItemCode"],
+                        dataType: "json"
+                    }
+                }
+            },
+            autoWidth: true
+        });
+}
 function additionalData() {
     var data = {
 
