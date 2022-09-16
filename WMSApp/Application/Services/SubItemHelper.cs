@@ -7,6 +7,8 @@ using Domain.Model;
 using WMS.Core.Data;
 using System.Collections.Generic;
 using System.Linq;
+using WMS.Core;
+
 namespace Application.Services
 {
 
@@ -129,8 +131,15 @@ namespace Application.Services
             return data.FirstOrDefault();
         }
 
+        public virtual IPagedList<SubItemDb> GetAllTemp(string PoCat , int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = from x in _subItemRepository.Table
+                        select x;
+            query = query.Where(x => x.FOC == PoCat);
+            var result = new PagedList<SubItemDb>(query, pageIndex, pageSize);
+            return result;
+        }
 
-        
 
     }
 }

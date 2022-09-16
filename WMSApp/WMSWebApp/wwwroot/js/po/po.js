@@ -328,124 +328,14 @@
 
         })
     });
-
+    
     $('#sopSaleDate').datepicker({
         changeMonth: true,
         changeYear: true,
         format: "dd/mm/yyyy",
         language: "tr"
     });
-
-    $("#pick-grid").kendoGrid({
-
-
-        dataSource: {
-
-            transport: {
-                read: {
-                    url: "/Po/List",
-                    type: "POST",
-                    dataType: "json",
-                    data: additionalData,
-                    complete: function (result) {
-                        console.log("Remote built-in transport", result);
-                        if (result.status == 401) {
-                            /* document.location.href = "@Html.Raw(Url.Action("Index", "AccessDenied"))";*/
-                        }
-                    }
-
-                }
-            },
-            schema: {
-                data: "Data",
-                total: "Total",
-                errors: "Errors"
-            },
-            error: function (e) {
-                //display_kendoui_grid_error(e);
-                // Cancel the changes
-                console.log(e)
-                this.cancelChanges();
-            },
-            pageSize: 20,
-            sortable: true,
-            serverPaging: true,
-            serverSorting: true,
-            requestStart: function () {
-                if (initialLoad) //<-- if it's the initial load, manually start the spinner
-                    kendo.ui.progress($("#booking-grid"), true);
-            },
-            requestEnd: function () {
-                if (initialLoad)
-                    kendo.ui.progress($("#booking-grid"), false);
-                initialLoad = false; //<-- make sure the spinner doesn't fire again (that would produce two spinners instead of one)
-
-            },
-
-        },
-        //selectable: 'raw',
-        //change: onChange,
-        height: 350,
-        pageable: {
-            refresh: true,
-            pageSizes: true
-        },
-
-        scrollable: false,
-        columns: [{
-            field: "Id",
-            title: "Id",
-
-            width: 50
-        },
-        {
-            field: "PONumber",
-            title: "PONumber",
-            width: 100
-        },
-        {
-            field: "SubItemCode",
-            title: "SubItemCode",
-            width: 100
-        },
-
-        {
-            field: "SubItemName",
-            title: "SubItemName",
-            width: 120
-        },
-        {
-            field: "AreaId",
-            title: "AreaId",
-        },
-        {
-            field: "Location",
-            title: "Location",
-            width: 300
-        },
-        {
-            field: "Qty",
-            title: "Qty",
-            encoded: false,
-            width: 120
-        },
-            //{
-            //    field: "Unit",
-            //    title: "Unit",
-            //    width: 100
-            //},
-
-
-            //{
-            //    field: "Amt",
-            //    title: "Amt",
-            //    width: 100
-            //},
-
-
-        ],
-
-    });
+  
 });
 
 

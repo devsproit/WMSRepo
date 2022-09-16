@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WMS.Data;
 using WMS.Web.Framework.Infrastructure.Extentsion;
@@ -58,39 +59,36 @@ namespace WMSWebApp.Controllers
         {
             return View();
         }
-        //public virtual IActionResult List(DataSourceRequest request, string guid)
-        //{
-        //    var result = _tempPickSlipDetailsService.GetAllTemp(guid, request.Page - 1, request.PageSize);
-        //    var gridData = new DataSourceResult()
-        //    {
-        //        Data = result.Select(x =>
-        //        {
-        //            PickslipDetailModel m = new PickslipDetailModel();
-        //            m.Qty = x.Qty;
-        //            //m.Unit = x.Unit;
-        //            m.PickSlipId = x.PickSlipId;
-        //            //m.Amount = x.Amount;
-        //            m.AreaId = x.AreaId;
-        //            var area = _warehouseService.GetWarehouseZoneAreaById(x.AreaId);
-        //            if (area != null)
-        //            {
-        //                var zone = _warehouseService.GetZoneById(area.ZoneId);
-        //                m.Location = $"Zone-{zone.ZoneName} Area- {area.AreaName}";
-        //            }
-        //            m.ItemCode = x.ItemCode;
-        //            m.SubItemName = x.SubItemName;
-        //            m.SubItemCode = x.SubItemCode;
-        //            m.Guid = x.Guid;
-        //            m.Id = x.Id;
-        //            m.GRN = x.GRNId;
-        //            return m;
-        //        }),
+        [HttpPost]
+        public virtual IActionResult List(DataSourceRequest request, string category)
+        {
+            switch (category)
+            {
+                case "StockTransfer PO":
+                    var result = _stockTransferPo.GetDetails(category,request.Page - 1, request.PageSize);
+                    var gridData = new DataSourceResult()
+                    {
+                        Data = result.Select(x =>
+                        {
+                            StockTransferCategory m = new StockTransferCategory();
+                            m.StockTransferPOCategory = x.StockTransferPOCategory;
+                            m.StockTransferPOSendingTo = x.StockTransferPOSendingTo;
+                            m.StockTransferPOItem = x.StockTransferPOItem;
+                            m.StockTransferPOSubItem = x.StockTransferPOSubItem;
+                            m.StockTransferPOQty = x.StockTransferPOQty;
+                            m.StockTransferPOAmt = x.StockTransferPOAmt;
+                            m.StockTransferPOSerialNumber = x.StockTransferPOSerialNumber;
+                            return m;
+                        }),
 
-        //        Total = result.TotalCount
-        //    };
-
-        //    return Json(gridData);
-        //}
+                        Total = result.TotalCount
+                    };
+                    return Json(gridData);
+                 
+            }
+           
+            return Json("");
+        }
 
         public ActionResult Create()
         {
