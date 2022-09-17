@@ -288,6 +288,11 @@ namespace WMSWebApp.Controllers
             return Json(gridData);
         }
 
+        public virtual IActionResult Test()
+        {
+            return View();
+        }
+
         #endregion
 
 
