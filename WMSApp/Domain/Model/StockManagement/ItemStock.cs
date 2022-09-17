@@ -21,5 +21,6 @@ namespace Domain.Model.StockManagement
         public int Qty { get; set; }
         public DateTime LastUpdate { get; set; }
         public int WarehouseId { get; set; }
+        public int AreaId { get; set; }
     }
 }

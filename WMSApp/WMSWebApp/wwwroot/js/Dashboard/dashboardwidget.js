@@ -43,6 +43,7 @@
                 console.log(e)
                 this.cancelChanges();
             },
+            
             pageSize: 20,
             sortable: true,
             serverPaging: true,
@@ -169,7 +170,7 @@
             refresh: true,
             pageSizes: true
         },
-
+        resizable: true,
         scrollable: true,
         columns: [{
             field: "Id",

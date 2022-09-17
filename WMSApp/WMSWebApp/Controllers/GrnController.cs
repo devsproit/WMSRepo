@@ -245,7 +245,8 @@ namespace WMSWebApp.Controllers
             foreach (var item in model)
             {
                 intranicRow = _intrasitService.GetById(item.ItemId);
-                AddUpdateStock(intranicRow.SubItem_Code, item.WarehouseId, Convert.ToInt32(intranicRow.Qty));
+                int areaId = master.GoodReceivedNoteDetails.FirstOrDefault(x => x.SubItemCode == intranicRow.SubItem_Code).AreaId;
+                AddUpdateStock(intranicRow.SubItem_Code, item.WarehouseId, Convert.ToInt32(intranicRow.Qty), areaId);
 
             }
             foreach (var item in model)
@@ -297,25 +298,32 @@ namespace WMSWebApp.Controllers
         #endregion
 
         #region Utilities
-        protected void AddUpdateStock(string itemCode, int warehouseId, int qty)
+        protected void AddUpdateStock(string itemCode, int warehouseId, int qty, int areaId)
         {
-            var stock = _itemStockService.ItemByCode(itemCode, warehouseId);
-            if (stock != null)
-            {
-                var item = _itemStockService.GetById(stock.Id);
-                item.Qty = item.Qty + qty;
-                item.LastUpdate = DateTime.Now;
-                _itemStockService.Update(item);
-            }
-            else
-            {
-                var item = new InventoryStock();
-                item.WarehouseId = warehouseId;
-                item.ItemCode = itemCode;
-                item.LastUpdate = DateTime.Now;
-                item.Qty = qty;
-                _itemStockService.Insert(item);
-            }
+            //var stock = _itemStockService.ItemByCode(itemCode, warehouseId);
+            //if (stock != null)
+            //{
+            //    var item = _itemStockService.GetById(stock.Id);
+            //    item.Qty = item.Qty + qty;
+            //    item.LastUpdate = DateTime.Now;
+            //    _itemStockService.Update(item);
+            //}
+            //else
+            //{
+            //    var item = new InventoryStock();
+            //    item.WarehouseId = warehouseId;
+            //    item.ItemCode = itemCode;
+            //    item.LastUpdate = DateTime.Now;
+            //    item.Qty = qty;
+            //    _itemStockService.Insert(item);
+            //}
+            var item = new InventoryStock();
+            item.WarehouseId = warehouseId;
+            item.ItemCode = itemCode;
+            item.LastUpdate = DateTime.Now;
+            item.Qty = qty;
+            item.AreaId = areaId;
+            _itemStockService.Insert(item);
         }
         #endregion
 

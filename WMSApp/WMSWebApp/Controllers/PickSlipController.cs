@@ -13,6 +13,10 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using WMSWebApp.ViewModels.GRN;
 using Application.Services.PO;
+using Application.Services.StockMgnt;
+using Domain.Model;
+using Domain.Model.Masters;
+
 namespace WMSWebApp.Controllers
 {
     [Authorize]
@@ -25,7 +29,7 @@ namespace WMSWebApp.Controllers
         private readonly IWarehouseService _warehouseService;
         private readonly IGoodReceivedNoteMasterService _goodReceivedNoteMasterService;
         private readonly IWorkContext _workContext;
-
+        private readonly IItemStockService _itemStockService;
         private readonly IPurchaseOrder _purchaseOrder;
         private readonly ISalePo _salePoService;
         private readonly IServiceOrderPo _serviceOrderPoService;
@@ -35,7 +39,7 @@ namespace WMSWebApp.Controllers
         #endregion
 
         #region Ctor
-        public PickSlipController(ITempPickSlipDetailsService tempPickSlipDetailsService, IPickSlipService pickSlipService, IWarehouseService warehouseService, IGoodReceivedNoteMasterService goodReceivedNoteMasterService, IWorkContext workContext, IPurchaseOrder purchaseOrder, ISalePo salePoService, IServiceOrderPo serviceOrderPoService, IStockTransferPo stockTransferPoService)
+        public PickSlipController(ITempPickSlipDetailsService tempPickSlipDetailsService, IPickSlipService pickSlipService, IWarehouseService warehouseService, IGoodReceivedNoteMasterService goodReceivedNoteMasterService, IWorkContext workContext, IPurchaseOrder purchaseOrder, ISalePo salePoService, IServiceOrderPo serviceOrderPoService, IStockTransferPo stockTransferPoService, IItemStockService itemStockService)
         {
             _tempPickSlipDetailsService = tempPickSlipDetailsService;
             _pickSlipService = pickSlipService;
@@ -46,6 +50,7 @@ namespace WMSWebApp.Controllers
             _salePoService = salePoService;
             _serviceOrderPoService = serviceOrderPoService;
             _stockTransferPoService = stockTransferPoService;
+            _itemStockService = itemStockService;
         }
         #endregion
 
@@ -56,35 +61,17 @@ namespace WMSWebApp.Controllers
         }
 
 
+        
+
         public virtual IActionResult List(DataSourceRequest request, string guid)
         {
-            var result = _tempPickSlipDetailsService.GetAllTemp(guid, request.Page - 1, request.PageSize);
+            List<PickslipDetailModel> result = new List<PickslipDetailModel>();
+            // var result = _tempPickSlipDetailsService.GetAllTemp(guid, request.Page - 1, request.PageSize);
             var gridData = new DataSourceResult()
             {
-                Data = result.Select(x =>
-                {
-                    PickslipDetailModel m = new PickslipDetailModel();
-                    m.Qty = x.Qty;
-                    //m.Unit = x.Unit;
-                    m.PickSlipId = x.PickSlipId;
-                    //m.Amount = x.Amount;
-                    m.AreaId = x.AreaId;
-                    var area = _warehouseService.GetWarehouseZoneAreaById(x.AreaId);
-                    if (area != null)
-                    {
-                        var zone = _warehouseService.GetZoneById(area.ZoneId);
-                        m.Location = $"Zone-{zone.ZoneName} Area- {area.AreaName}";
-                    }
-                    m.ItemCode = x.ItemCode;
-                    m.SubItemName = x.SubItemName;
-                    m.SubItemCode = x.SubItemCode;
-                    m.Guid = x.Guid;
-                    m.Id = x.Id;
-                    m.GRN = x.GRNId;
-                    return m;
-                }),
+                Data = result,
 
-                Total = result.TotalCount
+                Total = result.Count,
             };
 
             return Json(gridData);
@@ -107,58 +94,61 @@ namespace WMSWebApp.Controllers
             var branch = _workContext.GetCurrentBranch().Result;
             var pos = _purchaseOrder.GetPurchaseOrders(branch.BranchCode, docType);
             List<GrnListModel> list = new List<GrnListModel>();
-            list = pos.Select(x => new GrnListModel() { PoNumber = x.PONumber }).ToList();
+            list = pos.Select(x => new GrnListModel() { PoNumber = x.PONumber, GRNId = x.Id }).ToList();
             return Json(list);
         }
 
-        [HttpGet]
-        public virtual IActionResult GetGrnProduct(int id)
-        {
-            var grnitems = _goodReceivedNoteMasterService.GetbyId(id);
-            var items = grnitems.GoodReceivedNoteDetails.ToList();
-            List<GrnItemListModel> model = new List<GrnItemListModel>();
-            foreach (var item in items)
-            {
-                GrnItemListModel m = new GrnItemListModel()
-                {
-                    Amount = item.Amount,
-                    SubItemName = item.SubItemName,
-                    AreaId = item.AreaId,
-                    GRNId = item.GRNId,
-                    Id = item.Id,
-                    ItemCode = item.ItemCode,
-                    MaterialDescription = item.MaterialDescription,
-                    Qty = item.Qty,
-                    SubItemCode = item.SubItemCode,
-                    Unit = item.Unit,
-                };
-                model.Add(m);
-            }
-            return Json(model);
-        }
+        //[HttpGet]
+        //public virtual IActionResult GetGrnProduct(int id,string category)
+        //{
+        //    var grnitems = _purchaseOrder.GetById(id);
+        //    if(category=="")
+        //    var items = grnitems.GoodReceivedNoteDetails.ToList();
+        //    List<GrnItemListModel> model = new List<GrnItemListModel>();
+        //    foreach (var item in items)
+        //    {
+        //        GrnItemListModel m = new GrnItemListModel()
+        //        {
+        //            Amount = item.Amount,
+        //            SubItemName = item.SubItemName,
+        //            AreaId = item.AreaId,
+        //            GRNId = item.GRNId,
+        //            Id = item.Id,
+        //            ItemCode = item.ItemCode,
+        //            MaterialDescription = item.MaterialDescription,
+        //            Qty = item.Qty,
+        //            SubItemCode = item.SubItemCode,
+        //            Unit = item.Unit,
+        //        };
+        //        model.Add(m);
+        //    }
+        //    return Json(model);
+        //}
 
 
         [HttpGet]
         public virtual IActionResult GetPoProduct(string id, string docType)
         {
+            var branch = _workContext.GetCurrentBranch().Result;
             List<GrnItemListModel> model = new List<GrnItemListModel>();
             if (docType == "StockTransfer PO")
             {
                 var items = _stockTransferPoService.GetStockTransferPos(id);
+
                 foreach (var item in items)
                 {
-                    GrnItemListModel m = new GrnItemListModel()
-                    {
-                        Amount = 0,
-                        SubItemName = item.StockTransferPOSubItem,
-                        GRNId = item.Id,
-                        Id = item.Id,
-                        ItemCode = item.StockTransferPOItem,
-                        MaterialDescription = "",
-                        Qty = item.StockTransferPOQty,
-                        SubItemCode = item.SubItemCode,
+                    GrnItemListModel m = new GrnItemListModel();
 
-                    };
+                    m.Amount = 0;
+                    m.SubItemName = item.StockTransferPOSubItem;
+                    m.POId = id;
+                    m.Id = item.Id;
+                    m.ItemCode = item.StockTransferPOItem;
+                    m.MaterialDescription = "";
+                    m.Qty = item.StockTransferPOQty;
+                    m.SubItemCode = item.SubItemCode;
+                    m.Location = "";
+                    m.Unit = "";
                     model.Add(m);
                 }
             }
@@ -167,24 +157,35 @@ namespace WMSWebApp.Controllers
                 var items = _salePoService.GetSalePos(id);
                 foreach (var item in items)
                 {
-                    GrnItemListModel m = new GrnItemListModel()
-                    {
-                        Amount = Convert.ToInt32(item.SalePOAmt),
-                        SubItemName = item.SalePOSubItem,
-                        //AreaId = item.AreaId,
-                        //GRNId = item.GRNId,
-                        Id = item.Id,
-                        ItemCode = item.SalePOSubItem,
-                        MaterialDescription = "",
-                        Qty = item.SalePOQty,
-                        SubItemCode = item.SubItemCode,
+                    GrnItemListModel m = new GrnItemListModel();
 
-                    };
+                    m.Amount = Convert.ToInt32(item.SalePOAmt);
+                    m.SubItemName = item.SalePOSubItem;
+
+                    m.POId = id;
+                    m.Id = item.Id;
+                    m.ItemCode = item.SalePOSubItem;
+                    var location = _itemStockService.ItemsByCode(item.SubItemCode, branch.BranchWiseWarehouses.FirstOrDefault().WarehouseId);
+                    if (location != null)
+                    {
+                        var warehouse = _warehouseService.GetWarehouseZoneAreaById(location.FirstOrDefault().AreaId);
+                        m.Location = warehouse.AreaName;
+                        m.AreaId = warehouse.Id;
+                        m.InventoryId = location.FirstOrDefault().Id;
+                    }
+                    m.MaterialDescription = "";
+                    m.Qty = item.SalePOQty;
+                    m.SubItemCode = item.SubItemCode;
+                    m.Unit = "";
+
+
+
+
                     model.Add(m);
                 }
             }
             else
-                    
+
             {
                 var items = _serviceOrderPoService.GetServicePos(id);
                 foreach (var item in items)
@@ -198,7 +199,8 @@ namespace WMSWebApp.Controllers
                         MaterialDescription = "",
                         Qty = item.ServiceOrderPOQty,
                         SubItemCode = item.SubItemCode,
-
+                        Location = "",
+                        POId = id,
                     };
                     model.Add(m);
                 }
@@ -207,24 +209,90 @@ namespace WMSWebApp.Controllers
 
         }
         [HttpGet]
-        public virtual IActionResult GetLocation(int areaId)
+        public virtual IActionResult GetLocation(string SubItemCode)
         {
-            string location = "";
-            var area = _warehouseService.GetWarehouseZoneAreaById(areaId);
-            if (area != null)
+            var branch = _workContext.GetCurrentBranch().Result;
+            var location = _itemStockService.ItemsByCode(SubItemCode, branch.BranchWiseWarehouses.FirstOrDefault().WarehouseId);
+            List<LocationList> locations = new List<LocationList>();
+            if (location != null)
             {
-                var zone = _warehouseService.GetZoneById(area.ZoneId);
-                location = $"Zone-{zone.ZoneName} Area- {area.AreaName}";
+                foreach (var item in location)
+                {
+                    LocationList locationList = new LocationList();
+                    var warehouse = _warehouseService.GetWarehouseZoneAreaById(item.AreaId);
+
+                    locationList.Location = warehouse.AreaName;
+                    locationList.AreaId = warehouse.Id;
+                    locationList.InventoryId = item.Id;
+                    locations.Add(locationList);
+                }
+
             }
-            return Json(location);
+            return Json(locations);
         }
 
         [HttpPost]
-        public virtual IActionResult Save(PickslipDetailModel model)
+        public virtual IActionResult Save([FromBody] List<GrnItemListModel> model)
         {
+            if (model.Count > 0)
+            {
+                var branch = _workContext.GetCurrentBranch().Result;
+                PickSlipMaster master = new PickSlipMaster();
+                master.PickSlipName = "";
+                master.CreateOn = DateTime.Now;
+                master.BranchCode = branch.BranchCode;
+                master.DockType = model.FirstOrDefault().DockType;
+                foreach (var item in model)
+                {
+                    PickSlipDetails details = new PickSlipDetails();
+                    details.Qty = item.Qty;
+                    details.SubItemName = item.SubItemName;
+                    details.AreaId = item.AreaId;
+                    details.Amount = item.Amount;
+                    details.InventoryId = item.InventoryId;
+                    details.ItemCode = item.ItemCode;
+                    details.PickSlipMaster = master;
+                    details.SubItemCode = item.SubItemCode;
+                    details.Unit = item.Unit;
+                    master.PickSlipDetails.Add(details);
 
-            return Json(true);
+                }
+                _pickSlipService.Insert(master);
+                return Json(true);
+            }
+            else
+            {
+                return Json(false);
+            }
+
         }
+
+
+        public virtual IActionResult PickSlipList()
+        {
+            return View();
+
+        }
+
+        [HttpPost]
+        public IActionResult PickSlipList(DataSourceRequest request)
+        {
+            var result = _pickSlipService.GetPickSlipMasters("", request.Page - 1, request.PageSize);
+            var gridData = new DataSourceResult()
+            {
+                Data = result,
+
+                Total = result.Count,
+            };
+
+            return Json(gridData);
+        }
+
+        public virtual IActionResult Test()
+        {
+            return View();
+        }
+
         #endregion
 
 

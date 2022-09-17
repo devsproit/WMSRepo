@@ -8,6 +8,8 @@ using WMS.Core;
 using Domain.Model.StockManagement;
 using Domain.Model;
 using Domain.Model.Masters;
+using Microsoft.EntityFrameworkCore.Internal;
+
 namespace Application.Services.StockMgnt
 {
     public partial class ItemStockService : IItemStockService
@@ -63,7 +65,7 @@ namespace Application.Services.StockMgnt
                          select x.WarehouseId;
 
             var query = from x in _itemStockRepository.Table
-                       
+
                         select x;
             query = query.Where(x => branch.Contains(x.WarehouseId));
             query = query.OrderByDescending(x => x.Id);
@@ -86,6 +88,19 @@ namespace Application.Services.StockMgnt
 
             return query.FirstOrDefault();
 
+        }
+        public virtual List<InventoryStock> ItemsByCode(string itemCode, int warehouse, bool avaibaleStock = true)
+        {
+            var query = from x in _itemStockRepository.Table
+                        where x.ItemCode == itemCode && x.WarehouseId == warehouse
+                        select x;
+            if (avaibaleStock)
+            {
+                query = query.Where(x => x.Qty > 0);
+            }
+            
+
+            return query.ToList();
         }
         #endregion
     }

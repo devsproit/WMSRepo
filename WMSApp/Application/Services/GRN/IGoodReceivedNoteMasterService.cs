@@ -13,6 +13,7 @@ namespace Application.Services.GRN
         void Insert(GoodReceivedNoteMaster entiry);
         void Update(GoodReceivedNoteMaster entiry);
         GoodReceivedNoteMaster GetbyId(int id);
+        
         IPagedList<GoodReceivedNoteMaster> GetAllMaster(string branch, int pageIndex = 0, int pageSize = int.MaxValue);
 
         IPagedList<Stocks> GetStocks(string branchcode, string itemcode = null, int pageIndex = 0, int pageSize = int.MaxValue);

@@ -17,7 +17,7 @@ namespace Domain.Model.PS
         public decimal Amount { get; set; }
         public int AreaId { get; set; }
         public int PickSlipId { get; set; }
-
+        public int InventoryId { get; set; }
         public virtual PickSlipMaster PickSlipMaster { get; set; }
              
 
