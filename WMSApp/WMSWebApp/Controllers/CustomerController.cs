@@ -100,8 +100,24 @@ namespace WMSWebApp.Controllers
             var c = new Customer();
             try
             {
+                List<string> dlist = new List<string>();
                 var data = _CustomerHelper.GetCustomerById(id);
                 c = _mapper.Map<Customer>(data);
+                Root districtslist = new Root();
+                HttpClient client = new HttpClient();
+                string apiUrl = Configuration.GetValue<string>("districtUrl");
+                HttpResponseMessage response = client.GetAsync(apiUrl).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    districtslist = JsonConvert.DeserializeObject<Root>(response.Content.ReadAsStringAsync().Result);
+                }
+                foreach(var district in districtslist.districts)
+                {
+                    dlist.Add(district.district_name);
+                }
+               // string v = districtslist.ToString();
+                c.DistrictList = dlist;
+                c.Selected = data.Id;
             }
             catch (Exception)
             {

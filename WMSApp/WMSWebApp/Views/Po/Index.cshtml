@@ -68,10 +68,10 @@
                                 <div class="form-group">
                                     <label>Doc Type</label>
                                     <select class="form-control" id="doctypelist">
-                                       @* <option value="Select">Select</option>*@
+                                        @* <option value="Select">Select</option>*@
                                         <option value="StockTransfer PO">StockTransfer PO</option>
                                         <option value="Sale PO">Sale PO</option>
-                                        <option value="SRN_PO">SRN PO</option>
+                                        <option value="SRN PO">SRN PO</option>
                                         <option value="ServiceOrder PO">ServiceOrder PO</option>
                                     </select>
                                 </div>
@@ -117,13 +117,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer">
+                    @*  <div class="card-footer">
                         <div class="row">
-                            <div class="col-md-12">
-                                <button class="btn btn-primary" id="save"> Final Save</button>
-                            </div>
+                        <div class="col-md-12">
+                        <button class="btn btn-primary" id="save"> Final Save</button>
                         </div>
-                    </div>
+                        </div>
+                        </div>*@
                 </div>
             </div>
         </div>
@@ -173,20 +173,26 @@
     <script src="~/lib/plugins/toastr/toastr.min.js"></script>
 </environment>
 <script type="text/javascript">
-     $(document).ready(function () 
+    function additionalData()
+    {
+       var data =
+       {
+                category: $("#doctypelist").val(),
+       }
+       addAntiForgeryToken(data);
+       return data;
+     }
+     $(document).ready(function ()
      {
-        
-         });
-
-     $('#search').click(function () {
+         $('#search').click(function () {
+             debugger;
                 //search
-                var grid = $('#pick-grids').data('kendoGrid');
+                var grid = $('#pick-grid').data('kendoGrid');
                 grid.dataSource.read();
                 return false;
           });
-           
-       var initialLoad = true;
-       $("#pick-grid").kendoGrid({
+             var initialLoad = true;
+              $("#pick-grid").kendoGrid({
 
         dataSource: {
 
@@ -240,44 +246,54 @@
             pageSizes: true
         },
 
-        scrollable: false,
+        scrollable: true,
         columns: [{
             field: "Id",
             title: "Id",
-
             width: 50
         },
         {
-            field: "PONumber",
-            title: "PONumber",
+            field: "PoNumber",
+            title: "Po Number",
+            width: 100
+        },
+           {
+            field: "stockTransferPOCatagry",
+            title: "stockTransfer POCatagry",
             width: 100
         },
         {
-            field: "SubItemCode",
-            title: "SubItemCode",
+            field: "stockTransferPoSendingTo",
+            title: "STPSendingTo",
+            width: 100
+        },
+        {
+            field: "stockTransferPoItem",
+            title: "STPItem",
+            width: 100
+        },
+         {
+            field: "stockTransferPoSubitem",
+            title: "STPSubitem",
+            width: 100
+        },
+        {
+            field: "stockTransferPoQty",
+            title: "Qty",
+            width: 100
+        },
+       {
+            field: "StockTransferPOSerialNumber",
+            title: "STPSerialNumber",
+            width: 100
+        },
+        {
+            field: "subItemCode",
+            title: "subItem Code",
             width: 100
         },
 
-        {
-            field: "SubItemName",
-            title: "SubItemName",
-            width: 120
-        },
-        {
-            field: "AreaId",
-            title: "AreaId",
-        },
-        {
-            field: "Location",
-            title: "Location",
-            width: 300
-        },
-        {
-            field: "Qty",
-            title: "Qty",
-            encoded: false,
-            width: 120
-        },
+
             //{
             //    field: "Unit",
             //    title: "Unit",
@@ -295,23 +311,16 @@
         ],
 
     });
-   
-    
-    function additionalData() {
-            var data = {
-                category: $("#doctypelist").val(),
-                //pnr: $("#pnr").val(),
-                //bookingRefNo: $("#bookingRefNo").val(),
-                //email: $("#email").val(),
-                //mobile: $("#mobile").val(),
-                //fromDate: $("#fromDate").val(),
-                //toDate: $("#toDate").val(),
-                //apisource:$("#apisource").val()
-            }
-            addAntiForgeryToken(data);
-            return data;
-        }
+     });
 
-  
+
+
+
+
+
+
+
+
+
 </script>
     }

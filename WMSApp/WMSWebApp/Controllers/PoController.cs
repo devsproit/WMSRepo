@@ -64,29 +64,118 @@ namespace WMSWebApp.Controllers
         {
             switch (category)
             {
+
                 case "StockTransfer PO":
-                    var result = _stockTransferPo.GetDetails(category,request.Page - 1, request.PageSize);
+                    var result = _stockTransferPo.GetDetails(category, request.Page - 1, request.PageSize);
                     var gridData = new DataSourceResult()
                     {
                         Data = result.Select(x =>
                         {
-                            StockTransferCategory m = new StockTransferCategory();
-                            m.StockTransferPOCategory = x.StockTransferPOCategory;
-                            m.StockTransferPOSendingTo = x.StockTransferPOSendingTo;
-                            m.StockTransferPOItem = x.StockTransferPOItem;
-                            m.StockTransferPOSubItem = x.StockTransferPOSubItem;
-                            m.StockTransferPOQty = x.StockTransferPOQty;
-                            m.StockTransferPOAmt = x.StockTransferPOAmt;
-                            m.StockTransferPOSerialNumber = x.StockTransferPOSerialNumber;
+                            PolistViewModel m = new PolistViewModel();
+                            m.Id = x.Id;
+                            m.PoNumber = x.PONumber;
+                            m.stockTransferPOCatagry = x.StockTransferPOCategory;
+                            m.stockTransferPoSendingTo = x.StockTransferPOSendingTo;
+                            m.stockTransferPoItem = x.StockTransferPOItem;
+                            m.stockTransferPoSubitem = x.StockTransferPOSubItem;
+                            m.stockTransferPoQty = x.StockTransferPOQty.ToString();
+                            m.stockTransferPoAmt = x.StockTransferPOAmt;
+                            m.stockTransferPoSerialNumber = x.StockTransferPOSerialNumber;
+                            m.serviceCategory = "Not Applicable";
+                            m.salePo = "Not Applicable";
+                            m.saleDate = "Not Applicable";
+                            m.ServiceRequestNumber = "Not Applicable";
+                            m.subItemCode = x.SubItemCode;
+                            m.invNumber = "";
                             return m;
                         }),
 
                         Total = result.TotalCount
                     };
                     return Json(gridData);
-                 
+                case "Sale PO":
+                    var result1 = _salePo.GetDetails(category, request.Page - 1, request.PageSize);
+                    var gridData1 = new DataSourceResult()
+                    {
+                        Data = result1.Select(x =>
+                        {
+                            PolistViewModel m = new PolistViewModel();
+                            m.Id = x.Id;
+                            m.PoNumber = x.PONumber;
+                            m.stockTransferPOCatagry = x.SalePOCategory;
+                            m.stockTransferPoSendingTo = x.SalePOSendingTo;
+                            m.stockTransferPoItem = x.SalePOItem;
+                            m.stockTransferPoSubitem = x.SalePOSubItem;
+                            m.stockTransferPoQty = x.SalePOQty.ToString();
+                            m.stockTransferPoAmt = x.SalePOAmt;
+                            m.stockTransferPoSerialNumber = x.SalePOSerialNumber;
+                            m.serviceCategory = "Not Applicable";
+                            m.salePo = "Not Applicable";
+                            m.saleDate = "Not Applicable";
+                            m.ServiceRequestNumber = "Not Applicable";
+                            m.subItemCode = x.SubItemCode;
+                            m.invNumber = "";
+                            return m;
+                        }),
+                        Total = result1.TotalCount
+                    };
+                    return Json(gridData1);
+                case "SRN PO":
+                    var result2 = _srnPo.GetDetails(category, request.Page - 1, request.PageSize);
+                    var gridData2 = new DataSourceResult()
+                    {
+                        Data = result2.Select(x =>
+                        {
+                            PolistViewModel m = new PolistViewModel();
+                            m.Id = x.Id;
+                            m.PoNumber = x.PONumber;
+                            m.stockTransferPOCatagry = x.SrnPOCategory;
+                            m.stockTransferPoSendingTo = x.SrnPOSendingTo;
+                            m.stockTransferPoItem = x.SrnPOItem;
+                            m.stockTransferPoSubitem = x.SrnPOSubItem;
+                            m.stockTransferPoQty = x.SrnPOQty.ToString();
+                            m.stockTransferPoAmt = "0";
+                            m.stockTransferPoSerialNumber = x.SrnSerialNumber;
+                            m.serviceCategory = "Not Applicable";
+                            m.salePo = "Not Applicable";
+                            m.saleDate = "Not Applicable";
+                            m.ServiceRequestNumber = "Not Applicable";
+                            m.subItemCode = x.SubItemCode;
+                            m.invNumber = x.InvoiceNo;
+                            return m;
+                        }),
+                        Total = result2.TotalCount
+                    };
+                    return Json(result2);
+                case "ServiceOrder PO":
+                    var result3 = _serviceOrderPO.GetDetails(category, request.Page - 1, request.PageSize);
+                    var gridData3 = new DataSourceResult()
+                    {
+                        Data = result3.Select(x =>
+                        {
+                            PolistViewModel m = new PolistViewModel();
+                            m.Id = x.Id;
+                            m.PoNumber = x.PONumber;
+                            m.stockTransferPOCatagry = x.ServiceOrderPOCategory;
+                            m.stockTransferPoSendingTo = x.ServiceOrderPOSendingTo;
+                            m.stockTransferPoItem = x.ServiceOrderPOSubitem;
+                            m.stockTransferPoSubitem = x.ServiceOrderPOSubitem;
+                            m.stockTransferPoQty = x.ServiceOrderPOQty.ToString();
+                            m.stockTransferPoAmt = x.ServiceOrderPOAmt;
+                            m.stockTransferPoSerialNumber = x.ServiceOrderPOSerialNumber;
+                            m.serviceCategory = x.ServiceOrderPOServiceCatagry;
+                            m.salePo = "Not Applicable";
+                            m.saleDate = "Not Applicable";
+                            m.ServiceRequestNumber = x.ServiceOrderPOServiceRequestNumber;
+                            m.subItemCode = x.SubItemCode;
+                            m.invNumber = "";
+                            return m;
+                        }),
+                        Total = result3.TotalCount
+                    };
+                    return Json(result3);
+
             }
-           
             return Json("");
         }
 
@@ -113,13 +202,13 @@ namespace WMSWebApp.Controllers
             purchaseOrderViewModel.listSenderCompany = listSendCompany;
             return View();
         }
-        
+
         [HttpPost]
         public virtual async Task<IActionResult> Create([FromBody] PoViewModel poViewModel)
         {
             try
             {
-                var branch =await _workContext.GetCurrentBranch();
+                var branch = await _workContext.GetCurrentBranch();
                 DateTime currentDate = DateTime.Now;
                 PurchaseOrderDb purchaseOrderDb = new PurchaseOrderDb();
                 purchaseOrderDb.POCategory = poViewModel.POCatrgory;
@@ -132,7 +221,7 @@ namespace WMSWebApp.Controllers
                     _purchaseOrder.Insert(purchaseOrderDb);
                     foreach (var item in poViewModel.stockTransferCategories)
                     {
-                        
+
                         StockTransferPoDb stockTransferPo = new StockTransferPoDb();
                         stockTransferPo.StockTransferPOCategory = item.StockTransferPOCategory;
                         stockTransferPo.StockTransferPOSendingTo = item.StockTransferPOSendingTo;
@@ -210,7 +299,7 @@ namespace WMSWebApp.Controllers
                         sRNPo.SubItemCode = subItem.SubItemCode;
                         _srnPo.Insert(sRNPo);
                     }
-                   
+
                 }
 
                 return Json(new { success = true, message = "Saved Successfully" });

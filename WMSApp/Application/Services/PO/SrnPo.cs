@@ -70,6 +70,24 @@ namespace Application.Services.PO
             _srnPoRepository.Update(salePoDb);
         }
 
+        public IPagedList<SRNPoDb> GetAllMaster(string branchCode,int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = from x in _srnPoRepository.Table
+                        select x;
+            var result = new PagedList<SRNPoDb>(query, pageIndex, pageSize);
+            return result;
+        }
+
+        public IPagedList<SRNPoDb> GetDetails(string category, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = from x in _poRepository.Table
+                        join y in _srnPoRepository.Table
+                        on x.PONumber equals y.PONumber
+                        where x.POCategory == category
+                        select y;
+            var result = new PagedList<SRNPoDb>(query, pageIndex, pageSize);
+            return result;
+        }
 
 
         #endregion

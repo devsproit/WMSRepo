@@ -69,7 +69,10 @@
                                 <div class=" col-md-6">
                                     <div class="form-group">
                                         <label asp-for="Location"></label>
-                                        <input asp-for="Location" class="form-control" />
+
+                                     <select asp-for="Selected" asp-items="@(new SelectList(Model.DistrictList,"district_id","district_name"))">
+                                         <option value="">None</option>
+                                     </select>
                                     </div>
                                     <span asp-validation-for="Location" class="text-danger"></span>
                                 </div>

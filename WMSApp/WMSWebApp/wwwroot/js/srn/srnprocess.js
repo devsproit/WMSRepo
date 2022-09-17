@@ -80,19 +80,20 @@ $(document).ready(function () {
 
     var initialLoad = true;
     $("#myGrid").kendoGrid({
+
+
         dataSource: {
+
             transport: {
                 read: {
-                    url: "/Srn/PODetails",
+                    url: "/Srn/List",
                     type: "POST",
                     dataType: "json",
                     data: additionalData,
                     complete: function (result) {
-                        //debugger;
                         console.log("Remote built-in transport", result);
                         if (result.status == 401) {
                             /* document.location.href = "@Html.Raw(Url.Action("Index", "AccessDenied"))";*/
-                            initialLoad = false;
                         }
                     }
 
@@ -115,66 +116,67 @@ $(document).ready(function () {
             serverSorting: true,
             requestStart: function () {
                 if (initialLoad) //<-- if it's the initial load, manually start the spinner
-                    kendo.ui.progress($("#booking-grid"), true);
+                    kendo.ui.progress($("#myGrid"), true);
             },
             requestEnd: function () {
                 if (initialLoad)
-                    kendo.ui.progress($("#booking-grid"), false);
+                    kendo.ui.progress($("#myGrid"), false);
                 initialLoad = false; //<-- make sure the spinner doesn't fire again (that would produce two spinners instead of one)
 
             },
 
         },
-        selectable: 'raw',
-        change: onChange,
+        editable: false,
+        // pageable  : false,
+        scrollable: true,
+
         height: 350,
         pageable: {
             refresh: true,
             pageSizes: true
         },
 
-        scrollable: false,
+        scrollable: true,
         columns: [{
             field: "Id",
             title: "Id",
-
             width: 50
         },
         {
+            title: "Purchase Order",
+            field: "PurchaseOrder",
+            width: 150
+        },
+        {
+            title: "SubItem Code",
             field: "SubItemCode",
-            title: "SubItemCode",
             width: 100
         },
-
         {
+            title: "SubItem Name",
             field: "SubItemName",
-            title: "SubItemName",
             width: 120
         },
         {
-            field: "Qty",
+            title: "Material Description",
+            field: "MaterialDescription",
+            width: 120
+        },
+        {
             title: "Qty",
-            encoded: false,
+            field: "Qty",
             width: 120
         },
         {
             field: "Unit",
             title: "Unit",
-            width: 100
+            width: 120
         },
         {
-            field: "MaterialDescription",
-            title: "MaterialDescription",
-            width: 300
-        },
-
-        {
+            title: "Amount",
             field: "Amt",
-            title: "Amt",
-            width: 100
-        },
-
-
+            width: 120
+        }
         ],
 
     });

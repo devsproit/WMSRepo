@@ -66,8 +66,7 @@
             refresh: true,
             pageSizes: true
         },
-
-        scrollable: false,
+        scrollable: true,
         columns: [{
             field: "Id",
             title: "Id",
@@ -171,7 +170,7 @@
             pageSizes: true
         },
 
-        scrollable: false,
+        scrollable: true,
         columns: [{
             field: "Id",
             title: "Id",

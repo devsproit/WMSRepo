@@ -263,7 +263,27 @@ namespace WMSWebApp.Controllers
         [HttpPost]
         public virtual IActionResult List(DataSourceRequest request)
         {
-            return View();
+            var branch =  _workContext.GetCurrentBranch().Result;
+            var result = _srnPo.GetAllMaster(branch.BranchCode,request.Page - 1, request.PageSize);
+            DataSourceResult gridData = new DataSourceResult
+            {
+                Data = result.Select(x =>
+                {
+                    PoSrnViewModel m = new PoSrnViewModel();
+                    m.Id = x.Id;
+                    m.PurchaseOrder = x.PONumber;
+                    m.SubItemCode = x.SubItemCode;
+                    m.SubItemName = x.SrnPOItem;
+                    m.MaterialDescription = x.SrnPOSrnCause;
+                    m.Qty = x.SrnPOQty;
+                    m.Unit = "0";
+                    m.Amt = 0;
+                    return m;
+                }),
+                Total = result.TotalCount
+            };
+
+            return Json(gridData);
         }
         #endregion
 

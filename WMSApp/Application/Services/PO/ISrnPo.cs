@@ -17,6 +17,11 @@ namespace Application.Services.PO
 
         IPagedList<SRNPoDb> GetSrnDetails(string branchCode, string pono, int pageIndex = 0, int pageSize = int.MaxValue);
 
+        IPagedList<SRNPoDb> GetAllMaster(string branchCode,int pageIndex = 0, int pageSize = int.MaxValue);
+
         SRNPoDb GetById(int id);
+
+        IPagedList<SRNPoDb> GetDetails(string category, int pageIndex = 0, int pageSize = int.MaxValue);
+       // object GetDetails(string category, int v, int pageSize);
     }
 }
