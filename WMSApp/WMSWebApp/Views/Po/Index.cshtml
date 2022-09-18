@@ -107,9 +107,9 @@
                             <div class="col-md-2">
                                 <button class="btn btn-primary" type="button" id="search">Search</button>
                             </div>
-                            <div class="col-md-2">
+                        @*    <div class="col-md-2">
                                 <button class="btn btn-danger" id="reset" type="button">Reset</button>
-                            </div>
+                            </div>*@
                         </div>
                         <hr />
                         <div class="row">
@@ -193,7 +193,12 @@
           });
              var initialLoad = true;
               $("#pick-grid").kendoGrid({
-
+        toolbar: ["excel"],
+        excel: {
+            fileName: "PoList.xlsx",
+            proxyURL: "/Po/List",
+            filterable: true
+        },
         dataSource: {
 
             transport: {
@@ -259,22 +264,22 @@
         },
            {
             field: "stockTransferPOCatagry",
-            title: "stockTransfer POCatagry",
+            title: "PO Catagry",
             width: 100
         },
         {
             field: "stockTransferPoSendingTo",
-            title: "STPSendingTo",
+            title: "Sending To",
             width: 100
         },
         {
             field: "stockTransferPoItem",
-            title: "STPItem",
+            title: "Item",
             width: 100
         },
          {
             field: "stockTransferPoSubitem",
-            title: "STPSubitem",
+            title: "Sub Item",
             width: 100
         },
         {
@@ -283,13 +288,13 @@
             width: 100
         },
        {
-            field: "StockTransferPOSerialNumber",
-            title: "STPSerialNumber",
+            field: "stockTransferPoSerialNumber",
+            title: "Serial Number",
             width: 100
         },
         {
             field: "subItemCode",
-            title: "subItem Code",
+            title: "SubItem Code",
             width: 100
         },
 

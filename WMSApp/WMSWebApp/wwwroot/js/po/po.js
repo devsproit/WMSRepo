@@ -73,7 +73,7 @@
             var subItemCode = $("#spSubItem").val();
             var invNumber = "Not Applicable";
         } else if (dropdownText == "StockTransfer PO") {
-            var stockTransferPOCatagry = $('#stpCategory :selected').text();
+            var stockTransferPOCatagry = "Not Applicable";
             var stockTransferPoSendingTo = $('#stpSendingTo :selected').text();//ItId
             var stockTransferPoItem = $("#stpItem :selected").text();
             var stockTransferPoSubitem = $('#stpSubItem :selected').text();
@@ -181,10 +181,10 @@
                 jsonObj.push(myData);
             }
             var data = {
-                //  PODate: $("#PoDate").val(),
+                PODate: $("#fromDate").val(),
                 PONumber: $("#PONumber").val(),
-                POCatrgory: drpdown
-
+                POCatrgory: drpdown,
+                
             };
             data.salePOCategories = jsonObj;
             data.stockTransferCategories = null;
@@ -210,7 +210,7 @@
             }
             console.log(jsonObj);
             var data = {
-                //  PODate: $("#PoDate").val(),
+                PODate: $("#fromDate").val(),
                 PONumber: $("#PONumber").val(),
                 POCatrgory: drpdown
 
@@ -240,7 +240,7 @@
             }
             console.log(jsonObj);
             var data = {
-                //  PODate: $("#PoDate").val(),
+                PODate: $("#fromDate").val(),
                 PONumber: $("#PONumber").val(),
                 POCatrgory: drpdown
 
@@ -270,6 +270,7 @@
             }
             console.log(jsonObj);
             var data = {
+                PODate: $("#fromDate").val(),
                 PONumber: $("#PONumber").val(),
                 POCatrgory: drpdown
 

@@ -16,5 +16,7 @@
         public decimal Amt { get; set; }
         public bool IsDeleted { get; set; }
         public int Sno { get; set; }
+
+        public string SendingTo { get; set; }
     }
 }

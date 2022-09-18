@@ -274,7 +274,7 @@ namespace WMSWebApp.Controllers
                     m.PurchaseOrder = x.PONumber;
                     m.SubItemCode = x.SubItemCode;
                     m.SubItemName = x.SrnPOItem;
-                    m.MaterialDescription = x.SrnPOSrnCause;
+                    m.SendingTo = x.SrnPOSendingTo;
                     m.Qty = x.SrnPOQty;
                     m.Unit = "0";
                     m.Amt = 0;

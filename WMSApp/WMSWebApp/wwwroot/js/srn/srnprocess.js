@@ -81,7 +81,12 @@ $(document).ready(function () {
     var initialLoad = true;
     $("#myGrid").kendoGrid({
 
-
+        toolbar: ["excel"],
+        excel: {
+            fileName: "SrnList.xlsx",
+            proxyURL: "/Srn/List",
+            filterable: true
+        },
         dataSource: {
 
             transport: {
@@ -158,8 +163,8 @@ $(document).ready(function () {
             width: 120
         },
         {
-            title: "Material Description",
-            field: "MaterialDescription",
+            title: "Sending To",
+            field: "SendingTo",
             width: 120
         },
         {

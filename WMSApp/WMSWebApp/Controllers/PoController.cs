@@ -146,7 +146,7 @@ namespace WMSWebApp.Controllers
                         }),
                         Total = result2.TotalCount
                     };
-                    return Json(result2);
+                    return Json(gridData2);
                 case "ServiceOrder PO":
                     var result3 = _serviceOrderPO.GetDetails(category, request.Page - 1, request.PageSize);
                     var gridData3 = new DataSourceResult()
@@ -173,7 +173,7 @@ namespace WMSWebApp.Controllers
                         }),
                         Total = result3.TotalCount
                     };
-                    return Json(result3);
+                    return Json(gridData3);
 
             }
             return Json("");
@@ -212,7 +212,7 @@ namespace WMSWebApp.Controllers
                 DateTime currentDate = DateTime.Now;
                 PurchaseOrderDb purchaseOrderDb = new PurchaseOrderDb();
                 purchaseOrderDb.POCategory = poViewModel.POCatrgory;
-                purchaseOrderDb.PODate = currentDate;
+                purchaseOrderDb.PODate = poViewModel.PODate;
                 purchaseOrderDb.PONumber = poViewModel.PONumber;
                 purchaseOrderDb.BranchCode = branch.BranchCode;
                 purchaseOrderDb.ProcessStatus = false;
