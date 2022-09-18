@@ -13,6 +13,6 @@ namespace Application.Services.PS
         void Insert(PickSlipMaster entity);
         PickSlipMaster GetbyId(int id);
 
-        IPagedList<PickSlipMaster> GetPickSlipMasters(string pickslipName = "", int pageIndex = 0, int pageSize = int.MaxValue);
+        IPagedList<PickSlipMaster> GetPickSlipMasters(string branchCode, string pickslipName = "", int pageIndex = 0, int pageSize = int.MaxValue);
     }
 }

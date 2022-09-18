@@ -29,7 +29,10 @@ namespace Application.Services.PO
         {
             _salePoRepository.Update(salePoDb);
         }
-
+        public virtual SalePoDb GetById(int id)
+        {
+            return _salePoRepository.GetById(id);
+        }
         public virtual IPagedList<SalePoDb> GetSalePos(string poNumber = "0", int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = from x in _salePoRepository.Table

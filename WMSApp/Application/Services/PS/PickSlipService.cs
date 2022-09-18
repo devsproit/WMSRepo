@@ -35,12 +35,13 @@ namespace Application.Services.PS
             return _pickSlipMasterRepository.GetById(id);
         }
 
-        public virtual IPagedList<PickSlipMaster> GetPickSlipMasters(string pickslipName = "", int pageIndex = 0, int pageSize = int.MaxValue)
+        public virtual IPagedList<PickSlipMaster> GetPickSlipMasters(string branchCode,string pickslipName = "", int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = from x in _pickSlipMasterRepository.Table
                         select x;
-            query = query.Where(x => x.PickSlipName.Contains(pickslipName));
-
+            if (!string.IsNullOrEmpty(pickslipName))
+                query = query.Where(x => x.PickSlipName.Contains(pickslipName));
+            query = query.Where(x => x.BranchCode == branchCode);
             query = query.OrderByDescending(x => x.Id);
 
             var result = new PagedList<PickSlipMaster>(query, pageIndex, pageSize);

@@ -12,7 +12,7 @@ namespace Domain.Model.PS
         public string BranchCode { get; set; }
         public DateTime CreateOn { get; set; }
         public string DockType { get; set; }
-
+        public int POID { get; set; }
         private ICollection<PickSlipDetails> _pickSlipDetails;
         public virtual ICollection<PickSlipDetails> PickSlipDetails
         {

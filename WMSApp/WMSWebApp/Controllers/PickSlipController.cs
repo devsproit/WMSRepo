@@ -61,7 +61,7 @@ namespace WMSWebApp.Controllers
         }
 
 
-        
+
 
         public virtual IActionResult List(DataSourceRequest request, string guid)
         {
@@ -241,6 +241,7 @@ namespace WMSWebApp.Controllers
                 master.PickSlipName = "";
                 master.CreateOn = DateTime.Now;
                 master.BranchCode = branch.BranchCode;
+
                 master.DockType = model.FirstOrDefault().DockType;
                 foreach (var item in model)
                 {
@@ -277,17 +278,39 @@ namespace WMSWebApp.Controllers
         [HttpPost]
         public IActionResult PickSlipList(DataSourceRequest request)
         {
-            var result = _pickSlipService.GetPickSlipMasters("", request.Page - 1, request.PageSize);
+            var branch = _workContext.GetCurrentBranch().Result;
+            var result = _pickSlipService.GetPickSlipMasters(branch.BranchCode, "", request.Page - 1, request.PageSize);
             var gridData = new DataSourceResult()
             {
-                Data = result,
+                Data = result.Select(x =>
+                {
+                    PickSlipListModel m = new PickSlipListModel();
+                    m.PickSlipName = x.PickSlipName;
+                    m.BranchCode = x.BranchCode;
+                    m.Branch = x.BranchCode;
+                    m.DockType = x.DockType;
+                    m.CreateOn = x.CreateOn;
+                    m.Id = x.Id;
+                    m.Item = x.PickSlipDetails.Count;
 
-                Total = result.Count,
+                    return m;
+                }),
+
+                Total = result.TotalCount,
             };
 
             return Json(gridData);
         }
 
+        public IActionResult pickSlipPrint(int id)
+        {
+            //var pickslip = _pickSlipService.GetbyId(id);
+            //if (pickslip.DockType == "Sale PO")
+            //{
+
+            //}
+            return View(id);
+        }
         public virtual IActionResult Test()
         {
             return View();
