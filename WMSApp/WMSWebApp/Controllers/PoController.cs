@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WMS.Data;
 using WMS.Web.Framework.Infrastructure.Extentsion;
@@ -58,39 +59,125 @@ namespace WMSWebApp.Controllers
         {
             return View();
         }
-        //public virtual IActionResult List(DataSourceRequest request, string guid)
-        //{
-        //    var result = _tempPickSlipDetailsService.GetAllTemp(guid, request.Page - 1, request.PageSize);
-        //    var gridData = new DataSourceResult()
-        //    {
-        //        Data = result.Select(x =>
-        //        {
-        //            PickslipDetailModel m = new PickslipDetailModel();
-        //            m.Qty = x.Qty;
-        //            //m.Unit = x.Unit;
-        //            m.PickSlipId = x.PickSlipId;
-        //            //m.Amount = x.Amount;
-        //            m.AreaId = x.AreaId;
-        //            var area = _warehouseService.GetWarehouseZoneAreaById(x.AreaId);
-        //            if (area != null)
-        //            {
-        //                var zone = _warehouseService.GetZoneById(area.ZoneId);
-        //                m.Location = $"Zone-{zone.ZoneName} Area- {area.AreaName}";
-        //            }
-        //            m.ItemCode = x.ItemCode;
-        //            m.SubItemName = x.SubItemName;
-        //            m.SubItemCode = x.SubItemCode;
-        //            m.Guid = x.Guid;
-        //            m.Id = x.Id;
-        //            m.GRN = x.GRNId;
-        //            return m;
-        //        }),
+        [HttpPost]
+        public virtual IActionResult List(DataSourceRequest request, string category)
+        {
+            switch (category)
+            {
 
-        //        Total = result.TotalCount
-        //    };
+                case "StockTransfer PO":
+                    var result = _stockTransferPo.GetDetails(category, request.Page - 1, request.PageSize);
+                    var gridData = new DataSourceResult()
+                    {
+                        Data = result.Select(x =>
+                        {
+                            PolistViewModel m = new PolistViewModel();
+                            m.Id = x.Id;
+                            m.PoNumber = x.PONumber;
+                            m.stockTransferPOCatagry = x.StockTransferPOCategory;
+                            m.stockTransferPoSendingTo = x.StockTransferPOSendingTo;
+                            m.stockTransferPoItem = x.StockTransferPOItem;
+                            m.stockTransferPoSubitem = x.StockTransferPOSubItem;
+                            m.stockTransferPoQty = x.StockTransferPOQty.ToString();
+                            m.stockTransferPoAmt = x.StockTransferPOAmt;
+                            m.stockTransferPoSerialNumber = x.StockTransferPOSerialNumber;
+                            m.serviceCategory = "Not Applicable";
+                            m.salePo = "Not Applicable";
+                            m.saleDate = "Not Applicable";
+                            m.ServiceRequestNumber = "Not Applicable";
+                            m.subItemCode = x.SubItemCode;
+                            m.invNumber = "";
+                            return m;
+                        }),
 
-        //    return Json(gridData);
-        //}
+                        Total = result.TotalCount
+                    };
+                    return Json(gridData);
+                case "Sale PO":
+                    var result1 = _salePo.GetDetails(category, request.Page - 1, request.PageSize);
+                    var gridData1 = new DataSourceResult()
+                    {
+                        Data = result1.Select(x =>
+                        {
+                            PolistViewModel m = new PolistViewModel();
+                            m.Id = x.Id;
+                            m.PoNumber = x.PONumber;
+                            m.stockTransferPOCatagry = x.SalePOCategory;
+                            m.stockTransferPoSendingTo = x.SalePOSendingTo;
+                            m.stockTransferPoItem = x.SalePOItem;
+                            m.stockTransferPoSubitem = x.SalePOSubItem;
+                            m.stockTransferPoQty = x.SalePOQty.ToString();
+                            m.stockTransferPoAmt = x.SalePOAmt;
+                            m.stockTransferPoSerialNumber = x.SalePOSerialNumber;
+                            m.serviceCategory = "Not Applicable";
+                            m.salePo = "Not Applicable";
+                            m.saleDate = "Not Applicable";
+                            m.ServiceRequestNumber = "Not Applicable";
+                            m.subItemCode = x.SubItemCode;
+                            m.invNumber = "";
+                            return m;
+                        }),
+                        Total = result1.TotalCount
+                    };
+                    return Json(gridData1);
+                case "SRN PO":
+                    var result2 = _srnPo.GetDetails(category, request.Page - 1, request.PageSize);
+                    var gridData2 = new DataSourceResult()
+                    {
+                        Data = result2.Select(x =>
+                        {
+                            PolistViewModel m = new PolistViewModel();
+                            m.Id = x.Id;
+                            m.PoNumber = x.PONumber;
+                            m.stockTransferPOCatagry = x.SrnPOCategory;
+                            m.stockTransferPoSendingTo = x.SrnPOSendingTo;
+                            m.stockTransferPoItem = x.SrnPOItem;
+                            m.stockTransferPoSubitem = x.SrnPOSubItem;
+                            m.stockTransferPoQty = x.SrnPOQty.ToString();
+                            m.stockTransferPoAmt = "0";
+                            m.stockTransferPoSerialNumber = x.SrnSerialNumber;
+                            m.serviceCategory = "Not Applicable";
+                            m.salePo = "Not Applicable";
+                            m.saleDate = "Not Applicable";
+                            m.ServiceRequestNumber = "Not Applicable";
+                            m.subItemCode = x.SubItemCode;
+                            m.invNumber = x.InvoiceNo;
+                            return m;
+                        }),
+                        Total = result2.TotalCount
+                    };
+                    return Json(gridData2);
+                case "ServiceOrder PO":
+                    var result3 = _serviceOrderPO.GetDetails(category, request.Page - 1, request.PageSize);
+                    var gridData3 = new DataSourceResult()
+                    {
+                        Data = result3.Select(x =>
+                        {
+                            PolistViewModel m = new PolistViewModel();
+                            m.Id = x.Id;
+                            m.PoNumber = x.PONumber;
+                            m.stockTransferPOCatagry = x.ServiceOrderPOCategory;
+                            m.stockTransferPoSendingTo = x.ServiceOrderPOSendingTo;
+                            m.stockTransferPoItem = x.ServiceOrderPOSubitem;
+                            m.stockTransferPoSubitem = x.ServiceOrderPOSubitem;
+                            m.stockTransferPoQty = x.ServiceOrderPOQty.ToString();
+                            m.stockTransferPoAmt = x.ServiceOrderPOAmt;
+                            m.stockTransferPoSerialNumber = x.ServiceOrderPOSerialNumber;
+                            m.serviceCategory = x.ServiceOrderPOServiceCatagry;
+                            m.salePo = "Not Applicable";
+                            m.saleDate = "Not Applicable";
+                            m.ServiceRequestNumber = x.ServiceOrderPOServiceRequestNumber;
+                            m.subItemCode = x.SubItemCode;
+                            m.invNumber = "";
+                            return m;
+                        }),
+                        Total = result3.TotalCount
+                    };
+                    return Json(gridData3);
+
+            }
+            return Json("");
+        }
 
         public ActionResult Create()
         {
@@ -115,17 +202,17 @@ namespace WMSWebApp.Controllers
             purchaseOrderViewModel.listSenderCompany = listSendCompany;
             return View();
         }
-        
+
         [HttpPost]
         public virtual async Task<IActionResult> Create([FromBody] PoViewModel poViewModel)
         {
             try
             {
-                var branch =await _workContext.GetCurrentBranch();
+                var branch = await _workContext.GetCurrentBranch();
                 DateTime currentDate = DateTime.Now;
                 PurchaseOrderDb purchaseOrderDb = new PurchaseOrderDb();
                 purchaseOrderDb.POCategory = poViewModel.POCatrgory;
-                purchaseOrderDb.PODate = currentDate;
+                purchaseOrderDb.PODate = poViewModel.PODate;
                 purchaseOrderDb.PONumber = poViewModel.PONumber;
                 purchaseOrderDb.BranchCode = branch.BranchCode;
                 purchaseOrderDb.ProcessStatus = false;
@@ -134,7 +221,7 @@ namespace WMSWebApp.Controllers
                     _purchaseOrder.Insert(purchaseOrderDb);
                     foreach (var item in poViewModel.stockTransferCategories)
                     {
-                        
+
                         StockTransferPoDb stockTransferPo = new StockTransferPoDb();
                         stockTransferPo.StockTransferPOCategory = item.StockTransferPOCategory;
                         stockTransferPo.StockTransferPOSendingTo = item.StockTransferPOSendingTo;
@@ -212,7 +299,7 @@ namespace WMSWebApp.Controllers
                         sRNPo.SubItemCode = subItem.SubItemCode;
                         _srnPo.Insert(sRNPo);
                     }
-                   
+
                 }
 
                 return Json(new { success = true, message = "Saved Successfully" });

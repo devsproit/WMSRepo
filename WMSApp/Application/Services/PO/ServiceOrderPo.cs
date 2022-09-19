@@ -13,13 +13,14 @@ namespace Application.Services.PO
     {
         #region Fields
         private readonly IRepository<ServiceOrderPODb> _serviceOrderPoRepository;
-
+        private readonly IRepository<PurchaseOrderDb> _poRepository;
         #endregion
 
         #region Ctor
-        public ServiceOrderPo(IRepository<ServiceOrderPODb> ServiceOrderPoRepository)
+        public ServiceOrderPo(IRepository<ServiceOrderPODb> ServiceOrderPoRepository, IRepository<PurchaseOrderDb> poRepository)
         {
             _serviceOrderPoRepository = ServiceOrderPoRepository;
+            _poRepository = poRepository;
         }
         public void Insert(ServiceOrderPODb serviceOrderPO)
         {
@@ -44,6 +45,17 @@ namespace Application.Services.PO
             var result = new PagedList<ServiceOrderPODb>(query, pageIndex, pageSize);
             return result;
 
+        }
+
+        public IPagedList<ServiceOrderPODb> GetDetails(string category, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = from x in _poRepository.Table
+                        join y in _serviceOrderPoRepository.Table
+                        on x.PONumber equals y.PONumber
+                        where x.POCategory == category
+                        select y;
+            var result = new PagedList<ServiceOrderPODb>(query, pageIndex, pageSize);
+            return result;
         }
 
 

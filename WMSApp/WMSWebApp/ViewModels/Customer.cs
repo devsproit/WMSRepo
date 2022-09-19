@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WMSWebApp.ViewModels
 {
@@ -21,6 +22,8 @@ namespace WMSWebApp.ViewModels
         public string CustomerCode { get; set; }
         public string Location { get; set; }
 
+        public List<string> DistrictList { get; set; }
 
+        public int Selected { get; set; }
     }
 }

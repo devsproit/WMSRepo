@@ -13,13 +13,15 @@ namespace Application.Services.PO
     {
         #region Fields
         private readonly IRepository<StockTransferPoDb> _stockTransfterPoRepository;
+        private readonly IRepository<PurchaseOrderDb> _poRepository;
 
         #endregion
 
         #region Ctor
-        public StockTransferPo(IRepository<StockTransferPoDb> StockTransferPo)
+        public StockTransferPo(IRepository<StockTransferPoDb> StockTransferPo, IRepository<PurchaseOrderDb> poRepository)
         {
             _stockTransfterPoRepository = StockTransferPo;
+            _poRepository = poRepository;
         }
         public void Insert(StockTransferPoDb stockTransferPo)
         {
@@ -44,6 +46,19 @@ namespace Application.Services.PO
             var result = new PagedList<StockTransferPoDb>(query, pageIndex, pageSize);
             return result;
         }
+
+        public virtual IPagedList<StockTransferPoDb> GetDetails(string PoCat, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = from x in _poRepository.Table                                     
+                        join y in _stockTransfterPoRepository.Table
+                        on x.PONumber equals y.PONumber
+                        where x.POCategory == PoCat
+                        select y;
+            var result = new PagedList<StockTransferPoDb>(query, pageIndex, pageSize);
+            return result;
+        }
+
+     
         #endregion
     }
 }

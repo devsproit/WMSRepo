@@ -5,171 +5,327 @@
 
 @section Style{
 
-    <link href="~/lib/kendoUi/2021/styles/kendo.common.min.css" rel="stylesheet" />
-    <link href="~/lib/kendoUi/2021/styles/kendo.default.min.css" rel="stylesheet" />
-    <link href="~/lib/kendoUi/2021/styles/kendo.default.mobile.min.css" rel="stylesheet" />
-    <link href="~/lib/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/lib/plugins/select2/css/select2.min.css">
-    <link rel="stylesheet" href="~/lib/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-    <link rel="stylesheet" href="~/lib/plugins/toastr/toastr.min.css" />
-    <style>
+<link href="~/lib/kendoUi/2021/styles/kendo.common.min.css" rel="stylesheet" />
+<link href="~/lib/kendoUi/2021/styles/kendo.default.min.css" rel="stylesheet" />
+<link href="~/lib/kendoUi/2021/styles/kendo.default.mobile.min.css" rel="stylesheet" />
+<link href="~/lib/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/lib/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="~/lib/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+<link rel="stylesheet" href="~/lib/plugins/toastr/toastr.min.css" />
+<style>
 
-        .ui-autocomplete {
-            /*position: absolute;*/
-            cursor: default;
-            z-index: 1099 !important;
-            max-height: 200px;
-            overflow-y: scroll;
-            overflow-x: hidden;
-        }
+    .ui-autocomplete {
+        /*position: absolute;*/
+        cursor: default;
+        z-index: 1099 !important;
+        max-height: 200px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
 
-        .ui-datepicker {
-            z-index: 1099 !important;
-        }
+    .ui-datepicker {
+        z-index: 1099 !important;
+    }
 
-        .ui-autocomplete-loading {
-            background: white url("../img/ajax-loader.gif") right center no-repeat;
-        }
-    </style>
+    .ui-autocomplete-loading {
+        background: white url("../img/ajax-loader.gif") right center no-repeat;
+    }
+</style>
 }
 
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                  @*  <h1>Create Pick Slip</h1>*@
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Master</li>
-                    </ol>
-                </div>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                @*  <h1>Create Pick Slip</h1>*@
             </div>
-        </div><!-- /.container-fluid -->
-    </section>
-
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row justify-content-center">
-                <div class="col-md-10">
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Po list</h3>
-
-                        </div>
-                        <div class="card-body">
-                          @*  <div class="row">
-                                <div class="col-md-6">Ship To</div>
-                                <div class="col-md-6">Ordered By</div>
-                            </div>*@
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>Doc Type</label>
-                                        <select class="form-control" id="doctype">
-                                            <option value="Select">Select</option>
-                                            <option value="StockTransfer PO">StockTransfer PO</option>
-                                            <option value="Sale PO">Sale PO</option>
-                                            <option value="SRN_PO">SRN PO</option>
-                                            <option value="ServiceOrder PO">ServiceOrder PO</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                @*<div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>Item</label>
-                                        <select class="form-control" id="items"></select>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>Location</label>
-                                        <input class="form-control" id="location" />
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>Qty</label>
-                                        <input class="form-control" id="qty" />
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>Serial No</label>
-                                        <input class="form-control" />
-                                    </div>
-                                </div>*@
-
-                            </div>
-                            <div class=" row">
-                                <div class="col-md-2">
-                                    <button class="btn btn-primary" type="button" id="add-new">Search</button>
-                                </div>
-                                <div class="col-md-2">
-                                    <button class="btn btn-danger" id="reset" type="button">Reset</button>
-                                </div>
-                            </div>
-                            <hr />
-                            <div class="row">
-                                <div id="pick-grid">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <button class="btn btn-primary" id="save"> Final Save</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Master</li>
+                </ol>
             </div>
         </div>
-    </section>
-    <div class="modal fade" id="pleaseWait" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Please Wait..</h5>
+    </div><!-- /.container-fluid -->
+</section>
 
-                </div>
-                <div class="modal-body">
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Po list</h3>
+
                     </div>
+                    <div class="card-body">
+                        @*  <div class="row">
+                            <div class="col-md-6">Ship To</div>
+                            <div class="col-md-6">Ordered By</div>
+                            </div>*@
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Doc Type</label>
+                                    <select class="form-control" id="doctypelist">
+                                        @* <option value="Select">Select</option>*@
+                                        <option value="StockTransfer PO">StockTransfer PO</option>
+                                        <option value="Sale PO">Sale PO</option>
+                                        <option value="SRN PO">SRN PO</option>
+                                        <option value="ServiceOrder PO">ServiceOrder PO</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            @*<div class="col-md-2">
+                                <div class="form-group">
+                                <label>Item</label>
+                                <select class="form-control" id="items"></select>
+                                </div>
+                                </div>
+                                <div class="col-md-2">
+                                <div class="form-group">
+                                <label>Location</label>
+                                <input class="form-control" id="location" />
+                                </div>
+                                </div>
+                                <div class="col-md-2">
+                                <div class="form-group">
+                                <label>Qty</label>
+                                <input class="form-control" id="qty" />
+                                </div>
+                                </div>
+                                <div class="col-md-2">
+                                <div class="form-group">
+                                <label>Serial No</label>
+                                <input class="form-control" />
+                                </div>
+                                </div>*@
+
+                        </div>
+                        <div class=" row">
+                            <div class="col-md-2">
+                                <button class="btn btn-primary" type="button" id="search">Search</button>
+                            </div>
+                        @*    <div class="col-md-2">
+                                <button class="btn btn-danger" id="reset" type="button">Reset</button>
+                            </div>*@
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div id="pick-grid">
+                            </div>
+                        </div>
+                    </div>
+                    @*  <div class="card-footer">
+                        <div class="row">
+                        <div class="col-md-12">
+                        <button class="btn btn-primary" id="save"> Final Save</button>
+                        </div>
+                        </div>
+                        </div>*@
                 </div>
-                @*<div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-            </div>*@
             </div>
         </div>
     </div>
-    @section Scripts{
+</section>
+<div class="modal fade" id="pleaseWait" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Please Wait..</h5>
+
+            </div>
+            <div class="modal-body">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                </div>
+            </div>
+            @*<div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+                </div>*@
+        </div>
+    </div>
+</div>
+@section Scripts{
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 
-    <environment include="Development">
-        <script src="~/lib/kendoUi/2021/js/kendo.all.min.js"></script>
-        <script src="~/lib/kendoUi/2021/js/jszip.min.js"></script>
-        <script src="~/js/common.js"></script>
-        <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
-        <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
-        <script src="~/js/PickSlip/pickslipprocess.js" asp-append-version="true"></script>
-        <script src="~/lib/plugins/toastr/toastr.min.js"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="~/lib/kendoUi/2021/js/kendo.all.min.js"></script>
-        <script src="~/lib/kendoUi/2021/js/jszip.min.js"></script>
-        <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
-        <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
-        <script src="~/js/common.min.js"></script>
-        <script src="~/js/po/po.js" asp-append-version="true"></script>
-        <script src="~/lib/plugins/toastr/toastr.min.js"></script>
-    </environment>
+<environment include="Development">
+    <script src="~/lib/kendoUi/2021/js/kendo.all.min.js"></script>
+    <script src="~/lib/kendoUi/2021/js/jszip.min.js"></script>
+    <script src="~/js/common.js"></script>
+    <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
+    @*  <script src="~/js/po/po.js" asp-append-version="true"></script>*@
+    @*   <script src="~/js/PickSlip/pickslipprocess.js" asp-append-version="true"></script>*@
+    <script src="~/lib/plugins/toastr/toastr.min.js"></script>
+</environment>
+<environment exclude="Development">
+    <script src="~/lib/kendoUi/2021/js/kendo.all.min.js"></script>
+    <script src="~/lib/kendoUi/2021/js/jszip.min.js"></script>
+    <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
+    <script src="~/js/common.min.js"></script>
+    @*    <script src="~/js/po/po.js" asp-append-version="true"></script>*@
+    <script src="~/lib/plugins/toastr/toastr.min.js"></script>
+</environment>
+<script type="text/javascript">
+    function additionalData()
+    {
+       var data =
+       {
+                category: $("#doctypelist").val(),
+       }
+       addAntiForgeryToken(data);
+       return data;
+     }
+     $(document).ready(function ()
+     {
+         $('#search').click(function () {
+             debugger;
+                //search
+                var grid = $('#pick-grid').data('kendoGrid');
+                grid.dataSource.read();
+                return false;
+          });
+             var initialLoad = true;
+              $("#pick-grid").kendoGrid({
+        toolbar: ["excel"],
+        excel: {
+            fileName: "PoList.xlsx",
+            proxyURL: "/Po/List",
+            filterable: true
+        },
+        dataSource: {
 
+            transport: {
+                read: {
+                    url: "/Po/List",
+                    type: "POST",
+                    dataType: "json",
+                    data: additionalData,
+                    complete: function (result) {
+                        console.log("Remote built-in transport", result);
+                        if (result.status == 401) {
+                            /* document.location.href = "@Html.Raw(Url.Action("Index", "AccessDenied"))";*/
+                        }
+                    }
+
+                }
+            },
+            schema: {
+                data: "Data",
+                total: "Total",
+                errors: "Errors"
+            },
+            error: function (e) {
+                //display_kendoui_grid_error(e);
+                // Cancel the changes
+                console.log(e)
+                this.cancelChanges();
+            },
+            pageSize: 20,
+            sortable: true,
+            serverPaging: true,
+            serverSorting: true,
+            requestStart: function () {
+                if (initialLoad) //<-- if it's the initial load, manually start the spinner
+                    kendo.ui.progress($("#booking-grid"), true);
+            },
+            requestEnd: function () {
+                if (initialLoad)
+                    kendo.ui.progress($("#booking-grid"), false);
+                initialLoad = false; //<-- make sure the spinner doesn't fire again (that would produce two spinners instead of one)
+
+            },
+
+        },
+        //selectable: 'raw',
+        //change: onChange,
+        height: 350,
+        pageable: {
+            refresh: true,
+            pageSizes: true
+        },
+
+        scrollable: true,
+        columns: [{
+            field: "Id",
+            title: "Id",
+            width: 50
+        },
+        {
+            field: "PoNumber",
+            title: "Po Number",
+            width: 100
+        },
+           {
+            field: "stockTransferPOCatagry",
+            title: "PO Catagry",
+            width: 100
+        },
+        {
+            field: "stockTransferPoSendingTo",
+            title: "Sending To",
+            width: 100
+        },
+        {
+            field: "stockTransferPoItem",
+            title: "Item",
+            width: 100
+        },
+         {
+            field: "stockTransferPoSubitem",
+            title: "Sub Item",
+            width: 100
+        },
+        {
+            field: "stockTransferPoQty",
+            title: "Qty",
+            width: 100
+        },
+       {
+            field: "stockTransferPoSerialNumber",
+            title: "Serial Number",
+            width: 100
+        },
+        {
+            field: "subItemCode",
+            title: "SubItem Code",
+            width: 100
+        },
+
+
+            //{
+            //    field: "Unit",
+            //    title: "Unit",
+            //    width: 100
+            //},
+
+
+            //{
+            //    field: "Amt",
+            //    title: "Amt",
+            //    width: 100
+            //},
+
+
+        ],
+
+    });
+     });
+
+
+
+
+
+
+
+
+
+
+</script>
     }

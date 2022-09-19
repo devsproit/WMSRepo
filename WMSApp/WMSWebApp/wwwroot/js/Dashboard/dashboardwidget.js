@@ -67,7 +67,6 @@
             refresh: true,
             pageSizes: true
         },
-
         scrollable: true,
         columns: [{
             field: "Id",

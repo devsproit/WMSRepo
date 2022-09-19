@@ -137,7 +137,7 @@ $(document).ready(function () {
             pageSizes: true
         },
 
-        scrollable: false,
+        scrollable: true,
         columns: [{
             field: "Id",
             title: "Id",

@@ -12,13 +12,14 @@ namespace Application.Services.PO
     {
         #region Fields
         private readonly IRepository<SalePoDb> _salePoRepository;
+        private readonly IRepository<PurchaseOrderDb> _poRepository;
 
         #endregion
 
         #region Ctor
-        public SalePo(IRepository<SalePoDb> salePoRepository)
+        public SalePo(IRepository<SalePoDb> salePoRepository, IRepository<PurchaseOrderDb> poRepository)
         {
-            _salePoRepository = salePoRepository;
+            _salePoRepository = salePoRepository; _poRepository = poRepository;
         }
         public void Insert(SalePoDb salePoDb)
         {
@@ -45,6 +46,17 @@ namespace Application.Services.PO
 
             query = query.OrderByDescending(x => x.Id);
 
+            var result = new PagedList<SalePoDb>(query, pageIndex, pageSize);
+            return result;
+        }
+
+        public IPagedList<SalePoDb> GetDetails(string category, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = from x in _poRepository.Table
+                        join y in _salePoRepository.Table
+                        on x.PONumber equals y.PONumber
+                        where x.POCategory == category
+                        select y;
             var result = new PagedList<SalePoDb>(query, pageIndex, pageSize);
             return result;
         }

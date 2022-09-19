@@ -24,10 +24,11 @@ namespace WMSWebApp.Controllers
         private readonly IIntrasitHelper _IntrasitHelper;
         private readonly IMapper _mapper;
         private readonly IWorkContext _workContext;
-        public IntrasitController(IIntrasitHelper intrasitHelper, IMapper mapper)
+        public IntrasitController(IIntrasitHelper intrasitHelper, IMapper mapper, IWorkContext workContext)
         {
             _IntrasitHelper = intrasitHelper;
             _mapper = mapper;
+            _workContext = workContext;
         }
 
         public IActionResult Index()
