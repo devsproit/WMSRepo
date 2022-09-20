@@ -87,7 +87,7 @@ $(document).ready(function () {
 
             $.ajax(settings).done(function (response) {
                 hideloading();
-                window.location = "/Grn/List";
+                window.location = "/PickSlip/PickSlipList";
             }).fail(function () {
 
                 hideloading();

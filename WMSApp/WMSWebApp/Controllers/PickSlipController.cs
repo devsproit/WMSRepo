@@ -241,7 +241,7 @@ namespace WMSWebApp.Controllers
                 master.PickSlipName = "";
                 master.CreateOn = DateTime.Now;
                 master.BranchCode = branch.BranchCode;
-
+                master.POID = model.FirstOrDefault().Id;
                 master.DockType = model.FirstOrDefault().DockType;
                 foreach (var item in model)
                 {
