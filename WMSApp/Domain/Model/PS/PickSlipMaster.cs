@@ -13,6 +13,7 @@ namespace Domain.Model.PS
         public DateTime CreateOn { get; set; }
         public string DockType { get; set; }
         public int POID { get; set; }
+        public bool IsProcessed { get; set; }
         private ICollection<PickSlipDetails> _pickSlipDetails;
         public virtual ICollection<PickSlipDetails> PickSlipDetails
         {

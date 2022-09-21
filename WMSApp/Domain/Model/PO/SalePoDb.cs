@@ -18,5 +18,6 @@ namespace Domain.Model.PO
         public string SalePOAmt { get; set; }
         public string SalePOSerialNumber { get; set; }
         public string SubItemCode { get; set; }
+        public bool IsProcessed { get; set; }
     }
 }

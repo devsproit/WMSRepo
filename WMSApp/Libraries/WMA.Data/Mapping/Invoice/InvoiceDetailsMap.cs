@@ -14,7 +14,12 @@ namespace WMS.Data.Mapping.Invoice
         public override void Configure(EntityTypeBuilder<InvoiceDetails> builder)
         {
             builder.ToTable(nameof(InvoiceDetails));
+
             builder.HasKey(x => x.Id);
+            builder.HasOne(details => details.InvoiceMaster)
+                .WithMany(master => master.InvoiceDetails)
+                .HasForeignKey(details => details.InvoiceMasterId)
+                .IsRequired();
             base.Configure(builder);
         }
         #endregion

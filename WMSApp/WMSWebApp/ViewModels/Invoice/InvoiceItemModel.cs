@@ -22,6 +22,15 @@ namespace WMSWebApp.ViewModels.Invoice
         public int Qty { get; set; }
         public string Unit { get; set; }
         public decimal Amount { get; set; }
-        
+        public int AreaId { get; set; }
+        public string AreaCode { get; set; }
+        public string AreaName { get; set; }
+        public string Size { get; set; }
+        public string ZoneCode { get; set; }
+        public string ZoneName { get; set; }
+        public string WarehouseCode { get; set; }
+        public string Warehouse { get; set; }
+
+
     }
 }

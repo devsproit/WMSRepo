@@ -65,20 +65,12 @@
 
                                     <div class="form-group col-md-2">
 
-                                        <label class="control-label">Document type</label>
-                                        <select class="form-control" id="doctype">
-                                            <option value="Select">Select</option>
-                                            <option value="StockTransfer PO">StockTransfer PO</option>
-                                            <option value="Sale PO">Sale PO</option>
-                                            @*<option value="SRN_PO">SRN PO</option>*@
-                                            <option value="ServiceOrder PO">ServiceOrder PO</option>
+                                        <label class="control-label">Pick Slip</label>
+                                        <select class="form-control select2" id="pickslip">
                                         </select>
 
                                     </div>
-                                    <div class="form-group col-md-2">
-                                        <label>PO Number</label>
-                                        <select class="form-control select2" id="ponumber"></select>
-                                    </div>
+
                                     <div class="form-group col-md-2">
                                         <label>Invoice No.</label>
                                         <input class="form-control" id="invoiceNo" />
@@ -95,7 +87,7 @@
                                 </div>
 
                                 <br />
-                                @*<div class="row">
+                                <div class="row">
                                     <div class="col-md-12">
                                         <nav>
                                             <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -156,21 +148,21 @@
 
                                                         <div class="form-group">
                                                             <label>Storeage Location</label>
-                                                            
-                                                            <select class="form-control" id="WarehouseId"></select>
+
+                                                            <input class="form-control" id="WarehouseId" readonly/>
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label>Zone</label>
-                                                            <select id="zone" class="form-control" placeholder="Area"></select>
+                                                            <input id="zone" class="form-control" placeholder="Area" readonly />
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Area</label>
-                                                            <select id="Warea" class="form-control" placeholder="Remark"></select>
+                                                            <input id="Warea" class="form-control" placeholder="Remark" readonly />
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Remark</label>
-                                                            <input id="Remark" class="form-control" placeholder="Plant Code" />
+                                                            <input id="Remark" class="form-control" placeholder="Plant Code" readonly />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -189,12 +181,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <h3>Add Item to selected area</h3>
-                                                        <button class="btn btn-primary" type="button" id="addtoarea">Add to area</button>
-                                                    </div>
-                                                </div>
+                                                @*<div class="row">
+                                            <div class="col-md-3">
+                                            <h3>Add Item to selected area</h3>
+                                            <button class="btn btn-primary" type="button" id="addtoarea">Add to area</button>
+                                            </div>
+                                            </div>*@
                                             </div>
                                             <div class="tab-pane fade" id="nav-Purchase" role="tabpanel" aria-labelledby="nav-Purchase-tab">
                                                 <div class="row">
@@ -238,7 +230,7 @@
                                             <br />
                                         </div>
                                     </div>
-                                </div>*@
+                                </div>
                             </div>
                             <div class="card-footer">
                                 <button class="btn btn-primary" id="finalsave" type="button">Final Save</button>
@@ -277,7 +269,7 @@
         <script src="~/js/common.js"></script>
         <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
         <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
-        <script src="~/js/invoice/invoiceprocess.js "></script>
+        <script src="~/js/invoice/invoiceprocess.js" asp-append-version="true"></script>
         <script src="~/lib/plugins/toastr/toastr.min.js"></script>
     </environment>
     <environment exclude="Development">
@@ -286,7 +278,7 @@
         <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
         <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
         <script src="~/js/common.min.js"></script>
-        <script src="~/js/invoice/invoiceprocess.js "></script>
+        <script src="~/js/invoice/invoiceprocess.js" asp-append-version="true"></script>
         <script src="~/lib/plugins/toastr/toastr.min.js"></script>
     </environment>
 
