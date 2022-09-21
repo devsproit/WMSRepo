@@ -259,6 +259,13 @@ namespace WMSWebApp.Controllers
 
                 }
                 _pickSlipService.Insert(master);
+                foreach (var item in model)
+                {
+                    var pos = _salePoService.GetById(item.Id);
+                    pos.IsProcessed = true;
+                    _salePoService.Update(pos);
+                }
+
                 return Json(true);
             }
             else

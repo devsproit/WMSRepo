@@ -35,7 +35,11 @@ namespace Application.Services.PS
             return _pickSlipMasterRepository.GetById(id);
         }
 
-        public virtual IPagedList<PickSlipMaster> GetPickSlipMasters(string branchCode,string pickslipName = "", int pageIndex = 0, int pageSize = int.MaxValue)
+        public virtual void Update(PickSlipMaster entity)
+        {
+            _pickSlipMasterRepository.Update(entity);
+        }
+        public virtual IPagedList<PickSlipMaster> GetPickSlipMasters(string branchCode, string pickslipName = "", int pageIndex = 0, int pageSize = int.MaxValue)
         {
             var query = from x in _pickSlipMasterRepository.Table
                         select x;

@@ -1,49 +1,44 @@
-﻿
+﻿'use strict'
+$(function () {
+    $("#pickslip").select2({
+        theme: 'bootstrap4',
+        /* minimumInputLength: 2,*/
+        /*templateResult: formatState, //this is for append country flag.*/
+        ajax: {
+            url: '/Invoice/GetPickSlip',
+            dataType: 'json',
+            type: "GET",
+            //data: function (term) {
+            //    return {
+            //        term: term
+            //    };
+            //},
+            processResults: function (data) {
+                console.log(data);
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            text: item.Id,
+                            id: item.Id,
+                        }
+                    })
+                };
+            }
 
-//$(function () {
-//    var docType = $("#doctype").val();
-//    $("#grn").select2({
-//        theme: 'bootstrap4',
-//        /* minimumInputLength: 2,*/
-//        /*templateResult: formatState, //this is for append country flag.*/
-//        ajax: {
-//            url: '/PickSlip/PoList?docType=' + docType,
-//            dataType: 'json',
-//            type: "GET",
-//            //data: function (term) {
-//            //    return {
-//            //        term: term
-//            //    };
-//            //},
-//            processResults: function (data) {
-//                /*console.log(data);*/
-//                return {
-//                    results: $.map(data, function (item) {
-//                        console.log(item);
-//                        return {
-//                            text: item.GRNId,
-//                            id: item.GRNId,
-//                        }
-//                    })
-//                };
-//            }
-
-//        }
-//    });
-
-
-//});
-$(document).ready(function () {
-    var sn = 1;
-
-    $("#doctype").change(function () {
-        console.log("doctype change");
-        PoNumberForInvoice($(this).val());
+        }
     });
 
 
-    $("#ponumber").change(function () {
-        itemList($(this).val(), $("#doctype").val());
+});
+
+$(document).ready(function () {
+    var sn = 1;
+
+
+
+
+    $("#pickslip").change(function () {
+        itemList($(this).val());
     });
     $("#items").change(function () {
         console.log($("#items option:selected").data('areaid'));
@@ -51,17 +46,35 @@ $(document).ready(function () {
     });
 
     $("#finalsave").click(function () {
+       
         var items = $('#pick-grid').data().kendoGrid.dataSource.data();
+        if ($("#pickslip").val().length > 0) {
+
+        }
+        else {
+            hideloading();
+            alert("Select pickslip to Invocie");
+            return false;
+        }
+
+        if ($("#invoiceNo").val().length > 0) {
+
+        }
+        else {
+            hideloading();
+            alert("Please enter Invocie.");
+            return false;
+        }
         console.log(items);
         if (items.length > 0) {
-
-            var list = [];
-            for (var i = 0; i < items.length; i++) {
-                list.push[items[i].init];
+            pleaseWait();
+            var list = {
+                PickSlipId: $("#pickslip").val(),
+                InvoiceId: $("#invoiceNo").val()
             }
 
             var settings = {
-                "url": "/PickSlip/Save",
+                "url": "/Invoice/Save",
                 "method": "POST",
                 "timeout": 0,
                 "headers": {
@@ -72,20 +85,17 @@ $(document).ready(function () {
 
             $.ajax(settings).done(function (response) {
                 hideloading();
-                window.location = "/Grn/List";
+                window.location = "/Invoice/List";
             }).fail(function () {
 
                 hideloading();
                 alert("something went wrong please try again.");
             });
         }
-        else {
-            alert("Please Add item in list.");
-            return false;
-        }
+
     });
 
-    
+
 
     var initialLoad = true;
     $("#pick-grid").kendoGrid({
@@ -95,7 +105,7 @@ $(document).ready(function () {
 
             transport: {
                 read: {
-                    url: "/PickSlip/List",
+                    url: "/Invoice/InvoiceList",
                     type: "POST",
                     dataType: "json",
                     data: additionalData,
@@ -125,36 +135,32 @@ $(document).ready(function () {
             serverSorting: true,
             requestStart: function () {
                 if (initialLoad) //<-- if it's the initial load, manually start the spinner
-                    kendo.ui.progress($("#booking-grid"), true);
+                    kendo.ui.progress($("#pick-grid"), true);
             },
             requestEnd: function () {
                 if (initialLoad)
-                    kendo.ui.progress($("#booking-grid"), false);
+                    kendo.ui.progress($("#pick-grid"), false);
                 initialLoad = false; //<-- make sure the spinner doesn't fire again (that would produce two spinners instead of one)
 
             },
 
         },
-        //selectable: 'raw',
-        //change: onChange,
+        selectable: 'raw',
+        change: onChange,
         height: 350,
         pageable: {
             refresh: true,
             pageSizes: true
         },
 
-        scrollable: false,
+        scrollable: true,
         columns: [{
             field: "Id",
             title: "Id",
 
             width: 50
         },
-        {
-            field: "PONumber",
-            title: "PONumber",
-            width: 100
-        },
+
         {
             field: "SubItemCode",
             title: "SubItemCode",
@@ -164,27 +170,89 @@ $(document).ready(function () {
         {
             field: "SubItemName",
             title: "SubItemName",
-            width: 120
+            width: 250
         },
         {
             field: "Qty",
             title: "Qty",
-            encoded: false,
-            width: 120
+
+            width: 50
         },
-            {
-                field: "Unit",
-                title: "Unit",
-                width: 100
-            },
+        {
+            field: "Unit",
+            title: "Unit",
+            width: 50
+        },
 
 
-            {
-                field: "Amount",
-                title: "Amount",
-                width: 100
-            },
+        {
+            field: "Amount",
+            title: "Amount",
+            width: 50
+        },
+        {
+            field: "AreaId",
+            title: "AreaId",
+            hidden: true,
+            width: 50
+        },
+        {
+            field: "MaterialDescription",
+            title: "MaterialDescription",
+            width: 50,
+            hidden: true,
 
+        },
+        {
+            field: "AreaCode",
+            title: "AreaCode",
+            width: 50,
+            hidden: true,
+
+        },
+        {
+            field: "AreaName",
+            title: "AreaName",
+            width: 50,
+            hidden: true,
+
+        },
+        {
+            field: "ZoneCode",
+            title: "ZoneCode",
+            width: 50,
+            hidden: true,
+
+        },
+        {
+            field: "ZoneName",
+            title: "ZoneName",
+            width: 50,
+            hidden: true,
+
+        },
+        {
+            field: "Warehouse",
+            title: "Warehouse",
+            width: 50,
+            hidden: true,
+
+        },
+        {
+            field: "WarehouseCode",
+            title: "WarehouseCode",
+            width: 50,
+            hidden: true,
+
+        },
+        {
+            field: "PoNumber",
+            title: "PoNumber",
+            width: 50,
+            hidden: true,
+
+        },
+        
 
         ],
 
@@ -208,20 +276,34 @@ function additionalData() {
 }
 
 function itemList(id, doctype) {
+    pleaseWait();
     $.ajax({
         type: "GET",
-        url: "/Invoice/GetPoProduct?id=" + id + "&docType=" + doctype,
+        url: "/Invoice/GetItems?id=" + id,
         data: "{}",
         success: function (data) {
+            var grid = $("#pick-grid").data('kendoGrid');
+
+            grid.dataSource.data([]);
+            grid.setDataSource([]);
             var sn = 1;
             for (var i = 0; i < data.length; i++) {
                 var newRow = {
                     Id: sn,
-                    PONumber: data[i].PoNumber,
+
                     SubItemCode: data[i].SubItemCode,
                     SubItemName: data[i].SubItemName,
                     Qty: data[i].Qty,
-                    Amount: data[i].Amount
+                    Amount: data[i].Amount,
+                    AreaId: data[i].AreaId,
+                    MaterialDescription: data[i].MaterialDescription,
+                    AreaCode: data[i].AreaCode,
+                    AreaName: data[i].AreaName,
+                    ZoneCode: data[i].ZoneCode,
+                    ZoneName: data[i].ZoneName,
+                    Warehouse: data[i].Warehouse,
+                    WarehouseCode: data[i].WarehouseCode,
+                    PoNumber: data[i].PoNumber
                 };
 
                 var grid = $("#pick-grid").data("kendoGrid");
@@ -229,8 +311,8 @@ function itemList(id, doctype) {
                 sn++;
             }
 
-
-            toastr.success('PO Item successfully added into list.');
+            hideloading();
+            toastr.success('PickSlip Item successfully added into list.');
         }
     });
 
@@ -250,25 +332,41 @@ function area(areaId) {
     });
 
 }
+function onChange(arg) {
+    //var selected = $.map(this.select(), function (item) {
+    //    return $(item);
+    //});
+    var rows = arg.sender.select(),
+        items = [];
 
-function PoNumberForInvoice(docType) {
-
-    $.ajax({
-        type: "GET",
-        url: "/PickSlip/PoList?docType=" + docType,
-        data: "{}",
-        success: function (data) {
-
-
-            var s = '';
-            for (var i = 0; i < data.length; i++) {
-                s += '<option value="' + data[i].PoNumber + '" >' + data[i].PoNumber + '</option>';
-            }
-            $("#ponumber").html(s);
-            $("#ponumber").trigger("change");
-        }
+    rows.each(function (arg) {
+        var grid = $('#pick-grid').data('kendoGrid');
+        var dataItem = grid.dataItem(this);
+        items.push(dataItem);
     });
+    fildetails(items);
+    console.log(items[0]['Amt']);
 }
+
+function fildetails(items) {
+    $("#Material").val(items[0]['MaterialDescription']);
+    $("#MaterialCode").val(items[0]['SubItemCode']);
+    $("#qtyu,#Qtysuk,#QtyD,#QtyO,#QtyI").val(items[0]['Qty']);
+    $("#sendercompany").val(items[0]["SenderCompany"]);
+    $("#sender").val(items[0]["Branch"]);
+    $("#WarehouseId").val(items[0]["Warehouse"]);
+    $("#zone").val(items[0]["ZoneName"]);
+    $("#Warea").val(items[0]["AreaName"]);
+    $("#wcode").val(items[0]["WarehouseCode"]);
+    $("#zcode").val(items[0]["ZoneCode"]);
+    $("#acode").val(items[0]["AreaCode"]);
+    $("#ponumber_details").val(items[0]["PoNumber"]);
+
+
+
+
+}
+
 function pleaseWait() {
     $('#pleaseWait').modal({
         backdrop: 'static',
@@ -277,8 +375,9 @@ function pleaseWait() {
 }
 
 function hideloading() {
+    $('#pleaseWait').modal('hide');
     $('#pleaseWait').on('shown.bs.modal', function (e) {
-        $(this).hide();
+
         $('.modal').modal('hide');
     })
 }

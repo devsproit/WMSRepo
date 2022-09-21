@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Model.GRN;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,17 @@ namespace Domain.Model.Invoice
         public string BilledTo { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
+        public int PickSlipId { get; set; }
+
+        public String BranchCode { get; set; }
+
+        private ICollection<InvoiceDetails> _invoiceDetails;
+
+        public virtual ICollection<InvoiceDetails>  InvoiceDetails
+        {
+            get => _invoiceDetails ?? (_invoiceDetails = new List<InvoiceDetails>());
+            protected set => _invoiceDetails = value;
+        }
 
     }
 }

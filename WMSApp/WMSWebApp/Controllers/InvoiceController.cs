@@ -11,6 +11,12 @@ using WMS.Web.Framework.Infrastructure.Extentsion;
 using Domain.Model.PO;
 using Domain.Model.StockManagement;
 using Application.Services.StockMgnt;
+using Application.Services.PS;
+using System.Threading.Tasks;
+using Application.Services;
+using Application.Services.WarehouseMaster;
+using DocumentFormat.OpenXml.Office2010.Excel;
+
 namespace WMSWebApp.Controllers
 {
     public class InvoiceController : BaseAdminController
@@ -24,10 +30,13 @@ namespace WMSWebApp.Controllers
         private readonly IWorkContext _workContext;
         private readonly IInvoiceService _invoiceService;
         private readonly IItemStockService _itemStockService;
+        private readonly IPickSlipService _pickSlipService;
+        private readonly ISubItemHelper _subItemService;
+        private readonly IWarehouseService _warehouseService;
         #endregion
 
         #region Ctor
-        public InvoiceController(IPurchaseOrder purchaseOrderService, ISalePo salePoService, IServiceOrderPo serviceOrderPoService, IStockTransferPo stockTransferPoService, IWorkContext workContext, IInvoiceService invoiceService, IItemStockService itemStockService)
+        public InvoiceController(IPurchaseOrder purchaseOrderService, ISalePo salePoService, IServiceOrderPo serviceOrderPoService, IStockTransferPo stockTransferPoService, IWorkContext workContext, IInvoiceService invoiceService, IItemStockService itemStockService, IPickSlipService pickSlipService, ISubItemHelper subItemService, IWarehouseService warehouseService)
         {
             _purchaseOrderService = purchaseOrderService;
             _salePoService = salePoService;
@@ -36,6 +45,9 @@ namespace WMSWebApp.Controllers
             _workContext = workContext;
             _invoiceService = invoiceService;
             _itemStockService = itemStockService;
+            _pickSlipService = pickSlipService;
+            _subItemService = subItemService;
+            _warehouseService = warehouseService;
         }
         #endregion
 
@@ -65,6 +77,7 @@ namespace WMSWebApp.Controllers
                     m.CreateOn = x.CreateOn;
                     m.InvoiceNumber = x.PoNumber;
                     m.BilledTo = x.BilledTo;
+                    m.Id = x.Id;
                     return m;
 
                 }),
@@ -74,6 +87,16 @@ namespace WMSWebApp.Controllers
 
         }
 
+        public IActionResult InvoiceList(DataSourceRequest request)
+        {
+            List<InvoiceListModel> m = new List<InvoiceListModel>();
+            DataSourceResult model = new DataSourceResult
+            {
+                Data = m,
+                Total = m.Count
+            };
+            return Json(model);
+        }
         public IActionResult Create()
         {
             return View();
@@ -86,71 +109,84 @@ namespace WMSWebApp.Controllers
             return Json("");
         }
         [HttpGet]
-        public virtual IActionResult GetPoProduct(string id, string docType)
+        public virtual IActionResult GetItems(int id)
         {
+            var pickslip = _pickSlipService.GetbyId(id);
             List<InvoiceItemModel> model = new List<InvoiceItemModel>();
-            if (docType == "StockTransfer PO")
+            if (pickslip.DockType == "StockTransfer PO")
             {
-                var items = _stockTransferPoService.GetStockTransferPos(id);
-                foreach (var item in items)
-                {
-                    InvoiceItemModel m = new InvoiceItemModel()
-                    {
-                        Amount = 0,
-                        SubItemName = item.StockTransferPOSubItem,
-                        PoNumber = item.PONumber,
-                        Id = item.Id,
-                        ItemCode = item.StockTransferPOItem,
-                        MaterialDescription = "",
-                        Qty = item.StockTransferPOQty,
-                        SubItemCode = item.SubItemCode,
+                //var items = _stockTransferPoService.GetStockTransferPos(id);
+                //foreach (var item in items)
+                //{
+                //    InvoiceItemModel m = new InvoiceItemModel()
+                //    {
+                //        Amount = 0,
+                //        SubItemName = item.StockTransferPOSubItem,
+                //        PoNumber = item.PONumber,
+                //        Id = item.Id,
+                //        ItemCode = item.StockTransferPOItem,
+                //        MaterialDescription = "",
+                //        Qty = item.StockTransferPOQty,
+                //        SubItemCode = item.SubItemCode,
 
-                    };
-                    model.Add(m);
-                }
+                //    };
+                //    model.Add(m);
+                //}
             }
-            else if (docType == "Sale PO")
+            else if (pickslip.DockType == "Sale PO")
             {
-                var items = _salePoService.GetSalePos(id);
+                var items = pickslip.PickSlipDetails;
                 foreach (var item in items)
                 {
-                    InvoiceItemModel m = new InvoiceItemModel()
-                    {
-                        Amount = Convert.ToInt32(item.SalePOAmt),
-                        SubItemName = item.SalePOSubItem,
-                        PoNumber = item.PONumber,
-                        //AreaId = item.AreaId,
-                        //GRNId = item.GRNId,
-                        Id = item.Id,
-                        ItemCode = item.SalePOSubItem,
-                        MaterialDescription = "",
-                        Qty = item.SalePOQty,
-                        SubItemCode = item.SubItemCode,
+                    InvoiceItemModel m = new InvoiceItemModel();
 
-                    };
+                    m.Amount = item.Amount;
+                    m.SubItemName = item.SubItemName;
+                    m.AreaId = item.AreaId;
+                    m.Id = item.Id;
+                    m.SubItemCode = item.SubItemCode;
+                    var subItem = _subItemService.GetItemByCOde(item.SubItemCode);
+                    if (subItem != null)
+                    {
+                        m.MaterialDescription = subItem.MaterialDescription;
+                    }
+                    var area = _warehouseService.GetWarehouseZoneAreaById(item.AreaId);
+                    if (area != null)
+                    {
+                        m.AreaCode = area.AreaCode;
+                        m.AreaName = area.AreaName;
+                        var zone = _warehouseService.GetZoneById(area.ZoneId);
+                        m.ZoneCode = zone.ZoneCode;
+                        m.ZoneName = zone.ZoneName;
+                        var warehouse = _warehouseService.GetById(zone.WarehouseId);
+                        m.Warehouse = warehouse.WarehouseName;
+                        m.WarehouseCode = warehouse.WarehouseCode;
+                    }
+                    var ponumber = _salePoService.GetById(pickslip.POID);
+                    m.PoNumber = ponumber.PONumber;
+                    m.Qty = item.Qty;
                     model.Add(m);
                 }
             }
             else
-
             {
-                var items = _serviceOrderPoService.GetServicePos(id);
-                foreach (var item in items)
-                {
-                    InvoiceItemModel m = new InvoiceItemModel()
-                    {
-                        Amount = item.ServiceOrderPOQty,
-                        SubItemName = item.ServiceOrderPOSubitem,
-                        PoNumber = item.PONumber,
-                        Id = item.Id,
-                        ItemCode = item.SubItemCode,
-                        MaterialDescription = "",
-                        Qty = item.ServiceOrderPOQty,
-                        SubItemCode = item.SubItemCode,
+                //var items = _serviceOrderPoService.GetServicePos(id);
+                //foreach (var item in items)
+                //{
+                //    InvoiceItemModel m = new InvoiceItemModel()
+                //    {
+                //        Amount = item.ServiceOrderPOQty,
+                //        SubItemName = item.ServiceOrderPOSubitem,
+                //        PoNumber = item.PONumber,
+                //        Id = item.Id,
+                //        ItemCode = item.SubItemCode,
+                //        MaterialDescription = "",
+                //        Qty = item.ServiceOrderPOQty,
+                //        SubItemCode = item.SubItemCode,
 
-                    };
-                    model.Add(m);
-                }
+                //    };
+                //    model.Add(m);
+                //}
             }
             return Json(model);
 
@@ -158,97 +194,125 @@ namespace WMSWebApp.Controllers
 
 
         [HttpPost]
-        public virtual IActionResult Save([FromBody] InvoiceModel model)
+        public virtual IActionResult Save([FromBody] PickSlipToInvoiceModel model)
         {
             InvoiceMaster master = new InvoiceMaster();
             List<InvoiceDetails> details = new List<InvoiceDetails>();
-            string docType = model.DocType;
             var branch = _workContext.GetCurrentBranch().Result;
-            if (docType == "StockTransfer PO")
+            var pickslip = _pickSlipService.GetbyId(model.PickSlipId);
+
+            if (pickslip.DockType == "StockTransfer PO")
             {
-                var items = _stockTransferPoService.GetStockTransferPos(model.PoNumber);
-                master.PoNumber = model.PoNumber;
-                master.PoCategory = docType;
-                master.InvoiceNumber = model.InvoiceNo;
-                master.BilledTo = items.FirstOrDefault().StockTransferPOSendingTo;
-                var id = _invoiceService.InsertMaster(master);
-                foreach (var item in items)
-                {
-                    InvoiceDetails m = new InvoiceDetails()
-                    {
-                        Amt = 0,
-                        SubItem = item.StockTransferPOSubItem,
-                        PoCategory = docType,
-                        InvoiceMasterId = id,
-                        Qty = item.StockTransferPOQty,
-                        SubItemCode = item.SubItemCode,
-                        SerialNo = item.StockTransferPOSerialNumber
+                //var items = _stockTransferPoService.GetStockTransferPos(id);
+                //foreach (var item in items)
+                //{
+                //    InvoiceItemModel m = new InvoiceItemModel()
+                //    {
+                //        Amount = 0,
+                //        SubItemName = item.StockTransferPOSubItem,
+                //        PoNumber = item.PONumber,
+                //        Id = item.Id,
+                //        ItemCode = item.StockTransferPOItem,
+                //        MaterialDescription = "",
+                //        Qty = item.StockTransferPOQty,
+                //        SubItemCode = item.SubItemCode,
 
-
-                    };
-                    details.Add(m);
-                   // ReduceUpdateStock(item.SubItemCode, branch.BranchCode, item.StockTransferPOQty);
-                }
-
-                _invoiceService.InsertDetails(details);
-
+                //    };
+                //    model.Add(m);
+                //}
             }
-            else if (docType == "Sale PO")
+            else if (pickslip.DockType == "Sale PO")
             {
-                var items = _salePoService.GetSalePos(model.PoNumber);
-                master.PoNumber = model.PoNumber;
-                master.PoCategory = docType;
-                master.InvoiceNumber = model.InvoiceNo;
-                master.BilledTo = items.FirstOrDefault().SalePOSendingTo;
-                var id = _invoiceService.InsertMaster(master);
+                var items = pickslip.PickSlipDetails;
+                var ponumber = _salePoService.GetById(pickslip.POID);
+                master.PoNumber = ponumber.PONumber;
+                master.PoCategory = pickslip.DockType;
+                master.CreateOn = DateTime.Now;
+                master.BilledTo = ponumber.SalePOSendingTo;
+                master.PickSlipId = pickslip.Id;
+                master.InvoiceNumber = model.InvoiceId;
                 foreach (var item in items)
                 {
-                    InvoiceDetails m = new InvoiceDetails()
+                    InvoiceDetails m = new InvoiceDetails();
+
+                    m.Amt = item.Amount;
+                    m.SubItemName = item.SubItemName;
+                    m.AreaId = item.AreaId;
+                    //m.Id = item.Id;
+                    m.SubItemCode = item.SubItemCode;
+                    var subItem = _subItemService.GetItemByCOde(item.SubItemCode);
+                    if (subItem != null)
                     {
-                        Amt = Convert.ToInt32(item.SalePOAmt),
-                        SubItem = item.SalePOSubItem,
-                        Qty = item.SalePOQty,
-                        SubItemCode = item.SubItemCode,
-                        InvoiceMasterId = id,
-                        PoCategory = docType,
-                        SerialNo = item.SalePOSerialNumber
-                    };
-                    details.Add(m);
-                    //ReduceUpdateStock(item.SubItemCode, branch.BranchCode, item.SalePOQty);
+                        m.MaterialDescription = subItem.MaterialDescription;
+                    }
+                    var area = _warehouseService.GetWarehouseZoneAreaById(item.AreaId);
+                    if (area != null)
+                    {
+                        m.AreaCode = area.AreaCode;
+                        m.AreaName = area.AreaName;
+                        var zone = _warehouseService.GetZoneById(area.ZoneId);
+                        m.ZoneCode = zone.ZoneCode;
+                        m.ZoneName = zone.ZoneName;
+                        var warehouse = _warehouseService.GetById(zone.WarehouseId);
+                        m.Warehouse = warehouse.WarehouseName;
+                        m.WarehouseCode = warehouse.WarehouseCode;
+                    }
+
+
+                    m.Qty = item.Qty;
+                    m.InvoiceMaster = master;
+                    master.InvoiceDetails.Add(m);
+
                 }
-                _invoiceService.InsertDetails(details);
+                
+                _invoiceService.InsertMaster(master);
+                pickslip = _pickSlipService.GetbyId(model.PickSlipId);
+                pickslip.IsProcessed = true;
+                _pickSlipService.Update(pickslip);
             }
             else
-
             {
-                var items = _serviceOrderPoService.GetServicePos(model.PoNumber);
-                master.PoNumber = model.PoNumber;
-                master.PoCategory = docType;
-                master.InvoiceNumber = model.InvoiceNo;
-                master.BilledTo = items.FirstOrDefault().ServiceOrderPOSendingTo;
-                var id = _invoiceService.InsertMaster(master);
-                foreach (var item in items)
-                {
-                    InvoiceDetails m = new InvoiceDetails()
-                    {
-                        Amt = item.ServiceOrderPOQty,
-                        SubItem = item.ServiceOrderPOSubitem,
-                        Qty = item.ServiceOrderPOQty,
-                        SubItemCode = item.SubItemCode,
-                        SerialNo = item.ServiceOrderPOSerialNumber,
-                        InvoiceMasterId = id,
-                        PoCategory = docType,
+                //var items = _serviceOrderPoService.GetServicePos(id);
+                //foreach (var item in items)
+                //{
+                //    InvoiceItemModel m = new InvoiceItemModel()
+                //    {
+                //        Amount = item.ServiceOrderPOQty,
+                //        SubItemName = item.ServiceOrderPOSubitem,
+                //        PoNumber = item.PONumber,
+                //        Id = item.Id,
+                //        ItemCode = item.SubItemCode,
+                //        MaterialDescription = "",
+                //        Qty = item.ServiceOrderPOQty,
+                //        SubItemCode = item.SubItemCode,
 
-
-                    };
-                    details.Add(m);
-                    //ReduceUpdateStock(item.SubItemCode, item., item.ServiceOrderPOQty);
-                }
-
-                _invoiceService.InsertDetails(details);
+                //    };
+                //    model.Add(m);
+                //}
             }
-
             return Json(true);
+        }
+
+
+
+        [HttpGet]
+        public virtual IActionResult GetPickSlip()
+        {
+            var branch = _workContext.GetCurrentBranch().Result;
+            var result = _pickSlipService.GetPickSlipMasters(branch.BranchCode);
+            List<PickSlipListModel> model = new List<PickSlipListModel>();
+            foreach (var item in result.ToList())
+            {
+                PickSlipListModel pickSlip = new PickSlipListModel();
+                pickSlip.Id = item.Id;
+                model.Add(pickSlip);
+            }
+            return Json(model);
+        }
+
+        public virtual IActionResult Print(int id)
+        {
+            return View();
         }
         #endregion
 
