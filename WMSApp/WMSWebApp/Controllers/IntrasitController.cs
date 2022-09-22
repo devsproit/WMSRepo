@@ -117,17 +117,17 @@ namespace WMSWebApp.Controllers
                 foreach (var item in intransitViewModel.intrasitcList)
                 {
                     IntrasitDb intrasitDb = new IntrasitDb();
-                    intrasitDb.Sender_Branch = null;
+                    intrasitDb.Sender_Branch = item.Branch;
                     intrasitDb.PurchaseOrder = item.PurchaseOrder;
                     intrasitDb.Sender_Company = item.SenderCompany;
-                    intrasitDb.SubItem_Name = null;
+                    intrasitDb.SubItem_Name = item.SubItemName;
                     intrasitDb.SubItem_Code = item.SubItemCode;
                     intrasitDb.Material_Description = item.MaterialDescription;
                     intrasitDb.Unit = item.Unit;
                     intrasitDb.Amt = item.Amt;
                     intrasitDb.Qty = item.Qty;
                     intrasitDb.Item_Code = item.ItemCode;
-                    intrasitDb.Login_Branch = branch.BranchName;
+                    intrasitDb.Login_Branch = branch.BranchCode;
                     _IntrasitHelper.CreateNewIntrasit(intrasitDb);
                 }
                 return Json(new { success = true, message = "Saved Successfully" });
