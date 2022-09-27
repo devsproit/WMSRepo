@@ -43,7 +43,7 @@ namespace Application.Services.PO
             {
                 query = query.Where(x => x.PONumber == poNumber);
             }
-
+            query = query.Where(x => x.IsProcessed == false);
             query = query.OrderByDescending(x => x.Id);
 
             var result = new PagedList<SalePoDb>(query, pageIndex, pageSize);
