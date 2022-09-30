@@ -26,7 +26,7 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Serialization;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.ResponseCompression;
-
+using Exceptionless;
 namespace WMSWebApp
 {
     public class Startup
@@ -157,6 +157,7 @@ namespace WMSWebApp
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });
             //services.AddControllers();
+            services.AddExceptionless("h7ldLVMdiBfcngPy4qBwf4vydu59mzPqWlV8Pb8M");
             return services.ConfigureApplicationServices(Configuration, _webHostEnvironment);
         }
 
@@ -180,7 +181,7 @@ namespace WMSWebApp
             //{
             //    endpoints.MapControllers();
             //});
-
+            app.UseExceptionless();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

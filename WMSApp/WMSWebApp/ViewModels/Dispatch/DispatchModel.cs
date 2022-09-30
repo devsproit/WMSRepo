@@ -1,8 +1,9 @@
-﻿using DocumentFormat.OpenXml.Office2010.ExcelAc;
+﻿
 using Domain.Model.Invoice;
-using Microsoft.Build.Framework;
+
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WMSWebApp.ViewModels.Dispatch
 {
@@ -11,6 +12,9 @@ namespace WMSWebApp.ViewModels.Dispatch
         [Required]
         public int InvoiceId { get; set; }
         [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        
         public DateTime DispatchDate { get; set; }
         public string PO { get; set; }
         public string VendorName { get; set; }
