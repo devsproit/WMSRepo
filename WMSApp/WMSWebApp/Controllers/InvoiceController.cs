@@ -64,9 +64,10 @@ namespace WMSWebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult List(DataSourceRequest request)
+        public async Task<IActionResult> List(DataSourceRequest request)
         {
-            var data = _invoiceService.GetAllMaster(request.Page - 1, request.PageSize);
+            var branch = await _workContext.GetCurrentBranch();
+            var data = _invoiceService.GetAllMaster(branch.BranchCode, request.Page - 1, request.PageSize,"ALL");
             DataSourceResult gridData = new DataSourceResult
             {
                 Data = data.Select(x =>
@@ -231,6 +232,7 @@ namespace WMSWebApp.Controllers
                 master.BilledTo = ponumber.SalePOSendingTo;
                 master.PickSlipId = pickslip.Id;
                 master.InvoiceNumber = model.InvoiceId;
+                master.DispatchDone = false;
                 foreach (var item in items)
                 {
                     InvoiceDetails m = new InvoiceDetails();
@@ -264,7 +266,7 @@ namespace WMSWebApp.Controllers
                     master.InvoiceDetails.Add(m);
 
                 }
-                
+
                 _invoiceService.InsertMaster(master);
                 pickslip = _pickSlipService.GetbyId(model.PickSlipId);
                 pickslip.IsProcessed = true;
