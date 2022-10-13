@@ -244,4 +244,35 @@ public class AdoConnection : IAdoConnection
         return SqlDataTable;
 
     }
+
+    public int Delete(string SPName, List<SqlParameter> parameterlist)
+    {
+        int result = 0;
+        if (!string.IsNullOrEmpty(SPName))
+        {
+            using (IDbConnection Connector = GetConnection())
+            {
+                SqlCommand cmd = new SqlCommand(SPName, (SqlConnection)Connector);
+                cmd.CommandType = CommandType.StoredProcedure;
+                if (parameterlist != null)
+                {
+                    cmd.Parameters.AddRange(parameterlist.ToArray());
+                }
+                try
+                {
+                    Connector.Open();
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    Connector.Dispose();
+                }
+            }
+        }
+        return result;
+    }
 }

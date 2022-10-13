@@ -23,5 +23,9 @@ namespace Application.Services
 
         List<ItemDb>GetAllItem();
         List<SubItemDb> GetSubItem(int subItemId);
+
+        string GetSubItemTitle(string subName);
+
+        
     }
 }

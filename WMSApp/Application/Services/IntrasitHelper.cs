@@ -53,7 +53,12 @@ namespace Application.Services
 
         public bool DeleteIntrasitById(int Id)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
+            int result = 0;
+            List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            sqlParameters.Add(new SqlParameter("@Id", Id));
+            result = _adoConnection.Delete(Constants.DeleteIntasitByIdSP, sqlParameters);
+            return result > 0 ? true : false;
         }
 
         public List<Branch> GetAllBranches()
@@ -118,8 +123,25 @@ namespace Application.Services
             return data.ToList();
         }
 
-        
-        
+        public string GetSubItemTitle(string subName)
+        {
+            string mdsec = string.Empty;
+            List<SqlParameter> sqlParameters;
+            sqlParameters = new List<SqlParameter>()
+                {
+                    new SqlParameter("@subName", subName),
 
+                };
+            DataTable dt = _adoConnection.GetDatatableFromSqlWithSP(Constants.GetSubItemMaterialDesc, sqlParameters);
+
+            if (dt.Rows.Count > 0)
+            {
+                DataRow row = dt.Rows[0];
+                mdsec = row["MaterialDescription"].ToString();
+            }
+
+            //   throw new NotImplementedException();
+            return mdsec;
+        }
     }
 }

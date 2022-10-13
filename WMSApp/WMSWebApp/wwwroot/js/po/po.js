@@ -1,4 +1,37 @@
-﻿$(document).ready(function () {
+﻿'use strict'
+$(function () {
+    debugger;
+    $("#stpSubItem").select2({
+        theme: 'bootstrap4',
+        /* minimumInputLength: 2,*/
+        /*templateResult: formatState, //this is for append country flag.*/
+        ajax: {
+            url: '/Po/SearchSubItem',
+            dataType: 'json',
+            type: "GET",
+            //data: function (term) {
+            //    return {
+            //        term: term
+            //    };
+            //},
+            processResults: function (data) {
+                console.log(data);
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            text: item,
+                            id: item,
+                        }
+                    })
+                };
+            }
+
+        }
+    });
+
+
+});
+$(document).ready(function () {
     //$("#spAmt").format({ format: "#,###.00", locale: "us" });
     //$("#stpAmt").format({ format: "#,###.00", locale: "us" });
     //$("#sopAmt").format({ format: "#,###.00", locale: "us" });
@@ -164,7 +197,7 @@
         var drpdown = $('#doctype :selected').text();
 
         if (drpdown == "Sale PO") {
-            jsonObj = [];
+            var jsonObj = [];
             var table = $('#tblpo').DataTable();
             var data = table.data();
             for (var i = 0; i < data.length; i++) {
@@ -192,7 +225,7 @@
             data.sRNPOCategories = null;
         }
         else if (drpdown == "StockTransfer PO") {
-            jsonObj = [];
+            var jsonObj = [];
             var table = $('#tblpo').DataTable();
             var data = table.data();
             for (var i = 0; i < data.length; i++) {
@@ -222,11 +255,11 @@
 
         }
         else if (drpdown == "ServiceOrder PO") {
-            jsonObj = [];
+            var jsonObj = [];
             var table = $('#tblpo').DataTable();
             var data = table.data();
             for (var i = 0; i < data.length; i++) {
-                myData = {};
+                var myData = {};
                 myData["ServiceOrderPOCategory"] = data[i][0];
                 myData["ServiceOrderPOSendingTo"] = data[i][1];//senderCompany
                 myData["ServiceOrderPOItem"] = data[i][2];
@@ -252,7 +285,7 @@
 
         }
         else if (drpdown == "SRN PO") {
-            jsonObj = [];
+            var jsonObj = [];
             var table = $('#tblpo').DataTable();
             var data = table.data();
             for (var i = 0; i < data.length; i++) {
@@ -336,7 +369,99 @@
         format: "dd/mm/yyyy",
         language: "tr"
     });
-  
+    //srnSubItem
+
+    $("#spSubItem").select2({
+        theme: 'bootstrap4',
+        /* minimumInputLength: 2,*/
+        /*templateResult: formatState, //this is for append country flag.*/
+        ajax: {
+            url: '/Po/SearchSubItem',
+            dataType: 'json',
+            type: "GET",
+            //data: function (term) {
+            //    return {
+            //        term: term
+            //    };
+            //},
+            processResults: function (data) {
+                console.log(data);
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            text: item,
+                            id: item,
+                        }
+                    })
+                };
+            }
+
+        }
+
+
+    });
+
+
+    $("#srnSubItem").select2({
+        theme: 'bootstrap4',
+        /* minimumInputLength: 2,*/
+        /*templateResult: formatState, //this is for append country flag.*/
+        ajax: {
+            url: '/Po/SearchSubItem',
+            dataType: 'json',
+            type: "GET",
+            //data: function (term) {
+            //    return {
+            //        term: term
+            //    };
+            //},
+            processResults: function (data) {
+                console.log(data);
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            text: item,
+                            id: item,
+                        }
+                    })
+                };
+            }
+
+        }
+
+
+    });
+
+    $("#spSubItem").select2({
+        theme: 'bootstrap4',
+        /* minimumInputLength: 2,*/
+        /*templateResult: formatState, //this is for append country flag.*/
+        ajax: {
+            url: '/Po/SearchSubItem',
+            dataType: 'json',
+            type: "GET",
+            //data: function (term) {
+            //    return {
+            //        term: term
+            //    };
+            //},
+            processResults: function (data) {
+                console.log(data);
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            text: item,
+                            id: item,
+                        }
+                    })
+                };
+            }
+
+        }
+
+
+    });
+
 });
 
 

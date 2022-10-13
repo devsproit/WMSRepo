@@ -11,4 +11,5 @@ public interface IAdoConnection
 
     DataTable bulkImport(string SPName, DataTable dataTable);
 
+    int Delete(string SPName, List<SqlParameter> parameterlist);
 }

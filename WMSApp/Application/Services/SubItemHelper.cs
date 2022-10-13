@@ -8,6 +8,7 @@ using WMS.Core.Data;
 using System.Collections.Generic;
 using System.Linq;
 using WMS.Core;
+using System;
 
 namespace Application.Services
 {
@@ -140,6 +141,40 @@ namespace Application.Services
             return result;
         }
 
+        public virtual IPagedList<SubItemDb> GetSubItem(string SubItemCode, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(SubItemCode))
+                {
+                    var query = from x in _subItemRepository.Table
+                                select x;
+                    if (SubItemCode == "0")
+                    {
 
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(SubItemCode))
+                        {
+                            query = query.Where(x => x.SubItemCode == SubItemCode);
+                        }
+                    }
+                 
+                    var result = new PagedList<SubItemDb>(query, pageIndex, pageSize);
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
     }
 }

@@ -233,9 +233,9 @@ namespace WMSWebApp.Controllers
         }//GetMaterialDesc
 
         [HttpGet]
-        public JsonResult GetMaterialDesc(int subItemId)
+        public JsonResult GetMaterialDesc(string subItemId)
         {
-            var data = _IntrasitHelper.GetSubItem(subItemId);
+            var data = _IntrasitHelper.GetSubItemTitle(subItemId);
             return Json(data);
         }
 
@@ -285,6 +285,15 @@ namespace WMSWebApp.Controllers
             }
             memory.Position = 0;
             return memory;
+        }
+
+        public ActionResult Delete(int id)
+        {
+            var data = _IntrasitHelper.DeleteIntrasitById(id);
+            //_context.Employees.Remove(data);
+            //_context.SaveChanges();
+            //ViewBag.Messsage = "Record Delete Successfully";
+            return RedirectToAction("index");
         }
     }
 }

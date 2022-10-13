@@ -190,11 +190,11 @@ namespace WMSWebApp.Controllers
             listSendCompany.Insert(0, new SenderCompanyNameDb { Id = 0, Sender_Company_Name = "Select" });
             listBranch.Insert(0, new Branch { Id = 0, BranchName = "Select" });
             listItem.Insert(0, new ItemDb { Id = 0, ItemName = "Select" });
-            listSubItem.Insert(0, new SubItemDb { Id = 0, SubItemName = "Select" });
-            ViewBag.ListofSenderCompany = listSendCompany;
-            ViewBag.listBranch = listBranch;
-            ViewBag.listItem = listItem;
-            ViewBag.listSubItem = listSubItem;
+           // listSubItem.Insert(0, new SubItemDb { Id = 0, SubItemName = "Select" });
+            ViewBag.ListofSenderCompany = listSendCompany.ToList();
+            ViewBag.listBranch = listBranch.ToList();
+            ViewBag.listItem = listItem.ToList();
+            ViewBag.listSubItem = listSubItem.ToList();
 
             purchaseOrderViewModel.listItem = listItem;
             purchaseOrderViewModel.listSubItem = listSubItem;
@@ -202,6 +202,15 @@ namespace WMSWebApp.Controllers
             purchaseOrderViewModel.listSenderCompany = listSendCompany;
             return View();
         }
+
+        [HttpGet]
+        public virtual async Task<IActionResult> SearchSubItem()
+        {
+            var subItemsData = _SubItemHelper.GetSubItem("0", 0, int.MaxValue).ToList().GetUniqeCode();
+            //subItems = _mapper.Map<List<SubItem>>(subItemsData);
+            return Json(subItemsData);
+        }
+
 
         [HttpPost]
         public virtual async Task<IActionResult> Create([FromBody] PoViewModel poViewModel)
@@ -226,13 +235,13 @@ namespace WMSWebApp.Controllers
                         stockTransferPo.StockTransferPOCategory = item.StockTransferPOCategory;
                         stockTransferPo.StockTransferPOSendingTo = item.StockTransferPOSendingTo;
                         stockTransferPo.StockTransferPOItem = item.StockTransferPOItem;
-                        stockTransferPo.StockTransferPOSubItem = item.StockTransferPOSubItem;
                         stockTransferPo.StockTransferPOQty = item.StockTransferPOQty;
                         stockTransferPo.StockTransferPOAmt = item.StockTransferPOAmt;
                         stockTransferPo.StockTransferPOSerialNumber = item.StockTransferPOSerialNumber;
                         stockTransferPo.PONumber = poViewModel.PONumber;
-                        var subItem = _SubItemHelper.GetSubItemById(Convert.ToInt32(item.SubItemCode));
+                        var subItem = _SubItemHelper.GetItemByCOde(item.SubItemCode);
                         stockTransferPo.SubItemCode = subItem.SubItemCode;
+                        stockTransferPo.StockTransferPOSubItem = subItem.SubItemName;
                         _stockTransferPo.Insert(stockTransferPo);
                     }
                 }
@@ -245,7 +254,7 @@ namespace WMSWebApp.Controllers
                         serviceOrderPODb.ServiceOrderPOCategory = item.ServiceOrderPOCategory;
                         serviceOrderPODb.ServiceOrderPOSendingTo = item.ServiceOrderPOSendingTo;
                         serviceOrderPODb.ServiceOrderPOItem = item.ServiceOrderPOItem;
-                        serviceOrderPODb.ServiceOrderPOSubitem = item.ServiceOrderPOSubitem;
+                        
                         serviceOrderPODb.ServiceOrderPOQty = item.ServiceOrderPOQty;
                         serviceOrderPODb.ServiceOrderPOAmt = item.ServiceOrderPOAmt;
                         serviceOrderPODb.ServiceOrderPOSerialNumber = item.ServiceOrderPOSerialNumber;
@@ -254,8 +263,9 @@ namespace WMSWebApp.Controllers
                         serviceOrderPODb.ServiceOrderPOServiceRequestNumber = item.ServiceOrderPOServiceRequestNumber;
                         serviceOrderPODb.ServiceOrderPOSalePO = item.ServiceOrderPOSalePO;
                         serviceOrderPODb.ServiceOrderPOSaleDate = item.ServiceOrderPOSaleDate;
-                        var subItem = _SubItemHelper.GetSubItemById(Convert.ToInt32(item.SubItemCode));
+                        var subItem = _SubItemHelper.GetItemByCOde(item.SubItemCode);
                         serviceOrderPODb.SubItemCode = subItem.SubItemCode;
+                        serviceOrderPODb.ServiceOrderPOSubitem = subItem.SubItemName;
                         _serviceOrderPO.Insert(serviceOrderPODb);
                     }
 
@@ -269,13 +279,13 @@ namespace WMSWebApp.Controllers
                         salePoDb.SalePOCategory = item.SalePOCategory;
                         salePoDb.SalePOSendingTo = item.SalePOSendingTo;
                         salePoDb.SalePOItem = item.SalePOItem;
-                        salePoDb.SalePOSubItem = item.SalePOSubItem;
                         salePoDb.SalePOQty = item.SalePOQty;
                         salePoDb.SalePOAmt = item.SalePOAmt;
                         salePoDb.SalePOSerialNumber = item.SalePOSerialNumber;
                         salePoDb.PONumber = poViewModel.PONumber;
-                        var subItem = _SubItemHelper.GetSubItemById(Convert.ToInt32(item.SubItemCode));
+                        var subItem = _SubItemHelper.GetItemByCOde(item.SubItemCode);
                         salePoDb.SubItemCode = subItem.SubItemCode;
+                        salePoDb.SalePOSubItem = subItem.SubItemName;
                         _salePo.Insert(salePoDb);
                     }
                 }
@@ -291,12 +301,12 @@ namespace WMSWebApp.Controllers
                         sRNPo.SrnPOQty = item.SrnPOQty;
                         sRNPo.SrnPOItem = item.SrnPOItem;
                         sRNPo.SrnPOSendingTo = item.SrnPOSendingTo;
-                        sRNPo.SrnPOSubItem = item.SrnPOSubItem;
                         sRNPo.PONumber = poViewModel.PONumber;
                         sRNPo.InvoiceNo = item.InvoiceNo;
                         sRNPo.IsProcess = false;
-                        var subItem = _SubItemHelper.GetSubItemById(Convert.ToInt32(item.SubItemCode));
+                        var subItem = _SubItemHelper.GetItemByCOde(item.SubItemCode);
                         sRNPo.SubItemCode = subItem.SubItemCode;
+                        sRNPo.SrnPOSubItem = subItem.SubItemName;
                         _srnPo.Insert(sRNPo);
                     }
 

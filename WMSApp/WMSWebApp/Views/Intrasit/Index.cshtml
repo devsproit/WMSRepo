@@ -106,7 +106,7 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.Amt)
                                     </th>
-
+                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -138,7 +138,9 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Amt)
                                         </td>
-
+                                        <td>
+                                            @Html.ActionLink("Delete", "Delete", new { id = item.Id }) 
+                                        </td>
                                     </tr>
                                 }
                             </tbody>

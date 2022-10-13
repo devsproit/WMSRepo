@@ -45,7 +45,7 @@
             url: '/Intrasit/GetMaterialDesc',//@Url.Action("GetMaterialDesc","Intrasit")
             type: 'GET',
             data: {
-                subItemId: $('#subItemId').val(),
+                subItemId: $('#subItemId :selected').text(),
             },
             success: function (data) {
                 //$('#SubItemId').find('option').remove()
@@ -54,7 +54,7 @@
                     $('#txtMDesc').val("");
                 }
                 else {
-                    $('#txtMDesc').val(data[0].MaterialDescription);
+                    $('#txtMDesc').val(data);
                 }
             },
             error: function () {

@@ -92,11 +92,13 @@ namespace WMSWebApp.Controllers
 
         }
 
+
+
         [HttpPost]
         public virtual async Task<IActionResult> PODetails(string pono)
         {
             var branch = await _workContext.GetCurrentBranch();
-            var srnData = _srnPo.GetSrnDetails(branch.BranchCode, pono, 0, int.MaxValue).ToList();
+            var srnData = _srnPo.GetSrnDetails(branch.BranchCode, pono, 0, int.MaxValue);
             int id = 1;
             var data = new DataSourceResult()
             {

@@ -32,11 +32,13 @@
         public const string UpdateSubItemByIdSP = @"[WMS].[SubItemUpdate]";
         public const string CreateNewSubItemSP = @"[WMS].[SubItemInsert]";
         public const string DeleteSubItemByIdSP = @"sp";
+        public const string GetSubItemMaterialDesc = @"[WMS].[SubItemGetMaterialDescription]";
 
         public const string CreateNewIntrasItSP = @"[WMS].[IntrasitInsert]";
         public const string GetAllIntrasitSP = @"[WMS].[IntrasitGetAll]";
         public const string BulkImportintransit = @"[dbo].[spBulkImportIntransit]";
-       
+        public const string DeleteIntasitByIdSP = @"[WMS].[IntrasitDelete]";
+
 
         public const string GetAllSenderCompanySP = @"[WMS].[SenderGetAll]";
         public const string GetCustomerByNameSP = @"[WMS].[CustomerGetByName]";

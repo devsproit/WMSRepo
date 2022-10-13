@@ -66,7 +66,7 @@ $(document).ready(function () {
     $("#Warea").trigger("change");
     $('#ponumber').on('change', function (e) {
         $("#ponumber_details").val($("#ponumber").val());
-        var grid = $('#myGrid').data('kendoGrid');
+        var grid = $('#srnGrid').data('kendoGrid');
         grid.dataSource.page(1);
     });
     $("#doctype").on('change', function () {
@@ -292,6 +292,107 @@ $(document).ready(function () {
         else {
 
         }
+    });
+
+
+    $("#srnGrid").kendoGrid({
+        dataSource: {
+
+            transport: {
+                read: {
+                    url: "/Srn/PODetails",
+                    type: "POST",
+                    dataType: "json",
+                    data: additionalData,
+                    complete: function (result) {
+                        console.log("Remote built-in transport", result);
+                        if (result.status == 401) {
+                            /* document.location.href = "@Html.Raw(Url.Action("Index", "AccessDenied"))";*/
+                        }
+                    }
+
+                }
+            },
+            schema: {
+                data: "Data",
+                total: "Total",
+                errors: "Errors"
+            },
+            error: function (e) {
+                //display_kendoui_grid_error(e);
+                // Cancel the changes
+                console.log(e)
+                this.cancelChanges();
+            },
+            pageSize: 20,
+            sortable: true,
+            serverPaging: true,
+            serverSorting: true,
+            requestStart: function () {
+                if (initialLoad) //<-- if it's the initial load, manually start the spinner
+                    kendo.ui.progress($("#myGrid"), true);
+            },
+            requestEnd: function () {
+                if (initialLoad)
+                    kendo.ui.progress($("#myGrid"), false);
+                initialLoad = false; //<-- make sure the spinner doesn't fire again (that would produce two spinners instead of one)
+
+            },
+
+        },
+        editable: false,
+        // pageable  : false,
+        scrollable: true,
+
+        height: 350,
+        pageable: {
+            refresh: true,
+            pageSizes: true
+        },
+
+        scrollable: true,
+        columns: [{
+            field: "Id",
+            title: "Id",
+            width: 50
+        },
+        {
+            title: "Purchase Order",
+            field: "PurchaseOrder",
+            width: 150
+        },
+        {
+            title: "SubItem Code",
+            field: "SubItemCode",
+            width: 100
+        },
+        {
+            title: "SubItem Name",
+            field: "SubItemName",
+            width: 120
+        },
+        {
+            title: "Sending To",
+            field: "SendingTo",
+            width: 120
+        },
+        {
+            title: "Qty",
+            field: "Qty",
+            width: 120
+        },
+        {
+            field: "Unit",
+            title: "Unit",
+            width: 120
+        },
+        {
+            title: "Amount",
+            field: "Amt",
+            width: 120
+        }
+        ],
+
     });
 
 });
