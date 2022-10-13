@@ -14,6 +14,8 @@ namespace Application.Services.Invoice
         int InsertMaster(InvoiceMaster entity);
         void InsertDetails(InvoiceDetails entity);
         void InsertDetails(List<InvoiceDetails> entities);
-        IPagedList<InvoiceMaster> GetAllMaster(int pageIndex = 0, int pageSize = int.MaxValue);
+        IPagedList<InvoiceMaster> GetAllMaster(string branchCode, int pageIndex = 0, int pageSize = int.MaxValue, string searchType = "ALL");
+        InvoiceMaster GetById(int id);
+        void Update(InvoiceMaster entity);
     }
 }

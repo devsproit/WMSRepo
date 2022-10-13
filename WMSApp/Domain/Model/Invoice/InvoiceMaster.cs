@@ -21,6 +21,7 @@ namespace Domain.Model.Invoice
         public int PickSlipId { get; set; }
 
         public String BranchCode { get; set; }
+        public bool DispatchDone { get; set; }
 
         private ICollection<InvoiceDetails> _invoiceDetails;
 

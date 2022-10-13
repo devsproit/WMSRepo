@@ -1,0 +1,363 @@
+﻿@using WMSWebApp.ViewModels.Dispatch
+@model DispatchModel
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Style{
+
+
+    <link href="~/lib/kendoUi/2021/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/lib/kendoUi/2021/styles/kendo.default.min.css" rel="stylesheet" />
+    <link href="~/lib/kendoUi/2021/styles/kendo.default.mobile.min.css" rel="stylesheet" />
+    <link href="~/lib/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="~/lib/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link rel="stylesheet" href="~/lib/plugins/toastr/toastr.min.css" />
+    <style>
+
+        .ui-autocomplete {
+            /*position: absolute;*/
+            cursor: default;
+            z-index: 1099 !important;
+            max-height: 200px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .ui-datepicker {
+            z-index: 1099 !important;
+        }
+
+        .ui-autocomplete-loading {
+            background: white url("../img/ajax-loader.gif") right center no-repeat;
+        }
+    </style>
+}
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Dispatch</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Dispatch</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <section>
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Dispatch</h3>
+                        </div>
+                        <form id="Create" asp-action="Create" asp-controller="Dispatch">
+                            <div class="card-body">
+                                <div asp-validation-summary="ModelOnly" class="text-red-500"></div>
+                                <div class="row">
+
+
+
+                                    <div class="form-group col-md-2">
+                                        <label>Invoice Id.</label>
+                                        <select class="form-control select2" asp-for="InvoiceId" asp-items="@(new SelectList(Model.InvoiceList,"Id","InvoiceNumber"))" required>
+                                            <option value="">select Invoice</option>
+                                        </select>
+                                        <span asp-validation-for="InvoiceId" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>PO</label>
+                                        <input class="form-control" asp-for="PO" required />
+                                        <span asp-validation-for="PO" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>Dispatch Date</label>
+                                        <input class="form-control" name="DispatchDate" id="DispatchDate" required readonly />
+                                        <span asp-validation-for="DispatchDate" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>Vendor Name</label>
+                                        <input class="form-control" asp-for="VendorName" required />
+                                        <span asp-validation-for="VendorName" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>Vehicle Number</label>
+                                        <input class="form-control" asp-for="VehicleNumber" required />
+                                        <span asp-validation-for="VehicleNumber" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>Location</label>
+                                        <input class="form-control" asp-for="Location" required />
+                                        <span asp-validation-for="Location" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <div id="pick-grid">
+                                    </div>
+                                </div>
+
+                                <br />
+
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-primary" id="finalsave" type="submit">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="modal fade" id="pleaseWait" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Please Wait..</h5>
+
+                </div>
+                <div class="modal-body">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                    </div>
+                </div>
+                @*<div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+            </div>*@
+            </div>
+        </div>
+    </div>
+
+    @section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <environment include="Development">
+        <script src="~/lib/kendoUi/2021/js/kendo.all.min.js"></script>
+        <script src="~/lib/kendoUi/2021/js/jszip.min.js"></script>
+        <script src="~/js/common.js"></script>
+        <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+        <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
+
+        <script src="~/lib/plugins/toastr/toastr.min.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/kendoUi/2021/js/kendo.all.min.js"></script>
+        <script src="~/lib/kendoUi/2021/js/jszip.min.js"></script>
+        <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+        <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
+        <script src="~/js/common.min.js"></script>
+
+        <script src="~/lib/plugins/toastr/toastr.min.js"></script>
+    </environment>
+
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                $("#DispatchDate").datepicker({
+                    dateFormat: 'dd/mm/yy',
+                    defaultDate: new Date()
+                });
+            });
+            $("#InvoiceId").select2();
+            $("#InvoiceId").change(function () {
+
+                var id = $(this).val();
+                $.ajax({
+                    type: "GET",
+                    url: "/Dispatch/GetInvoice?id=" + id,
+                    data: "{}",
+                    success: function (data) {
+                        console.log(data);
+                        var grid = $("#pick-grid").data("kendoGrid");
+                        grid.dataSource.data([]);
+                        grid.setDataSource([]);
+                        grid.dataSource.add(data[0]);
+                        toastr.success('Item  successfully added into list.');
+                    }
+                });
+
+            });
+            var initialLoad = true;
+            $("#pick-grid").kendoGrid({
+
+
+                dataSource: {
+
+                    transport: {
+                        read: {
+                            url: "/Invoice/InvoiceList",
+                            type: "POST",
+                            dataType: "json",
+                            data: additionalData,
+                            complete: function (result) {
+                                console.log("Remote built-in transport", result);
+                                if (result.status == 401) {
+                                    /* document.location.href = "@Html.Raw(Url.Action("Index", "AccessDenied"))";*/
+                                }
+                            }
+
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        total: "Total",
+                        errors: "Errors"
+                    },
+                    error: function (e) {
+                        //display_kendoui_grid_error(e);
+                        // Cancel the changes
+                        console.log(e)
+                        this.cancelChanges();
+                    },
+                    pageSize: 20,
+                    sortable: true,
+                    serverPaging: true,
+                    serverSorting: true,
+                    requestStart: function () {
+                        if (initialLoad) //<-- if it's the initial load, manually start the spinner
+                            kendo.ui.progress($("#pick-grid"), true);
+                    },
+                    requestEnd: function () {
+                        if (initialLoad)
+                            kendo.ui.progress($("#pick-grid"), false);
+                        initialLoad = false; //<-- make sure the spinner doesn't fire again (that would produce two spinners instead of one)
+
+                    },
+
+                },
+
+
+                height: 350,
+                pageable: {
+                    refresh: true,
+                    pageSizes: true
+                },
+
+                scrollable: true,
+                columns: [{
+                    field: "Id",
+                    title: "Id",
+
+                    width: 50
+                },
+
+                {
+                    field: "SubItemCode",
+                    title: "SubItemCode",
+                    width: 100
+                },
+
+                {
+                    field: "SubItemName",
+                    title: "SubItemName",
+                    width: 250
+                },
+                {
+                    field: "Qty",
+                    title: "Qty",
+
+                    width: 50
+                },
+                {
+                    field: "Unit",
+                    title: "Unit",
+                    width: 50
+                },
+
+
+                {
+                    field: "Amt",
+                    title: "Amount",
+                    width: 50
+                },
+                {
+                    field: "AreaId",
+                    title: "AreaId",
+                    hidden: true,
+                    width: 50
+                },
+                {
+                    field: "MaterialDescription",
+                    title: "MaterialDescription",
+                    width: 50,
+                    hidden: true,
+
+                },
+                {
+                    field: "AreaCode",
+                    title: "AreaCode",
+                    width: 50,
+                    hidden: true,
+
+                },
+                {
+                    field: "AreaName",
+                    title: "AreaName",
+                    width: 50,
+                    hidden: true,
+
+                },
+                {
+                    field: "ZoneCode",
+                    title: "ZoneCode",
+                    width: 50,
+                    hidden: true,
+
+                },
+                {
+                    field: "ZoneName",
+                    title: "ZoneName",
+                    width: 50,
+                    hidden: true,
+
+                },
+                {
+                    field: "Warehouse",
+                    title: "Warehouse",
+                    width: 50,
+                    hidden: true,
+
+                },
+                {
+                    field: "WarehouseCode",
+                    title: "WarehouseCode",
+                    width: 50,
+                    hidden: true,
+
+                },
+                {
+                    field: "PoNumber",
+                    title: "PoNumber",
+                    width: 50,
+                    hidden: true,
+
+                },
+
+
+                ],
+
+            });
+        });
+
+        function additionalData() {
+            var data = {
+
+
+            }
+            addAntiForgeryToken(data);
+            return data;
+        }
+    </script>
+
+
+    }
+

@@ -16,6 +16,7 @@ using Application.Services.PO;
 using Application.Services.StockMgnt;
 using Domain.Model;
 using Domain.Model.Masters;
+using Domain.Model.StockManagement;
 
 namespace WMSWebApp.Controllers
 {
@@ -265,7 +266,11 @@ namespace WMSWebApp.Controllers
                     pos.IsProcessed = true;
                     _salePoService.Update(pos);
                 }
-
+                // Update Inventory
+                foreach (var item in model)
+                {
+                    AddUpdateStock(item.InventoryId, item.Qty);
+                }
                 return Json(true);
             }
             else
@@ -323,6 +328,20 @@ namespace WMSWebApp.Controllers
             return View();
         }
 
+        #endregion
+
+        #region Utilities
+        protected void AddUpdateStock(int inventoryId, int qty)
+        {
+            var stock = _itemStockService.GetById(inventoryId);
+            if (stock != null)
+            {
+                stock.Qty = stock.Qty - qty;
+                stock.LastUpdate = DateTime.Now;
+                _itemStockService.Update(stock);
+            }
+
+        }
         #endregion
 
 

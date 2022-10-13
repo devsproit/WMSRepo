@@ -1,7 +1,10 @@
-﻿@{
-    ViewData["Title"] = "Index";
+﻿@*@using Domain.Model
+@model List<Branch>*@
+@{
+    ViewData["Title"] = "List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 @section Style{
     <link href="~/lib/kendoUi/2021/styles/kendo.common.min.css" rel="stylesheet" />
     <link href="~/lib/kendoUi/2021/styles/kendo.rtl.min.css" rel="stylesheet" />
@@ -14,7 +17,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>PickSlip List</h1>
+                    <h1>Dispatch List</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -31,26 +34,26 @@
                 <div class="col-md-12">
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title">Pick Slip</h3>
+                            <h3 class="card-title">Dispatch</h3>
 
 
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <div class="form-group row">
-                                @*<div class="col-md-2">
+                            @*<div class="form-group row">
+                                <div class="col-md-2">
 
-                            <label>Branch </label>
-                            <select class="form-control" id="branch" asp-items="@(new SelectList(Model,"BranchCode","BranchName"))"></select>
+                                    <label>Branch </label>
+                                    <select class="form-control" id="branch" asp-items="@(new SelectList(Model,"BranchCode","BranchName"))"></select>
+
+                                </div>
 
                             </div>*@
-
-                            </div>
-                            @*  <div class="row">
-                        <div class="col-md-2">
-                        <button class="btn btn-primary" id="search" type="button">Search</button>
-                        </div>
-                        </div>*@
+                           @* <div class="row">
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary" id="search" type="button">Search</button>
+                                </div>
+                            </div>*@
                             <br />
                             <div id="user-grid">
                             </div>
@@ -81,7 +84,7 @@
     <script>
         function additionalData() {
             var data = {
-                branchCode: $("#branch").val(),
+                //branchCode: $("#branch").val(),
                 //pnr: $("#pnr").val(),
                 //bookingRefNo: $("#bookingRefNo").val(),
                 //email: $("#email").val(),
@@ -106,15 +109,15 @@
 
                 toolbar: ["excel"],
                 excel: {
-                    fileName: "PickSlipList Export.xlsx",
-                    proxyURL: "@Html.Raw(Url.Action("PickSlipList", "PickSlip"))",
+                    fileName: "Dispatch Export.xlsx",
+                    proxyURL: "@Html.Raw(Url.Action("List", "Dispatch"))",
                     filterable: true
                 },
                 dataSource: {
 
                     transport: {
                         read: {
-                            url: "@Html.Raw(Url.Action("PickSlipList", "PickSlip"))",
+                            url: "@Html.Raw(Url.Action("List", "Dispatch"))",
                             type: "POST",
                             dataType: "json",
                             data: additionalData,
@@ -164,53 +167,78 @@
                 scrollable: false,
                 columns: [{
                     field: "Id",
-                    title: "Pick Slip No.",
+                    title: "Dispatch ID",
                     width: 50
                 },
+                 {
+                    field: "BranchCode",
+                    title: "BranchCode",
+                    width: 150
+                },
                 {
-                    field: "PickSlipName",
-                    title: "PickSlipName",
+                    field: "PO",
+                    title: "PONo",
                     width: 50
                 },
 
                 {
-                    field: "Branch",
-                    title: "Branch",
-                    width: 300
+                    field: "InvoiceId",
+                    title: "InvoiceNo",
+                    width: 100
+                },
+                {
+                    field: "InvoiceDate",
+                    title: "InvoiceDate",
+                    encoded: false,
+                    width: 100
+                },
+                {
+                    field: "VendorName",
+                    title: "Vendor Name",
+                    width: 150
+                },
+               
+
+
+
+
+                {
+                    field: "VehicleNumber",
+                    title: "VehicleNumber",
+                    width: 50
+                },
+                
+                {
+                    field: "Location",
+                    title: "Location",
+                    width: 50
+                },
+                {
+                    field: "DispatchDate",
+                    title: "DispatchDate",
+                    width: 50
                 },
                 {
                     field: "CreateOn",
                     title: "CreateOn",
-
-                    width: 300
-                },
-                {
-                    field: "DockType",
-                    title: "DockType",
-                    width: 300
-                },
-                {
-                    field: "Item",
-                    title: "Item",
-
+                    width: 50
                 },
 
 
 
-
-                //{
-                //	title: "Action",
-                //	headerAttributes: { style: "text-align:center" },
-                //	template: '<a href="@(Url.Action("Edit", "Account"))/?id=#=Id#" class="btn btn-primary">Edit</a>',
-                //	width: 100
-                //},
-                {
-                    title: "Action",
-                    headerAttributes: { style: "text-align:center" },
-                    attributes: { style: "text-align:center" },
-                    template: '<a href="@(Url.Action("pickSlipPrint", "PickSlip"))/?id=#=Id#" class="btn btn-primary">Print</a>',
-                    width: 100
-                },
+                    //{
+                    //	title: "Action",
+                    //	headerAttributes: { style: "text-align:center" },
+                    //	template: '<a href="@(Url.Action("Edit", "Account"))/?id=#=Id#" class="btn btn-primary">Edit</a>',
+                    //	width: 100
+                    //},
+                    //{
+                    //    title: "Action",
+                    //    headerAttributes: { style: "text-align:center" },
+                    //    attributes: { style: "text-align:center" },
+                    //    template: '<a href="@(Url.Action("CancelTicket", "AgentBooking"))/?id=#=ID#" class="btn btn-danger">Cancel</a>',
+                    //    width: 100
+                    //},
                     //{
                     //    title: "Action",
                     //    headerAttributes: { style: "text-align:center" },
@@ -226,3 +254,5 @@
 
     </script>
 	}
+
+
