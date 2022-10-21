@@ -65,6 +65,8 @@ namespace WMS.Web.Framework.Infrastructure
             builder.RegisterType<SRNNoteMasterService>().As<ISRNNoteMasterService>().InstancePerLifetimeScope();
             builder.RegisterType<VenderVehicleService>().As<IVenderVehicleService>().InstancePerLifetimeScope();
             builder.RegisterType<DispatchService>().As<IDispatchService>().InstancePerLifetimeScope();
+            builder.RegisterType<SubItemWarehouseMappingService>().As<ISubItemWarehouseMappingService>().InstancePerLifetimeScope();
+
         }
 
         public int Order => 0;

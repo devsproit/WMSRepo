@@ -1,0 +1,184 @@
+﻿@model WMSWebApp.ViewModels.SubItemMapping.SubItemMappingModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@section Style{
+
+
+        <link href="~/lib/kendoUi/2021/styles/kendo.common.min.css" rel="stylesheet" />
+        <link href="~/lib/kendoUi/2021/styles/kendo.default.min.css" rel="stylesheet" />
+        <link href="~/lib/kendoUi/2021/styles/kendo.default.mobile.min.css" rel="stylesheet" />
+        <link href="~/lib/jquery-ui/jquery-ui.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/lib/plugins/select2/css/select2.min.css">
+        <link rel="stylesheet" href="~/lib/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+        <link rel="stylesheet" href="~/lib/plugins/toastr/toastr.min.css" />
+        <style>
+
+            .ui-autocomplete {
+                /*position: absolute;*/
+                cursor: default;
+                z-index: 1099 !important;
+                max-height: 200px;
+                overflow-y: scroll;
+                overflow-x: hidden;
+            }
+
+            .ui-datepicker {
+                z-index: 1099 !important;
+            }
+
+            .ui-autocomplete-loading {
+                background: white url("../img/ajax-loader.gif") right center no-repeat;
+            }
+        </style>
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>New SubItem Mapping with Warehouse</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Master</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Create New SubItem Mapping</h3>
+                    </div>
+                    <form asp-action="Create">
+                        <div class="card-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="row">
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="SubItemCode"></label>
+                                            <select class="form-control select2" asp-for="SubItemCode"></select>
+                                    </div>
+                                    <span asp-validation-for="SubItemCode" class="text-danger"></span>
+                                </div>
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="SubItemName"></label>
+                                        <input asp-for="SubItemName" class="form-control " />
+                                    </div>
+                                    <span asp-validation-for="SubItemName" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="ItemId"></label>
+                                        <select asp-for="ItemId" asp-items="@(new SelectList(Model.Items,"Id","ItemName"))" class="form-control"></select>
+                                    </div>
+                                    <span asp-validation-for="ItemId" class="text-danger"></span>
+                                </div>
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="MaterialDescription"></label>
+                                        <input asp-for="MaterialDescription" class="form-control" />
+                                    </div>
+                                    <span asp-validation-for="MaterialDescription" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="SubItemSize"></label>
+                                        <input asp-for="SubItemSize" class="form-control " />
+                                    </div>
+
+                                </div>
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="FOC"></label>
+                                        <select class="form-control" asp-for="FOC">
+                                            <option value="true">True</option>
+                                            <option value="false">False</option>
+                                        </select>
+
+                                    </div>
+                                    <span asp-validation-for="FOC" class="text-danger"></span>
+                                </div>
+                            </div>
+
+
+                            <div class=row>
+
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="SubItemSR"></label>
+
+                                        <select class="form-control" asp-for="SubItemSR">
+                                            <option value="true">True</option>
+                                            <option value="false">False</option>
+                                        </select>
+                                    </div>
+                                    <span asp-validation-for="SubItemSR" class="text-danger"></span>
+                                </div>
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="BranchPrice"></label>
+                                        <input asp-for="BranchPrice" class="form-control " />
+                                    </div>
+                                    <span asp-validation-for="BranchPrice" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="DealerPrice"></label>
+                                        <input asp-for="DealerPrice" class="form-control" />
+                                    </div>
+                                    <span asp-validation-for="DealerPrice" class="text-danger"></span>
+                                </div>
+                                <div class=" col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="CustomerPrice"></label>
+                                        <input asp-for="CustomerPrice" class="form-control " />
+                                    </div>
+                                    <span asp-validation-for="CustomerPrice" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="card-footer">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn btn-primary float-right">Back to List</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

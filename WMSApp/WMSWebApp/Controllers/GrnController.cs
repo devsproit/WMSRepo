@@ -317,7 +317,7 @@ namespace WMSWebApp.Controllers
             //    item.Qty = qty;
             //    _itemStockService.Insert(item);
             //}
-            var item = new InventoryStock();
+            InventoryStock item = new InventoryStock();
             item.WarehouseId = warehouseId;
             item.ItemCode = itemCode;
             item.LastUpdate = DateTime.Now;
