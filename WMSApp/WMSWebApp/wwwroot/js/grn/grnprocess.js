@@ -1,4 +1,4 @@
-﻿'use strict'
+﻿    'use strict'
 $(function () {
     $("#ponumber").select2({
         theme: 'bootstrap4',
