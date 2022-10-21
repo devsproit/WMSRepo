@@ -119,6 +119,7 @@ namespace WMSWebApp.Controllers
                     m.Amt = x.Amt;
                     m.ETA = x.ETA;
                     m.Sno = id;
+                    m.AllowGRN = false;
                     id++;
                     return m;
                 }),

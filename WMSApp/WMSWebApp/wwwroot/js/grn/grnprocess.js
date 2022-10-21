@@ -1,4 +1,4 @@
-﻿    'use strict'
+﻿'use strict'
 $(function () {
     $("#ponumber").select2({
         theme: 'bootstrap4',
@@ -138,45 +138,49 @@ $(document).ready(function () {
         },
 
         scrollable: true,
-        columns: [{
-            field: "Id",
-            title: "Id",
+        persistSelection: true,
+        columns: [
+            { selectable: true, width: "50px",field:"AllowGRN" },
+            {
 
-            width: 50
-        },
-        {
-            field: "SubItemCode",
-            title: "SubItemCode",
-            width: 100
-        },
+                field: "Id",
+                title: "Id",
 
-        {
-            field: "SubItemName",
-            title: "SubItemName",
-            width: 120
-        },
-        {
-            field: "Qty",
-            title: "Qty",
-            encoded: false,
-            width: 120
-        },
-        {
-            field: "Unit",
-            title: "Unit",
-            width: 100
-        },
-        {
-            field: "MaterialDescription",
-            title: "MaterialDescription",
-            width: 300
-        },
+                width: 50
+            },
+            {
+                field: "SubItemCode",
+                title: "SubItemCode",
+                width: 100
+            },
 
-        {
-            field: "Amt",
-            title: "Amt",
-            width: 100
-        },
+            {
+                field: "SubItemName",
+                title: "SubItemName",
+                width: 120
+            },
+            {
+                field: "Qty",
+                title: "Qty",
+                encoded: false,
+                width: 120
+            },
+            {
+                field: "Unit",
+                title: "Unit",
+                width: 100
+            },
+            {
+                field: "MaterialDescription",
+                title: "MaterialDescription",
+                width: 300
+            },
+
+            {
+                field: "Amt",
+                title: "Amt",
+                width: 100
+            },
 
 
         ],
@@ -262,10 +266,14 @@ $(document).ready(function () {
     $("#finalsave").click(function () {
         if (validation()) {
             var grid = $('#myGrid').data('kendoGrid');
-            if (grid._data.length !== grndata.length) {
-                alert("Please add all items into warehouse areas.");
-                return false;
+            if (grndata.length === 0)
+            {
+                alert("Please add atleast one item into warehouse areas.");
             }
+            //if (grid._data.length !== grndata.length) {
+            //    alert("Please add all items into warehouse areas.");
+            //    return false;
+            //}
             else {
                 pleaseWait();
                 var settings = {
@@ -325,7 +333,7 @@ function fildetails(items) {
     $("#qtyu,#Qtysuk,#QtyD,#QtyO,#QtyI").val(items[0]['Qty']);
     $("#sendercompany").val(items[0]["SenderCompany"]);
     $("#sender").val(items[0]["Branch"]);
-    
+
 }
 
 function warehouse() {
