@@ -32,6 +32,7 @@ namespace Application.Services.GRN
             var query = from x in _grnMasterRepository.Table
                         select x;
             query = query.Where(x => x.BranchCode == branch);
+            query = query.OrderByDescending(x => x.Id);
             var result = new PagedList<GoodReceivedNoteMaster>(query, pageIndex, pageSize);
             return result;
         }

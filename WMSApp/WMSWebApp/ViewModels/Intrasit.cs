@@ -24,6 +24,7 @@ namespace WMSWebApp.ViewModels
         public DateTime ETA { get; set; }
         public bool IsDeleted { get; set; }
         public int Sno { get; set; }
+        public bool AllowGRN { get; set; }
 
     }
 }
