@@ -3,10 +3,14 @@ using Application.Services.PO;
 using AutoMapper;
 using Domain.Model;
 using Domain.Model.PO;
+using ExcelDataReader;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WMS.Data;
@@ -351,5 +355,88 @@ namespace WMSWebApp.Controllers
         }
         #endregion
 
+        #region  bulk upload
+        [HttpPost]
+        public IActionResult OnPostMyUploader(IFormFile importFile)
+        {
+            if (importFile == null) return Json(new { Status = 0, Message = "No File Selected" });
+
+            try
+            {
+
+                //Getting FileName
+                var fileName = Path.GetFileName(importFile.FileName);
+                //Getting file Extension
+                var fileExtension = Path.GetExtension(fileName);
+                // concatenating  FileName + FileExtension
+                var newFileName = String.Concat(Convert.ToString(Guid.NewGuid()), fileExtension);
+                DataSet ds = new DataSet();
+                using (var target = new MemoryStream())
+                {
+                    importFile.CopyTo(target);
+                    using (var reader = ExcelReaderFactory.CreateReader(target))
+                    {
+                        ds = reader.AsDataSet();
+                    }
+                    //var fileData = GetDataFromCSVFile(ds);
+                    GetDataFromCSVFile(ds);
+                }
+
+
+                //var dtEmployee = fileData.ToDataTable();
+                //var tblEmployeeParameter = new SqlParameter("tblEmployeeTableType", SqlDbType.Structured)
+                //{
+                //    TypeName = "dbo.tblTypeEmployee",
+                //    Value = dtEmployee
+                //};
+                //await _dbContext.Database.ExecuteSqlCommandAsync("EXEC spBulkImportEmployee @tblEmployeeTableType", tblEmployeeParameter);
+                return Json(new { Status = 1, Message = "File Imported Successfully " });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Status = 0, Message = ex.Message });
+            }
+        }
+        private void GetDataFromCSVFile(DataSet ds)
+        {
+
+            try
+            {
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Po Number", typeof(string));
+                dt.Columns.Add("PO Catagry", typeof(string));
+                dt.Columns.Add("Sending To", typeof(string));
+                dt.Columns.Add("Item", typeof(string));
+                dt.Columns.Add("Sub Item", typeof(string));
+                dt.Columns.Add("Qty", typeof(string));
+                dt.Columns.Add("Serial Number", typeof(string));
+                dt.Columns.Add("SubItem Code", typeof(string));
+                DataTable dt2 = ds.Tables["Sheet1"];
+
+                foreach (DataRow dr in dt2.Rows)
+                {
+                    dt.Rows.Add(dr.ItemArray);
+                }
+                dt.Rows[0].Delete();
+                dt.AcceptChanges(); dt2.AcceptChanges();
+                dt.Columns["Po Number"].ColumnName = "Po Number";
+                dt.Columns["PO Catagry"].ColumnName = "PO Catagry";
+                dt.Columns["Sending To"].ColumnName = "Sending To";
+                dt.Columns["Item"].ColumnName = "Item";
+                dt.Columns["Sub Item"].ColumnName = "Sub Item";
+                dt.Columns["Qty"].ColumnName = "Qty";
+                dt.Columns["Serial Number"].ColumnName = "Serial Number";
+                dt.Columns["SubItem Code"].ColumnName = "SubItem Code";
+              
+             //   _purchaseOrder.blukUpload(dt);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+
+        #endregion
     }
 }
