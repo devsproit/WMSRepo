@@ -18,6 +18,7 @@ namespace Domain.Model.Masters
         public string Location { get; set; }
         public DateTime CreateOn { get; set; }
         public string BranchCode { get; set; }
+        public string DocketNo { get; set; }
 
     }
 }

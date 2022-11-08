@@ -99,6 +99,7 @@ namespace WMSWebApp.Controllers
             dispatch.VehicleNumber = model.VehicleNumber;
             dispatch.Location = model.Location;
             dispatch.BranchCode = branch.BranchCode;
+            dispatch.DocketNo = model.DocketNo;
             _dispatchService.Insert(dispatch);
             var invoice = _invoiceService.GetById(model.InvoiceId);
             invoice.DispatchDone = true;
@@ -133,6 +134,7 @@ namespace WMSWebApp.Controllers
                 details.Warehouse = item.Warehouse;
                 details.ZoneCode = item.ZoneCode;
                 details.ZoneName = item.ZoneName;
+                details.PONumber = invoice.PoNumber;
                 items.Add(details);
             }
             return Json(items);
