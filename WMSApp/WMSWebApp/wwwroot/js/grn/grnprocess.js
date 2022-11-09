@@ -333,7 +333,7 @@ function fildetails(items) {
     $("#qtyu,#Qtysuk,#QtyD,#QtyO,#QtyI").val(items[0]['Qty']);
     $("#sendercompany").val(items[0]["SenderCompany"]);
     $("#sender").val(items[0]["Branch"]);
-
+    itemLocation(items[0]['SubItemCode']);
 }
 
 function warehouse() {
@@ -421,6 +421,59 @@ function validation() {
     return true;
 }
 
+
+function itemLocation(subitemcode) {
+    $.ajax({
+        type: "GET",
+        url: "/Grn/GetItemLocation?subItemCode=" + subitemcode,
+        data: "{}",
+        success: function (data) {
+            console.log(data);
+           
+            $("#WarehouseId").val(data.WareHouseId).trigger("change")
+            var warehouseId = data.WareHouseId;
+            var zoneid = data.WareHouseAreaId;
+            var locationId = data.LocationId
+            $.ajax({
+                type: "GET",
+                url: "/Grn/WarehouseZone?warehouseid=" + warehouseId,
+                data: "{}",
+                success: function (data1) {
+                    var s = '';
+                    for (var i = 0; i < data1.length; i++) {
+                        s += '<option value="' + data1[i].Id + '" data-code=' + data1[i].ZoneCode + '>' + data1[i].ZoneName + '</option>';
+                    }
+                    
+                    $("#zone").html(s);
+                    console.log("zone loalded");
+                    $("#zone").val(zoneid);
+                    /*$("#zone").trigger("change");*/
+                    $.ajax({
+                        type: "GET",
+                        url: "/Grn/WarehouseArea?warehouseid=" + warehouseId + '&zoneid=' + zoneid,
+                        data: "{}",
+                        success: function (data2) {
+                            var s = '';
+                            for (var i = 0; i < data2.length; i++) {
+                                s += '<option value="' + data2[i].Id + '" data-code=' + data2[i].AreaCode + '  data-size=' + data2[i].Size + '>' + data2[i].AreaName + '</option>';
+                            }
+                            /*$("#Warea").empty();*/
+                            $("#Warea").html(s);
+                            
+                            $("#Warea").val(locationId);
+                            /*$("#Warea").trigger("change");*/
+                        }
+                    });
+                }
+            });
+
+
+            
+           
+        }
+    });
+
+}
 function pleaseWait() {
     $('#pleaseWait').modal({
         backdrop: 'static',
