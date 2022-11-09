@@ -26,5 +26,7 @@ namespace WMSWebApp.ViewModels.Dispatch
         public List<InvoiceMaster> InvoiceList { get; set; }
 
         public string DocketNo { get; set; }
+
+        public string LRNo { get; set; }
     }
 }

@@ -19,6 +19,7 @@ namespace Domain.Model.Masters
         public DateTime CreateOn { get; set; }
         public string BranchCode { get; set; }
         public string DocketNo { get; set; }
+        public string LRNo { get; set; }
 
     }
 }

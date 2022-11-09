@@ -100,6 +100,7 @@ namespace WMSWebApp.Controllers
             dispatch.Location = model.Location;
             dispatch.BranchCode = branch.BranchCode;
             dispatch.DocketNo = model.DocketNo;
+            dispatch.LRNo = model.LRNo;
             _dispatchService.Insert(dispatch);
             var invoice = _invoiceService.GetById(model.InvoiceId);
             invoice.DispatchDone = true;
