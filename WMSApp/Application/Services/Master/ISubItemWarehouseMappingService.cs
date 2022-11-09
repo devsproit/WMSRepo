@@ -14,5 +14,6 @@ namespace Application.Services.Master
         void Update(SubItemWareHouseMapping entity);
         SubItemWareHouseMapping GetById(int id);
         IPagedList<SubItemWareHouseMapping> GetAllSubItemMapping(string subitemName = "", int PageIndex = 0, int pageSize = int.MaxValue);
+        SubItemWareHouseMapping GetItemLocation(string subItemCode);
     }
 }

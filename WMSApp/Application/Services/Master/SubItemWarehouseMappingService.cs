@@ -56,6 +56,15 @@ namespace Application.Services.Master
             query = query.OrderByDescending(x => x.Id);
             return new PagedList<SubItemWareHouseMapping>(query, PageIndex, pageSize);
         }
+
+
+        public virtual SubItemWareHouseMapping GetItemLocation(string subItemCode)
+        {
+            var query = from x in _subitemMappingRepository.Table
+                        select x;
+            query = query.Where(x => x.SubItemCode == subItemCode);
+            return query.FirstOrDefault();
+        }
         #endregion
     }
 }
