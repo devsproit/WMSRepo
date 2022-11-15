@@ -121,7 +121,7 @@ namespace WMSWebApp.Controllers
                     intrasitDb.PurchaseOrder = item.PurchaseOrder;
                     intrasitDb.Sender_Company = item.SenderCompany;
                     intrasitDb.SubItem_Name = item.SubItemName;
-                    intrasitDb.SubItem_Code = item.SubItemCode;
+                    intrasitDb.SubItem_Code = item.subItemCodeVal;
                     intrasitDb.Material_Description = item.MaterialDescription;
                     intrasitDb.Unit = item.Unit;
                     intrasitDb.Amt = item.Amt;

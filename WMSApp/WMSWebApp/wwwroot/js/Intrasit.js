@@ -21,7 +21,7 @@
                 if (data.length != 0) {
                     $(data).each(
                         function (index, item) {
-                            $('#subItemId').append('<option value="' + item.ItemId + '">' + item.SubItemName + '</option>')
+                            $('#subItemId').append('<option value="' + item.SubItemCode + '">' + item.SubItemName + '</option>')
                         });
                 } else {
                    
@@ -87,9 +87,12 @@
         var qty = $("#txtqty").val();
         var unit = $("#txtunit").val();
         var amt = $("#txtAmt").val();
+        var senderCompanyVal = $('#CId :selected').val();
+        var senderBranchVal = $('#BId :selected').val();
+        var itemCodeVal = $("#ItId :selected").val();
+        var subItemCodeVal = $('#subItemId :selected').val();
       
-      
-        t.row.add([purchaseOrder, senderCompany, senderBranch, itemCode, subItemCode, materialDescription, qty, unit, amt]).draw();
+        t.row.add([purchaseOrder, senderCompany, senderBranch, itemCode, subItemCode, materialDescription, qty, unit, amt, senderCompanyVal, senderBranchVal, itemCodeVal, subItemCodeVal]).draw();
     });
     $('#btnsubmit').on('click', function () {
 
@@ -102,11 +105,16 @@
             myData["senderCompany"] = data[i][1];//senderCompany
             myData["Branch"] = data[i][2];
             myData["itemCode"] = data[i][3];
-            myData["subItemCode"] = data[i][4];//
+            myData["SubItemName"] = data[i][4];//
             myData["materialDescription"] = data[i][5];
             myData["qty"] = data[i][6];//
             myData["unit"] = data[i][7];
             myData["amt"] = data[i][8];
+            myData["senderCompanyVal"] = data[i][9];
+            myData["senderBranchVal"] = data[i][10];
+            myData["itemCodeVal"] = data[i][11];
+            myData["subItemCodeVal"] = data[i][12];
+
             jsonObj.push(myData);
         }
         console.log(jsonObj);

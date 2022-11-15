@@ -1,6 +1,7 @@
 ﻿using Domain.Model.PO;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,5 +18,7 @@ namespace Application.Services.PO
         IPagedList<PurchaseOrderDb> GetPendingPO(string branchCode, string pono, int pageIndex = 0, int pageSize = int.MaxValue);
 
         PurchaseOrderDb GetById(int id);
+
+        void blukUpload(DataTable ds);
     }
 }

@@ -56,74 +56,49 @@
                 <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">Po list</h3>
-
                     </div>
-                    <div class="card-body">
-                        @*  <div class="row">
-                            <div class="col-md-6">Ship To</div>
-                            <div class="col-md-6">Ordered By</div>
-                            </div>*@
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Doc Type</label>
-                                    <select class="form-control" id="doctypelist">
-                                        @* <option value="Select">Select</option>*@
-                                        <option value="StockTransfer PO">StockTransfer PO</option>
-                                        <option value="Sale PO">Sale PO</option>
-                                        <option value="SRN PO">SRN PO</option>
-                                        <option value="ServiceOrder PO">ServiceOrder PO</option>
-                                    </select>
-                                </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Doc Type</label>
+                                <select class="form-control" id="doctypelist">
+                                    @* <option value="Select">Select</option>*@
+                                    <option value="StockTransfer PO">StockTransfer PO</option>
+                                    <option value="Sale PO">Sale PO</option>
+                                    <option value="SRN PO">SRN PO</option>
+                                    <option value="ServiceOrder PO">ServiceOrder PO</option>
+                                </select>
                             </div>
-
-                            @*<div class="col-md-2">
-                                <div class="form-group">
-                                <label>Item</label>
-                                <select class="form-control" id="items"></select>
-                                </div>
-                                </div>
-                                <div class="col-md-2">
-                                <div class="form-group">
-                                <label>Location</label>
-                                <input class="form-control" id="location" />
-                                </div>
-                                </div>
-                                <div class="col-md-2">
-                                <div class="form-group">
-                                <label>Qty</label>
-                                <input class="form-control" id="qty" />
-                                </div>
-                                </div>
-                                <div class="col-md-2">
-                                <div class="form-group">
-                                <label>Serial No</label>
-                                <input class="form-control" />
-                                </div>
-                                </div>*@
-
                         </div>
-                        <div class=" row">
-                            <div class="col-md-2">
-                                <button class="btn btn-primary" type="button" id="search">Search</button>
-                            </div>
-                        @*    <div class="col-md-2">
-                                <button class="btn btn-danger" id="reset" type="button">Reset</button>
-                            </div>*@
-                        </div>
-                        <hr />
-                        <div class="row">
-                            <div id="pick-grid">
-                            </div>
+                        <div class="col-md-6">
+                            <h3>Upload Bulk</h3>
+                            <form id="fileUploadForm" method="post" enctype="multipart/form-data" asp-controller="Po" asp-action="OnPostMyUploader">
+                                <div>
+                                    <div class="form-group">
+                                        <label for="exampleInputFile">Upload file:</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" id="uploadFile" name="uploadFile" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button type="submit" value="Upload" class="btn btn-primary"><i class="fa fa-cloud-upload" aria-hidden="true"></i> Upload</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    @*  <div class="card-footer">
-                        <div class="row">
+                    <div class="row">
                         <div class="col-md-12">
-                        <button class="btn btn-primary" id="save"> Final Save</button>
+                            <button class="btn btn-primary" type="button" id="search">Search</button>
                         </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div id="pick-grid">
                         </div>
-                        </div>*@
+                    </div>
                 </div>
             </div>
         </div>
@@ -318,7 +293,33 @@
     });
      });
 
-
+      $("#fileUploadForm").submit(function(e) {
+            e.preventDefault();
+            //debugger;
+            var file = $('#uploadFile').val();
+            if (!(/\.(xlsx|xls|xlsm)$/i).test(file)) {
+                alert('Please upload valid excel file .xlsx, .xlsm, .xls only.');
+                $("#uploadFile").val('');
+            } else {
+                var data = new FormData();
+                data.append("importFile", $("#uploadFile")[0].files[0]);
+                $.ajax({
+                    type: 'post',
+                    url: "/Po/OnPostMyUploader",
+                    data: data,
+                    processData: false,
+                    contentType: false
+                }).done(function(result) {
+                    if (result.Status === 1) {
+                        alert(result.Message);
+                        location.reload();
+                    }
+                    else {
+                        alert(result.Message);
+                    }
+                });
+            }
+        });
 
 
 

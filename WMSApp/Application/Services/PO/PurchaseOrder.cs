@@ -6,6 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using WMS.Core.Data;
 using WMS.Core;
+using DatabaseLibrary.SQL;
+using System.Data;
+using Application.Common;
+
 namespace Application.Services.PO
 {
     public partial class PurchaseOrder : IPurchaseOrder
@@ -13,6 +17,7 @@ namespace Application.Services.PO
         #region Fields
         private readonly IRepository<PurchaseOrderDb> _poRepository;
         private readonly IRepository<SRNPoDb> _srnRepository;
+        private readonly IAdoConnection _adoConnection;
         #endregion
 
         #region Ctor
@@ -26,8 +31,13 @@ namespace Application.Services.PO
         #endregion
 
         #region Methods
-
         
+
+        public PurchaseOrder(IAdoConnection adoConnection)
+        {
+            _adoConnection = adoConnection;
+        }
+
         public void Insert(PurchaseOrderDb entiry)
         {
             _poRepository.Insert(entiry);
@@ -132,7 +142,15 @@ namespace Application.Services.PO
 
         }
 
-       
+        public void blukUpload(DataTable ds)
+        {
+            _adoConnection.bulkImport(Constants.BulkImportPo, ds);
+        }
+
+        //public System.Data.DataTable bulkImport(string SPName, System.Data.DataTable dataTable)
+        //{
+        //    _adoConnection.bulkImport(Constants.BulkImportintransit, ds);
+        //}
 
         #endregion
     }

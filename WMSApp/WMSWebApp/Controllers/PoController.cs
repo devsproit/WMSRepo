@@ -403,14 +403,15 @@ namespace WMSWebApp.Controllers
             try
             {
                 DataTable dt = new DataTable();
-                dt.Columns.Add("Po Number", typeof(string));
-                dt.Columns.Add("PO Catagry", typeof(string));
-                dt.Columns.Add("Sending To", typeof(string));
+                dt.Columns.Add("PoNumber", typeof(string));
+                dt.Columns.Add("POCatagry", typeof(string));
+                dt.Columns.Add("SendingTo", typeof(string));
                 dt.Columns.Add("Item", typeof(string));
-                dt.Columns.Add("Sub Item", typeof(string));
+                dt.Columns.Add("SubItem", typeof(string));
                 dt.Columns.Add("Qty", typeof(string));
-                dt.Columns.Add("Serial Number", typeof(string));
-                dt.Columns.Add("SubItem Code", typeof(string));
+                dt.Columns.Add("SerialNumber", typeof(string));
+                dt.Columns.Add("SubItemCode", typeof(string));
+                dt.Columns.Add("Amt", typeof(string));
                 DataTable dt2 = ds.Tables["Sheet1"];
 
                 foreach (DataRow dr in dt2.Rows)
@@ -419,16 +420,18 @@ namespace WMSWebApp.Controllers
                 }
                 dt.Rows[0].Delete();
                 dt.AcceptChanges(); dt2.AcceptChanges();
-                dt.Columns["Po Number"].ColumnName = "Po Number";
-                dt.Columns["PO Catagry"].ColumnName = "PO Catagry";
-                dt.Columns["Sending To"].ColumnName = "Sending To";
+                dt.Columns["PoNumber"].ColumnName = "PoNumber";
+                dt.Columns["POCatagry"].ColumnName = "PoCatagry";
+                dt.Columns["SendingTo"].ColumnName = "SendingTo";
                 dt.Columns["Item"].ColumnName = "Item";
-                dt.Columns["Sub Item"].ColumnName = "Sub Item";
+                dt.Columns["SubItem"].ColumnName = "SubItem";
                 dt.Columns["Qty"].ColumnName = "Qty";
-                dt.Columns["Serial Number"].ColumnName = "Serial Number";
-                dt.Columns["SubItem Code"].ColumnName = "SubItem Code";
-              
-             //   _purchaseOrder.blukUpload(dt);
+                dt.Columns["Amt"].ColumnName = "Amt";
+                dt.Columns["SerialNumber"].ColumnName = "SerialNumber";
+                dt.Columns["SubItemCode"].ColumnName = "SubItemCode";
+                
+
+                _purchaseOrder.blukUpload(dt);
             }
             catch (Exception ex)
             {

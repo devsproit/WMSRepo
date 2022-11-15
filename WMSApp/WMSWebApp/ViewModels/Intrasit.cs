@@ -26,5 +26,7 @@ namespace WMSWebApp.ViewModels
         public int Sno { get; set; }
         public bool AllowGRN { get; set; }
 
+        public string subItemCodeVal { get; set; }
+
     }
 }

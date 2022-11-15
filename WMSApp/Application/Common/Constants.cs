@@ -44,6 +44,8 @@
         public const string GetCustomerByNameSP = @"[WMS].[CustomerGetByName]";
         public const string GetSubItemCustAmtSP = @"[WMS].[SubItemGetByName]";
 
+        public const string BulkImportPo = @"[dbo].[spBulkImportPo]";
+
 
     }
 }
