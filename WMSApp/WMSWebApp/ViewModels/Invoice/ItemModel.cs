@@ -22,5 +22,6 @@
         public string WarehouseCode { get; set; }
         public string SubItemName { get; set; }
         public int AreaId { get; set; }
+        public string PONumber { get; set; }
     }
 }

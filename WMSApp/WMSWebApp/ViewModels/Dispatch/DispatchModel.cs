@@ -24,5 +24,9 @@ namespace WMSWebApp.ViewModels.Dispatch
         public DateTime CreateOn { get; set; }
 
         public List<InvoiceMaster> InvoiceList { get; set; }
+
+        public string DocketNo { get; set; }
+
+        public string LRNo { get; set; }
     }
 }

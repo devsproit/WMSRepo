@@ -31,11 +31,11 @@ namespace WMSWebApp.Controllers
         private readonly IItemStockService _itemStockService;
         private readonly IVenderVehicleService _venderVehicleService;
         private readonly IBranchHelper _branchService;
-
+        private readonly ISubItemWarehouseMappingService _subItemWarehouseMappingService;
         #endregion
 
         #region Ctor
-        public GrnController(IIntrasitService intrasitService, IWorkContext workContext, IMapper mapper, IWarehouseService warehouseService, IGoodReceivedNoteMasterService goodReceivedNoteMasterService, IItemStockService itemStockService, IVenderVehicleService venderVehicleService, IBranchHelper branchService)
+        public GrnController(IIntrasitService intrasitService, IWorkContext workContext, IMapper mapper, IWarehouseService warehouseService, IGoodReceivedNoteMasterService goodReceivedNoteMasterService, IItemStockService itemStockService, IVenderVehicleService venderVehicleService, IBranchHelper branchService, ISubItemWarehouseMappingService subItemWarehouseMappingService)
         {
             _intrasitService = intrasitService;
             _workContext = workContext;
@@ -45,6 +45,7 @@ namespace WMSWebApp.Controllers
             _itemStockService = itemStockService;
             _venderVehicleService = venderVehicleService;
             _branchService = branchService;
+            _subItemWarehouseMappingService = subItemWarehouseMappingService;
         }
         #endregion
 
@@ -295,6 +296,17 @@ namespace WMSWebApp.Controllers
                 Total = grns.TotalCount
             };
             return Json(gridData);
+        }
+
+        [HttpGet]
+        public IActionResult GetItemLocation(string subItemCode)
+        {
+            var location = _subItemWarehouseMappingService.GetItemLocation(subItemCode);
+            SubItemLocationModel m = new SubItemLocationModel();
+            m.LocationId = location.LocationId;
+            m.WareHouseId = location.WareHouseId;
+            m.WareHouseAreaId = location.WareHouseAreaId;
+            return Json(m);
         }
         #endregion
 

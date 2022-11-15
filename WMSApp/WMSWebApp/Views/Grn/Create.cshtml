@@ -59,7 +59,7 @@
                             <h3 class="card-title">Good Receive Note</h3>
                         </div>
                         <form id="grnform">
-                            <div class="card-body">
+                            <div class="card-body"> 
                                 <div asp-validation-summary="ModelOnly" class="text-red-500"></div>
                                 <div class="row">
 
@@ -87,12 +87,12 @@
                                 </div>
                                 <br />
                                 <div class="row">
-                                    <div id="myGrid" class="col-md-7">
+                                    <div id="myGrid" class="col-md-8">
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
 
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Vendor</label>
                                                     <select id="vendor" class="form-control" placeholder="Vendor Name" asp-items="@(new SelectList(Model.Vehicles,"VehicleNo","VehicleNo"))">
