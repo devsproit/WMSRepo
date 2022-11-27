@@ -12,6 +12,7 @@ namespace Application.Services.PO
     {
         void Insert(ServiceOrderPODb serviceOrderPO);
         void Update(ServiceOrderPODb serviceOrderPO);
+        ServiceOrderPODb GetById(int id);
         IPagedList<ServiceOrderPODb> GetServicePos(string poNumber = "0", int pageIndex = 0, int pageSize = int.MaxValue);
         IPagedList<ServiceOrderPODb> GetDetails(string category, int pageIndex = 0, int pageSize = int.MaxValue);
     }
