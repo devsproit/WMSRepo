@@ -186,23 +186,38 @@ namespace WMSWebApp.Controllers
             }
             else
             {
-                //var items = _serviceOrderPoService.GetServicePos(id);
-                //foreach (var item in items)
-                //{
-                //    InvoiceItemModel m = new InvoiceItemModel()
-                //    {
-                //        Amount = item.ServiceOrderPOQty,
-                //        SubItemName = item.ServiceOrderPOSubitem,
-                //        PoNumber = item.PONumber,
-                //        Id = item.Id,
-                //        ItemCode = item.SubItemCode,
-                //        MaterialDescription = "",
-                //        Qty = item.ServiceOrderPOQty,
-                //        SubItemCode = item.SubItemCode,
+                var items = pickslip.PickSlipDetails;
+                foreach (var item in items)
+                {
+                    InvoiceItemModel m = new InvoiceItemModel();
 
-                //    };
-                //    model.Add(m);
-                //}
+                    m.Amount = item.Amount;
+                    m.SubItemName = item.SubItemName;
+                    m.AreaId = item.AreaId;
+                    m.Id = item.Id;
+                    m.SubItemCode = item.SubItemCode;
+                    var subItem = _subItemService.GetItemByCOde(item.SubItemCode);
+                    if (subItem != null)
+                    {
+                        m.MaterialDescription = subItem.MaterialDescription;
+                    }
+                    var area = _warehouseService.GetWarehouseZoneAreaById(item.AreaId);
+                    if (area != null)
+                    {
+                        m.AreaCode = area.AreaCode;
+                        m.AreaName = area.AreaName;
+                        var zone = _warehouseService.GetZoneById(area.ZoneId);
+                        m.ZoneCode = zone.ZoneCode;
+                        m.ZoneName = zone.ZoneName;
+                        var warehouse = _warehouseService.GetById(zone.WarehouseId);
+                        m.Warehouse = warehouse.WarehouseName;
+                        m.WarehouseCode = warehouse.WarehouseCode;
+                    }
+                    var ponumber = _salePoService.GetById(pickslip.POID);
+                    m.PoNumber = ponumber.PONumber;
+                    m.Qty = item.Qty;
+                    model.Add(m);
+                }
             }
             return Json(model);
 
@@ -220,11 +235,11 @@ namespace WMSWebApp.Controllers
             if (pickslip.DockType == "StockTransfer PO")
             {
                 var items = pickslip.PickSlipDetails;
-                var ponumber = _salePoService.GetById(pickslip.POID);
+                var ponumber = _stockTransferPoService.GetById(pickslip.POID);
                 master.PoNumber = ponumber.PONumber;
                 master.PoCategory = pickslip.DockType;
                 master.CreateOn = DateTime.Now;
-                master.BilledTo = ponumber.SalePOSendingTo;
+                master.BilledTo = ponumber.StockTransferPOSendingTo;
                 master.PickSlipId = pickslip.Id;
                 master.InvoiceNumber = model.InvoiceId;
                 master.BranchCode = branch.BranchCode;
@@ -321,23 +336,54 @@ namespace WMSWebApp.Controllers
             }
             else
             {
-                //var items = _serviceOrderPoService.GetServicePos(id);
-                //foreach (var item in items)
-                //{
-                //    InvoiceItemModel m = new InvoiceItemModel()
-                //    {
-                //        Amount = item.ServiceOrderPOQty,
-                //        SubItemName = item.ServiceOrderPOSubitem,
-                //        PoNumber = item.PONumber,
-                //        Id = item.Id,
-                //        ItemCode = item.SubItemCode,
-                //        MaterialDescription = "",
-                //        Qty = item.ServiceOrderPOQty,
-                //        SubItemCode = item.SubItemCode,
+                var items = pickslip.PickSlipDetails;
+                var ponumber = _serviceOrderPoService.GetById(pickslip.POID);
+                master.PoNumber = ponumber.PONumber;
+                master.PoCategory = pickslip.DockType;
+                master.CreateOn = DateTime.Now;
+                master.BilledTo = ponumber.ServiceOrderPOSendingTo;
+                master.PickSlipId = pickslip.Id;
+                master.InvoiceNumber = model.InvoiceId;
+                master.BranchCode = branch.BranchCode;
+                master.DispatchDone = false;
+                foreach (var item in items)
+                {
+                    InvoiceDetails m = new InvoiceDetails();
 
-                //    };
-                //    model.Add(m);
-                //}
+                    m.Amt = item.Amount;
+                    m.SubItemName = item.SubItemName;
+                    m.AreaId = item.AreaId;
+                    //m.Id = item.Id;
+                    m.SubItemCode = item.SubItemCode;
+                    var subItem = _subItemService.GetItemByCOde(item.SubItemCode);
+                    if (subItem != null)
+                    {
+                        m.MaterialDescription = subItem.MaterialDescription;
+                    }
+                    var area = _warehouseService.GetWarehouseZoneAreaById(item.AreaId);
+                    if (area != null)
+                    {
+                        m.AreaCode = area.AreaCode;
+                        m.AreaName = area.AreaName;
+                        var zone = _warehouseService.GetZoneById(area.ZoneId);
+                        m.ZoneCode = zone.ZoneCode;
+                        m.ZoneName = zone.ZoneName;
+                        var warehouse = _warehouseService.GetById(zone.WarehouseId);
+                        m.Warehouse = warehouse.WarehouseName;
+                        m.WarehouseCode = warehouse.WarehouseCode;
+                    }
+
+
+                    m.Qty = item.Qty;
+                    m.InvoiceMaster = master;
+                    master.InvoiceDetails.Add(m);
+
+                }
+
+                _invoiceService.InsertMaster(master);
+                pickslip = _pickSlipService.GetbyId(model.PickSlipId);
+                pickslip.IsProcessed = true;
+                _pickSlipService.Update(pickslip);
             }
             return Json(true);
         }

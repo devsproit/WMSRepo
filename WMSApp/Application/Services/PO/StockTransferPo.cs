@@ -58,7 +58,12 @@ namespace Application.Services.PO
             return result;
         }
 
-     
+        public StockTransferPoDb GetById(int id)
+        {
+            return _stockTransfterPoRepository.GetById(id);
+        }
+
+
         #endregion
     }
 }

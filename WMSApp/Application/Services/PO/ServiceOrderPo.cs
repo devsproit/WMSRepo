@@ -58,6 +58,11 @@ namespace Application.Services.PO
             return result;
         }
 
+        public ServiceOrderPODb GetById(int id)
+        {
+           return _serviceOrderPoRepository.GetById(id);
+        }
+
 
         #endregion
     }

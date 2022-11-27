@@ -110,7 +110,10 @@ $(document).ready(function () {
             success: function (data) {
                 console.log(data);
                 var grid = $("#pick-grid").data("kendoGrid");
-                grid.dataSource.add(data[0]);
+                for (var i = 0; i < data.length; i++) {
+                    grid.dataSource.add(data[i]);
+                }
+                
                 toastr.success('Item  successfully added into list.');
             }
         });
