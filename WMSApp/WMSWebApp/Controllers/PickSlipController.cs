@@ -262,9 +262,32 @@ namespace WMSWebApp.Controllers
                 _pickSlipService.Insert(master);
                 foreach (var item in model)
                 {
-                    var pos = _salePoService.GetById(item.Id);
-                    pos.IsProcessed = true;
-                    _salePoService.Update(pos);
+                    switch (item.DockType)
+                    {
+                        case "ServiceOrder PO":
+                            {
+                                var pos = _serviceOrderPoService.GetById(item.Id);
+                                pos.IsProcessed = true;
+                                _serviceOrderPoService.Update(pos);
+                                break;
+                            }
+                        case "Sale PO":
+                            {
+                                var pos = _salePoService.GetById(item.Id);
+                                pos.IsProcessed = true;
+                                _salePoService.Update(pos);
+                                break;
+                            }
+                        case "StockTransfer PO":
+                            {
+                                var pos = _stockTransferPoService.GetById(item.Id);
+                                pos.IsProcessed = true;
+                                _stockTransferPoService.Update(pos);
+                                break;
+                            }
+
+                    }
+
                 }
                 // Update Inventory
                 foreach (var item in model)

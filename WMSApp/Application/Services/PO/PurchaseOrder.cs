@@ -57,7 +57,7 @@ namespace Application.Services.PO
                         where x.BranchCode == branchCode && x.POCategory == category
                         select x;
             query = query.Where(x => x.ProcessStatus == status);
-            query = query.OrderBy(x => x.Id);
+            query = query.OrderByDescending(x => x.Id);
             var result = new PagedList<PurchaseOrderDb>(query, pageIndex, pageSize);
             return result;
 

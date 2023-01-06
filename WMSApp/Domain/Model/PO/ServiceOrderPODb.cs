@@ -26,5 +26,7 @@ namespace Domain.Model.PO
 
         public string ServiceOrderPOSerialNumber { get; set; }
         public string SubItemCode { get; set; }
+
+        public bool IsProcessed { get; set; } = false;
     }
 }
