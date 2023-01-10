@@ -53,11 +53,12 @@ namespace WMSWebApp
             //    c.UseSqlite("Data Source=blog.db");
             //});
             //services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<WMSObjectContext>();
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.LoginPath = "/Account/Login";
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+            //services.ConfigureApplicationCookie(options =>
+            //{
+            //    options.LoginPath = "/Account/Login";
 
-            });
+            //});
             //Initialize the mapper
             var config = new MapperConfiguration(config =>
             {
@@ -70,7 +71,7 @@ namespace WMSWebApp
                 options.UseSqlServer(Configuration.GetConnectionString("default")).UseLazyLoadingProxies();
 
             });
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+           
             services.AddResponseCompression();
             services.AddHttpClient();
             services.AddSession(options =>

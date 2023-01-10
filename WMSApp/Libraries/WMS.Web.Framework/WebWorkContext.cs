@@ -6,7 +6,7 @@ using Domain.Model.Masters;
 using Application.Services.Master;
 using Application.Services;
 using WMS.Core.Http;
-
+using Sentry;
 namespace WMS.Web.Framework
 {
     public class WebWorkContext : IWorkContext
@@ -16,6 +16,7 @@ namespace WMS.Web.Framework
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUserProfileService _userProfileService;
         private readonly IBranchHelper _branchService;
+
         #endregion
 
         #region Ctor
@@ -65,6 +66,7 @@ namespace WMS.Web.Framework
         }
         protected virtual void SetBranchCookie(int branchId)
         {
+            SentrySdk.CaptureMessage("Set Cookies branch login " + branchId);
             if (_httpContextAccessor.HttpContext?.Response?.HasStarted ?? true)
                 return;
 
@@ -85,7 +87,9 @@ namespace WMS.Web.Framework
             {
                 HttpOnly = true,
                 Expires = cookieExpiresDate,
-                Secure = true
+                Secure = true,
+                SameSite = SameSiteMode.Strict
+
             };
             _httpContextAccessor.HttpContext.Response.Cookies.Append(cookieName, branchId.ToString(), options);
         }
@@ -111,6 +115,7 @@ namespace WMS.Web.Framework
             if (branchid == null)
             {
                 var user = await UserProfile();
+                SentrySdk.CaptureMessage("GetCurrentBranch " + user.BranchId);
                 SetBranchCookie(user.BranchId);
                 branch = _branchService.GetById(user.BranchId);
             }

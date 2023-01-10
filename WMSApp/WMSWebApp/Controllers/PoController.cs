@@ -243,6 +243,7 @@ namespace WMSWebApp.Controllers
                         stockTransferPo.StockTransferPOAmt = item.StockTransferPOAmt;
                         stockTransferPo.StockTransferPOSerialNumber = item.StockTransferPOSerialNumber;
                         stockTransferPo.PONumber = poViewModel.PONumber;
+                        stockTransferPo.IsProcessed = false;
                         var subItem = _SubItemHelper.GetItemByCOde(item.SubItemCode);
                         stockTransferPo.SubItemCode = subItem.SubItemCode;
                         stockTransferPo.StockTransferPOSubItem = subItem.SubItemName;
@@ -267,6 +268,7 @@ namespace WMSWebApp.Controllers
                         serviceOrderPODb.ServiceOrderPOServiceRequestNumber = item.ServiceOrderPOServiceRequestNumber;
                         serviceOrderPODb.ServiceOrderPOSalePO = item.ServiceOrderPOSalePO;
                         serviceOrderPODb.ServiceOrderPOSaleDate = item.ServiceOrderPOSaleDate;
+                        serviceOrderPODb.IsProcessed = false;
                         var subItem = _SubItemHelper.GetItemByCOde(item.SubItemCode);
                         serviceOrderPODb.SubItemCode = subItem.SubItemCode;
                         serviceOrderPODb.ServiceOrderPOSubitem = subItem.SubItemName;
@@ -287,6 +289,7 @@ namespace WMSWebApp.Controllers
                         salePoDb.SalePOAmt = item.SalePOAmt;
                         salePoDb.SalePOSerialNumber = item.SalePOSerialNumber;
                         salePoDb.PONumber = poViewModel.PONumber;
+                        salePoDb.IsProcessed = false;
                         var subItem = _SubItemHelper.GetItemByCOde(item.SubItemCode);
                         salePoDb.SubItemCode = subItem.SubItemCode;
                         salePoDb.SalePOSubItem = subItem.SubItemName;

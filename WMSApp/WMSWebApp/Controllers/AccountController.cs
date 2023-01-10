@@ -14,6 +14,8 @@ using System;
 using System.Collections.Generic;
 using WMSWebApp.ViewModels.Account;
 using Application.Services.Security;
+using Microsoft.Extensions.Logging;
+using Sentry;
 
 namespace WMSWebApp.Controllers
 {
@@ -29,6 +31,7 @@ namespace WMSWebApp.Controllers
         private readonly IWorkContext _workContext;
         private readonly IUserBranchMappingService _userBranchMappingService;
         private readonly IPermissionMasterService _permissionMasterServcie;
+        private readonly ILogger<AccountController> _logger;
         public AccountController(UserManager<ApplicationUser> userManager,
                               SignInManager<ApplicationUser> signInManager,
                               IUserProfileService userProfileService,
@@ -36,7 +39,8 @@ namespace WMSWebApp.Controllers
                               IBranchHelper branchService,
                               IWorkContext workContext,
                               IUserBranchMappingService userBranchMappingService,
-                              IPermissionMasterService permissionMasterServcie)
+                              IPermissionMasterService permissionMasterServcie,
+                              ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -46,6 +50,7 @@ namespace WMSWebApp.Controllers
             _workContext = workContext;
             _userBranchMappingService = userBranchMappingService;
             _permissionMasterServcie = permissionMasterServcie;
+            _logger = logger;
         }
 
 
@@ -210,8 +215,8 @@ namespace WMSWebApp.Controllers
                 {
                     var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-                    var passwordRestStatus =await _userManager.ResetPasswordAsync(user, token, model.Password);
-                    if(passwordRestStatus.Succeeded)
+                    var passwordRestStatus = await _userManager.ResetPasswordAsync(user, token, model.Password);
+                    if (passwordRestStatus.Succeeded)
                     {
                         SuccessNotification("Password successfully changed.");
                     }
@@ -262,6 +267,8 @@ namespace WMSWebApp.Controllers
         [HttpPost]
         public IActionResult BranchLogin(BranchLogin model)
         {
+            SentrySdk.CaptureMessage("branch login " + model.Id);
+            
             _workContext.SetLoginBranch(model.Id);
 
             return RedirectToAction("Index", "Home");

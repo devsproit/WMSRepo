@@ -17,6 +17,8 @@ using Application.Services.StockMgnt;
 using Domain.Model.StockManagement;
 using Application.Services.Master;
 using Application.Services;
+using Sentry;
+
 namespace WMSWebApp.Controllers
 {
     [Authorize]
@@ -97,7 +99,9 @@ namespace WMSWebApp.Controllers
         [HttpPost]
         public virtual async Task<IActionResult> PODetails(string pono)
         {
+            SentrySdk.CaptureMessage("PODetails() ");
             var branch = await _workContext.GetCurrentBranch();
+            SentrySdk.CaptureMessage("PODetails() "+ branch.Id);
             var intrasitData = _intrasitService.GetPendingPO(branch.BranchCode, pono, 0, int.MaxValue);
             int id = 1;
             var data = new DataSourceResult()
