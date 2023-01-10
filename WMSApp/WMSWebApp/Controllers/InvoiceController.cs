@@ -213,7 +213,7 @@ namespace WMSWebApp.Controllers
                         m.Warehouse = warehouse.WarehouseName;
                         m.WarehouseCode = warehouse.WarehouseCode;
                     }
-                    var ponumber = _salePoService.GetById(pickslip.POID);
+                    var ponumber = _serviceOrderPoService.GetById(pickslip.POID);
                     m.PoNumber = ponumber.PONumber;
                     m.Qty = item.Qty;
                     model.Add(m);
