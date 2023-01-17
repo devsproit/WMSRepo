@@ -39,13 +39,17 @@ namespace Application.Services.PS
         {
             _pickSlipMasterRepository.Update(entity);
         }
-        public virtual IPagedList<PickSlipMaster> GetPickSlipMasters(string branchCode, string pickslipName = "", int pageIndex = 0, int pageSize = int.MaxValue)
+        public virtual IPagedList<PickSlipMaster> GetPickSlipMasters(string branchCode, string pickslipName = "", int pageIndex = 0, int pageSize = int.MaxValue, bool hideProcessed = false)
         {
             var query = from x in _pickSlipMasterRepository.Table
                         select x;
             if (!string.IsNullOrEmpty(pickslipName))
                 query = query.Where(x => x.PickSlipName.Contains(pickslipName));
             query = query.Where(x => x.BranchCode == branchCode);
+            if (hideProcessed)
+            {
+                query = query.Where(x => x.IsProcessed == false);
+            }
             query = query.OrderByDescending(x => x.Id);
 
             var result = new PagedList<PickSlipMaster>(query, pageIndex, pageSize);

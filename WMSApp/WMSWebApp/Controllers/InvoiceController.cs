@@ -394,7 +394,7 @@ namespace WMSWebApp.Controllers
         public virtual IActionResult GetPickSlip()
         {
             var branch = _workContext.GetCurrentBranch().Result;
-            var result = _pickSlipService.GetPickSlipMasters(branch.BranchCode);
+            var result = _pickSlipService.GetPickSlipMasters(branch.BranchCode, "", 0, int.MaxValue, true);
             List<PickSlipListModel> model = new List<PickSlipListModel>();
             foreach (var item in result.ToList())
             {
