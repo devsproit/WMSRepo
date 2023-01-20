@@ -42,6 +42,15 @@ namespace Application.Services
                 data = dbDT.ToList<CompanyDb>();
             return data.FirstOrDefault();
         }
+        public virtual CompanyDb GetCompanyByCode(string branchCode)
+        {
+            var query = from x in _companyRepository.Table
+                        select x;
+            query = query.Where(x => x.CompanyCode == branchCode && x.IsDeleted == false);
+            var result = query.FirstOrDefault();
+            return result;
+        }
+
         public bool CreateNewCompany(CompanyDb company)
         {
             int result = 0;
@@ -100,7 +109,6 @@ namespace Application.Services
             return result > 0 ? true : false;
         }
 
-
         public virtual void Insert(CompanyDb entity)
         {
             _companyRepository.Insert(entity);
@@ -116,7 +124,6 @@ namespace Application.Services
 
 
         }
-
 
         public virtual CompanyDb GetById(int id)
         {

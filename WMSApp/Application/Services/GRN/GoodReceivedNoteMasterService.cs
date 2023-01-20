@@ -29,12 +29,19 @@ namespace Application.Services.GRN
         #region Methods
         public virtual IPagedList<GoodReceivedNoteMaster> GetAllMaster(string branch, int pageIndex = 0, int pageSize = int.MaxValue)
         {
-            var query = from x in _grnMasterRepository.Table
-                        select x;
-            query = query.Where(x => x.BranchCode == branch);
-            query = query.OrderByDescending(x => x.Id);
-            var result = new PagedList<GoodReceivedNoteMaster>(query, pageIndex, pageSize);
-            return result;
+            try
+            {
+                var query = from x in _grnMasterRepository.Table
+                            select x;
+                query = query.Where(x => x.BranchCode == branch);
+                query = query.OrderByDescending(x => x.Id);                
+                var result = new PagedList<GoodReceivedNoteMaster>(query, pageIndex, pageSize);
+                return result;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
         public virtual IPagedList<GoodReceivedNoteDetails> GetReport(DateTime fromdate, DateTime todate, string branch = "ALL",int pageIndex=0,int pageSize=int.MaxValue)
         {

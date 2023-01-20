@@ -253,6 +253,8 @@ $(document).ready(function () {
                 location["acode"] = $("#acode").val();
                 location["Ponumber"] = $("#ponumber").val();
                 location["invoice"] = $("#invoiceNo").val();
+                location["GRNNumberOfSAP"] = $("#grnnumbersap").val();
+                location["IRN"] = $("#irn").val();
                 grndata.push(location);
                 toastr.success('Item ' + selectedItem["Id"] + ' successfully added on area code' + location["acode"] + ' in zone ' + location["zone"]);
             }
@@ -333,7 +335,7 @@ function fildetails(items) {
     $("#qtyu,#Qtysuk,#QtyD,#QtyO,#QtyI").val(items[0]['Qty']);
     $("#sendercompany").val(items[0]["SenderCompany"]);
     $("#sender").val(items[0]["Branch"]);
-    itemLocation(items[0]['SubItemCode']);
+    itemLocation(items[0]['ItemCode']);
 }
 
 function warehouse() {
@@ -400,6 +402,14 @@ function validation() {
         }
         if ($("#invoiceNo").val() === undefined || $("#invoiceNo").val() === "") {
             alert("Please enter invoice no.");
+            return false;
+        }
+        if ($("#grnnumbersap").val() === undefined || $("#grnnumbersap").val() === "") {
+            alert("Please enter GRN no. from SAP");
+            return false;
+        }
+        if ($("#irn").val() === undefined || $("#irn").val() === "") {
+            alert("Please enter IRN");
             return false;
         }
     }

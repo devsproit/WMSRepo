@@ -82,6 +82,7 @@ namespace WMSWebApp.Controllers
                     return m;
 
                 }),
+                Total = data.TotalCount,
             };
 
             return Json(gridData);

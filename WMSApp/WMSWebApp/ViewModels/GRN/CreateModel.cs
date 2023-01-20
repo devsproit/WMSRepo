@@ -15,6 +15,8 @@ namespace WMSWebApp.ViewModels.GRN
         public string acode { get; set; }
         public string Ponumber { get; set; }
         public string invoice { get; set; }
+        public string GRNNumberOfSAP { get; set; }
+        public string IRN { get; set; }
 
         public bool AllowGRN { get; set; }
 

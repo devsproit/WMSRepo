@@ -17,6 +17,7 @@ namespace Domain.Model.GRN
         public string Unit { get; set; }
         public decimal Amount { get; set; }
         public int AreaId { get; set; }
+        public string Remark { get; set; }
         public virtual GoodReceivedNoteMaster GoodReceivedNoteMaster { get; set; }
 
     }
