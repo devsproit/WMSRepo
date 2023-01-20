@@ -109,12 +109,18 @@ $(document).ready(function () {
             data: "{}",
             success: function (data) {
                 console.log(data);
-                var grid = $("#pick-grid").data("kendoGrid");
-                for (var i = 0; i < data.length; i++) {
-                    grid.dataSource.add(data[i]);
+                if (data.length > 0) {
+                    var grid = $("#pick-grid").data("kendoGrid");
+                    for (var i = 0; i < data.length; i++) {
+                        grid.dataSource.add(data[i]);
+                    }
+
+                    toastr.success('Item  successfully added into list.');
+                }
+                else {
+                    toastr.error('No records');
                 }
                 
-                toastr.success('Item  successfully added into list.');
             }
         });
 

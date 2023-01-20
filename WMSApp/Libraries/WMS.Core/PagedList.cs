@@ -20,7 +20,7 @@ namespace WMS.Core
             var total = source.Count();
             TotalCount = total;
             TotalPages = total / pageSize;
-
+            
             if (total % pageSize > 0)
                 TotalPages++;
 

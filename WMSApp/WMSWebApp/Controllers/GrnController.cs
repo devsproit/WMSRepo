@@ -227,6 +227,8 @@ namespace WMSWebApp.Controllers
             master.BranchCode = branch.BranchCode;
             master.InvoiceNo = model.FirstOrDefault().invoice;
             master.SenderCompany = intranicRow.Sender_Company;
+            master.GRNNumberOfSAP = model.FirstOrDefault().GRNNumberOfSAP;
+            master.IRN = model.FirstOrDefault().IRN;
             foreach (var item in model)
             {
                 intranicRow = _intrasitService.GetById(item.ItemId);
@@ -235,6 +237,7 @@ namespace WMSWebApp.Controllers
 
                     Amount = intranicRow.Amt,
                     AreaId = item.Warea,
+                    Remark = item.Remark,
                     GoodReceivedNoteMaster = master,
                     ItemCode = intranicRow.Item_Code,
                     MaterialDescription = intranicRow.Material_Description,
@@ -267,7 +270,10 @@ namespace WMSWebApp.Controllers
             return Json("OK");
         }
 
-
+        public IActionResult GrnPrint(int id)
+        {            
+            return View(id);
+        }
 
         public virtual IActionResult List()
         {
@@ -290,6 +296,8 @@ namespace WMSWebApp.Controllers
                     m.Id = x.Id;
                     m.InvoiceNo = x.InvoiceNo;
                     m.InvoiceDate = x.InvoiceDate;
+                    m.GRNNumberOfSAP = x.GRNNumberOfSAP;
+                    m.IRN = x.IRN;
                     m.BranchCode = branchCode;
                     var branch = _branchService.GetBranchByCode(branchCode);
                     if (branch != null)
@@ -305,7 +313,7 @@ namespace WMSWebApp.Controllers
         [HttpGet]
         public IActionResult GetItemLocation(string subItemCode)
         {
-            var location = _subItemWarehouseMappingService.GetItemLocation(subItemCode);
+            var location = _subItemWarehouseMappingService.GetItemLocation(subItemCode.Replace("\"", "'"));
             SubItemLocationModel m = new SubItemLocationModel();
             m.LocationId = location.LocationId;
             m.WareHouseId = location.WareHouseId;

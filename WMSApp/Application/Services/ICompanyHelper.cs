@@ -11,6 +11,7 @@ namespace Application.Services
         bool DeleteCompanyById(int Id);
         List<CompanyDb> GetAllCompanies();
         CompanyDb GetCompanyById(int Id);
+        CompanyDb GetCompanyByCode(string branchCode);
         bool UpdateCompanyById(CompanyDb company);
         bool CreateNewCompany(CompanyDb company);
         void Insert(CompanyDb entity);

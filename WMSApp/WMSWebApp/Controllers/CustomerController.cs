@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Net.Http;
 using Application.Services;
 using AutoMapper;
@@ -64,14 +65,40 @@ namespace WMSWebApp.Controllers
         public ActionResult Create()
         {
             Root districtslist = new Root();
+            var dlist = districtslist.districts;
+            List<int> stateList = new List<int>();
             HttpClient client = new HttpClient();
-            string apiUrl = Configuration.GetValue<string>("districtUrl");
-            HttpResponseMessage response = client.GetAsync(apiUrl).Result;
-            if (response.IsSuccessStatusCode)
+            string apiStateUrl = Configuration.GetValue<string>("stateUrl");
+            string apiUrl = Configuration.GetValue<string>("districtUrl"); 
+
+            HttpResponseMessage responseState = client.GetAsync(apiStateUrl).Result;
+            if (responseState.IsSuccessStatusCode)
             {
-                districtslist = JsonConvert.DeserializeObject<Root>(response.Content.ReadAsStringAsync().Result);
+                var data = JsonConvert.DeserializeObject<Root>(responseState.Content.ReadAsStringAsync().Result);
+                if(data.states.Count > 0)
+                {
+                    stateList.AddRange(data.states.Select(x => x.state_id));
+                }
             }
-            ViewBag.districts = districtslist.districts;
+            foreach(int id in stateList)
+            {
+                HttpResponseMessage response = client.GetAsync(apiUrl+id).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    districtslist = JsonConvert.DeserializeObject<Root>(response.Content.ReadAsStringAsync().Result);
+                }
+                if(dlist == null)
+                {
+                    dlist = districtslist.districts;
+                }
+                else
+                {
+                    dlist.AddRange(districtslist.districts);
+                }
+                
+            }
+            ViewBag.districts = dlist;
+
             return View();
         }
 

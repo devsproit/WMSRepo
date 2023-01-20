@@ -10,5 +10,7 @@ namespace WMSWebApp.ViewModels.GRN
         public string BranchCode { get; set; }
         public string SenderCompany { get; set; }
         public string Branch { get; set; }
+        public string GRNNumberOfSAP { get; set; }
+        public string IRN { get; set; }
     }
 }

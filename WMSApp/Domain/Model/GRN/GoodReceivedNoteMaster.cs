@@ -13,6 +13,8 @@ namespace Domain.Model.GRN
         public DateTime InvoiceDate { get; set; } = new DateTime();
         public string BranchCode { get; set; }
         public string SenderCompany { get; set; }
+        public string GRNNumberOfSAP { get; set; }
+        public string IRN { get; set; }
 
         private ICollection<GoodReceivedNoteDetails> _goodReceivedNoteDetails;
 

@@ -62,7 +62,8 @@ namespace Application.Services.Master
         {
             var query = from x in _subitemMappingRepository.Table
                         select x;
-            query = query.Where(x => x.SubItemCode == subItemCode);
+            query = query.Where(x => x.SubItemCode == subItemCode.Replace("\"", "'"));
+            
             return query.FirstOrDefault();
         }
         #endregion
