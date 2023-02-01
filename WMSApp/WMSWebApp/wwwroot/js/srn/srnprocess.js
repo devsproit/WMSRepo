@@ -8,11 +8,11 @@ $(function () {
             url: '/Srn/PendingPO',
             dataType: 'json',
             type: "GET",
-            //data: function (term) {
-            //    return {
-            //        term: term
-            //    };
-            //},
+            data: function (term) {
+                return {
+                    term: term.term
+                };
+            },
             processResults: function (data) {
                 //debugger;
                 console.log(data);

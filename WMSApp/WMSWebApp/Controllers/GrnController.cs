@@ -88,10 +88,11 @@ namespace WMSWebApp.Controllers
         }
 
         [HttpGet]
-        public virtual async Task<IActionResult> PendingPO()
+        public virtual async Task<IActionResult> PendingPO(string term)
         {
             var branch = await _workContext.GetCurrentBranch();
-            var intrasitData = _intrasitService.GetPendingPO(branch.BranchCode, "0", 0, int.MaxValue).ToList().GetUniqePo();
+            term = (term == null || term == "") ? "0" : term;
+            var intrasitData = _intrasitService.GetPendingPO(branch.BranchCode, term, 0, int.MaxValue).ToList().GetUniqePo();
             return Json(intrasitData);
 
         }

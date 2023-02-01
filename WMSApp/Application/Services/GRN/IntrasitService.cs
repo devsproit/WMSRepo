@@ -42,11 +42,9 @@ namespace Application.Services.GRN
                     {
                         if (!string.IsNullOrEmpty(pono))
                         {
-                            query = query.Where(x => x.PurchaseOrder == pono);
+                            query = query.Where(x => x.PurchaseOrder.Contains(pono));
                         }
                     }
-
-
 
                     var result = new PagedList<IntrasitDb>(query, pageIndex, pageSize);
                     return result;
