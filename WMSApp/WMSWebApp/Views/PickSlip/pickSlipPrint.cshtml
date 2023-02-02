@@ -212,7 +212,7 @@
                         <td>@subitem.MaterialDescription</td>
                         <td align="right" class="price">0</td>
                         <td align="center">@item.Qty</td>
-                        <td align="right" class="price">@location.AreaName</td>
+                        <td align="right" class="price">@location == null ? "" : @location.AreaName  </td>
                     </tr>
                 }
 

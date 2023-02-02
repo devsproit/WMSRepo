@@ -80,7 +80,7 @@ namespace Application.Services.PO
                     {
                         if (!string.IsNullOrEmpty(pono))
                         {
-                            query = query.Where(x => x.PONumber == pono && x.POCategory == "SRN PO");
+                            query = query.Where(x => x.PONumber.Contains(pono) && x.POCategory == "SRN PO");
                         }
                     }
 

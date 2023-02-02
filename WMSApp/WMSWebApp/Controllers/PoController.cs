@@ -208,9 +208,10 @@ namespace WMSWebApp.Controllers
         }
 
         [HttpGet]
-        public virtual async Task<IActionResult> SearchSubItem()
+        public virtual async Task<IActionResult> SearchSubItem(string term)
         {
-            var subItemsData = _SubItemHelper.GetSubItem("0", 0, int.MaxValue).ToList().GetUniqeCode();
+            term = (term == null || term == "") ? "0" : term;
+            var subItemsData = _SubItemHelper.GetSubItem(term, 0, int.MaxValue).ToList().GetUniqeCode();
             //subItems = _mapper.Map<List<SubItem>>(subItemsData);
             return Json(subItemsData);
         }

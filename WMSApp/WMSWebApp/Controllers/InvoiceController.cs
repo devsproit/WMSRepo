@@ -392,10 +392,12 @@ namespace WMSWebApp.Controllers
 
 
         [HttpGet]
-        public virtual IActionResult GetPickSlip()
+        public virtual IActionResult GetPickSlip(string term)
         {
             var branch = _workContext.GetCurrentBranch().Result;
-            var result = _pickSlipService.GetPickSlipMasters(branch.BranchCode, "", 0, int.MaxValue, true);
+
+            var result = _pickSlipService.GetPickSlipMasters(branch.BranchCode, term);
+
             List<PickSlipListModel> model = new List<PickSlipListModel>();
             foreach (var item in result.ToList())
             {

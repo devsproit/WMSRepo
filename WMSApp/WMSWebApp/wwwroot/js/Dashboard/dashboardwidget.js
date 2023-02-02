@@ -264,15 +264,13 @@
         columns: [{
             field: "Id",
             title: "ID",
-
-            width: 50
+            width: 40
         },
         {
             field: "ItemName",
             title: "ItemName",
             width: 100
         },
-
         {
             field: "ItemCode",
             title: "ItemCode",
@@ -281,10 +279,23 @@
         {
             field: "Qty",
             title: "Qty",
-
-            width: 100
+            width: 40
         },
-
+         {
+             field: "Location",
+             title: "Location",
+            width: 100
+            },
+            {
+                field: "LastUpdateDate",
+                title: "Stock In Date",
+                width: 80
+            },
+            {
+                field: "Remark",
+                title: "Remark",
+                width: 60
+            },
 
         ],
 

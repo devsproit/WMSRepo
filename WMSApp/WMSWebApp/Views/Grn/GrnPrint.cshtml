@@ -41,6 +41,11 @@
             font-weight: bold;
         }
 
+        tfoot > tr {
+            background-color: gray;            
+            height: 2px;
+        }
+
         td {
             vertical-align: top;
         }
@@ -122,7 +127,8 @@
                     }
                     <div class="company-name">@companyInfo.CompanyName</div>
                     <div>Address<br />@companyInfo.Address</div>
-                    <div>Location<br />@companyInfo.Location</div>
+                    <div>Location - @companyInfo.Location</div>
+                    <div>Branch Code - @GRN.BranchCode</div>
                 </td>
                 <td style="width:3.5in;" align="right" valign="top">
                 </td>
@@ -174,7 +180,7 @@
                     Invoice Date
                 </th>
                 <th align="right" style="width:0.75in" class="price">
-                    Branch Code
+                    Quantity
                 </th>
                 <th align="center" style="width:0.75in">
                     Sender Company
@@ -191,22 +197,45 @@
 
         </thead>
         <tbody>
-            <tr>
-                <td class="sku">@GRN.PONo</td>
-                <td class="sku">@GRN.GoodReceivedNoteDetails.FirstOrDefault().SubItemCode</td>
-                <td class="sku">@areaInfo.AreaName</td>
-                <td class="sku">@GRN.GoodReceivedNoteDetails.FirstOrDefault().Remark</td>
-                <td class="sku">@GRN.InvoiceNo</td>
-                <td class="sku">@GRN.InvoiceDate</td>
-                <td align="right">@GRN.BranchCode</td>
-                <td align="center">@GRN.SenderCompany</td>
-                <td align="right">@GRN.GRNNumberOfSAP</td>
-                <td align="right">@GRN.IRN</td>
-            </tr>
+            @{
+                foreach (var item in GRN.GoodReceivedNoteDetails)
+                {
+                    //var subitem = _subitemService.GetItemByCOde(item.SubItemCode);
+                    //var location = _wareHouseService.GetWarehouseZoneAreaById(item.AreaId);
+                    <tr>
+                        <td class="sku">@GRN.PONo</td>
+                        <td class="sku">@item.SubItemCode</td>
+                        <td class="sku">@areaInfo.AreaName</td>
+                        <td class="sku">@item.Remark</td>
+                        <td class="sku">@GRN.InvoiceNo</td>
+                        <td class="sku">@GRN.InvoiceDate</td>
+                        <td align="right">@item.Qty</td>
+                        <td align="center">@GRN.SenderCompany</td>
+                        <td align="right">@GRN.GRNNumberOfSAP</td>
+                        <td align="right">@GRN.IRN</td>
+                    </tr>
+                }
+
+            }
+           
             <!-- Order Items - THIS SECTION CAN BE MODIFIED AS NEEDED -->
             <!-- END Order Items -->
 
         </tbody>
+        <tfoot>
+            <tr>
+                <td>Total Quantity</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>@GRN.GoodReceivedNoteDetails.Select(x => x.Qty).Sum()</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tfoot>
     </table>
 
     <!-- Order Footer - THIS SECTION CAN BE MODIFIED AS NEEDED -->    

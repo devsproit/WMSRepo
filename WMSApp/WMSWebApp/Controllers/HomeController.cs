@@ -16,6 +16,7 @@ using WMSWebApp.ViewModels;
 using Domain.Model.GRN;
 using Application.Services.StockMgnt;
 using WMSWebApp.ViewModels.Stock;
+using Application.Services.WarehouseMaster;
 
 namespace WMSWebApp.Controllers
 {
@@ -24,14 +25,16 @@ namespace WMSWebApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IIntrasitService _intrasitService;
+        private readonly IWarehouseService _wareHouseService;
         private readonly IWorkContext _workContext;
         private readonly IGoodReceivedNoteMasterService _goodReceivedNoteMasterService;
         private readonly IItemStockService _itemStockService;
         private readonly ISubItemHelper _subItemService;
-        public HomeController(ILogger<HomeController> logger, IIntrasitService intrasitService, IWorkContext workContext, IGoodReceivedNoteMasterService goodReceivedNoteMasterService, IItemStockService itemStockService, ISubItemHelper subItemService)
+        public HomeController(ILogger<HomeController> logger, IIntrasitService intrasitService, IWarehouseService wareHouseService, IWorkContext workContext, IGoodReceivedNoteMasterService goodReceivedNoteMasterService, IItemStockService itemStockService, ISubItemHelper subItemService)
         {
             _logger = logger;
             _intrasitService = intrasitService;
+            _wareHouseService = wareHouseService;
             _workContext = workContext;
             _goodReceivedNoteMasterService = goodReceivedNoteMasterService;
             _itemStockService = itemStockService;
@@ -82,6 +85,7 @@ namespace WMSWebApp.Controllers
                     m.SubItemName = x.SubItemName;
                     m.Qty = x.Qty;
                     m.ItemCode = x.ItemCode;
+                    
                     id++;
                     return m;
                 }),
@@ -104,6 +108,17 @@ namespace WMSWebApp.Controllers
                     stock.Id = x.Id;
                     stock.Qty = x.Qty;
                     stock.ItemCode = x.ItemCode;
+                    var itemRemark = _goodReceivedNoteMasterService.GetGRNDetailsBySubItemCode(x.ItemCode);
+                    foreach(var i in itemRemark)
+                    {
+                        if(i.Qty == x.Qty && i.AreaId == x.AreaId)
+                        {
+                            stock.Remark = i.Remark;
+                        }
+                    }
+                    stock.LastUpdateDate = x.LastUpdate.Date.ToShortDateString();
+                    stock.Location = _wareHouseService.GetWarehouseZoneAreaById(x.AreaId).AreaName;
+                    
                     var item = _subItemService.GetItemByCOde(x.ItemCode);
                     if (item != null)
                         stock.ItemName = item.SubItemName;
