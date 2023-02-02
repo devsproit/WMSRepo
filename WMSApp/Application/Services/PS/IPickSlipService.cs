@@ -14,6 +14,6 @@ namespace Application.Services.PS
         PickSlipMaster GetbyId(int id);
         void Update(PickSlipMaster entity);
 
-        IPagedList<PickSlipMaster> GetPickSlipMasters(string branchCode, string pickslipName = "", int pageIndex = 0, int pageSize = int.MaxValue);
+        IPagedList<PickSlipMaster> GetPickSlipMasters(string branchCode, string pickslipName = "", int pageIndex = 0, int pageSize = int.MaxValue, bool hideProcessed = false);
     }
 }
