@@ -1,6 +1,5 @@
 ﻿'use strict'
-$(function () {
-    debugger;
+$(function () {    
     $("#stpSubItem").select2({
         theme: 'bootstrap4',
         /* minimumInputLength: 2,*/
@@ -9,11 +8,11 @@ $(function () {
             url: '/Po/SearchSubItem',
             dataType: 'json',
             type: "GET",
-            //data: function (term) {
-            //    return {
-            //        term: term
-            //    };
-            //},
+            data: function (term) {
+                return {
+                    term: term.term
+                };
+            },
             processResults: function (data) {
                 console.log(data);
                 return {
@@ -28,8 +27,6 @@ $(function () {
 
         }
     });
-
-
 });
 $(document).ready(function () {
     //$("#spAmt").format({ format: "#,###.00", locale: "us" });
@@ -379,11 +376,11 @@ $(document).ready(function () {
             url: '/Po/SearchSubItem',
             dataType: 'json',
             type: "GET",
-            //data: function (term) {
-            //    return {
-            //        term: term
-            //    };
-            //},
+            data: function (term) {
+                return {
+                    term: term.term
+                };
+            },
             processResults: function (data) {
                 console.log(data);
                 return {
@@ -410,11 +407,11 @@ $(document).ready(function () {
             url: '/Po/SearchSubItem',
             dataType: 'json',
             type: "GET",
-            //data: function (term) {
-            //    return {
-            //        term: term
-            //    };
-            //},
+            data: function (term) {
+                return {
+                    term: term.term
+                };
+            },
             processResults: function (data) {
                 console.log(data);
                 return {
@@ -440,11 +437,11 @@ $(document).ready(function () {
             url: '/Po/SearchSubItem',
             dataType: 'json',
             type: "GET",
-            //data: function (term) {
-            //    return {
-            //        term: term
-            //    };
-            //},
+            data: function (term) {
+                return {
+                    term: term.term
+                };
+            },
             processResults: function (data) {
                 console.log(data);
                 return {
@@ -470,11 +467,11 @@ $(document).ready(function () {
             url: '/Po/SearchSubItem',
             dataType: 'json',
             type: "GET",
-            //data: function (term) {
-            //    return {
-            //        term: term
-            //    };
-            //},
+            data: function (term) {
+                return {
+                    term: term.term
+                };
+            },
             processResults: function (data) {
                 console.log(data);
                 return {
@@ -513,7 +510,6 @@ $("#sopCategory").change(function () {
     var catogry = $('#sopCategory :selected').text();
     getSubItemId(catogry, type);
 });
-
 
 var getSubItemId = function (catogry, type) {
    // debugger;
@@ -624,8 +620,6 @@ var getamt = function (catogry, type) {
     });
 }
 //GetAmtTo
-
-
 
 function ServiceOrderPoCleanData() {
     //  $('#sopCategory').find('option').remove().end().append('<option value="0">Select</option>');

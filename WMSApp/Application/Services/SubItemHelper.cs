@@ -157,7 +157,7 @@ namespace Application.Services
                     {
                         if (!string.IsNullOrEmpty(SubItemCode))
                         {
-                            query = query.Where(x => x.SubItemCode == SubItemCode);
+                            query = query.Where(x => x.SubItemCode.Contains(SubItemCode));
                         }
                     }
                  
