@@ -60,9 +60,32 @@ namespace Application.Services.PO
 
         public ServiceOrderPODb GetById(int id)
         {
-           return _serviceOrderPoRepository.GetById(id);
+            return _serviceOrderPoRepository.GetById(id);
         }
+        public virtual IPagedList<ServiceOrderPODb> GetAllServiceOrderPo(string status, string branchCode, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = from x in _poRepository.Table
+                        join y in _serviceOrderPoRepository.Table
+                        on x.PONumber equals y.PONumber
+                        where x.POCategory == "ServiceOrder PO" && x.BranchCode == branchCode
+                        select y;
+            if (status == "ALL")
+            {
 
+            }
+            else if (status == "Done")
+            {
+                query = query.Where(x => x.IsProcessed == true);
+            }
+            else
+            {
+                query = query.Where(x => x.IsProcessed == false);
+            }
+
+            query = query.OrderByDescending(x => x.Id);
+
+            return new PagedList<ServiceOrderPODb>(query, pageIndex, pageSize);
+        }
 
         #endregion
     }

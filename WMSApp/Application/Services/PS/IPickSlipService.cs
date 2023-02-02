@@ -15,5 +15,6 @@ namespace Application.Services.PS
         void Update(PickSlipMaster entity);
 
         IPagedList<PickSlipMaster> GetPickSlipMasters(string branchCode, string pickslipName = "", int pageIndex = 0, int pageSize = int.MaxValue, bool hideProcessed = false);
+        IPagedList<PickSlipDetails> GetAllPickSlip(string branchCode, string status = "", int pageIndex = 0, int pageSize = int.MaxValue);
     }
 }
