@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using WMS.Core;
 using WMS.Core.Data;
 using Domain.Model.GRN;
+using Domain.Model;
+
 namespace Application.Services.GRN
 {
     public partial class GoodReceivedNoteMasterService : IGoodReceivedNoteMasterService
@@ -39,6 +41,23 @@ namespace Application.Services.GRN
                 return result;
             }
             catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public virtual List<GoodReceivedNoteDetails> GetGRNDetailsBySubItemCode(string subItemCode)
+        {
+            try
+            {
+                var query = from x in _grnDetailsRepository.Table
+                            select x;
+                query = query.Where(x => x.SubItemCode == subItemCode);
+                query = query.OrderByDescending(x => x.Id);
+                var result = new List<GoodReceivedNoteDetails>(query);
+                return result;
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
