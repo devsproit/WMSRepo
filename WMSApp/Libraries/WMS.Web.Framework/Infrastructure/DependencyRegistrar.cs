@@ -22,6 +22,7 @@ using Application.Services.Invoice;
 using Application.Services.StockMgnt;
 using Application.Services.Security;
 using Application.Services.SRN;
+using Application.Services.Report;
 #endregion
 
 
@@ -66,6 +67,7 @@ namespace WMS.Web.Framework.Infrastructure
             builder.RegisterType<VenderVehicleService>().As<IVenderVehicleService>().InstancePerLifetimeScope();
             builder.RegisterType<DispatchService>().As<IDispatchService>().InstancePerLifetimeScope();
             builder.RegisterType<SubItemWarehouseMappingService>().As<ISubItemWarehouseMappingService>().InstancePerLifetimeScope();
+            builder.RegisterType<ReportService>().As<IReportService>().InstancePerLifetimeScope();
 
         }
 

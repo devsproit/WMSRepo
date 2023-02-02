@@ -1,0 +1,278 @@
+﻿@using Domain.Model
+@model List<Branch>
+@{
+    ViewData["Title"] = "Dispatch Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Style{
+    <link href="~/lib/kendoUi/2021/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/lib/kendoUi/2021/styles/kendo.rtl.min.css" rel="stylesheet" />
+    <link href="~/lib/kendoUi/2021/styles/kendo.default.min.css" rel="stylesheet" />
+    <link href="~/lib/kendoUi/2021/styles/kendo.default.mobile.min.css" rel="stylesheet" />
+
+
+}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Dispatch List</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Process</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Dispatch</h3>
+
+
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Branch</label>
+                                    <select class="form-control" id="branchCode" asp-items="@(new SelectList(Model,"BranchCode","BranchName"))"></select>
+                                </div>
+                            </div>
+                           @* <div>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select class="form-control" id="status" >
+                                        <option value="ALL">All</option>
+                                        <option value="Done">Done</option>
+                                        <option value="Pending">Pending</option>
+                                    </select>
+                                </div>
+                            </div>*@
+                            @* <div class="col-md-2">
+                            <div class="form-group">
+                            <label>From</label>
+                            <input id="fromDate" type="text" readonly class="form-control" />
+                            </div>
+                            </div>
+                            <div class="col-md-2">
+                            <div class="form-group">
+                            <label>To</label>
+                            <input id="toDate" type="text" readonly class="form-control" />
+                            </div>
+                            </div>*@
+                        </div>
+                        <div class="col-md-2 row">
+                            <button id="search" class="btn btn-primary">Search</button>
+                        </div>
+                        <br />
+                        <br />
+                        <div id="user-grid">
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts{
+    <environment include="Development">
+        <script src="~/lib/kendoUi/2021/js/kendo.all.min.js"></script>
+        <script src="~/lib/kendoUi/2021/js/jszip.min.js"></script>
+        <script src="~/js/common.js"></script>
+
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/kendoUi/2021/js/kendo.all.min.js"></script>
+        <script src="~/lib/kendoUi/2021/js/jszip.min.js"></script>
+        <script src="~/js/common.min.js"></script>
+
+
+    </environment>
+
+    <script>
+        function additionalData() {
+            var data = {
+                //branchCode: $("#branch").val(),
+                //pnr: $("#pnr").val(),
+                //bookingRefNo: $("#bookingRefNo").val(),
+                //email: $("#email").val(),
+                //mobile: $("#mobile").val(),
+                //fromDate: $("#fromDate").val(),
+                //toDate: $("#toDate").val(),
+                //apisource:$("#apisource").val()
+            }
+            addAntiForgeryToken(data);
+            return data;
+        }
+        $(document).ready(function () {
+            $('#search').click(function () {
+                //search
+                var grid = $('#user-grid').data('kendoGrid');
+                grid.dataSource.read();
+                return false;
+            });
+
+            var initialLoad = true;
+            $("#user-grid").kendoGrid({
+
+                toolbar: ["excel"],
+                excel: {
+                    fileName: "Dispatch Export.xlsx",
+                    proxyURL: "@Html.Raw(Url.Action("List", "Dispatch"))",
+                    filterable: true
+                },
+                dataSource: {
+
+                    transport: {
+                        read: {
+                            url: "@Html.Raw(Url.Action("List", "Dispatch"))",
+                            type: "POST",
+                            dataType: "json",
+                            data: additionalData,
+                            complete: function (result) {
+                                console.log("Remote built-in transport", result);
+                                if (result.status == 401) {
+                                    document.location.href = "@Html.Raw(Url.Action("Index", "AccessDenied"))";
+                                }
+                            }
+
+                        }
+                    },
+                    schema: {
+                        data: "Data",
+                        total: "Total",
+                        errors: "Errors"
+                    },
+                    error: function (e) {
+                        //display_kendoui_grid_error(e);
+                        // Cancel the changes
+                        console.log(e)
+                        this.cancelChanges();
+                    },
+                    pageSize: 20,
+                    sortable: true,
+                    serverPaging: true,
+                    serverSorting: true,
+                    requestStart: function () {
+                        if (initialLoad) //<-- if it's the initial load, manually start the spinner
+                            kendo.ui.progress($("#user-grid"), true);
+                    },
+                    requestEnd: function () {
+                        if (initialLoad)
+                            kendo.ui.progress($("#user-grid"), false);
+                        initialLoad = false; //<-- make sure the spinner doesn't fire again (that would produce two spinners instead of one)
+
+                    },
+
+                },
+                pageable: {
+                    refresh: true,
+                    pageSizes: true
+                },
+                excel: {
+                    allPages: true
+                },
+                scrollable: false,
+                columns: [{
+                    field: "Id",
+                    title: "Dispatch ID",
+                    width: 50
+                },
+                {
+                    field: "BranchCode",
+                    title: "BranchCode",
+                    width: 150
+                },
+                {
+                    field: "PO",
+                    title: "PONo",
+                    width: 50
+                },
+
+                {
+                    field: "InvoiceId",
+                    title: "InvoiceNo",
+                    width: 100
+                },
+                {
+                    field: "InvoiceDate",
+                    title: "InvoiceDate",
+                    encoded: false,
+                    width: 100
+                },
+                {
+                    field: "VendorName",
+                    title: "Vendor Name",
+                    width: 150
+                },
+
+
+
+
+
+                {
+                    field: "VehicleNumber",
+                    title: "VehicleNumber",
+                    width: 50
+                },
+
+                {
+                    field: "Location",
+                    title: "Location",
+                    width: 50
+                },
+                {
+                    field: "DispatchDate",
+                    title: "DispatchDate",
+                    width: 50
+                },
+                {
+                    field: "CreateOn",
+                    title: "CreateOn",
+                    width: 50
+                },
+
+
+
+                    //{
+                    //	title: "Action",
+                    //	headerAttributes: { style: "text-align:center" },
+                    //	template: '<a href="@(Url.Action("Edit", "Account"))/?id=#=Id#" class="btn btn-primary">Edit</a>',
+                    //	width: 100
+                    //},
+                    //{
+                    //    title: "Action",
+                    //    headerAttributes: { style: "text-align:center" },
+                    //    attributes: { style: "text-align:center" },
+                    //    template: '<a href="@(Url.Action("CancelTicket", "AgentBooking"))/?id=#=ID#" class="btn btn-danger">Cancel</a>',
+                    //    width: 100
+                    //},
+                    //{
+                    //    title: "Action",
+                    //    headerAttributes: { style: "text-align:center" },
+                    //    attributes: { style: "text-align:center" },
+                    //    template: '#if(BookingStatus=="PENDING"){#<a href="@(Url.Action("RejectBooking", "AgentBooking"))/?id=#=ID#" class="btn btn-danger">Reject</a>#}#',
+                    //    width: 100
+                    //},
+
+                ],
+
+            });
+        });
+
+    </script>
+	}
+
+

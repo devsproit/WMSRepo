@@ -13,6 +13,11 @@ using WMSWebApp.ViewModels.PO;
 using Sentry;
 using WMS.Data;
 using Application.Services.PS;
+using DocumentFormat.OpenXml.Office2016.Excel;
+using Domain.Model;
+using Application.Services.Master;
+using WMSWebApp.ViewModels.Dispatch;
+using Application.Services.Invoice;
 
 namespace WMSWebApp.Controllers
 {
@@ -28,10 +33,12 @@ namespace WMSWebApp.Controllers
         private readonly IServiceOrderPo _serviceOrderPo;
         private readonly ISrnPo _srnPo;
         private readonly IPickSlipService _pickSlipService;
+        private readonly IDispatchService _dispatchService;
+        private readonly InvoiceService _invoiceService;
         #endregion
 
         #region Ctor
-        public ReportController(IGoodReceivedNoteMasterService goodReceivedNoteMasterService, IWarehouseService warehouseService, IBranchHelper branchHelper, IIntrasitService intrasitService, ISalePo salePo, IStockTransferPo stockTransferPo, IServiceOrderPo serviceOrderPo, ISrnPo srnPo, IPickSlipService pickSlipService)
+        public ReportController(IGoodReceivedNoteMasterService goodReceivedNoteMasterService, IWarehouseService warehouseService, IBranchHelper branchHelper, IIntrasitService intrasitService, ISalePo salePo, IStockTransferPo stockTransferPo, IServiceOrderPo serviceOrderPo, ISrnPo srnPo, IPickSlipService pickSlipService, IDispatchService dispatchService, InvoiceService invoiceService)
         {
             _goodReceivedNoteMasterService = goodReceivedNoteMasterService;
             _warehouseService = warehouseService;
@@ -42,6 +49,8 @@ namespace WMSWebApp.Controllers
             _serviceOrderPo = serviceOrderPo;
             _srnPo = srnPo;
             _pickSlipService = pickSlipService;
+            _dispatchService = dispatchService;
+            _invoiceService = invoiceService;
         }
         #endregion
 
@@ -331,6 +340,62 @@ namespace WMSWebApp.Controllers
             };
 
             return Json(gridData);
+        }
+
+        //public virtual IActionResult DispatchReport()
+        //{
+        //    var data = _invoiceService.GetAllMaster(branch.BranchCode, request.Page - 1, request.PageSize, "ALL");
+        //    DataSourceResult gridData = new DataSourceResult
+        //    {
+        //        Data = data.Select(x =>
+        //        {
+        //            InvoiceListModel m = new InvoiceListModel();
+        //            m.PoNumber = x.PoNumber;
+        //            m.PoCategory = x.PoCategory;
+        //            m.CreateOn = x.CreateOn;
+        //            m.InvoiceNumber = x.PoNumber;
+        //            m.BilledTo = x.BilledTo;
+        //            m.Id = x.Id;
+        //            return m;
+
+        //        }),
+        //        Total = data.TotalCount,
+        //    };
+
+        //    return Json(gridData);
+        //}
+
+        public IActionResult DispatchReport()
+        {
+            var branch = _branchHelper.GetAllBranches();
+            return View(branch.ToList());
+        }
+
+        [HttpPost]
+        public IActionResult DispatchReport(DataSourceRequest request,string branchCode)
+        {
+            var dispatches = _dispatchService.GetAllDispatch(branchCode, 0, int.MaxValue);
+            DataSourceResult dataSource = new DataSourceResult
+            {
+                Data = dispatches.Select(x =>
+                {
+                    DispatchList m = new DispatchList();
+                    m.DispatchDate = x.DispatchDate;
+                    m.CreateOn = DateTime.Now;
+                    m.InvoiceId = x.InvoiceId;
+                    m.PO = x.PO;
+                    m.VendorName = x.VendorName;
+                    m.VehicleNumber = x.VehicleNumber;
+                    m.Location = x.Location;
+                    m.Id = x.Id;
+                    m.BranchCode = x.BranchCode;
+                    var invoice = _invoiceService.GetById(x.InvoiceId);
+                    m.InvoiceDate = invoice.CreateOn;
+                    return m;
+                }),
+                Total = dispatches.TotalCount
+            };
+            return Json(dataSource);
         }
         #endregion
     }

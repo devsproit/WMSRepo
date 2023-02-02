@@ -17,6 +17,7 @@ using Domain.Model.GRN;
 using Application.Services.StockMgnt;
 using WMSWebApp.ViewModels.Stock;
 using Application.Services.WarehouseMaster;
+using Application.Services.Report;
 
 namespace WMSWebApp.Controllers
 {
@@ -30,7 +31,8 @@ namespace WMSWebApp.Controllers
         private readonly IGoodReceivedNoteMasterService _goodReceivedNoteMasterService;
         private readonly IItemStockService _itemStockService;
         private readonly ISubItemHelper _subItemService;
-        public HomeController(ILogger<HomeController> logger, IIntrasitService intrasitService, IWarehouseService wareHouseService, IWorkContext workContext, IGoodReceivedNoteMasterService goodReceivedNoteMasterService, IItemStockService itemStockService, ISubItemHelper subItemService)
+        private readonly IReportService _reportService;
+        public HomeController(ILogger<HomeController> logger, IIntrasitService intrasitService, IWarehouseService wareHouseService, IWorkContext workContext, IGoodReceivedNoteMasterService goodReceivedNoteMasterService, IItemStockService itemStockService, ISubItemHelper subItemService, IReportService reportService)
         {
             _logger = logger;
             _intrasitService = intrasitService;
@@ -39,6 +41,7 @@ namespace WMSWebApp.Controllers
             _goodReceivedNoteMasterService = goodReceivedNoteMasterService;
             _itemStockService = itemStockService;
             _subItemService = subItemService;
+            _reportService = reportService;
         }
 
         public async Task<IActionResult> Index()
@@ -46,7 +49,7 @@ namespace WMSWebApp.Controllers
             var branch = await _workContext.GetCurrentBranch();
             DashboardCountModel model = new DashboardCountModel();
             var pendingGRN = _intrasitService.GetPendingPO(branch.BranchCode, "0");
-            if(pendingGRN != null)
+            if (pendingGRN != null)
             {
                 model.GRN = pendingGRN.Count;
             }
@@ -54,6 +57,10 @@ namespace WMSWebApp.Controllers
             {
                 model.GRN = 0;
             }
+            model.PendingPickUp = _reportService.PendingPickUp();
+            model.PendingDispatch = _reportService.PendingDispatch();
+            model.PendingInvoice = _reportService.PendingInvoice();
+
             return View(model);
         }
 
@@ -85,7 +92,7 @@ namespace WMSWebApp.Controllers
                     m.SubItemName = x.SubItemName;
                     m.Qty = x.Qty;
                     m.ItemCode = x.ItemCode;
-                    
+
                     id++;
                     return m;
                 }),
@@ -109,16 +116,16 @@ namespace WMSWebApp.Controllers
                     stock.Qty = x.Qty;
                     stock.ItemCode = x.ItemCode;
                     var itemRemark = _goodReceivedNoteMasterService.GetGRNDetailsBySubItemCode(x.ItemCode);
-                    foreach(var i in itemRemark)
+                    foreach (var i in itemRemark)
                     {
-                        if(i.Qty == x.Qty && i.AreaId == x.AreaId)
+                        if (i.Qty == x.Qty && i.AreaId == x.AreaId)
                         {
                             stock.Remark = i.Remark;
                         }
                     }
                     stock.LastUpdateDate = x.LastUpdate.Date.ToShortDateString();
                     stock.Location = _wareHouseService.GetWarehouseZoneAreaById(x.AreaId).AreaName;
-                    
+
                     var item = _subItemService.GetItemByCOde(x.ItemCode);
                     if (item != null)
                         stock.ItemName = item.SubItemName;
