@@ -16,7 +16,7 @@ namespace WMSWebApp.ViewModels.Report
         public int Qty { get; set; }
         public string Unit { get; set; }
         public decimal Amount { get; set; }
-        public int AreaId { get; set; }
+       
         public string Area { get; set; }
     }
 }

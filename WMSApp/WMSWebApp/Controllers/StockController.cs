@@ -73,7 +73,7 @@ namespace WMSWebApp.Controllers
         {
             var branch = _branchService.GetBranchById(branchId);
             var warehouse = _warehouseService.GetById(warehouseId);
-            var stocks = _itemStockService.GetItemStocks(warehouseId, branch.BranchCode, request.Page - 1, request.PageSize);
+            var stocks = _itemStockService.GetItemStocks(warehouseId, "", request.Page - 1, request.PageSize);
             var dataGrid = new DataSourceResult()
             {
                 Data = stocks.Select(x =>

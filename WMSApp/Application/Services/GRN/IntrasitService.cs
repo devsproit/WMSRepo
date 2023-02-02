@@ -64,6 +64,16 @@ namespace Application.Services.GRN
 
         }
 
+        public virtual IPagedList<IntrasitDb> GetDonePO(string branchCode, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = from x in _intrasitRepository.Table
+                        select x;
+            query = query.Where(x => x.Login_Branch == branchCode && x.IsGrn == true);
+
+            query = query.OrderByDescending(x => x.Id);
+            return new PagedList<IntrasitDb>(query, pageIndex, pageSize);
+        }
+
         public virtual IntrasitDb GetById(int id)
         {
             return _intrasitRepository.GetById(id);

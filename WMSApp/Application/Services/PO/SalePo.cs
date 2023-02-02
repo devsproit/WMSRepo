@@ -60,6 +60,31 @@ namespace Application.Services.PO
             var result = new PagedList<SalePoDb>(query, pageIndex, pageSize);
             return result;
         }
+
+        public virtual IPagedList<SalePoDb> GetAllSalePo(string status, string branchCode, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = from x in _poRepository.Table
+                        join y in _salePoRepository.Table
+                        on x.PONumber equals y.PONumber
+                        where x.POCategory == "Sale PO" && x.BranchCode == branchCode
+                        select y;
+            if (status == "ALL")
+            {
+
+            }
+            else if (status == "Done")
+            {
+                query = query.Where(x => x.IsProcessed == true);
+            }
+            else
+            {
+                query = query.Where(x => x.IsProcessed == false);
+            }
+
+            query = query.OrderByDescending(x => x.Id);
+
+            return new PagedList<SalePoDb>(query, pageIndex, pageSize);
+        }
         #endregion
     }
 }
