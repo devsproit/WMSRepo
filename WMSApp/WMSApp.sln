@@ -24,6 +24,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WMS.Core", "Libraries\WMS.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WMS.Web.Framework", "Libraries\WMS.Web.Framework\WMS.Web.Framework.csproj", "{CC50B6D5-8BDA-45AE-B1B4-D5D6DEE159DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WMSAPI", "WMSAPI\WMSAPI.csproj", "{860B6F89-D31C-404C-A55C-536A75FD2B5C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +66,10 @@ Global
 		{CC50B6D5-8BDA-45AE-B1B4-D5D6DEE159DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC50B6D5-8BDA-45AE-B1B4-D5D6DEE159DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC50B6D5-8BDA-45AE-B1B4-D5D6DEE159DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{860B6F89-D31C-404C-A55C-536A75FD2B5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{860B6F89-D31C-404C-A55C-536A75FD2B5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{860B6F89-D31C-404C-A55C-536A75FD2B5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{860B6F89-D31C-404C-A55C-536A75FD2B5C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
