@@ -17,7 +17,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Sale PO List</h1>
+                <h1>Pick Slip Report </h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -34,7 +34,7 @@
             <div class="col-md-12">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Sale PO  </h3>
+                        <h3 class="card-title">Pick Slip Report  </h3>
 
                     </div>
                     <!-- /.card-header -->
@@ -110,14 +110,14 @@
 
                 toolbar: ["excel"],
                 excel: {
-                    fileName: "Done Intrasit.xlsx",
+                    fileName: "PickSlipReport.xlsx",
                     allPages: true
                 },
                 dataSource: {
 
                     transport: {
                         read: {
-                            url: "@Html.Raw(Url.Action("SalePoReport","Report")) ",
+                            url: "@Html.Raw(Url.Action("PickSlipReport","Report")) ",
                             type: "POST",
                             dataType: "json",
                             data: additionalData,
@@ -173,43 +173,43 @@
                     width: 50
                 },
                 {
-                    field: "PoNumber",
-                    title: "PoNumber",
+                    field: "BranchCode",
+                    title: "BranchCode",
                     width: 100
                 },
 
                 {
-                    field: "stockTransferPOCatagry",
-                    title: "stockTransferPOCatagry",
+                    field: "Branch",
+                    title: "Branch",
                     width: 120
                 },
+                // {
+                //    field: "PickSlipName",
+                //    title: "PickSlipName",
+                //    width: 100
+                //},
                  {
-                    field: "stockTransferPoSendingTo",
-                    title: "Sending To",
+                    field: "DockType",
+                    title: "DockType",
                     width: 100
                 },
                  {
-                    field: "stockTransferPoItem",
-                    title: "Item",
+                    field: "ItemCode",
+                    title: "ItemCode",
                     width: 100
                 },
                  {
-                    field: "stockTransferPoSubitem",
-                    title: "Sub Item",
+                    field: "SubItemCode",
+                    title: "SubItemCode",
                     width: 100
                 },
                  {
-                    field: "stockTransferPoSerialNumber",
-                    title: "stockTransferPoSerialNumber",
-                    width: 100
-                },
-                 {
-                    field: "serviceCategory",
-                    title: "serviceCategory",
+                    field: "SubItemName",
+                    title: "SubItemName",
                     width: 100
                 },
                 {
-                    field: "stockTransferPoQty",
+                    field: "Qty",
                     title: "Qty",
                   
                     width: 120
@@ -220,14 +220,18 @@
                     width: 100
                 },
                 {
-                    field: "subItemCode",
-                    title: "subItemCode",
+                    field: "AreaName",
+                    title: "AreaName",
                     width: 300
                 },
-
+                 {
+                    field: "InventoryId",
+                    title: "InventoryId",
+                    width: 100
+                },
                 {
-                    field: "stockTransferPoAmt",
-                    title: "Amt",
+                    field: "CreateOn",
+                    title: "CreateOn",
                     width: 100
                 },
 

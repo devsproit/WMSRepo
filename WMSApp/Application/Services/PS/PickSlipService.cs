@@ -13,14 +13,16 @@ namespace Application.Services.PS
     {
         #region Fields
         private readonly IRepository<PickSlipMaster> _pickSlipMasterRepository;
+        private readonly IRepository<PickSlipDetails> _pickSlipDetailsRepository;
 
         #endregion
 
         #region Ctor
 
-        public PickSlipService(IRepository<PickSlipMaster> pickSlipMasterRepository)
+        public PickSlipService(IRepository<PickSlipMaster> pickSlipMasterRepository, IRepository<PickSlipDetails> pickSlipDetailsRepository)
         {
             _pickSlipMasterRepository = pickSlipMasterRepository;
+            _pickSlipDetailsRepository = pickSlipDetailsRepository;
         }
         #endregion
 
@@ -53,6 +55,31 @@ namespace Application.Services.PS
             query = query.OrderByDescending(x => x.Id);
 
             var result = new PagedList<PickSlipMaster>(query, pageIndex, pageSize);
+            return result;
+
+
+        }
+        public virtual IPagedList<PickSlipDetails> GetAllPickSlip(string branchCode, string status = "", int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = from x in _pickSlipDetailsRepository.Table
+                        select x;
+            
+            query = query.Where(x => x.PickSlipMaster.BranchCode == branchCode);
+            if (status=="ALL")
+            {
+                
+            }
+            else if (status=="Done")
+            {
+                query = query.Where(x => x.PickSlipMaster.IsProcessed == true);
+            }
+            else
+            {
+                query = query.Where(x => x.PickSlipMaster.IsProcessed == false);
+            }
+            query = query.OrderByDescending(x => x.Id);
+
+            var result = new PagedList<PickSlipDetails>(query, pageIndex, pageSize);
             return result;
 
 

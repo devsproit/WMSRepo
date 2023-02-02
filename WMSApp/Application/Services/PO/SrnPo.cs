@@ -89,6 +89,31 @@ namespace Application.Services.PO
             return result;
         }
 
+        public virtual IPagedList<SRNPoDb> GetAllSRNPo(string status, string branchCode, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = from x in _poRepository.Table
+                        join y in _srnPoRepository.Table
+                        on x.PONumber equals y.PONumber
+                        where x.POCategory == "SRN PO" && x.BranchCode == branchCode
+                        select y; 
+                        
+            if (status == "ALL")
+            {
+
+            }
+            else if (status == "Done")
+            {
+                query = query.Where(x => x.IsProcess == true);
+            }
+            else
+            {
+                query = query.Where(x => x.IsProcess == false);
+            }
+
+            query = query.OrderByDescending(x => x.Id);
+
+            return new PagedList<SRNPoDb>(query, pageIndex, pageSize);
+        }
 
         #endregion
     }

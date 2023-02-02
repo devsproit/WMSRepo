@@ -17,7 +17,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Sale PO List</h1>
+                <h1>Service Order PO List</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -34,7 +34,7 @@
             <div class="col-md-12">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Sale PO  </h3>
+                        <h3 class="card-title">Service Order PO Report  </h3>
 
                     </div>
                     <!-- /.card-header -->
@@ -110,14 +110,14 @@
 
                 toolbar: ["excel"],
                 excel: {
-                    fileName: "Done Intrasit.xlsx",
+                    fileName: "ServiceOrderPOReport.xlsx",
                     allPages: true
                 },
                 dataSource: {
 
                     transport: {
                         read: {
-                            url: "@Html.Raw(Url.Action("SalePoReport","Report")) ",
+                            url: "@Html.Raw(Url.Action("ServiceOrderPOReport","Report")) ",
                             type: "POST",
                             dataType: "json",
                             data: additionalData,
