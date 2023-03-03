@@ -18,6 +18,7 @@ using Domain.Model;
 using Application.Services.Master;
 using WMSWebApp.ViewModels.Dispatch;
 using Application.Services.Invoice;
+using System.Threading.Tasks;
 
 namespace WMSWebApp.Controllers
 {
@@ -86,14 +87,15 @@ namespace WMSWebApp.Controllers
                     m.Amount = x.Amount;
                     var area = _warehouseService.GetWarehouseZoneAreaById(x.AreaId);
                     m.Area = area.AreaName;
-
+                    m.IRN = x.GoodReceivedNoteMaster.IRN;
+                    m.SAPNO = x.GoodReceivedNoteMaster.GRNNumberOfSAP;
 
                     return m;
                 }),
                 Total = data.TotalCount,
             };
 
-            return Json(data);
+            return Json(gridData);
         }
 
 
@@ -319,12 +321,12 @@ namespace WMSWebApp.Controllers
                     m.CreateOn = x.PickSlipMaster.CreateOn;
                     m.Id = x.Id;
                     m.Item = x.PickSlipMaster.PickSlipDetails.Count;
-                    if(x.AreaId>0)
+                    if (x.AreaId > 0)
                     {
                         var area = _warehouseService.GetWarehouseZoneAreaById(x.AreaId);
                         m.AreaName = area.AreaName;
                     }
-                    
+
                     m.SubItemName = x.SubItemName;
                     m.ItemCode = x.ItemCode;
                     m.SubItemCode = x.SubItemCode;
@@ -372,9 +374,10 @@ namespace WMSWebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult DispatchReport(DataSourceRequest request,string branchCode)
+        public async Task<IActionResult> DispatchReport(DataSourceRequest request, string branchCode, DateTime fromdate, DateTime todate)
         {
-            var dispatches = _dispatchService.GetAllDispatch(branchCode, 0, int.MaxValue);
+
+            var dispatches = _dispatchService.GetAllDispatchReport(branchCode, fromdate, todate, request.Page - 1, request.PageSize);
             DataSourceResult dataSource = new DataSourceResult
             {
                 Data = dispatches.Select(x =>
@@ -382,7 +385,7 @@ namespace WMSWebApp.Controllers
                     DispatchList m = new DispatchList();
                     m.DispatchDate = x.DispatchDate;
                     m.CreateOn = DateTime.Now;
-                    m.InvoiceId = x.InvoiceId;
+
                     m.PO = x.PO;
                     m.VendorName = x.VendorName;
                     m.VehicleNumber = x.VehicleNumber;
@@ -391,6 +394,11 @@ namespace WMSWebApp.Controllers
                     m.BranchCode = x.BranchCode;
                     var invoice = _invoiceService.GetById(x.InvoiceId);
                     m.InvoiceDate = invoice.CreateOn;
+                    m.InvoiceId = x.InvoiceId;
+                    m.Invoice = invoice.InvoiceNumber;
+                    m.LRN0 = x.LRNo;
+                    m.BillTo = invoice.BilledTo;
+                    m.Qty = invoice.InvoiceDetails.Sum(x => x.Qty);
                     return m;
                 }),
                 Total = dispatches.TotalCount

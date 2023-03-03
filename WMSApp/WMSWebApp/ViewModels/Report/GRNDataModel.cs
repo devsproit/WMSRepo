@@ -18,5 +18,9 @@ namespace WMSWebApp.ViewModels.Report
         public decimal Amount { get; set; }
        
         public string Area { get; set; }
+
+        public string SAPNO { get; set; }
+        public string IRN { get; set; } 
+
     }
 }

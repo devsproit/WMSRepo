@@ -14,5 +14,6 @@ namespace Application.Services.Master
         void Update(Dispatch entity);
         Dispatch GetById(int id);
         IPagedList<Dispatch> GetAllDispatch(string branchCode, int pageIndex = 0, int pageSize = int.MaxValue);
+        IPagedList<Dispatch> GetAllDispatchReport(string branchCode, DateTime fromdate, DateTime todate, int pageIndex = 0, int pageSize = int.MaxValue);
     }
 }

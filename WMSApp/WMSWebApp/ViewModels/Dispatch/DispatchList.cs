@@ -14,5 +14,12 @@ namespace WMSWebApp.ViewModels.Dispatch
         public DateTime CreateOn { get; set; }
         public string BranchCode { get; set; }
         public DateTime InvoiceDate { get; set; }
+        public string Invoice { get; set; }
+        public string LRN0 { get; set; }
+
+        public string  BillTo { get; set; }
+
+        public int Qty { get; set; }
+
     }
 }

@@ -9,7 +9,7 @@ using WMS.Core.Data;
 
 namespace Application.Services.Master
 {
-    public partial class DispatchService:IDispatchService
+    public partial class DispatchService : IDispatchService
     {
 
         #region Fields
@@ -43,6 +43,15 @@ namespace Application.Services.Master
             var query = from x in _dispatchRepository.Table
                         select x;
             query = query.Where(x => x.BranchCode == branchCode);
+            query = query.OrderByDescending(x => x.Id);
+            var result = new PagedList<Dispatch>(query, pageIndex, pageSize);
+            return result;
+        }
+        public virtual IPagedList<Dispatch> GetAllDispatchReport(string branchCode, DateTime fromdate, DateTime todate, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query =from x in _dispatchRepository.Table
+                       select x;
+            query = query.Where(x => x.CreateOn.Date >= fromdate.Date && x.CreateOn.Date <= todate.Date);
             query = query.OrderByDescending(x => x.Id);
             var result = new PagedList<Dispatch>(query, pageIndex, pageSize);
             return result;

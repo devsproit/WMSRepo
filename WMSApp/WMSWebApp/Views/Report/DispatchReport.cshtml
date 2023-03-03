@@ -10,6 +10,7 @@
     <link href="~/lib/kendoUi/2021/styles/kendo.rtl.min.css" rel="stylesheet" />
     <link href="~/lib/kendoUi/2021/styles/kendo.default.min.css" rel="stylesheet" />
     <link href="~/lib/kendoUi/2021/styles/kendo.default.mobile.min.css" rel="stylesheet" />
+    <link href="/lib/jquery-ui/jquery-ui.css" rel="stylesheet" />
 
 
 }
@@ -47,28 +48,28 @@
                                     <select class="form-control" id="branchCode" asp-items="@(new SelectList(Model,"BranchCode","BranchName"))"></select>
                                 </div>
                             </div>
-                           @* <div>
-                                <div class="form-group">
-                                    <label>Status</label>
-                                    <select class="form-control" id="status" >
-                                        <option value="ALL">All</option>
-                                        <option value="Done">Done</option>
-                                        <option value="Pending">Pending</option>
-                                    </select>
-                                </div>
-                            </div>*@
-                            @* <div class="col-md-2">
+                            @* <div>
                             <div class="form-group">
-                            <label>From</label>
-                            <input id="fromDate" type="text" readonly class="form-control" />
+                            <label>Status</label>
+                            <select class="form-control" id="status" >
+                            <option value="ALL">All</option>
+                            <option value="Done">Done</option>
+                            <option value="Pending">Pending</option>
+                            </select>
                             </div>
+                            </div>*@
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>From</label>
+                                    <input id="fromDate" type="text" readonly class="form-control" />
+                                </div>
                             </div>
                             <div class="col-md-2">
-                            <div class="form-group">
-                            <label>To</label>
-                            <input id="toDate" type="text" readonly class="form-control" />
+                                <div class="form-group">
+                                    <label>To</label>
+                                    <input id="toDate" type="text" readonly class="form-control" />
+                                </div>
                             </div>
-                            </div>*@
                         </div>
                         <div class="col-md-2 row">
                             <button id="search" class="btn btn-primary">Search</button>
@@ -91,26 +92,26 @@
         <script src="~/lib/kendoUi/2021/js/kendo.all.min.js"></script>
         <script src="~/lib/kendoUi/2021/js/jszip.min.js"></script>
         <script src="~/js/common.js"></script>
-
+        <script src="/lib/jquery-ui/jquery-ui.min.js"></script>
     </environment>
     <environment exclude="Development">
         <script src="~/lib/kendoUi/2021/js/kendo.all.min.js"></script>
         <script src="~/lib/kendoUi/2021/js/jszip.min.js"></script>
         <script src="~/js/common.min.js"></script>
-
+        <script src="/lib/jquery-ui/jquery-ui.min.js"></script>
 
     </environment>
 
     <script>
         function additionalData() {
             var data = {
-                //branchCode: $("#branch").val(),
+                branchCode: $("#branchCode").val(),
                 //pnr: $("#pnr").val(),
                 //bookingRefNo: $("#bookingRefNo").val(),
                 //email: $("#email").val(),
                 //mobile: $("#mobile").val(),
-                //fromDate: $("#fromDate").val(),
-                //toDate: $("#toDate").val(),
+                fromDate: $("#fromDate").val(),
+                toDate: $("#toDate").val(),
                 //apisource:$("#apisource").val()
             }
             addAntiForgeryToken(data);
@@ -123,21 +124,21 @@
                 grid.dataSource.read();
                 return false;
             });
-
+            $("#fromDate,#toDate").datepicker();
             var initialLoad = true;
             $("#user-grid").kendoGrid({
 
                 toolbar: ["excel"],
                 excel: {
                     fileName: "Dispatch Export.xlsx",
-                    proxyURL: "@Html.Raw(Url.Action("List", "Dispatch"))",
+                    proxyURL: "@Html.Raw(Url.Action("DispatchReport", "Report"))",
                     filterable: true
                 },
                 dataSource: {
 
                     transport: {
                         read: {
-                            url: "@Html.Raw(Url.Action("List", "Dispatch"))",
+                            url: "@Html.Raw(Url.Action("DispatchReport", "Report"))",
                             type: "POST",
                             dataType: "json",
                             data: additionalData,
@@ -202,7 +203,7 @@
                 },
 
                 {
-                    field: "InvoiceId",
+                    field: "Invoice",
                     title: "InvoiceNo",
                     width: 100
                 },
@@ -217,9 +218,21 @@
                     title: "Vendor Name",
                     width: 150
                 },
-
-
-
+                {
+                    field: "BillTo",
+                    title: "BillTo",
+                    width: 150
+                },
+                {
+                    field: "LRN0",
+                    title: "LRN0",
+                    width: 50
+                },
+                {
+                    field: "Qty",
+                    title: "Qty",
+                    width: 50
+                },
 
 
                 {

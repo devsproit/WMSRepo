@@ -91,19 +91,19 @@
     </environment>
 
     <script>
-        function additionalData() {
-            var data = {
-
-                branchCode: $("#branchCode").val(),
-                fromdate: $("#fromDate").val(),
-                to: $("#toDate").val(),
-
-            }
-            addAntiForgeryToken(data);
-            return data;
-        }
+        
         $(document).ready(function () {
+            function additionalData() {
+                var data = {
 
+                    branchCode: $("#branchCode").val(),
+                    fromdate: $("#fromDate").val(),
+                    to: $("#toDate").val(),
+
+                }
+                addAntiForgeryToken(data);
+                return data;
+            }
             $("#fromDate,#toDate").datepicker();
             $("#search").click(function () {
                 var grid = $('#grn-grid').data('kendoGrid');
@@ -244,10 +244,16 @@
                     width: 100
                 },
                 {
-                    field: "Qty",
-                    title: "Qty",
+                    field: "SAPNO",
+                    title: "SAP",
 
                     width: 100
+                },
+                {
+                    field: "IRN",
+                    title: "IRN",
+
+                    width: 50
                 },
                 {
                     field: "Amount",
