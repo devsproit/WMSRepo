@@ -34,11 +34,11 @@ namespace WMSWebApp.Controllers
         private readonly ISrnPo _srnPo;
         private readonly IPickSlipService _pickSlipService;
         private readonly IDispatchService _dispatchService;
-        private readonly InvoiceService _invoiceService;
+        private readonly IInvoiceService _invoiceService;
         #endregion
 
         #region Ctor
-        public ReportController(IGoodReceivedNoteMasterService goodReceivedNoteMasterService, IWarehouseService warehouseService, IBranchHelper branchHelper, IIntrasitService intrasitService, ISalePo salePo, IStockTransferPo stockTransferPo, IServiceOrderPo serviceOrderPo, ISrnPo srnPo, IPickSlipService pickSlipService, IDispatchService dispatchService, InvoiceService invoiceService)
+        public ReportController(IGoodReceivedNoteMasterService goodReceivedNoteMasterService, IWarehouseService warehouseService, IBranchHelper branchHelper, IIntrasitService intrasitService, ISalePo salePo, IStockTransferPo stockTransferPo, IServiceOrderPo serviceOrderPo, ISrnPo srnPo, IPickSlipService pickSlipService, IDispatchService dispatchService, IInvoiceService invoiceService)
         {
             _goodReceivedNoteMasterService = goodReceivedNoteMasterService;
             _warehouseService = warehouseService;
