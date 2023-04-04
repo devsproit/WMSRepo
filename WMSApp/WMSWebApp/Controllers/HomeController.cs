@@ -92,7 +92,7 @@ namespace WMSWebApp.Controllers
                     m.SubItemName = x.SubItemName;
                     m.Qty = x.Qty;
                     m.ItemCode = x.ItemCode;
-
+                    m.Remark = x.Remark;
                     id++;
                     return m;
                 }),
@@ -115,14 +115,15 @@ namespace WMSWebApp.Controllers
                     stock.Id = x.Id;
                     stock.Qty = x.Qty;
                     stock.ItemCode = x.ItemCode;
-                    var itemRemark = _goodReceivedNoteMasterService.GetGRNDetailsBySubItemCode(x.ItemCode);
-                    foreach (var i in itemRemark)
-                    {
-                        if (i.Qty == x.Qty && i.AreaId == x.AreaId)
-                        {
-                            stock.Remark = i.Remark;
-                        }
-                    }
+                    //var itemRemark = _goodReceivedNoteMasterService.GetGRNDetailsBySubItemCode(x.ItemCode);
+                    //foreach (var i in itemRemark)
+                    //{
+                    //    if (i.Qty == x.Qty && i.AreaId == x.AreaId)
+                    //    {
+                    //        stock.Remark = i.Remark;
+                    //    }
+                    //}
+                    stock.Remark = x.Remark;
                     stock.LastUpdateDate = x.LastUpdate.Date.ToShortDateString();
                     stock.Location = _wareHouseService.GetWarehouseZoneAreaById(x.AreaId).AreaName;
 

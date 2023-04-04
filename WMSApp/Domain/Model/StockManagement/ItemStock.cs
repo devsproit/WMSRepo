@@ -15,12 +15,13 @@ namespace Domain.Model.StockManagement
 
     }
 
-    public partial class InventoryStock: BaseEntity
+    public partial class InventoryStock : BaseEntity
     {
         public string ItemCode { get; set; }
         public int Qty { get; set; }
         public DateTime LastUpdate { get; set; }
         public int WarehouseId { get; set; }
         public int AreaId { get; set; }
+        public string Remark { get; set; }
     }
 }

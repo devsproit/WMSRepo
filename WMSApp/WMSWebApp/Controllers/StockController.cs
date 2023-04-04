@@ -82,6 +82,18 @@ namespace WMSWebApp.Controllers
                     stock.Id = x.Id;
                     stock.Qty = x.Qty;
                     stock.ItemCode = x.ItemCode;
+                    //var itemRemark = _goodReceivedNoteMasterService.GetGRNDetailsBySubItemCode(x.ItemCode);
+                    //foreach (var i in itemRemark)
+                    //{
+                    //    if (i.Qty == x.Qty && i.AreaId == x.AreaId)
+                    //    {
+                    //        stock.Remark = i.Remark;
+                    //    }
+                    //}
+                    stock.Remark = x.Remark;
+                    stock.LastUpdateDate = x.LastUpdate.Date.ToShortDateString();
+                    stock.Location = _warehouseService.GetWarehouseZoneAreaById(x.AreaId).AreaName;
+
                     var item = _subItemService.GetItemByCOde(x.ItemCode);
                     if (item != null)
                         stock.ItemName = item.SubItemName;

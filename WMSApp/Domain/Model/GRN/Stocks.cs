@@ -9,6 +9,6 @@ namespace Domain.Model.GRN
         public string ItemCode { get; set; }
 
         public string SubItemName { get; set; }
-
+        public string Remark { get; set; }
     }
 }
