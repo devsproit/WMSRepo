@@ -12,15 +12,15 @@ namespace WMSWebApp.ViewModels.Dispatch
         [Required]
         public int InvoiceId { get; set; }
         [Required]
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        //[DataType(DataType.Date)]
+        //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         
-        public DateTime DispatchDate { get; set; }
+        public string DispatchDate { get; set; }
         public string PO { get; set; }
         public string VendorName { get; set; }
         public string VehicleNumber { get; set; }
         public string Location { get; set; }
-        [Required]
+        
         public DateTime CreateOn { get; set; }
 
         public List<InvoiceMaster> InvoiceList { get; set; }

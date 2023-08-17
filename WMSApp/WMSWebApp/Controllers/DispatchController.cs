@@ -1,9 +1,13 @@
 ﻿using Application.Services.Invoice;
 using Application.Services.Master;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Domain.Model.Invoice;
 using Domain.Model.Masters;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Sentry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,15 +27,17 @@ namespace WMSWebApp.Controllers
         private readonly IInvoiceService _invoiceService;
         private readonly IDispatchService _dispatchService;
         private readonly IWorkContext _workContext;
-
+        private readonly ILogger<DispatchController> _logger;
+        IFormatProvider culture = new System.Globalization.CultureInfo("fr-FR", true);
         #endregion
 
         #region Ctor
-        public DispatchController(IInvoiceService invoiceService, IDispatchService dispatchService, IWorkContext workContext)
+        public DispatchController(IInvoiceService invoiceService, IDispatchService dispatchService, IWorkContext workContext, ILogger<DispatchController> logger)
         {
             _invoiceService = invoiceService;
             _dispatchService = dispatchService;
             _workContext = workContext;
+            _logger = logger;
         }
         #endregion
 
@@ -91,7 +97,8 @@ namespace WMSWebApp.Controllers
         {
             var branch = await _workContext.GetCurrentBranch();
             Dispatch dispatch = new Dispatch();
-            dispatch.DispatchDate = model.DispatchDate;
+
+            dispatch.DispatchDate = Convert.ToDateTime(model.DispatchDate, culture);
             dispatch.CreateOn = DateTime.Now;
             dispatch.InvoiceId = model.InvoiceId;
             dispatch.PO = model.PO;
@@ -101,6 +108,8 @@ namespace WMSWebApp.Controllers
             dispatch.BranchCode = branch.BranchCode;
             dispatch.DocketNo = model.DocketNo;
             dispatch.LRNo = model.LRNo;
+            //string json = JsonConvert.SerializeObject(dispatch);
+            //SentrySdk.CaptureMessage(json);
             _dispatchService.Insert(dispatch);
             var invoice = _invoiceService.GetById(model.InvoiceId);
             invoice.DispatchDone = true;
@@ -142,7 +151,7 @@ namespace WMSWebApp.Controllers
 
         }
 
-        
+
         #endregion
 
 

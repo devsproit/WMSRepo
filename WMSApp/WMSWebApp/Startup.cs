@@ -158,7 +158,7 @@ namespace WMSWebApp
                 options.JsonSerializerOptions.IgnoreNullValues = true;
             });
             //services.AddControllers();
-            services.AddExceptionless("h7ldLVMdiBfcngPy4qBwf4vydu59mzPqWlV8Pb8M");
+            //services.AddExceptionless("Bzq30fE6Q3wiclEacIWD2WDRepels6b2JDPkgG5f");
             return services.ConfigureApplicationServices(Configuration, _webHostEnvironment);
         }
 
@@ -182,7 +182,7 @@ namespace WMSWebApp
             //{
             //    endpoints.MapControllers();
             //});
-            app.UseExceptionless();
+            //app.UseExceptionless();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
