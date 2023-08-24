@@ -87,7 +87,8 @@ namespace Application.Services.GRN
                         {
                             ItemCode = item.Key,
                             Qty = item.Sum(x => x.Qty),
-                            SubItemName = item.FirstOrDefault().SubItemName
+                            SubItemName = item.FirstOrDefault().SubItemName,
+                            Remark = item.FirstOrDefault().Remark
                         };
             var result = new PagedList<Stocks>(query, pageIndex, pageSize);
             return result;
