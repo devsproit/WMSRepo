@@ -240,6 +240,7 @@
             pageSize: 20,
             sortable: true,
             serverPaging: true,
+            //serverFiltering: true,
             serverSorting: true,
             requestStart: function () {
                 if (initialLoad) //<-- if it's the initial load, manually start the spinner
@@ -253,6 +254,9 @@
             },
 
         },
+        filterable: {
+            mode: "row"    
+        },
         pageable: {
             refresh: true,
             pageSizes: true
@@ -264,41 +268,63 @@
         columns: [{
             field: "Id",
             title: "ID",
+            filterable: false,
             width: 40
         },
         {
             field: "ItemName",
             title: "ItemName",
+            filterable: false,
             width: 100
         },
         {
             field: "ItemCode",
             title: "ItemCode",
-            width: 100
+            width: 100,
+            filterable: {
+                operators: {
+                    string: {
+                        showOperators: true
+                    }
+                    },                
+                ui: itemCodeFilter
+                }
         },
         {
             field: "Qty",
             title: "Qty",
+            filterable: false,
             width: 40
         },
-         {
+        {
              field: "Location",
              title: "Location",
-            width: 100
-            },
-            {
-                field: "LastUpdateDate",
-                title: "Stock In Date",
-                width: 80
-            },
-            {
-                field: "Remark",
-                title: "Remark",
-                width: 60
-            },
-
-        ],
+             filterable: false,
+             width: 100
+        },
+        {
+             field: "LastUpdateDate",
+             title: "Stock In Date",
+             filterable: false,
+             width: 80
+        },
+        {
+             field: "Remark",
+             title: "Remark",
+             filterable: false,
+             width: 60
+        },
+      ],
 
     });
+
+    function itemCodeFilter(element) {        
+        var gridDataSource = $("#Inventorystock-grid").data("kendoGrid").dataSource;
+        element.kendoDropDownList({
+            dataSource: gridDataSource.data().map(x => x['ItemCode']),
+            optionLabel: "--Select Value--"
+        });
+    }
 });
+
 

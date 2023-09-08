@@ -33,6 +33,13 @@ $(document).ready(function () {
     //$("#stpAmt").format({ format: "#,###.00", locale: "us" });
     //$("#sopAmt").format({ format: "#,###.00", locale: "us" });
     // $(this).format({ format: "#,###.00", locale: "us" });
+    var now = new Date();
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    var today = now.getFullYear() + "-" + (month) + "-" + (day);
+
+    $('#poDate').val(today);
+
     var t = $('#tblpo').DataTable();
     $('#doctype').on('change', function () {
        /// debugger;
@@ -118,7 +125,7 @@ $(document).ready(function () {
             var invNumber = "Not Applicable";
         }
         else if (dropdownText == "SRN PO") {
-            debugger;
+            
             var stockTransferPOCatagry = $('#srnCategory :selected').text();
             var stockTransferPoSendingTo = $('#srnSendingTo :selected').text();//ItId
             var stockTransferPoItem = $("#srnItem :selected").text();
@@ -190,7 +197,7 @@ $(document).ready(function () {
     //});
 
     $("#finalsave").click(function () {
-        debugger;
+        
         var drpdown = $('#doctype :selected').text();
 
         if (drpdown == "Sale PO") {
@@ -210,16 +217,19 @@ $(document).ready(function () {
                 myData["invNumber"] = data[i][12];
                 jsonObj.push(myData);
             }
-            var data = {
-                PODate: $("#fromDate").val(),
-                PONumber: $("#PONumber").val(),
-                POCatrgory: drpdown,
-                
-            };
-            data.salePOCategories = jsonObj;
-            data.stockTransferCategories = null;
-            data.serviceOrderCategories = null;
-            data.sRNPOCategories = null;
+            //var data = {
+            //    PODate: $("#poDate").val(),
+            //    PONumber: $("#PONumber").val(),
+            //    POCatrgory: drpdown,                
+            //};
+            var params = {};
+            params.PODate = $("#poDate").val();
+            params.PONumber = $("#PONumber").val();
+            params.POCatrgory = drpdown;
+            params.salePOCategories = jsonObj;
+            params.stockTransferCategories = null;
+            params.serviceOrderCategories = null;
+            params.sRNPOCategories = null;
         }
         else if (drpdown == "StockTransfer PO") {
             var jsonObj = [];
@@ -239,17 +249,20 @@ $(document).ready(function () {
                 jsonObj.push(myData);
             }
             console.log(jsonObj);
-            var data = {
-                PODate: $("#fromDate").val(),
-                PONumber: $("#PONumber").val(),
-                POCatrgory: drpdown
+            //var data = {
+            //    PODate: $("#poDate").val(),
+            //    PONumber: $("#PONumber").val(),
+            //    POCatrgory: drpdown
 
-            };
-            data.salePOCategories = null;
-            data.stockTransferCategories = jsonObj;
-            data.serviceOrderCategories = null;
-            data.sRNPOCategories = null;
-
+            //};
+            var params = {};
+            params.PODate = $("#poDate").val();
+            params.PONumber = $("#PONumber").val();
+            params.POCatrgory = drpdown;
+            params.salePOCategories = null;
+            params.stockTransferCategories = jsonObj;
+            params.serviceOrderCategories = null;
+            params.sRNPOCategories = null;
         }
         else if (drpdown == "ServiceOrder PO") {
             var jsonObj = [];
@@ -269,16 +282,14 @@ $(document).ready(function () {
                 jsonObj.push(myData);
             }
             console.log(jsonObj);
-            var data = {
-                PODate: $("#fromDate").val(),
-                PONumber: $("#PONumber").val(),
-                POCatrgory: drpdown
-
-            };
-            data.salePOCategories = null;
-            data.stockTransferCategories = null;
-            data.serviceOrderCategories = jsonObj;
-            data.sRNPOCategories = null;
+            var params = {};
+            params.PODate = $("#poDate").val();
+            params.PONumber = $("#PONumber").val();
+            params.POCatrgory = drpdown;
+            params.salePOCategories = null;
+            params.stockTransferCategories = null;
+            params.serviceOrderCategories = jsonObj;
+            params.sRNPOCategories = null;
 
         }
         else if (drpdown == "SRN PO") {
@@ -299,16 +310,14 @@ $(document).ready(function () {
                 jsonObj.push(myData);
             }
             console.log(jsonObj);
-            var data = {
-                PODate: $("#fromDate").val(),
-                PONumber: $("#PONumber").val(),
-                POCatrgory: drpdown
-
-            };
-            data.salePOCategories = null;
-            data.stockTransferCategories = null;
-            data.serviceOrderCategories = null;
-            data.sRNPOCategories = jsonObj;
+            var params = {};
+            params.PODate = $("#poDate").val();
+            params.PONumber = $("#PONumber").val();
+            params.POCatrgory = drpdown;
+            params.salePOCategories = null;
+            params.stockTransferCategories = null;
+            params.serviceOrderCategories = null;
+            params.sRNPOCategories = jsonObj;
         }
 
         //$.ajax(
@@ -336,15 +345,11 @@ $(document).ready(function () {
         var settings = {
             "url": "/Po/Create",
             "method": "POST",
-            /* "timeout": 0,*/
+             "timeout": 0,
             "headers": {
-                "Content-Type": "application/json; charset=UTF-8"
-            },
-            //"headers": {
-            //    "Content-Type": "application/json"
-            //},
-            "data": JSON.stringify(data),
-
+                "Content-Type": "application/json"
+            },           
+            "data": JSON.stringify(params),
         };
 
         $.ajax(settings).done(function (response) {

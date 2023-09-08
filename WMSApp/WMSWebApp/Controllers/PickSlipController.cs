@@ -167,7 +167,7 @@ namespace WMSWebApp.Controllers
                     m.Id = item.Id;
                     m.ItemCode = item.SalePOSubItem;
                     var location = _itemStockService.ItemsByCode(item.SubItemCode, branch.BranchWiseWarehouses.FirstOrDefault().WarehouseId);
-                    if (location != null)
+                    if (location.Count > 0)
                     {
                         var warehouse = _warehouseService.GetWarehouseZoneAreaById(location.FirstOrDefault().AreaId);
                         m.Location = warehouse.AreaName;
@@ -178,9 +178,6 @@ namespace WMSWebApp.Controllers
                     m.Qty = item.SalePOQty;
                     m.SubItemCode = item.SubItemCode;
                     m.Unit = "";
-
-
-
 
                     model.Add(m);
                 }

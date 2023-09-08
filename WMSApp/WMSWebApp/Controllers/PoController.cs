@@ -416,7 +416,7 @@ namespace WMSWebApp.Controllers
                 dt.Columns.Add("SerialNumber", typeof(string));
                 dt.Columns.Add("SubItemCode", typeof(string));
                 dt.Columns.Add("Amt", typeof(string));
-                DataTable dt2 = ds.Tables["Sheet1"];
+                DataTable dt2 = ds.Tables[0];
 
                 foreach (DataRow dr in dt2.Rows)
                 {
