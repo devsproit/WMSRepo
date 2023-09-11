@@ -355,6 +355,8 @@ $(document).ready(function () {
                 SrnPoCleanData();
                 ServiceOrderPoCleanData();
                 StockTransferPOCleanData();
+
+                window.location.reload();
             }
 
         })

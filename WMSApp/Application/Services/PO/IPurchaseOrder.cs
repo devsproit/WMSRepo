@@ -20,5 +20,7 @@ namespace Application.Services.PO
         PurchaseOrderDb GetById(int id);
 
         void blukUpload(DataTable ds);
+
+        List<PurchaseOrderDb> GetAllPurchaseByPoNumber(string poNumber);
     }
 }

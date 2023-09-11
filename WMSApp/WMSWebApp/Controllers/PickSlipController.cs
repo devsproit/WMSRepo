@@ -17,6 +17,7 @@ using Application.Services.StockMgnt;
 using Domain.Model;
 using Domain.Model.Masters;
 using Domain.Model.StockManagement;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 
 namespace WMSWebApp.Controllers
 {
@@ -269,6 +270,15 @@ namespace WMSWebApp.Controllers
                                 var pos = _serviceOrderPoService.GetById(item.Id);
                                 pos.IsProcessed = true;
                                 _serviceOrderPoService.Update(pos);
+                                var allItem = _serviceOrderPoService.GetServicePos(pos.PONumber);
+                                var processItems = allItem.Where(x => x.IsProcessed == true).ToList();
+                                if (allItem.Count == processItems.Count)
+                                {
+                                    var purchaseOrder = _purchaseOrder.GetAllPurchaseByPoNumber(allItem.FirstOrDefault().PONumber);
+                                    var poMaster = _purchaseOrder.GetById(purchaseOrder.FirstOrDefault().Id);
+                                    poMaster.ProcessStatus = true;
+                                    _purchaseOrder.Update(poMaster);
+                                }
                                 break;
                             }
                         case "Sale PO":
@@ -276,6 +286,16 @@ namespace WMSWebApp.Controllers
                                 var pos = _salePoService.GetById(item.Id);
                                 pos.IsProcessed = true;
                                 _salePoService.Update(pos);
+                                var allItem = _salePoService.GetAllItemSalePos(pos.PONumber);
+                                var processItems = allItem.Where(x => x.IsProcessed == true).ToList();
+                                if (allItem.Count == processItems.Count)
+                                {
+
+                                    var purchaseOrder = _purchaseOrder.GetAllPurchaseByPoNumber(allItem.FirstOrDefault().PONumber);
+                                    var poMaster = _purchaseOrder.GetById(purchaseOrder.FirstOrDefault().Id);
+                                    poMaster.ProcessStatus = true;
+                                    _purchaseOrder.Update(poMaster);
+                                }
                                 break;
                             }
                         case "StockTransfer PO":
@@ -283,12 +303,22 @@ namespace WMSWebApp.Controllers
                                 var pos = _stockTransferPoService.GetById(item.Id);
                                 pos.IsProcessed = true;
                                 _stockTransferPoService.Update(pos);
+                                var allItem = _stockTransferPoService.GetStockTransferPos(pos.PONumber);
+                                var processItems = allItem.Where(x => x.IsProcessed == true).ToList();
+                                if (allItem.Count == processItems.Count)
+                                {
+                                    var purchaseOrder = _purchaseOrder.GetAllPurchaseByPoNumber(allItem.FirstOrDefault().PONumber);
+                                    var poMaster = _purchaseOrder.GetById(purchaseOrder.FirstOrDefault().Id);
+                                    poMaster.ProcessStatus = true;
+                                    _purchaseOrder.Update(poMaster);
+                                }
                                 break;
                             }
-
                     }
 
+
                 }
+
                 // Update Inventory
                 foreach (var item in model)
                 {
