@@ -31,7 +31,7 @@ namespace Application.Services.PO
         #endregion
 
         #region Methods
-        
+
 
         public PurchaseOrder(IAdoConnection adoConnection)
         {
@@ -74,7 +74,7 @@ namespace Application.Services.PO
 
                     if (pono == "0")
                     {
-                        query = query.Where(x =>x.POCategory == "SRN PO");
+                        query = query.Where(x => x.POCategory == "SRN PO");
                     }
                     else
                     {
@@ -120,7 +120,7 @@ namespace Application.Services.PO
                     {
                         if (!string.IsNullOrEmpty(pono))
                         {
-                            query = query.Where(x => x.PONumber == pono && x.POCategory =="SRN PO");
+                            query = query.Where(x => x.PONumber == pono && x.POCategory == "SRN PO");
                         }
                     }
 
@@ -152,6 +152,16 @@ namespace Application.Services.PO
         //    _adoConnection.bulkImport(Constants.BulkImportintransit, ds);
         //}
 
+
+
+        public virtual List<PurchaseOrderDb> GetAllPurchaseByPoNumber(string poNumber)
+        {
+            var query = from x in _poRepository.Table
+                        where x.PONumber == poNumber
+                        select x;
+            return query.ToList();
+
+        }
         #endregion
     }
 }

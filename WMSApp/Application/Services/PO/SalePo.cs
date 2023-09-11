@@ -49,6 +49,21 @@ namespace Application.Services.PO
             var result = new PagedList<SalePoDb>(query, pageIndex, pageSize);
             return result;
         }
+        public virtual IPagedList<SalePoDb> GetAllItemSalePos(string poNumber = "0", int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            var query = from x in _salePoRepository.Table
+                        select x;
+
+            if (poNumber != "0")
+            {
+                query = query.Where(x => x.PONumber == poNumber);
+            }
+          
+            query = query.OrderByDescending(x => x.Id);
+
+            var result = new PagedList<SalePoDb>(query, pageIndex, pageSize);
+            return result;
+        }
 
         public IPagedList<SalePoDb> GetDetails(string category, int pageIndex = 0, int pageSize = int.MaxValue)
         {

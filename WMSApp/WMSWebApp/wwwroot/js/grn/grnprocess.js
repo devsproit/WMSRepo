@@ -317,7 +317,7 @@ function onChange(arg) {
         items.push(dataItem);
     });
     fildetails(items);
-    console.log(items[0]['Amt']);
+    console.log(items);
 }
 
 function additionalData() {
@@ -335,7 +335,7 @@ function fildetails(items) {
     $("#qtyu,#Qtysuk,#QtyD,#QtyO,#QtyI").val(items[0]['Qty']);
     $("#sendercompany").val(items[0]["SenderCompany"]);
     $("#sender").val(items[0]["Branch"]);
-    itemLocation(items[0]['ItemCode']);
+    itemLocation(items[0]['SubItemCode']);
 }
 
 function warehouse() {
